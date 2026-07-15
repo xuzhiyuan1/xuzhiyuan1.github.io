@@ -25,11 +25,11 @@ var PEOPLE = {
     note:"与唐娅妮、潘骁腾同航班：8.2 周日晚 21:30（泰国时间）从曼谷起飞，8.3 凌晨 01:20 到广州"
   },
   "唐娅妮": {
-    out:{ no:"AQ1267", air:"九元", meta:"波音 737 MAX8 · 经济舱", dur:"2时40分", price:"待补充",
+    out:{ no:"AQ1267", air:"九元", meta:"波音 737 MAX8 · 经济舱", dur:"2时40分", price:"",
           depCity:"广州白云 CAN T2", arrCity:"曼谷素万那普 BKK T1",
           depBJ:"7.31 23:05", depTH:"7.31 22:05", arrBJ:"8.1 01:45", arrTH:"8.1 00:45",
           t:"2026-07-31T23:05:00+08:00" },
-    ret:{ no:"9C7420", air:"春秋", meta:"空客 A320 · 经济舱", dur:"2时50分", price:"待补充",
+    ret:{ no:"9C7420", air:"春秋", meta:"空客 A320 · 经济舱", dur:"2时50分", price:"",
           depCity:"曼谷素万那普 BKK", arrCity:"广州白云 CAN T3",
           depBJ:"8.2 22:30", depTH:"8.2 21:30", arrBJ:"8.3 01:20", arrTH:"8.3 00:20",
           t:"2026-08-02T21:30:00+07:00" },
@@ -86,9 +86,7 @@ function cdText(ms){
   var h = Math.floor(s/3600); s %= 3600;
   var m = Math.floor(s/60); var sec = s%60;
   function p(n){ return String(n).padStart(2,"0"); }
-  if (d>0) return d+"天 "+h+"时"+m+"分";
-  if (h>0) return h+"时 "+m+"分"+p(sec)+"秒";
-  return m+"分 "+p(sec)+"秒";
+  return (d>0 ? d+"d " : "") + p(h)+":"+p(m)+":"+p(sec);
 }
 
 /* 合并"当前未完成的公共行程" + 所选角色的往返航班，按时间排序（此刻关注用） */
