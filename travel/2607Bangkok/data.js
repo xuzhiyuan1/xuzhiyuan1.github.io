@@ -86,7 +86,8 @@ function cdText(ms){
   var h = Math.floor(s/3600); s %= 3600;
   var m = Math.floor(s/60); var sec = s%60;
   function p(n){ return String(n).padStart(2,"0"); }
-  return (d>0 ? d+"d " : "") + p(h)+":"+p(m)+":"+p(sec);
+  var dPart = d>0 ? '<span class="cdD">'+d+'d</span> ' : '';
+  return dPart + '<span class="cdC">'+p(h)+":"+p(m)+":"+p(sec)+'</span>';
 }
 
 /* 合并"当前未完成的公共行程" + 所选角色的往返航班，按时间排序（此刻关注用） */

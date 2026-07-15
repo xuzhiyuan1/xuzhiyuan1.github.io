@@ -56,7 +56,9 @@ body{margin:0;background:var(--bg);color:var(--ink);
 /* 「此刻关注」：标题 / 倒计时 / 说明 / 完整下一个日程 / Next */
 .now{background:linear-gradient(135deg,rgba(14,143,143,.85),rgba(14,110,143,.85));color:#fff;padding:16px}
 .now .nowHd{font-size:.98em;font-weight:600;opacity:.96;letter-spacing:.5px}
-.now .nowCd{font-size:2.15em;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:1px;margin-top:9px;line-height:1.05}
+.now .nowCd{font-size:2.7em;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:1px;margin-top:9px;line-height:1.02}
+.now .nowCd .cdD{font-size:.4em;font-weight:700;opacity:.8;letter-spacing:0;margin-right:1px}
+.now .nowCd .cdC{font-size:1em}
 .now .nowCap{font-size:.74em;opacity:.82;margin-top:4px}
 .now .nowFull{font-size:.98em;font-weight:400;margin-top:10px;line-height:1.35}
 .now .nowRow{display:flex;justify-content:space-between;gap:12px;margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.24);font-size:.84em;opacity:.96}
@@ -338,11 +340,11 @@ function renderNow(){
   var afEl = document.getElementById("nowAfter");
   if (next){
     labEl.textContent = next.label;
-    cdEl.textContent = cdText(new Date(next.t).getTime()-Date.now());
+    cdEl.innerHTML = cdText(new Date(next.t).getTime()-Date.now());
   } else {
     var ended = Date.now() > new Date(TRIP_END).getTime();
     labEl.textContent = ended ? "旅途结束，欢迎回家 🏠" : "暂无更多安排";
-    cdEl.textContent = "";
+    cdEl.innerHTML = "";
   }
   afEl.textContent = after ? "Next："+clip(after.label) : "";
 }
