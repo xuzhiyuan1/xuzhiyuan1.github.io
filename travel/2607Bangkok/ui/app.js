@@ -284,7 +284,26 @@
     setInterval(render, 30000);
   }
 
+  /* ---------- 悬浮小助手（小王子，纯视觉占位，暂不接后端） ---------- */
+  function initPrinceFab(){
+    var fab = document.getElementById("princeFab");
+    if (!fab) return;
+    var toast, hideTimer;
+    fab.addEventListener("click", function(){
+      if (!toast){
+        toast = document.createElement("div");
+        toast.className = "princeToast";
+        toast.textContent = "助手开发中～";
+        document.body.appendChild(toast);
+      }
+      toast.classList.add("show");
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function(){ toast.classList.remove("show"); }, 1600);
+    });
+  }
+
   /* ---------- 启动 ---------- */
+  initPrinceFab();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function(){});
   load().then(function(){
     var page = document.body.getAttribute("data-page");

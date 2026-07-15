@@ -137,3 +137,23 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-itin a.map{display:inline-block;font-size:.78em;color:#0e6e8f;text-decoration:none;border:1px solid #bcd9e4;border-radius:99px;padding:1px 9px;margin-left:6px;white-space:nowrap}
 .pg-itin footer{text-align:center;color:var(--sub);font-size:.78em;margin-top:18px}
 .pg-itin footer a{color:var(--sub)}
+
+/* ============================================================ 悬浮小助手（小王子，仅视觉，暂不接后端） ============================================================ */
+.pg-index .princeFab,.pg-itin .princeFab{
+  position:fixed;right:14px;bottom:calc(18px + env(safe-area-inset-bottom,0px));
+  width:78px;height:auto;z-index:40;cursor:pointer;
+  filter:drop-shadow(0 6px 14px rgba(16,42,67,.32));
+  transition:transform .18s ease;touch-action:manipulation;
+}
+.pg-index .princeFab:active,.pg-itin .princeFab:active{transform:scale(.92)}
+@media (hover:hover){
+  .pg-index .princeFab:hover,.pg-itin .princeFab:hover{transform:translateY(-3px)}
+}
+.pg-index .princeToast,.pg-itin .princeToast{
+  position:fixed;right:14px;bottom:calc(102px + env(safe-area-inset-bottom,0px));
+  background:#0b3d5c;color:#fff;font-size:.8em;font-weight:600;
+  padding:7px 13px;border-radius:99px;box-shadow:0 4px 14px rgba(16,42,67,.3);
+  z-index:41;opacity:0;pointer-events:none;transform:translateY(6px);
+  transition:opacity .2s ease,transform .2s ease;white-space:nowrap;
+}
+.pg-index .princeToast.show,.pg-itin .princeToast.show{opacity:1;transform:translateY(0)}
