@@ -1,23 +1,278 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Travel | Zhiyuan Xu</title>
-	<style>
-		body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
-			font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-			background:linear-gradient(135deg,#1e3c72,#2a5298); color:#fff; text-align:center; }
-		h1 { font-size:2.2em; margin:0 0 .4em; }
-		p { opacity:.85; }
-		a { color:#ffd57e; }
-	</style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0b3d5c" />
+<title>泰国之旅 · 7.31–8.2</title>
+<style>
+:root{
+  --bg:#f4f7f9; --card:#ffffff; --ink:#1c2b33; --sub:#5b7280;
+  --brand:#0b3d5c; --accent:#0e8f8f; --warn:#c2410c; --line:#e3eaef;
+  --today:#fff7e6;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",Roboto,"Noto Sans SC",sans-serif;
+  -webkit-font-smoothing:antialiased;padding-bottom:40px}
+.hero{background:linear-gradient(140deg,#0b3d5c 0%,#0e6e8f 60%,#0e8f8f 100%);
+  color:#fff;padding:26px 18px 60px;border-radius:0 0 26px 26px}
+.hero h1{margin:0 0 6px;font-size:1.5em;letter-spacing:.5px}
+.hero .dates{opacity:.9;font-size:.95em}
+.hero .tag{display:inline-block;margin-top:10px;font-size:.78em;background:rgba(255,255,255,.18);
+  padding:3px 10px;border-radius:99px}
+.wrap{max-width:640px;margin:0 auto;padding:0 14px}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-top:14px;
+  box-shadow:0 1px 3px rgba(16,42,67,.08)}
+.card h2{margin:0 0 10px;font-size:1.02em;color:var(--brand);display:flex;align-items:center;gap:6px}
+.now{margin-top:-42px}
+.now .big{font-size:1.05em;font-weight:600;margin:2px 0 4px}
+.now .cd{font-variant-numeric:tabular-nums;font-size:1.7em;font-weight:700;color:var(--accent);letter-spacing:1px}
+.now .sub{color:var(--sub);font-size:.85em}
+.sel{width:100%;padding:10px 12px;font-size:1em;border:1px solid var(--line);border-radius:10px;
+  background:#fff;color:var(--ink);margin-top:4px}
+.flight{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);
+  border-radius:12px;padding:10px 12px;margin-top:8px}
+.flight .no{font-weight:700;font-size:1.1em}
+.flight .lbl{font-size:.78em;color:var(--sub)}
+.pending{color:var(--warn);font-size:.82em}
+.day{border-left:4px solid var(--line);transition:background .3s}
+.day.today{background:var(--today);border-left-color:#f59e0b}
+.day.today h2::after{content:"今天";font-size:.7em;color:#b45309;background:#fde68a;
+  padding:2px 8px;border-radius:99px;margin-left:4px}
+.item{display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.item:last-child{border-bottom:none}
+.item .t{flex:0 0 52px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums;font-size:.92em}
+.item .b{flex:1;font-size:.95em}
+.item .b .n{color:var(--sub);font-size:.82em;margin-top:2px}
+a.map{display:inline-block;font-size:.78em;color:#0e6e8f;text-decoration:none;
+  border:1px solid #bcd9e4;border-radius:99px;padding:1px 9px;margin-left:6px;white-space:nowrap}
+ul.tips{margin:0;padding-left:1.2em}
+ul.tips li{margin:7px 0;font-size:.93em}
+.wx{display:flex;gap:10px;align-items:center}
+.wx .tmp{font-size:1.9em;font-weight:700;color:var(--brand)}
+.wx .d{font-size:.88em;color:var(--sub)}
+.log{font-size:.83em;color:var(--sub)}
+.log table{width:100%;border-collapse:collapse;margin-top:6px}
+.log td{padding:4px 4px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.devid{font-family:ui-monospace,Menlo,monospace;background:#eef4f7;padding:1px 6px;border-radius:6px}
+.note{font-size:.78em;color:var(--sub);margin-top:8px;line-height:1.5}
+iframe.gmap{width:100%;height:230px;border:0;border-radius:12px;margin-top:8px}
+details summary{cursor:pointer;color:#0e6e8f;font-size:.9em}
+footer{text-align:center;color:var(--sub);font-size:.78em;margin-top:22px}
+footer a{color:var(--sub)}
+</style>
 </head>
 <body>
-	<div>
-		<h1>&#127758; Travel</h1>
-		<p>旅游主页施工中，敬请期待。</p>
-		<p><a href="/">&larr; 返回主页</a></p>
-	</div>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>🇹🇭 泰国之旅</h1>
+    <div class="dates">2026.07.31（周五晚出发） — 08.02（周日晚返回）</div>
+    <span class="tag">离线可看 · 手机优先 · 信息以此页为准</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- 此刻关注 -->
+  <div class="card now">
+    <h2>📍 此刻关注</h2>
+    <div class="big" id="nowLabel">加载中…</div>
+    <div class="cd" id="nowCd"></div>
+    <div class="sub" id="nowSub"></div>
+  </div>
+
+  <!-- 选择名字 -->
+  <div class="card">
+    <h2>👤 我是谁（显示我的返程航班）</h2>
+    <select class="sel" id="who"></select>
+    <div class="flight">
+      <div><div class="lbl">8.2 返程航班</div><div class="no" id="myFlight">—</div></div>
+      <div style="text-align:right"><div class="lbl">起飞（泰国时间）</div><div class="no" id="myFlightTime">—</div></div>
+    </div>
+    <div class="note" id="myFlightNote"></div>
+  </div>
+
+  <!-- 航班总览 -->
+  <div class="card">
+    <h2>✈️ 航班信息 <span class="pending">（待确认，等机票截图后更新）</span></h2>
+    <div class="flight">
+      <div><div class="lbl">7.31 去程</div><div class="no">待补充</div></div>
+      <div style="text-align:right"><div class="lbl">中国时间 晚间起飞</div><div class="no">--:--</div></div>
+    </div>
+    <div class="flight">
+      <div><div class="lbl">8.2 返程</div><div class="no">按上方所选的人显示</div></div>
+      <div style="text-align:right"><div class="lbl">泰国时间 晚间起飞</div><div class="no">--:--</div></div>
+    </div>
+    <div class="note">泰国时间 = 中国时间 − 1 小时。</div>
+  </div>
+
+  <!-- 酒店 -->
+  <div class="card">
+    <h2>🏨 酒店 <span class="pending">（待确认）</span></h2>
+    <div class="item"><div class="t">8.1</div><div class="b">酒店待补充（曼谷市区）
+      <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Bangkok+hotel">🧭 导航</a>
+      <div class="n">入住/退房时间、地址、预订号：等截图后填入</div></div></div>
+  </div>
+
+  <!-- 逐日行程 -->
+  <div class="card day" data-date="2026-07-31">
+    <h2>Day 0 · 7.31 周五 · 出发</h2>
+    <div class="item"><div class="t">晚上</div><div class="b">集合出发去机场（时间待定）<div class="n">护照、充电宝（≤100Wh 随身）、提前填好 TDAC 入境卡</div></div></div>
+    <div class="item"><div class="t">深夜</div><div class="b">航班起飞 → 曼谷 <span class="pending">航班待确认</span></div></div>
+  </div>
+
+  <div class="card day" data-date="2026-08-01">
+    <h2>Day 1 · 8.1 周六 · 曼谷（示例行程，待确认）</h2>
+    <div class="item"><div class="t">凌晨</div><div class="b">抵达曼谷机场 → 酒店寄存行李<div class="n">落地办电话卡 / 换少量现金，打车用 Grab</div></div></div>
+    <div class="item"><div class="t">10:00</div><div class="b">大皇宫 + 玉佛寺
+      <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Grand+Palace+Bangkok">🧭 导航</a>
+      <div class="n">需长裤/过膝，勿穿背心拖鞋</div></div></div>
+    <div class="item"><div class="t">13:00</div><div class="b">卧佛寺 Wat Pho
+      <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Wat+Pho+Bangkok">🧭 导航</a></div></div>
+    <div class="item"><div class="t">15:00</div><div class="b">湄南河游船 / 郑王庙
+      <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Wat+Arun+Bangkok">🧭 导航</a></div></div>
+    <div class="item"><div class="t">18:00</div><div class="b">ICONSIAM 晚餐 + 夜景
+      <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=ICONSIAM+Bangkok">🧭 导航</a></div></div>
+  </div>
+
+  <div class="card day" data-date="2026-08-02">
+    <h2>Day 2 · 8.2 周日 · 返程（示例行程，待确认）</h2>
+    <div class="item"><div class="t">上午</div><div class="b">乍都乍周末市场（周日开）或市区自由活动
+      <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Chatuchak+Weekend+Market">🧭 导航</a></div></div>
+    <div class="item"><div class="t">15:00</div><div class="b">回酒店取行李 → 前往机场<div class="n">国际航班建议提前 3 小时到</div></div></div>
+    <div class="item"><div class="t">晚上</div><div class="b">返程航班回国 <span id="dayFlight" class="pending">按所选的人显示航班</span></div></div>
+  </div>
+
+  <!-- 内嵌地图 -->
+  <div class="card">
+    <h2>🗺️ 游玩区域地图</h2>
+    <details><summary>展开地图（需联网，泰国当地可正常打开）</summary>
+      <iframe class="gmap" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://maps.google.com/maps?q=Grand%20Palace%20Bangkok&z=13&output=embed"></iframe>
+    </details>
+  </div>
+
+  <!-- 天气 -->
+  <div class="card">
+    <h2>🌤️ 天气 · 曼谷 8 月初（雨季）</h2>
+    <div class="wx"><div class="tmp">27–33°C</div>
+      <div class="d">湿热，几乎每天有短时雷阵雨（多在午后/傍晚），随身带伞；室内空调冷，备薄外套。</div></div>
+    <div class="note">出发前看实时预报：<a target="_blank" rel="noopener" href="https://www.google.com/search?q=bangkok+weather">Google 天气</a></div>
+  </div>
+
+  <!-- 实用提醒 -->
+  <div class="card">
+    <h2>📌 实用提醒</h2>
+    <ul class="tips">
+      <li><b>签证</b>：中泰互免签证，停留 ≤30 天免签；抵达前 3 天内在线填 <a target="_blank" rel="noopener" href="https://tdac.immigration.go.th">TDAC 电子入境卡</a>（截图保存）。</li>
+      <li><b>证件</b>：护照有效期需 6 个月以上；护照首页拍照留底。</li>
+      <li><b>货币</b>：泰铢 THB，1 元 ≈ 4.8 泰铢（出发前再核对）；夜市/小店用现金，商场可支付宝/微信/刷卡。</li>
+      <li><b>通信</b>：开漫游或买 eSIM / 当地卡（AIS、True 机场柜台即有）。</li>
+      <li><b>交通</b>：市区打车用 <b>Grab</b>；BTS/MRT 避堵；机场↔市区可坐机场快线 ARL。</li>
+      <li><b>电源</b>：220V，中国两脚扁插可直插，三脚插需转换头。</li>
+      <li><b>健康</b>：防晒 + 防蚊液；肠胃药备一点，少喝生水。</li>
+      <li><b>小费</b>：非强制；行李员/按摩 20–50 THB 即可。</li>
+      <li><b>紧急电话</b>：报警 191 · 旅游警察 1155 · 中国驻泰使馆 +66-2-245-0088。</li>
+    </ul>
+  </div>
+
+  <!-- 访问记录 -->
+  <div class="card">
+    <h2>🗓️ 访问记录（本设备）</h2>
+    <div class="log">
+      设备编号：<span class="devid" id="devId">—</span>　设备：<span id="devModel">—</span>
+      <table id="logTable"></table>
+      <div class="note">说明：本站是纯静态页面（无服务器），浏览器出于隐私保护也不提供真实硬件序列号，
+        因此"设备编号"为本站首次打开时生成并存储在本机的编号；访问记录仅保存在各自手机本地，每天打开会自动记一条。</div>
+    </div>
+  </div>
+
+  <footer>泰国之旅 · <a href="/">回个人主页</a></footer>
+</div>
+
+<script>
+/* ====== 配置区：航班/人员信息在这里改 ====== */
+const PEOPLE = {
+  "徐之远":   { flight: "待补充", time: "--:--", note: "等机票截图后更新" },
+  "同伴A（待改名）": { flight: "待补充", time: "--:--", note: "" },
+  "同伴B（待改名）": { flight: "待补充", time: "--:--", note: "" }
+};
+const EVENTS = [ /* 时间轴（含时区），确认后改这里 */
+  { t: "2026-07-31T18:30:00+08:00", label: "集合出发去机场（中国时间，待确认）" },
+  { t: "2026-07-31T22:00:00+08:00", label: "去程航班起飞（中国时间，待确认）" },
+  { t: "2026-08-01T10:00:00+07:00", label: "大皇宫 + 玉佛寺" },
+  { t: "2026-08-01T13:00:00+07:00", label: "卧佛寺 Wat Pho" },
+  { t: "2026-08-01T15:00:00+07:00", label: "湄南河游船 / 郑王庙" },
+  { t: "2026-08-01T18:00:00+07:00", label: "ICONSIAM 晚餐" },
+  { t: "2026-08-02T15:00:00+07:00", label: "取行李出发去机场（泰国时间）" },
+  { t: "2026-08-02T20:00:00+07:00", label: "返程航班起飞（泰国时间，待确认）", ret: true }
+];
+const TRIP_END = "2026-08-03T06:00:00+08:00";
+
+/* ====== 选人 → 显示各自返程航班 ====== */
+const whoSel = document.getElementById("who");
+Object.keys(PEOPLE).forEach(n => whoSel.add(new Option(n, n)));
+whoSel.value = localStorage.getItem("who") || Object.keys(PEOPLE)[0];
+function renderWho() {
+  const p = PEOPLE[whoSel.value] || {};
+  localStorage.setItem("who", whoSel.value);
+  document.getElementById("myFlight").textContent = p.flight || "—";
+  document.getElementById("myFlightTime").textContent = p.time || "—";
+  document.getElementById("myFlightNote").textContent = p.note || "";
+  document.getElementById("dayFlight").textContent =
+    whoSel.value + "：" + (p.flight || "待补充") + (p.time && p.time !== "--:--" ? "（" + p.time + " 起飞）" : "");
+}
+whoSel.addEventListener("change", renderWho);
+renderWho();
+
+/* ====== 此刻关注：倒计时 + 高亮今天 ====== */
+function pad(n){ return String(n).padStart(2, "0"); }
+function tick() {
+  const now = Date.now();
+  const next = EVENTS.find(e => new Date(e.t).getTime() > now);
+  const L = document.getElementById("nowLabel"), C = document.getElementById("nowCd"), S = document.getElementById("nowSub");
+  if (!next) {
+    if (now > new Date(TRIP_END).getTime()) { L.textContent = "旅途结束，欢迎回家 🏠"; C.textContent = ""; S.textContent = ""; }
+    else { L.textContent = "在回家的路上 ✈️"; C.textContent = ""; S.textContent = ""; }
+  } else {
+    let label = next.label;
+    if (next.ret) { const p = PEOPLE[whoSel.value]; if (p && p.flight && p.flight !== "待补充") label = "返程航班 " + p.flight + " 起飞"; }
+    L.textContent = "下一件事：" + label;
+    let d = Math.floor((new Date(next.t).getTime() - now) / 1000);
+    const days = Math.floor(d / 86400); d %= 86400;
+    C.textContent = (days ? days + "天 " : "") + pad(Math.floor(d/3600)) + ":" + pad(Math.floor(d%3600/60)) + ":" + pad(d%60);
+    S.textContent = "倒计时（按手机本地时间计算；泰国时间=中国时间−1小时）";
+  }
+  const today = new Date();
+  const ds = today.getFullYear() + "-" + pad(today.getMonth()+1) + "-" + pad(today.getDate());
+  document.querySelectorAll(".day").forEach(el => el.classList.toggle("today", el.dataset.date === ds));
+}
+tick(); setInterval(tick, 1000);
+
+/* ====== 访问记录（本地） ====== */
+function deviceModel() {
+  const ua = navigator.userAgent; let m;
+  if ((m = ua.match(/iPhone|iPad/))) return m[0] + " (iOS)";
+  if ((m = ua.match(/Android [\d.]+; ([^);]+)/))) return m[1].trim();
+  if (/Mac/.test(ua)) return "Mac"; if (/Windows/.test(ua)) return "Windows PC";
+  return "未知设备";
+}
+let devId = localStorage.getItem("deviceId");
+if (!devId) { devId = "D-" + Math.random().toString(36).slice(2, 8).toUpperCase(); localStorage.setItem("deviceId", devId); }
+document.getElementById("devId").textContent = devId;
+document.getElementById("devModel").textContent = deviceModel();
+let log = [];
+try { log = JSON.parse(localStorage.getItem("visitLog") || "[]"); } catch(e) {}
+log.push({ t: new Date().toLocaleString("zh-CN", { hour12: false }), id: devId, dev: deviceModel() });
+if (log.length > 100) log = log.slice(-100);
+localStorage.setItem("visitLog", JSON.stringify(log));
+document.getElementById("logTable").innerHTML =
+  log.slice().reverse().slice(0, 30).map(r => "<tr><td>" + r.t + "</td><td>" + r.id + "</td><td>" + r.dev + "</td></tr>").join("");
+
+/* ====== 离线支持 ====== */
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
 </body>
 </html>
