@@ -37,12 +37,24 @@ body{margin:0;background:var(--bg);color:var(--ink);
 .now .big{font-size:1.05em;font-weight:600;margin:2px 0 4px}
 .now .cd{font-variant-numeric:tabular-nums;font-size:1.7em;font-weight:700;color:var(--accent);letter-spacing:1px}
 .now .sub{color:var(--sub);font-size:.85em}
-.flight{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid var(--line);
-  border-radius:12px;padding:10px 12px;margin-top:8px}
-.flight .no{font-weight:700;font-size:1.02em}
-.flight .lbl{font-size:.78em;color:var(--sub)}
-.flight.mine{border-color:#0e8f8f;background:#f2fbf9}
 .pending{color:var(--warn);font-size:.82em}
+/* 航班卡 */
+.tzbtn{margin-left:auto;font-size:.76em;border:1px solid #bcd9e4;background:#eef7fa;color:#0e6e8f;
+  border-radius:99px;padding:3px 10px;cursor:pointer}
+.fcard{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px}
+.fcard.mine{border-color:#0e8f8f;background:#f2fbf9}
+.fhead{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.fhead .no{font-weight:700;font-size:1.0em}
+.fhead .fdur{font-size:.78em;color:var(--sub);white-space:nowrap}
+.fmeta{font-size:.76em;color:var(--sub);margin-top:1px}
+.froute{display:flex;align-items:center;gap:8px;margin-top:8px}
+.fend{flex:1;min-width:0}
+.fend.r{text-align:right}
+.fcity{font-size:.82em;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ftime{font-weight:700;font-size:1.02em;font-variant-numeric:tabular-nums}
+.farrow{color:var(--accent);font-size:1.1em;flex:0 0 auto}
+.pname{font-weight:600;margin:12px 0 2px}
+/* 通用 item */
 .day{border-left:4px solid var(--line);transition:background .3s}
 .day.today{background:var(--today);border-left-color:#f59e0b}
 .day.today h2::after{content:"今天";font-size:.7em;color:#b45309;background:#fde68a;
@@ -124,7 +136,7 @@ footer a{color:var(--sub)}
   <div class="wrap heroRow">
     <div>
       <h1>🇹🇭 曼谷之旅 <svg class="dur"><use href="#durian"/></svg></h1>
-      <div class="dates">2026.07.31（周五晚出发） — 08.02（周日深夜返程）</div>
+      <div class="dates">2026.07.31（周五晚出发） — 08.03（周一凌晨返程）</div>
       <span class="tag">榴莲大吃特吃 <svg class="dur"><use href="#durian"/></svg> · 离线可看 · 信息以此页为准</span>
     </div>
     <select class="whoSel" id="who" aria-label="选择角色"></select>
@@ -141,19 +153,21 @@ footer a{color:var(--sub)}
     <div class="sub" id="nowSub"></div>
   </div>
 
-  <!-- 我的航班（按角色，去程返程都不一样） -->
+  <!-- 我的航班（按角色，去返程都不同；默认北京时间，可切泰国时间） -->
   <div class="card">
-    <h2>✈️ 我的航班</h2>
+    <h2>✈️ 我的航班 <button class="tzbtn" id="tzbtn">🕐 北京时间</button></h2>
     <div id="flightBox"></div>
-    <div class="note">每个人往返航班都不同：右上角切换角色看自己的；选"总览"看全部。航班时刻均为当地时间（泰国时间 = 中国时间 − 1 小时）。</div>
+    <div class="note">时间默认显示 <b>北京时间</b>，点上方按钮可切换为 <b>泰国时间</b>（泰国比北京慢 1 小时）。每人往返航班不同：右上角切角色看自己的，选"总览"看全部。</div>
   </div>
 
   <!-- 酒店 -->
   <div class="card">
-    <h2>🏨 酒店</h2>
-    <div class="item"><div class="t">8.1<br>入住</div><div class="b">曼谷素坤逸24号美居酒店<br>Mercure Bangkok Sukhumvit 24
+    <h2>🏨 酒店（已确认）</h2>
+    <div class="item"><div class="t">📍</div><div class="b"><b>曼谷素坤逸24号美居酒店</b><br>Mercure Bangkok Sukhumvit 24 · 曼谷高档酒店榜 No.15
       <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Mercure+Bangkok+Sukhumvit+24">🧭 导航</a>
-      <div class="n">素坤逸 Soi 24，近 BTS 澎蓬站（Phrom Phong）/ Emporium 商场；8.1 入住、8.2 退房（退房后行李可寄存前台，深夜再去机场；预订号待截图确认）。注意：泰国酒店一般禁止在房间吃榴莲，吃完再回。</div></div></div>
+      <div class="n">地址：5/1 Sukhumvit Road, Khlong Toei, Bangkok（素坤逸 Soi 24，近 BTS 澎蓬站 Phrom Phong / Emporium 商场）</div></div></div>
+    <div class="item"><div class="t">🗓️</div><div class="b">2026.7.31 周五 — 8.2 周日 · 共 2 晚<div class="n">入住：当天 14:00 后　离店：12:00 前　（当地时间）</div></div></div>
+    <div class="item"><div class="t">💡</div><div class="b">徐致远航班 8.1 凌晨 01:00 落地 → 房间从 7.31 晚起订，可直接前往（凌晨到店建议先寄存/申请提前入住）。8.2 中午退房后行李寄存前台，深夜再去机场赶红眼航班。泰国酒店一般禁止在房间吃榴莲，吃完再回 😄</div></div>
   </div>
 
   <!-- 榴莲专区 -->
@@ -173,13 +187,13 @@ footer a{color:var(--sub)}
   <!-- 逐日行程 -->
   <div class="card day" data-date="2026-07-31">
     <h2>Day 0 · 7.31 周五 · 出发</h2>
-    <div class="item"><div class="t">晚上</div><div class="b">各自出发去机场（各人航班不同，看好自己的起飞时间和机场）<div class="n">护照、充电宝（≤100Wh 随身）、提前填好 TDAC 入境卡；徐致远：北京大兴 PKX，21:05 起飞，建议 18:00 前到</div></div></div>
+    <div class="item"><div class="t">晚上</div><div class="b">各自出发去机场（各人航班不同，看好自己的起飞时间和机场）<div class="n">护照、充电宝（≤100Wh 随身）、提前填好 TDAC 入境卡；徐致远：北京大兴 PKX，21:05 起飞（北京时间），建议 18:00 前到</div></div></div>
     <div class="item"><div class="t">深夜</div><div class="b">飞往曼谷 <span class="pending">徐致远 MU2071 已确认，其他人航班待补充</span></div></div>
   </div>
 
   <div class="card day" data-date="2026-08-01">
     <h2>Day 1 · 8.1 周六 · 曼谷（示例行程，待确认）</h2>
-    <div class="item"><div class="t">凌晨</div><div class="b">抵达曼谷素万那普机场 BKK → 酒店寄存行李<div class="n">落地办电话卡 / 换少量现金，打车用 Grab</div></div></div>
+    <div class="item"><div class="t">凌晨</div><div class="b">抵达曼谷素万那普机场 BKK → 前往美居酒店<div class="n">落地办电话卡 / 换少量现金，打车用 Grab；行程时间均为泰国当地时间</div></div></div>
     <div class="item"><div class="t">10:00</div><div class="b">大皇宫 + 玉佛寺
       <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Grand+Palace+Bangkok">🧭 导航</a>
       <div class="n">需长裤/过膝，勿穿背心拖鞋</div></div></div>
@@ -195,9 +209,8 @@ footer a{color:var(--sub)}
     <h2>Day 2 · 8.2 周日 · 返程（示例行程，待确认）</h2>
     <div class="item"><div class="t">上午</div><div class="b">乍都乍周末市场（周日开）＋ Or Tor Kor 榴莲收尾 <svg class="dur"><use href="#durian"/></svg>
       <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Chatuchak+Weekend+Market">🧭 导航</a></div></div>
-    <div class="item"><div class="t">中午</div><div class="b">退房，行李寄存酒店前台</div></div>
-    <div class="item"><div class="t">晚上</div><div class="b">取行李 → 前往机场（红眼航班，各人时间不同）<div class="n">徐致远 MU2072 为 8.3 凌晨 02:05 起飞，建议 8.2 晚 23:00 前到 BKK；国际航班提前 3 小时</div></div></div>
-    <div class="item"><div class="t">深夜</div><div class="b">返程回国 <span id="dayFlight" class="pending">按所选角色显示航班</span></div></div>
+    <div class="item"><div class="t">12:00</div><div class="b">退房，行李寄存酒店前台</div></div>
+    <div class="item"><div class="t">深夜</div><div class="b">取行李 → 前往机场赶红眼航班（各人时间不同）<div class="n">徐致远 MU2072 为 8.3 凌晨 02:05 起飞（泰国时间）＝北京时间 03:05，建议 8.2 晚 23:00 前到 BKK；国际航班提前 3 小时</div></div></div>
   </div>
 
   <!-- 内嵌地图 -->
@@ -249,26 +262,45 @@ footer a{color:var(--sub)}
 </div>
 
 <script>
-/* ====== 配置区：航班/人员信息在这里改（时刻均为当地时间） ====== */
+/* ====== 配置区：航班信息（dep/arr 各含北京时间 bj、泰国时间 th；t=绝对起飞时刻用于倒计时） ====== */
 const PEOPLE = {
   "徐致远": {
-    out: { no: "MU2071 东航", dep: "7.31 21:05 北京大兴 PKX", arr: "8.1 01:00 曼谷 BKK", t: "2026-07-31T21:05:00+08:00" },
-    ret: { no: "MU2072 东航", dep: "8.3 02:05 曼谷 BKK", arr: "8.3 08:10 北京大兴 PKX", t: "2026-08-03T02:05:00+07:00" },
-    note: "返程是 8.2 周日深夜的红眼航班（8.3 凌晨 02:05 起飞，当地时间）"
+    out: { no:"MU2071 东航", meta:"空客 A320neo · 经济舱", dur:"4时55分",
+           depCity:"北京大兴 PKX", arrCity:"曼谷素万那普 BKK",
+           depBJ:"7.31 21:05", depTH:"7.31 20:05", arrBJ:"8.1 02:00", arrTH:"8.1 01:00",
+           t:"2026-07-31T21:05:00+08:00" },
+    ret: { no:"MU2072 东航", meta:"空客 A320neo · 经济舱", dur:"5时05分",
+           depCity:"曼谷素万那普 BKK", arrCity:"北京大兴 PKX",
+           depBJ:"8.3 03:05", depTH:"8.3 02:05", arrBJ:"8.3 08:10", arrTH:"8.3 07:10",
+           t:"2026-08-03T02:05:00+07:00" },
+    note:"返程是周日深夜的红眼航班（泰国时间 8.3 凌晨 02:05 起飞）"
   },
-  "崔嘉骏": { out: null, ret: null, note: "" },
-  "唐娅妮": { out: null, ret: null, note: "" },
-  "潘骁腾": { out: null, ret: null, note: "" }
+  "崔嘉骏": { out:null, ret:null, note:"" },
+  "唐娅妮": { out:null, ret:null, note:"" },
+  "潘骁腾": { out:null, ret:null, note:"" }
 };
 const OVERVIEW = "总览";
 const BASE_EVENTS = [ /* 公共时间轴（含时区） */
-  { t: "2026-08-01T10:00:00+07:00", label: "大皇宫 + 玉佛寺" },
-  { t: "2026-08-01T13:00:00+07:00", label: "卧佛寺 Wat Pho" },
-  { t: "2026-08-01T15:00:00+07:00", label: "湄南河游船 / 郑王庙" },
-  { t: "2026-08-01T17:30:00+07:00", label: "唐人街榴莲 + 夜市" },
-  { t: "2026-08-02T12:00:00+07:00", label: "退房，行李寄存前台（泰国时间）" }
+  { t:"2026-08-01T10:00:00+07:00", label:"大皇宫 + 玉佛寺" },
+  { t:"2026-08-01T13:00:00+07:00", label:"卧佛寺 Wat Pho" },
+  { t:"2026-08-01T15:00:00+07:00", label:"湄南河游船 / 郑王庙" },
+  { t:"2026-08-01T17:30:00+07:00", label:"唐人街榴莲 + 夜市" },
+  { t:"2026-08-02T12:00:00+07:00", label:"退房，行李寄存前台（泰国时间）" }
 ];
 const TRIP_END = "2026-08-03T12:00:00+08:00";
+
+/* ====== 时区切换（默认北京时间） ====== */
+let tz = localStorage.getItem("tz") || "bj";
+function applyTz() {
+  document.querySelectorAll(".ftime").forEach(el => {
+    el.textContent = (tz === "bj" ? el.dataset.bj : el.dataset.th);
+  });
+  const btn = document.getElementById("tzbtn");
+  btn.textContent = (tz === "bj" ? "🕐 北京时间" : "🕐 泰国时间");
+}
+document.getElementById("tzbtn").addEventListener("click", () => {
+  tz = (tz === "bj" ? "th" : "bj"); localStorage.setItem("tz", tz); applyTz();
+});
 
 /* ====== 角色选择（右上角）：选中即成为本设备默认角色 ====== */
 const whoSel = document.getElementById("who");
@@ -276,27 +308,34 @@ const whoSel = document.getElementById("who");
 const saved = localStorage.getItem("who");
 whoSel.value = (saved && (PEOPLE[saved] || saved === OVERVIEW)) ? saved : OVERVIEW;
 
-function legRow(kind, leg, mine) {
-  if (!leg) return '<div class="flight"><div><div class="lbl">' + kind + '</div><div class="no">待补充</div></div></div>';
-  return '<div class="flight' + (mine ? ' mine' : '') + '"><div><div class="lbl">' + kind + '</div><div class="no">' + leg.no +
-    '</div></div><div style="text-align:right"><div class="lbl">' + leg.dep + '</div><div class="lbl">→ ' + leg.arr + '</div></div></div>';
+function fcard(kind, leg, mine) {
+  if (!leg) return '<div class="fcard"><div class="fhead"><span class="no">' + kind +
+    '</span></div><div class="fmeta">航班待补充</div></div>';
+  return '<div class="fcard' + (mine ? ' mine' : '') + '">' +
+    '<div class="fhead"><span class="no">' + kind + ' · ' + leg.no + '</span><span class="fdur">✈ 飞行 ' + leg.dur + '</span></div>' +
+    '<div class="fmeta">' + leg.meta + '</div>' +
+    '<div class="froute">' +
+      '<div class="fend"><div class="fcity">' + leg.depCity + '</div>' +
+        '<div class="ftime" data-bj="' + leg.depBJ + '" data-th="' + leg.depTH + '">' + leg.depBJ + '</div></div>' +
+      '<div class="farrow">→</div>' +
+      '<div class="fend r"><div class="fcity">' + leg.arrCity + '</div>' +
+        '<div class="ftime" data-bj="' + leg.arrBJ + '" data-th="' + leg.arrTH + '">' + leg.arrBJ + '</div></div>' +
+    '</div></div>';
 }
 function renderWho() {
   localStorage.setItem("who", whoSel.value);
   document.getElementById("defRole").textContent = whoSel.value;
   const box = document.getElementById("flightBox");
-  const df = document.getElementById("dayFlight");
   if (whoSel.value === OVERVIEW) {
     box.innerHTML = Object.entries(PEOPLE).map(([n, p]) =>
-      '<div style="margin-top:10px;font-weight:600">' + n + '</div>' + legRow("去程", p.out, false) + legRow("返程", p.ret, false)
+      '<div class="pname">' + n + '</div>' + fcard("去程", p.out, false) + fcard("返程", p.ret, false)
     ).join("");
-    df.textContent = "各自航班见上方“我的航班”总览";
   } else {
     const p = PEOPLE[whoSel.value];
-    box.innerHTML = legRow("去程", p.out, true) + legRow("返程", p.ret, true) +
+    box.innerHTML = fcard("去程", p.out, true) + fcard("返程", p.ret, true) +
       (p.note ? '<div class="note">' + p.note + '</div>' : '');
-    df.textContent = whoSel.value + "：" + (p.ret ? p.ret.no + "（" + p.ret.dep + "）" : "航班待补充");
   }
+  applyTz();
 }
 whoSel.addEventListener("change", renderWho);
 renderWho();
@@ -305,10 +344,10 @@ renderWho();
 function buildEvents() {
   const p = whoSel.value !== OVERVIEW ? PEOPLE[whoSel.value] : null;
   const ev = BASE_EVENTS.slice();
-  if (p && p.out) ev.push({ t: p.out.t, label: "去程 " + p.out.no + " 起飞（" + p.out.dep + "）" });
-  else ev.push({ t: "2026-07-31T21:00:00+08:00", label: "去程航班起飞（各人不同，切角色看自己的）" });
-  if (p && p.ret) ev.push({ t: p.ret.t, label: "返程 " + p.ret.no + " 起飞（" + p.ret.dep + "）" });
-  else ev.push({ t: "2026-08-03T01:30:00+07:00", label: "返程航班起飞（各人不同，切角色看自己的）" });
+  if (p && p.out) ev.push({ t:p.out.t, label:"去程 " + p.out.no + " 起飞" });
+  else ev.push({ t:"2026-07-31T21:00:00+08:00", label:"去程航班起飞（各人不同，切角色看自己的）" });
+  if (p && p.ret) ev.push({ t:p.ret.t, label:"返程 " + p.ret.no + " 起飞" });
+  else ev.push({ t:"2026-08-03T01:30:00+07:00", label:"返程航班起飞（各人不同，切角色看自己的）" });
   return ev.sort((a, b) => new Date(a.t) - new Date(b.t));
 }
 function pad(n){ return String(n).padStart(2, "0"); }
@@ -324,7 +363,7 @@ function tick() {
     let d = Math.floor((new Date(next.t).getTime() - now) / 1000);
     const days = Math.floor(d / 86400); d %= 86400;
     C.textContent = (days ? days + "天 " : "") + pad(Math.floor(d/3600)) + ":" + pad(Math.floor(d%3600/60)) + ":" + pad(d%60);
-    S.textContent = "倒计时（按手机本地时间计算；泰国时间=中国时间−1小时）";
+    S.textContent = "倒计时（按手机本地时间计算）";
   }
   const today = new Date();
   const ds = today.getFullYear() + "-" + pad(today.getMonth()+1) + "-" + pad(today.getDate());
