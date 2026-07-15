@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0b3d5c" />
+<title>全部行程 · 曼谷之旅</title>
+<style>
+:root{ --bg:#f4f7f9; --card:#fff; --ink:#1c2b33; --sub:#5b7280; --brand:#0b3d5c; --accent:#0e8f8f; --line:#e3eaef; --done:#9aa7ae; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",Roboto,"Noto Sans SC",sans-serif;padding-bottom:40px}
+.hero{background:linear-gradient(140deg,#0b3d5c 0%,#0e6e8f 60%,#0e8f8f 100%);color:#fff;padding:18px 18px 30px;border-radius:0 0 22px 22px}
+.back{color:#fff;opacity:.85;text-decoration:none;font-size:.88em}
+.hero h1{margin:8px 0 4px;font-size:1.3em;display:flex;align-items:center;gap:6px}
+.dur{width:1.1em;height:1.1em;vertical-align:-.18em}
+.wrap{max-width:640px;margin:0 auto;padding:0 14px}
+.pbarWrap{margin-top:-14px;position:relative;z-index:1}
+.pbar{background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 1px 3px rgba(16,42,67,.08)}
+.pbar .lbl{display:flex;justify-content:space-between;font-size:.8em;color:var(--sub);margin-bottom:6px}
+.pbar .track{height:8px;border-radius:99px;background:#e6ecef;overflow:hidden}
+.pbar .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#0e8f8f,#0e6e8f)}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-top:14px;box-shadow:0 1px 3px rgba(16,42,67,.08)}
+.card.today{outline:2px solid #f59e0b}
+.card h2{margin:0 0 10px;font-size:1.02em;color:var(--brand);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.card h2 .tag{font-size:.68em;color:#b45309;background:#fde68a;padding:2px 8px;border-radius:99px;margin-left:2px}
+.item{display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line)}
+.item:last-child{border-bottom:none}
+.item .t{flex:0 0 52px;font-weight:600;font-variant-numeric:tabular-nums;font-size:.92em}
+.item .b{flex:1;font-size:.95em}
+.item .b .n{color:var(--sub);font-size:.82em;margin-top:2px}
+.item.done{opacity:.55}
+.item.done .t{color:var(--done)}
+.item.done .b{color:var(--sub)}
+.item.upcoming .t{color:var(--accent)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:99px;margin-right:6px;flex:0 0 auto}
+.dot.done{background:var(--done)}
+.dot.upcoming{background:#f59e0b}
+a.map{display:inline-block;font-size:.78em;color:#0e6e8f;text-decoration:none;border:1px solid #bcd9e4;border-radius:99px;padding:1px 9px;margin-left:6px;white-space:nowrap}
+footer{text-align:center;color:var(--sub);font-size:.78em;margin-top:18px}
+footer a{color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="wrap">
+    <a class="back" href="index.html">← 返回日程</a>
+    <h1>📋 全部行程 <img class="dur" src="durian.png" alt="榴莲"></h1>
+    <div style="opacity:.85;font-size:.9em">曼谷之旅 · 2026.07.31 – 08.03</div>
+  </div>
+</div>
+<div class="wrap pbarWrap">
+  <div class="pbar">
+    <div class="lbl"><span>行程进度</span><span id="pct">0%</span></div>
+    <div class="track"><div class="fill" id="pfill" style="width:0%"></div></div>
+  </div>
+  <div id="days"></div>
+  <footer>灰色 = 已完成　·　橙点 = 未完成　·　<a href="index.html">返回日程首页</a></footer>
+</div>
+<script src="data.js"></script>
+<script>
+function pad(n){ return String(n).padStart(2,"0"); }
+function todayKey(){ var d=new Date(); return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
+function render(){
+  var now = Date.now();
+  var key = todayKey();
+  var start = new Date(TRIP_START).getTime(), end = new Date(TRIP_END).getTime();
+  var pct = Math.max(0, Math.min(100, Math.round((now-start)/(end-start)*100)));
+  document.getElementById("pfill").style.width = pct+"%";
+  document.getElementById("pct").textContent = pct+"%";
+
+  var html = ITINERARY.map(function(day){
+    var isToday = day.date === key;
+    var items = day.items.map(function(it){
+      var done = new Date(it.iso).getTime() <= now;
+      return '<div class="item '+(done?"done":"upcoming")+'"><div class="t"><span class="dot '+(done?"done":"upcoming")+'"></span>'+it.t+'</div>'+
+        '<div class="b">'+it.b+(it.n?'<div class="n">'+it.n+'</div>':'')+'</div></div>';
+    }).join("");
+    return '<div class="card'+(isToday?" today":"")+'"><h2>'+day.title+(isToday?'<span class="tag">今天</span>':'')+'</h2>'+items+'</div>';
+  }).join("");
+  document.getElementById("days").innerHTML = html;
+}
+render();
+setInterval(render, 30000);
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function(){});
+</script>
+</body>
+</html>
