@@ -1,6 +1,17 @@
-const CACHE = "travel-bkk-v11";
+const CACHE = "travel-bkk-v12";
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(["./", "./index.html", "./itinerary.html", "./data.js", "./durian.png"])));
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll([
+    "./",
+    "./index.html",
+    "./itinerary.html",
+    "./ui/style.css",
+    "./ui/app.js",
+    "./ui/theme.png",
+    "./data/site.json",
+    "./data/trip.json",
+    "./data/guide.json",
+    "./data/users.json"
+  ])));
   self.skipWaiting();
 });
 self.addEventListener("activate", e => {

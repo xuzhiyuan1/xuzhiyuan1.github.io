@@ -1,0 +1,12 @@
+{
+  "brandTitle": "曼谷之旅",
+  "dates": "2026.07.31（周五晚出发） — 08.03（周一凌晨返程）",
+  "heroTag": "榴莲大吃特吃 {durian} · 旅途Helper",
+  "themeImage": "theme.png",
+  "timezones": {
+    "bj": { "label": "🕐 北京时间", "offset": 8 },
+    "th": { "label": "🕐 泰国时间", "offset": 7 }
+  },
+  "weatherBrief": "🌤 27–33°C",
+  "tripEnd": "2026-08-03T12:00:00+08:00"
+}

@@ -5,113 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#0b3d5c" />
 <title>曼谷之旅 · 7.31–8.2</title>
-<style>
-:root{
-  --bg:#f4f7f9; --card:#ffffff; --ink:#1c2b33; --sub:#5b7280;
-  --brand:#0b3d5c; --accent:#0e8f8f; --warn:#c2410c; --line:#e3eaef; --today:#fff7e6;
-  --shadow:0 2px 10px rgba(16,42,67,.12);
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",Roboto,"Noto Sans SC",sans-serif;
-  -webkit-font-smoothing:antialiased;padding-bottom:40px}
-
-/* 顶部固定条：标题 + （日程/机酒 · 角色）同处 */
-.topbar{position:sticky;top:0;z-index:50;background:#0b3d5c;color:#fff;box-shadow:0 2px 12px rgba(9,30,46,.28)}
-.tbInner{max-width:640px;margin:0 auto;padding:9px 12px;display:flex;align-items:center;gap:7px}
-.tbTitle{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:5px;font-size:1.06em;font-weight:800;letter-spacing:.5px;white-space:nowrap;overflow:hidden}
-.selWrap{flex:0 0 auto;position:relative;display:inline-flex;align-items:center}
-.whoSel{appearance:none;-webkit-appearance:none;height:34px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:0 28px 0 11px;font-size:.84em;font-weight:600;cursor:pointer;max-width:120px}
-.whoSel option{color:#1c2b33}
-.selCar{position:absolute;right:10px;pointer-events:none;color:#fff;opacity:.85;font-size:.84em}
-
-.tabWrap{flex:0 0 auto;position:relative}
-.tabToggle{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;
-  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:0 11px;
-  font-size:.84em;font-weight:600;color:#fff;cursor:pointer;white-space:nowrap}
-.tabToggle .car{opacity:.85;transition:transform .2s}
-.tabToggle.open .car{transform:rotate(180deg)}
-.tabMenu{position:absolute;left:0;min-width:110px;top:100%;margin-top:6px;background:#fff;border:1px solid var(--line);
-  border-radius:10px;box-shadow:0 10px 26px rgba(9,30,46,.3);overflow:hidden;z-index:60}
-.tabMenu button{display:flex;width:100%;align-items:center;gap:8px;padding:12px 14px;border:0;border-bottom:1px solid var(--line);
-  background:#fff;font-size:.96em;color:var(--ink);text-align:left;cursor:pointer}
-.tabMenu button:last-child{border-bottom:0}
-.tabMenu button.active{color:var(--accent);font-weight:600;background:#f2fbf9}
-
-/* 顶部下方渐变说明带（随页面滚动） */
-.heroSub{position:relative;overflow:hidden;background:linear-gradient(140deg,#0b3d5c 0%,#0e6e8f 60%,#0e8f8f 100%);
-  color:#fff;padding:12px 18px 32px;border-radius:0 0 26px 26px}
-.heroSub .dates{opacity:.92;font-size:.9em;position:relative;z-index:1}
-.heroSub .tag{display:inline-flex;align-items:center;gap:4px;margin-top:9px;font-size:.78em;background:rgba(255,255,255,.18);padding:3px 10px;border-radius:99px;position:relative;z-index:1}
-.heroDur{position:absolute;right:-24px;bottom:-30px;width:120px;height:auto;opacity:.28;transform:rotate(-10deg)}
-
-.dur{width:1.15em;height:1.15em;vertical-align:-.2em}
-.durbg{position:fixed;right:-28px;bottom:-22px;width:min(56vw,300px);height:auto;opacity:.4;z-index:0;pointer-events:none;transform:rotate(8deg)}
-.wrap{max-width:640px;margin:0 auto;padding:0 14px;position:relative;z-index:1}
-
-/* 所有卡片统一阴影 + 半透明（透出背景榴莲） */
-.card{background:rgba(255,255,255,.70);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border-radius:16px;border-left:3px solid #c2ccd3;padding:16px;margin-top:14px;box-shadow:var(--shadow)}
-.card h2{margin:0 0 10px;font-size:1.02em;color:var(--brand);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-
-/* 「此刻关注」：标题 / 倒计时 / 说明 / 完整下一个日程 / Next */
-.now{background:linear-gradient(135deg,rgba(14,143,143,.85),rgba(14,110,143,.85));color:#fff;padding:16px}
-.now .nowHd{font-size:.98em;font-weight:600;opacity:.96;letter-spacing:.5px}
-.now .nowCd{font-size:2.9em;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:1px;margin-top:9px;line-height:1.02}
-.now .nowCd .cdD{font-size:.34em;font-weight:600;opacity:.72;letter-spacing:0;margin-right:2px;vertical-align:.16em}
-.now .nowCd .cdC{font-size:1em}
-.now .nowCap{font-size:.74em;opacity:.82;margin-top:4px}
-.now .nowFull{font-size:.98em;font-weight:400;margin-top:10px;line-height:1.35}
-.now .nowRow{display:flex;justify-content:space-between;gap:12px;margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.24);font-size:.84em;opacity:.96}
-.now .nowRow .nowAfter{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.now .nowRow .nowWx{flex:0 0 auto;white-space:nowrap}
-
-.tzbtn{margin-left:auto;font-size:.76em;border:1px solid #bcd9e4;background:#eef7fa;color:#0e6e8f;border-radius:99px;padding:3px 10px;cursor:pointer}
-.fcard{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:0}
-.fcard.mine{border-color:#0e8f8f;background:#f2fbf9}
-.flabel{margin:12px 0 6px;font-weight:700;font-size:.92em;color:var(--brand)}
-.frow2{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
-.frow2 .no{font-weight:700;font-size:1.0em;font-variant-numeric:tabular-nums}
-.frow2 .fdur{font-size:.78em;color:var(--sub);font-weight:400;white-space:nowrap;flex:0 0 auto}
-.fmeta{font-size:.76em;color:var(--sub);margin-top:4px}
-.froute{display:flex;align-items:center;gap:8px;margin-top:8px}
-.fend{flex:1;min-width:0}
-.fend.r{text-align:right}
-.fcity{font-size:.82em;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ftime{font-weight:700;font-size:1.02em;font-variant-numeric:tabular-nums}
-.farrow{color:var(--accent);font-size:1.1em;flex:0 0 auto}
-.pname{font-weight:700;font-size:1.18em;margin:16px 0 4px;color:var(--brand)}
-
-.day{transition:background .3s}
-.day.today{background:var(--today);outline:2px solid #f59e0b}
-.day.today h2::after{content:"今天";font-size:.7em;color:#b45309;background:#fde68a;padding:2px 8px;border-radius:99px;margin-left:4px}
-.item{display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line)}
-.item:last-child{border-bottom:none}
-.item .t{flex:0 0 52px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums;font-size:.92em}
-.item .b{flex:1;font-size:.95em}
-.item .b .n{color:var(--sub);font-size:.82em;margin-top:2px}
-a.map{display:inline-block;font-size:.78em;color:#0e6e8f;text-decoration:none;border:1px solid #bcd9e4;border-radius:99px;padding:1px 9px;margin-left:6px;white-space:nowrap}
-ul.tips{margin:0;padding-left:1.2em}
-ul.tips li{margin:7px 0;font-size:.93em}
-iframe.gmap{width:100%;height:210px;border:0;border-radius:12px;margin-top:8px}
-details summary{cursor:pointer;color:var(--brand);font-size:.92em;font-weight:600}
-.allLink{display:block;text-decoration:none;color:inherit}
-.allLink .note{margin-top:2px}
-.devbar{font-size:.78em;color:var(--sub);text-align:center;margin-top:16px;line-height:1.7}
-.devid{font-family:ui-monospace,Menlo,monospace;background:#eef4f7;padding:1px 6px;border-radius:6px}
-.defrole{display:inline-block;background:#e6f5f0;color:#0a7d5f;padding:1px 8px;border-radius:99px;font-weight:600}
-.note{font-size:.78em;color:var(--sub);margin-top:8px;line-height:1.5}
-footer{text-align:center;color:var(--sub);font-size:.78em;margin-top:14px}
-footer a{color:var(--sub)}
-[hidden]{display:none!important}
-</style>
+<link rel="stylesheet" href="ui/style.css" />
 </head>
-<body>
+<body class="pg-index" data-page="index">
 
-<img class="durbg" src="durian.png" alt="" aria-hidden="true">
+<img class="durbg" src="ui/theme.png" alt="" aria-hidden="true">
 
 <div class="topbar">
   <div class="tbInner">
-    <div class="tbTitle"><img class="dur" src="durian.png" alt="榴莲"> 曼谷之旅</div>
+    <div class="tbTitle"><img class="dur" src="ui/theme.png" alt="榴莲"> <span id="brandTitle"></span></div>
     <div class="tabWrap">
       <button class="tabToggle" id="tabToggle">日程 <span class="car">▾</span></button>
       <div class="tabMenu" id="tabMenu" hidden>
@@ -127,10 +29,10 @@ footer a{color:var(--sub)}
 </div>
 
 <div class="heroSub">
-  <img class="heroDur" src="durian.png" alt="" aria-hidden="true">
+  <img class="heroDur" src="ui/theme.png" alt="" aria-hidden="true">
   <div class="wrap">
-    <div class="dates">2026.07.31（周五晚出发） — 08.03（周一凌晨返程）</div>
-    <span class="tag">榴莲大吃特吃 <img class="dur" src="durian.png" alt="榴莲"> · 旅途Helper</span>
+    <div class="dates" id="heroDates"></div>
+    <span class="tag" id="heroTag"></span>
   </div>
 </div>
 
@@ -147,7 +49,7 @@ footer a{color:var(--sub)}
       <div class="nowFull" id="nowNextLabel">—</div>
       <div class="nowRow">
         <div class="nowAfter" id="nowAfter"></div>
-        <div class="nowWx">🌤 27–33°C</div>
+        <div class="nowWx" id="nowWx"></div>
       </div>
     </div>
 
@@ -156,28 +58,14 @@ footer a{color:var(--sub)}
 
     <!-- 榴莲专区 -->
     <div class="card">
-      <h2><img class="dur" src="durian.png" alt="榴莲"> 榴莲大作战</h2>
-      <ul class="tips">
-        <li><b>唐人街耀华力路夜市</b>：路边榴莲摊现开现吃，金枕头按只/按盒卖<span id="mDurian1"></span></li>
-        <li><b>Or Tor Kor 市场</b>：曼谷口碑最好的高端水果市场，榴莲品质稳、可让摊主挑熟度<span id="mDurian2"></span></li>
-        <li><b>After You</b>：榴莲甜品（榴莲刨冰、榴莲糯米饭），商场里到处有分店<span id="mDurian3"></span></li>
-        <li><b>提醒</b>：榴莲禁止带上飞机和多数酒店/出租车，当场吃完最稳 😄</li>
-      </ul>
+      <h2><img class="dur" src="ui/theme.png" alt="榴莲"> 榴莲大作战</h2>
+      <ul class="tips" id="durianList"></ul>
     </div>
 
     <!-- 实用提醒（含详细天气） -->
     <div class="card">
       <h2>📌 实用提醒</h2>
-      <ul class="tips">
-        <li><b>🌦 天气详情</b>：正值雨季，日间 27–34°C、湿度大，几乎每天午后有阵雨/雷暴，出门带伞或轻便雨衣；紫外线强注意防晒；商场/机场空调冷，备一件薄外套。</li>
-        <li><b>签证</b>：中泰互免签证，停留 ≤30 天免签；抵达前 3 天内在线填 <a target="_blank" rel="noopener" href="https://tdac.immigration.go.th">TDAC 电子入境卡</a>（截图保存）。</li>
-        <li><b>证件</b>：护照有效期需 6 个月以上；护照首页拍照留底。</li>
-        <li><b>货币</b>：泰铢 THB，1 元 ≈ 4.8 泰铢（出发前再核对）；夜市/小店用现金，商场可支付宝/微信/刷卡。</li>
-        <li><b>通信</b>：开漫游或买 eSIM / 当地卡（AIS、True 机场柜台即有）。</li>
-        <li><b>交通</b>：市区打车用 <b>Grab</b>；BTS/MRT 避堵；素万那普机场↔市区可坐机场快线 ARL。</li>
-        <li><b>电源</b>：220V，中国两脚扁插可直插，三脚插需转换头。</li>
-        <li><b>紧急电话</b>：报警 191 · 旅游警察 1155 · 中国驻泰使馆 +66-2-245-0088。</li>
-      </ul>
+      <ul class="tips" id="tipsList"></ul>
     </div>
 
   </section>
@@ -191,11 +79,7 @@ footer a{color:var(--sub)}
     </div>
     <div class="card">
       <h2>🏨 酒店（已确认）</h2>
-      <div class="item"><div class="t">📍</div><div class="b"><b>曼谷素坤逸24号美居酒店</b><br>Mercure Bangkok Sukhumvit 24 · 曼谷高档酒店榜 No.15
-        <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Mercure+Bangkok+Sukhumvit+24">🧭 导航</a>
-        <div class="n">地址：5/1 Sukhumvit Road, Khlong Toei, Bangkok（素坤逸 Soi 24，近 BTS 澎蓬站 Phrom Phong / Emporium 商场）</div></div></div>
-      <div class="item"><div class="t">🗓️</div><div class="b">2026.7.31 周五 — 8.2 周日 · 共 2 晚<div class="n">入住：当天 14:00 后　离店：12:00 前（当地时间）；各人抵达/离开时间不同，具体到店/退房请对照自己在「日程」里的航班时间。</div></div></div>
-      <div class="item"><div class="t">🛍️</div><div class="b">周边设施：步行 5 分钟到 BTS 澎蓬站 Phrom Phong，直通 Emporium / EmQuartier 商场（超市、美食广场、影院）；楼下便利店 7-Eleven 24 小时；素坤逸 Soi 24 一带餐厅、按摩店密集，Soi 38 夜市步行可达。</div></div>
+      <div id="hotelBox"></div>
     </div>
   </section>
 
@@ -204,168 +88,9 @@ footer a{color:var(--sub)}
     <span style="opacity:.8">切换角色后本设备下次自动显示该角色</span>
   </div>
 
-  <footer>曼谷之旅 <img class="dur" src="durian.png" alt="榴莲"> · <a href="/">Powered by xuzhiyuan</a></footer>
+  <footer>曼谷之旅 <img class="dur" src="ui/theme.png" alt="榴莲"> · <a href="/">Powered by xuzhiyuan</a></footer>
 </div>
 
-<script src="data.js?v=11"></script>
-<script>
-document.getElementById("mDurian1").outerHTML = mapA("Yaowarat+Road+Bangkok");
-document.getElementById("mDurian2").outerHTML = mapA("Or+Tor+Kor+Market+Bangkok");
-document.getElementById("mDurian3").outerHTML = mapA("After+You+Dessert+Cafe+Bangkok");
-
-function pad(n){ return String(n).padStart(2,"0"); }
-function todayKey(){ var d=new Date(); return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()); }
-
-/* ====== 下拉 Tab ====== */
-var tabToggle = document.getElementById("tabToggle");
-var tabMenu = document.getElementById("tabMenu");
-tabToggle.addEventListener("click", function(e){
-  e.stopPropagation();
-  var open = tabMenu.hidden;
-  tabMenu.hidden = !open;
-  tabToggle.classList.toggle("open", open);
-});
-document.addEventListener("click", function(e){
-  if (!tabMenu.hidden && !tabMenu.contains(e.target) && e.target !== tabToggle) { tabMenu.hidden = true; tabToggle.classList.remove("open"); }
-});
-Array.prototype.forEach.call(tabMenu.querySelectorAll("button"), function(btn){
-  btn.addEventListener("click", function(){
-    var tab = btn.dataset.tab;
-    var isPlan = tab === "plan";
-    document.getElementById("panePlan").hidden = !isPlan;
-    document.getElementById("paneJz").hidden = isPlan;
-    Array.prototype.forEach.call(tabMenu.querySelectorAll("button"), function(b){ b.classList.toggle("active", b===btn); });
-    tabToggle.innerHTML = (isPlan ? "日程" : "机酒") + ' <span class="car">▾</span>';
-    tabMenu.hidden = true; tabToggle.classList.remove("open");
-  });
-});
-
-/* ====== 角色选择 ====== */
-var whoSel = document.getElementById("who");
-Object.keys(PEOPLE).concat([OVERVIEW]).forEach(function(n){ whoSel.add(new Option(n,n)); });
-var saved = localStorage.getItem("who");
-whoSel.value = (saved && (PEOPLE[saved] || saved===OVERVIEW)) ? saved : OVERVIEW;
-
-/* ====== 时区切换（默认北京时间，机酒 tab 用） ====== */
-var tz = localStorage.getItem("tz") || "bj";
-function applyTz(){
-  var els = document.querySelectorAll(".ftime");
-  for (var i=0;i<els.length;i++){ els[i].textContent = (tz==="bj"?els[i].dataset.bj:els[i].dataset.th); }
-  document.getElementById("tzbtn").textContent = (tz==="bj"?"🕐 北京时间":"🕐 泰国时间");
-}
-document.getElementById("tzbtn").addEventListener("click", function(){
-  tz = (tz==="bj"?"th":"bj"); localStorage.setItem("tz",tz); applyTz();
-});
-
-function fcard(kind, leg, mine){
-  var lab = '<div class="flabel">'+kind+'</div>';
-  if(!leg) return lab+'<div class="fcard"><div class="fmeta">航班待补充</div></div>';
-  var meta = leg.meta + (leg.price ? ' · '+leg.price : '');
-  return lab+'<div class="fcard'+(mine?' mine':'')+'">'+
-    '<div class="frow2"><span class="no">'+leg.air+' '+leg.no+'</span><span class="fdur">✈ '+leg.dur+'</span></div>'+
-    '<div class="fmeta">'+meta+'</div>'+
-    '<div class="froute">'+
-      '<div class="fend"><div class="fcity">'+leg.depCity+'</div><div class="ftime" data-bj="'+leg.depBJ+'" data-th="'+leg.depTH+'">'+leg.depBJ+'</div></div>'+
-      '<div class="farrow">→</div>'+
-      '<div class="fend r"><div class="fcity">'+leg.arrCity+'</div><div class="ftime" data-bj="'+leg.arrBJ+'" data-th="'+leg.arrTH+'">'+leg.arrBJ+'</div></div>'+
-    '</div>'+
-    '</div>';
-}
-function renderFlights(){
-  var box = document.getElementById("flightBox");
-  if(whoSel.value===OVERVIEW){
-    box.innerHTML = Object.keys(PEOPLE).map(function(n){
-      var p=PEOPLE[n];
-      return '<div class="pname">'+n+'</div>'+fcard("去程",p.out,false)+fcard("返程",p.ret,false);
-    }).join("");
-  } else {
-    var p = PEOPLE[whoSel.value];
-    box.innerHTML = fcard("去程",p.out,true)+fcard("返程",p.ret,true)+(p.note?'<div class="note">'+p.note+'</div>':'');
-  }
-  applyTz();
-}
-
-/* ====== 地图卡（按"今天"动态定位/生成内容） ====== */
-function mapCardHTML(loc, title){
-  var locs = (loc && loc.length) ? loc : ["Bangkok+Thailand"];
-  var list = locs.map(function(l){ return '<li>'+l.replace(/\+/g," ")+mapA(l)+'</li>'; }).join("");
-  return '<div class="card"><details><summary>🗺️ '+title+'</summary>'+
-    '<iframe class="gmap" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q='+locs[0]+'&z=12&output=embed"></iframe>'+
-    '<ul class="tips" style="margin-top:8px">'+list+'</ul></details></div>';
-}
-function allTripLinkHTML(){
-  return '<a href="itinerary.html" class="card allLink"><h2 style="margin-bottom:2px">📋 全部行程</h2><div class="note">点开查看完整行程，当前时段自动高亮 →</div></a>';
-}
-
-/* ====== 逐日行程渲染（只显示未完成的；地图按今天插入；末尾"全部行程"） ====== */
-function renderSchedule(){
-  var now = Date.now();
-  var key = todayKey();
-  var firstDate = ITINERARY[0].date, lastDate = ITINERARY[ITINERARY.length-1].date;
-  var matchIdx = ITINERARY.findIndex(function(d){ return d.date===key; });
-  var beforeTrip = key < firstDate;
-  var afterTrip = key > lastDate;
-  var html = "";
-
-  ITINERARY.forEach(function(day, idx){
-    var future = day.items.filter(function(it){ return new Date(it.iso).getTime() > now; });
-    if (future.length){
-      var itemsHtml = future.map(function(it){
-        return '<div class="item"><div class="t">'+it.t+'</div><div class="b">'+it.b+(it.n?'<div class="n">'+it.n+'</div>':'')+'</div></div>';
-      }).join("");
-      var todayCls = (day.date===key) ? ' today' : '';
-      html += '<div class="card day'+todayCls+'" data-date="'+day.date+'"><h2>'+day.title+'</h2>'+itemsHtml+'</div>';
-    }
-    if (beforeTrip && idx===0){
-      html += mapCardHTML([], "出发前 · 曼谷全览");
-    } else if (!beforeTrip && !afterTrip && idx===matchIdx){
-      html += mapCardHTML(day.loc, day.label + " 游览地图");
-    }
-  });
-  if (afterTrip){
-    var allLoc = [].concat.apply([], ITINERARY.map(function(d){ return d.loc||[]; }));
-    html += mapCardHTML(allLoc, "全部游览地点");
-  }
-  html += allTripLinkHTML();
-  document.getElementById("dayCards").innerHTML = html;
-}
-
-/* ====== 此刻关注：下一件事 + 大倒计时；下下件事 + 天气 ====== */
-function renderNow(){
-  function clip(s){ return s.length>15 ? s.slice(0,15)+"…" : s; }
-  var evs = buildUpcoming(whoSel.value);
-  var next = evs[0], after = evs[1];
-  var labEl = document.getElementById("nowNextLabel");
-  var cdEl = document.getElementById("nowCd");
-  var afEl = document.getElementById("nowAfter");
-  if (next){
-    labEl.textContent = next.label;
-    cdEl.innerHTML = cdText(new Date(next.t).getTime()-Date.now());
-  } else {
-    var ended = Date.now() > new Date(TRIP_END).getTime();
-    labEl.textContent = ended ? "旅途结束，欢迎回家 🏠" : "暂无更多安排";
-    cdEl.innerHTML = "";
-  }
-  afEl.textContent = after ? "Next："+clip(after.label) : "";
-}
-
-function renderAll(){
-  document.getElementById("defRole").textContent = whoSel.value;
-  renderFlights();
-  renderSchedule();
-  renderNow();
-}
-whoSel.addEventListener("change", function(){ localStorage.setItem("who", whoSel.value); renderAll(); });
-renderAll();
-setInterval(renderNow, 1000);       // 倒计时每秒更新
-setInterval(renderSchedule, 60000); // 每分钟刷新一次"未完成行程"列表
-
-/* ====== 设备编号（不展示访问历史） ====== */
-var devId = localStorage.getItem("deviceId");
-if(!devId){ devId = "D-"+Math.random().toString(36).slice(2,8).toUpperCase(); localStorage.setItem("deviceId",devId); }
-document.getElementById("devId").textContent = devId;
-
-if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function(){});
-</script>
+<script src="ui/app.js"></script>
 </body>
 </html>
