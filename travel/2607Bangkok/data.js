@@ -3,44 +3,44 @@ var OVERVIEW = "总览";
 
 var PEOPLE = {
   "徐致远": {
-    out:{ no:"MU2071", air:"东航", meta:"空客 A320neo · 经济舱", dur:"4时55分", price:"待补充",
+    out:{ no:"MU2071", air:"东航", meta:"空客 A320neo · 经济舱", dur:"4时55分", price:"¥926",
           depCity:"北京大兴 PKX", arrCity:"曼谷素万那普 BKK",
           depBJ:"7.31 21:05", depTH:"7.31 20:05", arrBJ:"8.1 02:00", arrTH:"8.1 01:00",
           t:"2026-07-31T21:05:00+08:00" },
-    ret:{ no:"MU2072", air:"东航", meta:"空客 A320neo · 经济舱", dur:"5时05分", price:"待补充",
+    ret:{ no:"MU2072", air:"东航", meta:"空客 A320neo · 经济舱", dur:"5时05分", price:"¥926",
           depCity:"曼谷素万那普 BKK", arrCity:"北京大兴 PKX",
           depBJ:"8.3 03:05", depTH:"8.3 02:05", arrBJ:"8.3 08:10", arrTH:"8.3 07:10",
           t:"2026-08-03T02:05:00+07:00" },
-    note:"返程是周日深夜的红眼航班（泰国时间 8.3 凌晨 02:05 起飞）"
+    note:"往返合计 ¥1852（此处按往返平均显示）。返程是周日深夜红眼航班（泰国时间 8.3 凌晨 02:05 起飞）"
   },
   "崔嘉骏": {
-    out:{ no:"AQ1267", air:"九元航空", meta:"波音 737 MAX8 · 经济舱", dur:"2时40分", price:"待补充",
+    out:{ no:"AQ1267", air:"九元", meta:"波音 737 MAX8 · 经济舱", dur:"2时40分", price:"¥591",
           depCity:"广州白云 CAN T2", arrCity:"曼谷素万那普 BKK T1",
           depBJ:"7.31 23:05", depTH:"7.31 22:05", arrBJ:"8.1 01:45", arrTH:"8.1 00:45",
           t:"2026-07-31T23:05:00+08:00" },
-    ret:{ no:"9C7420", air:"春秋航空", meta:"空客 A320 · 经济舱", dur:"2时50分", price:"待补充",
+    ret:{ no:"9C7420", air:"春秋", meta:"空客 A320 · 经济舱", dur:"2时50分", price:"¥726",
           depCity:"曼谷素万那普 BKK", arrCity:"广州白云 CAN T3",
           depBJ:"8.2 22:30", depTH:"8.2 21:30", arrBJ:"8.3 01:20", arrTH:"8.3 00:20",
           t:"2026-08-02T21:30:00+07:00" },
     note:"与唐娅妮、潘骁腾同航班：8.2 周日晚 21:30（泰国时间）从曼谷起飞，8.3 凌晨 01:20 到广州"
   },
   "唐娅妮": {
-    out:{ no:"AQ1267", air:"九元航空", meta:"波音 737 MAX8 · 经济舱", dur:"2时40分", price:"待补充",
+    out:{ no:"AQ1267", air:"九元", meta:"波音 737 MAX8 · 经济舱", dur:"2时40分", price:"待补充",
           depCity:"广州白云 CAN T2", arrCity:"曼谷素万那普 BKK T1",
           depBJ:"7.31 23:05", depTH:"7.31 22:05", arrBJ:"8.1 01:45", arrTH:"8.1 00:45",
           t:"2026-07-31T23:05:00+08:00" },
-    ret:{ no:"9C7420", air:"春秋航空", meta:"空客 A320 · 经济舱", dur:"2时50分", price:"待补充",
+    ret:{ no:"9C7420", air:"春秋", meta:"空客 A320 · 经济舱", dur:"2时50分", price:"待补充",
           depCity:"曼谷素万那普 BKK", arrCity:"广州白云 CAN T3",
           depBJ:"8.2 22:30", depTH:"8.2 21:30", arrBJ:"8.3 01:20", arrTH:"8.3 00:20",
           t:"2026-08-02T21:30:00+07:00" },
     note:"与崔嘉骏、潘骁腾同航班：8.2 周日晚 21:30（泰国时间）从曼谷起飞，8.3 凌晨 01:20 到广州"
   },
   "潘骁腾": {
-    out:{ no:"AQ1267", air:"九元航空", meta:"波音 737 MAX8 · 经济舱", dur:"2时40分", price:"¥573",
+    out:{ no:"AQ1267", air:"九元", meta:"波音 737 MAX8 · 经济舱", dur:"2时40分", price:"¥573",
           depCity:"广州白云 CAN T2", arrCity:"曼谷素万那普 BKK T1",
           depBJ:"7.31 23:05", depTH:"7.31 22:05", arrBJ:"8.1 01:45", arrTH:"8.1 00:45",
           t:"2026-07-31T23:05:00+08:00" },
-    ret:{ no:"9C7420", air:"春秋航空", meta:"空客 A320 · 经济舱", dur:"2时50分", price:"¥704",
+    ret:{ no:"9C7420", air:"春秋", meta:"空客 A320 · 经济舱", dur:"2时50分", price:"¥704",
           depCity:"曼谷素万那普 BKK", arrCity:"广州白云 CAN T3",
           depBJ:"8.2 22:30", depTH:"8.2 21:30", arrBJ:"8.3 01:20", arrTH:"8.3 00:20",
           t:"2026-08-02T21:30:00+07:00" },
@@ -78,17 +78,17 @@ var ITINERARY = [
 var TRIP_START = ITINERARY[0].items[0].iso;
 var TRIP_END = "2026-08-03T12:00:00+08:00";
 
-/* 相对时间文案 */
-function relText(ms){
+/* 倒计时文案（带秒，近的更精确） */
+function cdText(ms){
   if (ms <= 0) return "进行中";
   var s = Math.floor(ms/1000);
   var d = Math.floor(s/86400); s %= 86400;
   var h = Math.floor(s/3600); s %= 3600;
-  var m = Math.floor(s/60);
-  if (d>0) return d+"天"+h+"小时后";
-  if (h>0) return h+"小时"+m+"分后";
-  if (m>0) return m+"分钟后";
-  return "马上";
+  var m = Math.floor(s/60); var sec = s%60;
+  function p(n){ return String(n).padStart(2,"0"); }
+  if (d>0) return d+"天 "+h+"时"+m+"分";
+  if (h>0) return h+"时 "+m+"分"+p(sec)+"秒";
+  return m+"分 "+p(sec)+"秒";
 }
 
 /* 合并"当前未完成的公共行程" + 所选角色的往返航班，按时间排序（此刻关注用） */

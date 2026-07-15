@@ -9,72 +9,75 @@
 :root{
   --bg:#f4f7f9; --card:#ffffff; --ink:#1c2b33; --sub:#5b7280;
   --brand:#0b3d5c; --accent:#0e8f8f; --warn:#c2410c; --line:#e3eaef; --today:#fff7e6;
+  --shadow:0 2px 10px rgba(16,42,67,.12);
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",Roboto,"Noto Sans SC",sans-serif;
   -webkit-font-smoothing:antialiased;padding-bottom:40px}
 
-/* 顶部固定：曼谷之旅标题 + 切换角色 */
-.stickyHero{position:sticky;top:0;z-index:50;background:#0b3d5c;color:#fff;box-shadow:0 2px 10px rgba(9,30,46,.18)}
-.heroRow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px}
-.heroRow h1{margin:0;font-size:1.12em;letter-spacing:.3px;display:flex;align-items:center;gap:6px;white-space:nowrap}
-.whoSel{flex:0 0 auto;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:99px;padding:6px 10px;font-size:.86em;max-width:120px}
+/* 顶部固定条：标题 + （日程/机酒 · 角色）同处 */
+.topbar{position:sticky;top:0;z-index:50;background:#0b3d5c;color:#fff;box-shadow:0 2px 12px rgba(9,30,46,.28)}
+.tbInner{max-width:640px;margin:0 auto;padding:10px 14px 11px}
+.tbTitle{display:flex;align-items:center;gap:7px;font-size:1.28em;font-weight:800;letter-spacing:1px}
+.tbCtrl{display:flex;align-items:center;gap:8px;margin-top:9px}
+.tbCtrl .tabWrap{flex:1 1 auto;min-width:0}
+.whoSel{flex:0 0 auto;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:8px 10px;font-size:.9em;max-width:118px}
 .whoSel option{color:#1c2b33}
 
-/* 顶部固定条下方的说明区（随页面滚动） */
-.heroSub{position:relative;overflow:hidden;background:linear-gradient(140deg,#0b3d5c 0%,#0e6e8f 60%,#0e8f8f 100%);
-  color:#fff;padding:6px 18px 34px;border-radius:0 0 26px 26px}
-.heroSub .dates{opacity:.9;font-size:.92em;position:relative;z-index:1}
-.heroSub .tag{display:inline-flex;align-items:center;gap:4px;margin-top:10px;font-size:.78em;background:rgba(255,255,255,.18);padding:3px 10px;border-radius:99px;position:relative;z-index:1}
-.heroDur{position:absolute;right:-24px;bottom:-30px;width:120px;height:auto;opacity:.28;transform:rotate(-10deg)}
-
-.dur{width:1.15em;height:1.15em;vertical-align:-.2em}
-.durbg{position:fixed;right:-6vw;bottom:-4vh;width:52vw;max-width:360px;height:auto;opacity:.05;z-index:0;pointer-events:none;transform:rotate(10deg)}
-.wrap{max-width:640px;margin:0 auto;padding:0 14px;position:relative;z-index:1}
-
-/* 下拉式 Tab（非固定，随页面滚动） */
-.tabWrap{position:relative;margin-top:14px}
-.tabToggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;
-  background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;
-  font-size:1em;font-weight:600;color:var(--brand);cursor:pointer;box-shadow:0 1px 3px rgba(16,42,67,.08)}
-.tabToggle .car{color:var(--sub);font-weight:400;transition:transform .2s}
+.tabWrap{position:relative}
+.tabToggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:6px;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:8px 12px;
+  font-size:.9em;font-weight:600;color:#fff;cursor:pointer}
+.tabToggle .car{opacity:.85;transition:transform .2s}
 .tabToggle.open .car{transform:rotate(180deg)}
 .tabMenu{position:absolute;left:0;right:0;top:100%;margin-top:6px;background:#fff;border:1px solid var(--line);
-  border-radius:12px;box-shadow:0 8px 24px rgba(16,42,67,.16);overflow:hidden;z-index:20}
+  border-radius:10px;box-shadow:0 10px 26px rgba(9,30,46,.3);overflow:hidden;z-index:60}
 .tabMenu button{display:flex;width:100%;align-items:center;gap:8px;padding:12px 14px;border:0;border-bottom:1px solid var(--line);
   background:#fff;font-size:.96em;color:var(--ink);text-align:left;cursor:pointer}
 .tabMenu button:last-child{border-bottom:0}
 .tabMenu button.active{color:var(--accent);font-weight:600;background:#f2fbf9}
 
-.card{background:var(--card);border-radius:16px;padding:16px;margin-top:14px;box-shadow:0 1px 3px rgba(16,42,67,.08)}
+/* 顶部下方渐变说明带（随页面滚动） */
+.heroSub{position:relative;overflow:hidden;background:linear-gradient(140deg,#0b3d5c 0%,#0e6e8f 60%,#0e8f8f 100%);
+  color:#fff;padding:12px 18px 32px;border-radius:0 0 26px 26px}
+.heroSub .dates{opacity:.92;font-size:.9em;position:relative;z-index:1}
+.heroSub .tag{display:inline-flex;align-items:center;gap:4px;margin-top:9px;font-size:.78em;background:rgba(255,255,255,.18);padding:3px 10px;border-radius:99px;position:relative;z-index:1}
+.heroDur{position:absolute;right:-24px;bottom:-30px;width:120px;height:auto;opacity:.28;transform:rotate(-10deg)}
+
+.dur{width:1.15em;height:1.15em;vertical-align:-.2em}
+.durfield{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url(durian.png);background-repeat:repeat;background-size:82px auto;opacity:.14}
+.wrap{max-width:640px;margin:0 auto;padding:0 14px;position:relative;z-index:1}
+
+/* 所有卡片统一阴影 + 半透明（透出背景榴莲） */
+.card{background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border-radius:16px;padding:16px;margin-top:14px;box-shadow:var(--shadow)}
 .card h2{margin:0 0 10px;font-size:1.02em;color:var(--brand);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 
-/* 紧凑版「此刻关注」：精简天气 + 接下来 2 项 */
-.now{background:linear-gradient(135deg,#0e8f8f,#0e6e8f);color:#fff;padding:14px 16px}
-.now h2{color:#fff;font-size:.9em;margin:0 0 6px}
-.now .wxline{font-size:.86em;opacity:.94;display:flex;align-items:center;gap:6px}
-.now .evrow{display:flex;justify-content:space-between;gap:10px;font-size:.88em;padding:6px 0 0;margin-top:6px;border-top:1px solid rgba(255,255,255,.22)}
-.now .evrow .lb{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.now .evrow .rel{opacity:.88;white-space:nowrap;font-variant-numeric:tabular-nums;font-size:.82em;flex:0 0 auto}
-.now .empty{font-size:.9em;opacity:.92;margin-top:6px}
+/* 「此刻关注」：顶部下一件事+大倒计时，底部左=下下件事 右=天气 */
+.now{background:linear-gradient(135deg,rgba(14,143,143,.9),rgba(14,110,143,.9));color:#fff;padding:15px 16px}
+.now .nowHd{font-size:.82em;opacity:.9;margin-bottom:9px;letter-spacing:.5px;display:flex;align-items:center;gap:5px}
+.now .nowNext{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.now .nowNext .nl{font-size:1.04em;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.now .nowNext .ncd{font-size:1.08em;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto}
+.now .nowRow{display:flex;justify-content:space-between;gap:12px;margin-top:11px;padding-top:9px;border-top:1px solid rgba(255,255,255,.24);font-size:.84em;opacity:.96}
+.now .nowRow .nowAfter{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.now .nowRow .nowWx{flex:0 0 auto;white-space:nowrap}
 
 .tzbtn{margin-left:auto;font-size:.76em;border:1px solid #bcd9e4;background:#eef7fa;color:#0e6e8f;border-radius:99px;padding:3px 10px;cursor:pointer}
 .fcard{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px}
 .fcard.mine{border-color:#0e8f8f;background:#f2fbf9}
-.fhead{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.fhead .no{font-weight:700;font-size:1.0em}
-.fhead .fdur{font-size:.78em;color:var(--sub);white-space:nowrap}
-.fmeta{font-size:.76em;color:var(--sub);margin-top:1px}
+.fkind{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-weight:700;font-size:1.0em}
+.fkind .fdur{font-size:.76em;color:var(--sub);font-weight:400;white-space:nowrap}
+.frow2{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:5px}
+.frow2 .no{font-weight:700;font-size:.98em;font-variant-numeric:tabular-nums}
+.frow2 a.track{font-size:.76em;color:#0e6e8f;text-decoration:none;border:1px solid #bcd9e4;background:#eef7fa;border-radius:99px;padding:2px 9px;white-space:nowrap;flex:0 0 auto}
+.fmeta{font-size:.76em;color:var(--sub);margin-top:3px}
 .froute{display:flex;align-items:center;gap:8px;margin-top:8px}
 .fend{flex:1;min-width:0}
 .fend.r{text-align:right}
 .fcity{font-size:.82em;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ftime{font-weight:700;font-size:1.02em;font-variant-numeric:tabular-nums}
 .farrow{color:var(--accent);font-size:1.1em;flex:0 0 auto}
-.ffoot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:.8em;color:var(--sub)}
-.ffoot .price{font-weight:700;color:var(--warn)}
-.ffoot a.track{color:#0e6e8f;text-decoration:none;border:1px solid #bcd9e4;background:#eef7fa;border-radius:99px;padding:2px 9px}
 .pname{font-weight:600;margin:12px 0 2px}
 
 .day{border-left:4px solid var(--line);transition:background .3s}
@@ -103,14 +106,24 @@ footer a{color:var(--sub)}
 </head>
 <body>
 
-<img class="durbg" src="durian.png" alt="" aria-hidden="true">
+<div class="durfield" aria-hidden="true"></div>
 
-<div class="stickyHero">
-  <div class="wrap heroRow">
-    <h1>🇹🇭 曼谷之旅 <img class="dur" src="durian.png" alt="榴莲"></h1>
-    <select class="whoSel" id="who" aria-label="选择角色"></select>
+<div class="topbar">
+  <div class="tbInner">
+    <div class="tbTitle">🇹🇭 曼谷之旅 <img class="dur" src="durian.png" alt="榴莲"></div>
+    <div class="tbCtrl">
+      <div class="tabWrap">
+        <button class="tabToggle" id="tabToggle">🗓️ 日程 <span class="car">▾</span></button>
+        <div class="tabMenu" id="tabMenu" hidden>
+          <button data-tab="plan" class="active">🗓️ 日程</button>
+          <button data-tab="jz">✈️ 机酒</button>
+        </div>
+      </div>
+      <select class="whoSel" id="who" aria-label="选择角色"></select>
+    </div>
   </div>
 </div>
+
 <div class="heroSub">
   <img class="heroDur" src="durian.png" alt="" aria-hidden="true">
   <div class="wrap">
@@ -121,23 +134,17 @@ footer a{color:var(--sub)}
 
 <div class="wrap">
 
-  <!-- 下拉式 Tab -->
-  <div class="tabWrap">
-    <button class="tabToggle" id="tabToggle">🗓️ 日程 <span class="car">▾</span></button>
-    <div class="tabMenu" id="tabMenu" hidden>
-      <button data-tab="plan" class="active">🗓️ 日程</button>
-      <button data-tab="jz">✈️ 机酒</button>
-    </div>
-  </div>
-
   <!-- ============ 日程 ============ -->
   <section id="panePlan">
 
-    <!-- 此刻关注（精简天气一行，只显示接下来 2 项；详细天气见下方"实用提醒"） -->
+    <!-- 此刻关注：下一件事 + 大倒计时；底部 下下件事 / 天气 -->
     <div class="card now">
-      <h2>📍 此刻关注</h2>
-      <div class="wxline">🌤 27–33°C · 雨季记得带伞</div>
-      <div id="nowEvents"></div>
+      <div class="nowHd">📍 此刻关注</div>
+      <div class="nowNext"><span class="nl" id="nowNextLabel">—</span><span class="ncd" id="nowCd"></span></div>
+      <div class="nowRow">
+        <div class="nowAfter" id="nowAfter"></div>
+        <div class="nowWx">🌤 27–33°C · 雨季带伞</div>
+      </div>
     </div>
 
     <!-- 逐日行程 + 动态插入的地图卡 + 末尾"全部行程"（脚本渲染） -->
@@ -176,7 +183,7 @@ footer a{color:var(--sub)}
     <div class="card">
       <h2>✈️ 航班 <button class="tzbtn" id="tzbtn">🕐 北京时间</button></h2>
       <div id="flightBox"></div>
-      <div class="note">默认 <b>北京时间</b>，点按钮切 <b>泰国时间</b>（泰国比北京慢 1 小时）。切角色看自己的，"总览"看全部人。价格：潘骁腾已确认，其余待补充；"实时"链接跳转飞常准查询该航班号当前动态。</div>
+      <div class="note">默认 <b>北京时间</b>，点按钮切 <b>泰国时间</b>（泰国比北京慢 1 小时）。切角色看自己的，"总览"看全部人。价格：唐娅妮待补充；"实时"链接跳转飞常准查询该航班号当前动态。</div>
     </div>
     <div class="card">
       <h2>🏨 酒店（已确认）</h2>
@@ -208,7 +215,8 @@ function todayKey(){ var d=new Date(); return d.getFullYear()+"-"+pad(d.getMonth
 /* ====== 下拉 Tab ====== */
 var tabToggle = document.getElementById("tabToggle");
 var tabMenu = document.getElementById("tabMenu");
-tabToggle.addEventListener("click", function(){
+tabToggle.addEventListener("click", function(e){
+  e.stopPropagation();
   var open = tabMenu.hidden;
   tabMenu.hidden = !open;
   tabToggle.classList.toggle("open", open);
@@ -246,16 +254,17 @@ document.getElementById("tzbtn").addEventListener("click", function(){
 });
 
 function fcard(kind, leg, mine){
-  if(!leg) return '<div class="fcard"><div class="fhead"><span class="no">'+kind+'</span></div><div class="fmeta">航班待补充</div></div>';
+  if(!leg) return '<div class="fcard"><div class="fkind">'+kind+'</div><div class="fmeta">航班待补充</div></div>';
   return '<div class="fcard'+(mine?' mine':'')+'">'+
-    '<div class="fhead"><span class="no">'+kind+' · '+leg.no+' '+leg.air+'</span><span class="fdur">✈ 飞行 '+leg.dur+'</span></div>'+
-    '<div class="fmeta">'+leg.meta+'</div>'+
+    '<div class="fkind">'+kind+'<span class="fdur">✈ 飞行 '+leg.dur+'</span></div>'+
+    '<div class="frow2"><span class="no">'+leg.air+' '+leg.no+'</span>'+
+      '<a class="track" target="_blank" rel="noopener" href="'+trackLink(leg.no)+'">📡 实时查询</a></div>'+
+    '<div class="fmeta">'+leg.meta+' · '+leg.price+'</div>'+
     '<div class="froute">'+
       '<div class="fend"><div class="fcity">'+leg.depCity+'</div><div class="ftime" data-bj="'+leg.depBJ+'" data-th="'+leg.depTH+'">'+leg.depBJ+'</div></div>'+
       '<div class="farrow">→</div>'+
       '<div class="fend r"><div class="fcity">'+leg.arrCity+'</div><div class="ftime" data-bj="'+leg.arrBJ+'" data-th="'+leg.arrTH+'">'+leg.arrBJ+'</div></div>'+
     '</div>'+
-    '<div class="ffoot"><span class="price">💰 '+leg.price+'</span><a class="track" target="_blank" rel="noopener" href="'+trackLink(leg.no)+'">📡 实时查询</a></div>'+
     '</div>';
 }
 function renderFlights(){
@@ -281,7 +290,7 @@ function mapCardHTML(loc, title){
     '<ul class="tips" style="margin-top:8px">'+list+'</ul></details></div>';
 }
 function allTripLinkHTML(){
-  return '<a href="itinerary.html" class="card allLink"><h2 style="margin-bottom:2px">📋 全部行程</h2><div class="note">点开查看完整行程与进度 →</div></a>';
+  return '<a href="itinerary.html" class="card allLink"><h2 style="margin-bottom:2px">📋 全部行程</h2><div class="note">点开查看完整行程，当前时段自动高亮 →</div></a>';
 }
 
 /* ====== 逐日行程渲染（只显示未完成的；地图按今天插入；末尾"全部行程"） ====== */
@@ -300,7 +309,8 @@ function renderSchedule(){
       var itemsHtml = future.map(function(it){
         return '<div class="item"><div class="t">'+it.t+'</div><div class="b">'+it.b+(it.n?'<div class="n">'+it.n+'</div>':'')+'</div></div>';
       }).join("");
-      html += '<div class="card day" data-date="'+day.date+'"><h2>'+day.title+'</h2>'+itemsHtml+'</div>';
+      var todayCls = (day.date===key) ? ' today' : '';
+      html += '<div class="card day'+todayCls+'" data-date="'+day.date+'"><h2>'+day.title+'</h2>'+itemsHtml+'</div>';
     }
     if (beforeTrip && idx===0){
       html += mapCardHTML([], "出发前 · 曼谷全览");
@@ -316,19 +326,22 @@ function renderSchedule(){
   document.getElementById("dayCards").innerHTML = html;
 }
 
-/* ====== 此刻关注：天气已在静态区域，这里只渲染接下来 2 件事 ====== */
+/* ====== 此刻关注：下一件事 + 大倒计时；下下件事 + 天气 ====== */
 function renderNow(){
-  var evs = buildUpcoming(whoSel.value).slice(0,2);
-  var box = document.getElementById("nowEvents");
-  if (!evs.length){
-    var now = Date.now();
-    var msg = (now > new Date(TRIP_END).getTime()) ? "旅途结束，欢迎回家 🏠" : "当前没有更多日程安排";
-    box.innerHTML = '<div class="empty">'+msg+'</div>';
-    return;
+  var evs = buildUpcoming(whoSel.value);
+  var next = evs[0], after = evs[1];
+  var labEl = document.getElementById("nowNextLabel");
+  var cdEl = document.getElementById("nowCd");
+  var afEl = document.getElementById("nowAfter");
+  if (next){
+    labEl.textContent = next.label;
+    cdEl.textContent = cdText(new Date(next.t).getTime()-Date.now());
+  } else {
+    var ended = Date.now() > new Date(TRIP_END).getTime();
+    labEl.textContent = ended ? "旅途结束，欢迎回家 🏠" : "暂无更多安排";
+    cdEl.textContent = "";
   }
-  box.innerHTML = evs.map(function(e){
-    return '<div class="evrow"><span class="lb">'+e.label+'</span><span class="rel">'+relText(new Date(e.t).getTime()-Date.now())+'</span></div>';
-  }).join("");
+  afEl.textContent = after ? "下一步："+after.label : "";
 }
 
 function renderAll(){
@@ -339,7 +352,7 @@ function renderAll(){
 }
 whoSel.addEventListener("change", function(){ localStorage.setItem("who", whoSel.value); renderAll(); });
 renderAll();
-setInterval(renderNow, 1000);       // 相对时间文案每秒更新
+setInterval(renderNow, 1000);       // 倒计时每秒更新
 setInterval(renderSchedule, 60000); // 每分钟刷新一次"未完成行程"列表
 
 /* ====== 设备编号（不展示访问历史） ====== */
