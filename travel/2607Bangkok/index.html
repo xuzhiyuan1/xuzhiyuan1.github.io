@@ -20,8 +20,10 @@ body{margin:0;background:var(--bg);color:var(--ink);
 .topbar{position:sticky;top:0;z-index:50;background:#0b3d5c;color:#fff;box-shadow:0 2px 12px rgba(9,30,46,.28)}
 .tbInner{max-width:640px;margin:0 auto;padding:9px 12px;display:flex;align-items:center;gap:7px}
 .tbTitle{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:5px;font-size:1.06em;font-weight:800;letter-spacing:.5px;white-space:nowrap;overflow:hidden}
-.whoSel{flex:0 0 auto;height:34px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:0 7px;font-size:.82em;max-width:88px}
+.selWrap{flex:0 0 auto;position:relative;display:inline-flex;align-items:center}
+.whoSel{appearance:none;-webkit-appearance:none;height:34px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:0 28px 0 11px;font-size:.84em;font-weight:600;cursor:pointer;max-width:120px}
 .whoSel option{color:#1c2b33}
+.selCar{position:absolute;right:10px;pointer-events:none;color:#fff;opacity:.85;font-size:.84em}
 
 .tabWrap{flex:0 0 auto;position:relative}
 .tabToggle{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;
@@ -48,22 +50,18 @@ body{margin:0;background:var(--bg);color:var(--ink);
 .wrap{max-width:640px;margin:0 auto;padding:0 14px;position:relative;z-index:1}
 
 /* 所有卡片统一阴影 + 半透明（透出背景榴莲） */
-.card{background:rgba(255,255,255,.70);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border-radius:16px;border-left:4px solid var(--accent);padding:16px;margin-top:14px;box-shadow:var(--shadow)}
+.card{background:rgba(255,255,255,.70);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border-radius:16px;border-left:3px solid #c2ccd3;padding:16px;margin-top:14px;box-shadow:var(--shadow)}
 .card h2{margin:0 0 10px;font-size:1.02em;color:var(--brand);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 
-/* 「此刻关注」：顶部下一件事+大倒计时，底部左=下下件事 右=天气 */
+/* 「此刻关注」：标题 / 倒计时 / 说明 / 完整下一个日程 / Next */
 .now{background:linear-gradient(135deg,rgba(14,143,143,.85),rgba(14,110,143,.85));color:#fff;padding:16px}
-.now .nowHd{font-size:.95em;font-weight:600;opacity:.95;letter-spacing:.5px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.now .nowHd .tzn{font-size:.72em;opacity:.78;font-weight:400;white-space:nowrap}
-.now .nowNext{font-size:1.06em;font-weight:700;margin-top:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.now .nowCd{font-size:1.85em;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:1px;margin-top:3px;line-height:1.1}
-.now .nowRow{display:flex;justify-content:space-between;gap:12px;margin-top:12px;padding-top:9px;border-top:1px solid rgba(255,255,255,.24);font-size:.84em;opacity:.96}
+.now .nowHd{font-size:.98em;font-weight:600;opacity:.96;letter-spacing:.5px}
+.now .nowCd{font-size:2.15em;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:1px;margin-top:9px;line-height:1.05}
+.now .nowCap{font-size:.74em;opacity:.82;margin-top:4px}
+.now .nowFull{font-size:.98em;font-weight:400;margin-top:10px;line-height:1.35}
+.now .nowRow{display:flex;justify-content:space-between;gap:12px;margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.24);font-size:.84em;opacity:.96}
 .now .nowRow .nowAfter{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .now .nowRow .nowWx{flex:0 0 auto;white-space:nowrap}
-/* 倒计时 A（第一版风格：白底卡 + 青色数字） */
-.nowA .bigA{font-size:1.05em;font-weight:600;margin:2px 0 4px;color:var(--ink)}
-.nowA .cdA{font-variant-numeric:tabular-nums;font-size:1.75em;font-weight:800;color:var(--accent);letter-spacing:1px;line-height:1.1}
-.nowA .subA{color:var(--sub);font-size:.8em;margin-top:5px}
 
 .tzbtn{margin-left:auto;font-size:.76em;border:1px solid #bcd9e4;background:#eef7fa;color:#0e6e8f;border-radius:99px;padding:3px 10px;cursor:pointer}
 .fcard{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:0}
@@ -119,7 +117,10 @@ footer a{color:var(--sub)}
         <button data-tab="jz">机酒</button>
       </div>
     </div>
-    <select class="whoSel" id="who" aria-label="选择角色"></select>
+    <div class="selWrap">
+      <select class="whoSel" id="who" aria-label="选择角色"></select>
+      <span class="selCar">▾</span>
+    </div>
   </div>
 </div>
 
@@ -136,19 +137,12 @@ footer a{color:var(--sub)}
   <!-- ============ 日程 ============ -->
   <section id="panePlan">
 
-    <!-- 倒计时 A（第一版，供对比） -->
-    <div class="card nowA">
-      <h2>📍 此刻关注 · A（第一版）</h2>
-      <div class="bigA" id="aLabel">加载中…</div>
-      <div class="cdA" id="aCd"></div>
-      <div class="subA" id="aSub">倒计时（按本机时间；泰国=中国−1h）</div>
-    </div>
-
-    <!-- 倒计时 B（当前版本）：下一件事 + 大倒计时；底部 下下件事 / 天气 -->
+    <!-- 此刻关注：标题 / 倒计时 / 说明 / 完整下一个日程 / Next -->
     <div class="card now">
-      <div class="nowHd"><span>📍 此刻关注 · B（当前）</span><span class="tzn">按本机时间</span></div>
-      <div class="nowNext" id="nowNextLabel">—</div>
+      <div class="nowHd">📍 此刻关注 · 下一个日程</div>
       <div class="nowCd" id="nowCd"></div>
+      <div class="nowCap">倒计时（按本机时间，泰国=中国−1小时）</div>
+      <div class="nowFull" id="nowNextLabel">—</div>
       <div class="nowRow">
         <div class="nowAfter" id="nowAfter"></div>
         <div class="nowWx">🌤 27–33°C</div>
@@ -343,39 +337,25 @@ function renderNow(){
   var cdEl = document.getElementById("nowCd");
   var afEl = document.getElementById("nowAfter");
   if (next){
-    labEl.textContent = clip(next.label);
+    labEl.textContent = next.label;
     cdEl.textContent = cdText(new Date(next.t).getTime()-Date.now());
   } else {
     var ended = Date.now() > new Date(TRIP_END).getTime();
     labEl.textContent = ended ? "旅途结束，欢迎回家 🏠" : "暂无更多安排";
     cdEl.textContent = "";
   }
-  afEl.textContent = after ? "下一步："+clip(after.label) : "";
+  afEl.textContent = after ? "Next："+clip(after.label) : "";
 }
 
-function renderNowA(){
-  var evs = buildUpcoming(whoSel.value);
-  var next = evs[0];
-  var L = document.getElementById("aLabel"), C = document.getElementById("aCd");
-  if(!next){
-    var ended = Date.now() > new Date(TRIP_END).getTime();
-    L.textContent = ended ? "旅途结束，欢迎回家 🏠" : "在回家的路上 ✈️"; C.textContent = ""; return;
-  }
-  L.textContent = "下一件事：" + next.label;
-  var d = Math.floor((new Date(next.t).getTime()-Date.now())/1000);
-  var days = Math.floor(d/86400); d %= 86400;
-  C.textContent = (days ? days+"天 " : "") + pad(Math.floor(d/3600))+":"+pad(Math.floor(d%3600/60))+":"+pad(d%60);
-}
 function renderAll(){
   document.getElementById("defRole").textContent = whoSel.value;
   renderFlights();
   renderSchedule();
   renderNow();
-  renderNowA();
 }
 whoSel.addEventListener("change", function(){ localStorage.setItem("who", whoSel.value); renderAll(); });
 renderAll();
-setInterval(function(){ renderNow(); renderNowA(); }, 1000);       // 倒计时每秒更新
+setInterval(renderNow, 1000);       // 倒计时每秒更新
 setInterval(renderSchedule, 60000); // 每分钟刷新一次"未完成行程"列表
 
 /* ====== 设备编号（不展示访问历史） ====== */
