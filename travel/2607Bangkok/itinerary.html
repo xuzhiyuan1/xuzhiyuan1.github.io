@@ -13,12 +13,12 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Bl
 .back{color:#fff;opacity:.85;text-decoration:none;font-size:.88em}
 .hero h1{margin:8px 0 4px;font-size:1.3em;font-weight:800;display:flex;align-items:center;gap:6px}
 .dur{width:1.1em;height:1.1em;vertical-align:-.18em}
-.durfield{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url(durian.png);background-repeat:repeat;background-size:82px auto;opacity:.14}
+.durbg{position:fixed;right:-28px;bottom:-22px;width:min(56vw,300px);height:auto;opacity:.4;z-index:0;pointer-events:none;transform:rotate(8deg)}
 .wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:0 14px}
 .legend{margin-top:14px;font-size:.8em;color:var(--sub);display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .legend .lg{display:inline-flex;align-items:center;gap:5px}
 .legend .sw{width:12px;height:12px;border-radius:4px;display:inline-block}
-.card{background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border-radius:16px;padding:16px;margin-top:14px;box-shadow:var(--shadow)}
+.card{background:rgba(255,255,255,.80);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border-radius:16px;padding:16px;margin-top:14px;box-shadow:var(--shadow)}
 .card.today{outline:2px solid #f59e0b}
 .card h2{margin:0 0 10px;font-size:1.02em;color:var(--brand);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .card h2 .tag{font-size:.68em;color:#b45309;background:#fde68a;padding:2px 8px;border-radius:99px;margin-left:2px}
@@ -48,7 +48,7 @@ footer a{color:var(--sub)}
 </style>
 </head>
 <body>
-<div class="durfield" aria-hidden="true"></div>
+<img class="durbg" src="durian.png" alt="" aria-hidden="true">
 <div class="hero">
   <div class="wrap">
     <a class="back" href="index.html">← 返回日程</a>

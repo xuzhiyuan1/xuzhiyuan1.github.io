@@ -18,17 +18,15 @@ body{margin:0;background:var(--bg);color:var(--ink);
 
 /* 顶部固定条：标题 + （日程/机酒 · 角色）同处 */
 .topbar{position:sticky;top:0;z-index:50;background:#0b3d5c;color:#fff;box-shadow:0 2px 12px rgba(9,30,46,.28)}
-.tbInner{max-width:640px;margin:0 auto;padding:10px 14px 11px}
-.tbTitle{display:flex;align-items:center;gap:7px;font-size:1.28em;font-weight:800;letter-spacing:1px}
-.tbCtrl{display:flex;align-items:center;gap:8px;margin-top:9px}
-.tbCtrl .tabWrap{flex:1 1 auto;min-width:0}
-.whoSel{flex:0 0 auto;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:8px 10px;font-size:.9em;max-width:118px}
+.tbInner{max-width:640px;margin:0 auto;padding:9px 12px;display:flex;align-items:center;gap:7px}
+.tbTitle{flex:0 0 auto;display:flex;align-items:center;gap:5px;font-size:1.04em;font-weight:800;letter-spacing:.5px;white-space:nowrap}
+.whoSel{flex:0 0 auto;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:7px 7px;font-size:.82em;max-width:88px}
 .whoSel option{color:#1c2b33}
 
-.tabWrap{position:relative}
+.tabWrap{flex:1 1 auto;min-width:0;position:relative}
 .tabToggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:6px;
-  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:8px 12px;
-  font-size:.9em;font-weight:600;color:#fff;cursor:pointer}
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:7px 10px;
+  font-size:.85em;font-weight:600;color:#fff;cursor:pointer;white-space:nowrap}
 .tabToggle .car{opacity:.85;transition:transform .2s}
 .tabToggle.open .car{transform:rotate(180deg)}
 .tabMenu{position:absolute;left:0;right:0;top:100%;margin-top:6px;background:#fff;border:1px solid var(--line);
@@ -46,32 +44,31 @@ body{margin:0;background:var(--bg);color:var(--ink);
 .heroDur{position:absolute;right:-24px;bottom:-30px;width:120px;height:auto;opacity:.28;transform:rotate(-10deg)}
 
 .dur{width:1.15em;height:1.15em;vertical-align:-.2em}
-.durfield{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url(durian.png);background-repeat:repeat;background-size:82px auto;opacity:.14}
+.durbg{position:fixed;right:-28px;bottom:-22px;width:min(56vw,300px);height:auto;opacity:.4;z-index:0;pointer-events:none;transform:rotate(8deg)}
 .wrap{max-width:640px;margin:0 auto;padding:0 14px;position:relative;z-index:1}
 
 /* 所有卡片统一阴影 + 半透明（透出背景榴莲） */
-.card{background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border-radius:16px;padding:16px;margin-top:14px;box-shadow:var(--shadow)}
+.card{background:rgba(255,255,255,.80);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border-radius:16px;padding:16px;margin-top:14px;box-shadow:var(--shadow)}
 .card h2{margin:0 0 10px;font-size:1.02em;color:var(--brand);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 
 /* 「此刻关注」：顶部下一件事+大倒计时，底部左=下下件事 右=天气 */
-.now{background:linear-gradient(135deg,rgba(14,143,143,.9),rgba(14,110,143,.9));color:#fff;padding:15px 16px}
-.now .nowHd{font-size:.82em;opacity:.9;margin-bottom:9px;letter-spacing:.5px;display:flex;align-items:center;gap:5px}
-.now .nowNext{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.now .nowNext .nl{font-size:1.04em;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.now .nowNext .ncd{font-size:1.08em;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto}
-.now .nowRow{display:flex;justify-content:space-between;gap:12px;margin-top:11px;padding-top:9px;border-top:1px solid rgba(255,255,255,.24);font-size:.84em;opacity:.96}
+.now{background:linear-gradient(135deg,rgba(14,143,143,.9),rgba(14,110,143,.9));color:#fff;padding:16px}
+.now .nowHd{font-size:.8em;opacity:.9;letter-spacing:.5px;display:flex;align-items:center;gap:5px}
+.now .nowNext{font-size:1.04em;font-weight:700;margin-top:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.now .nowCd{font-size:1.85em;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.5px;margin-top:3px;line-height:1.1}
+.now .nowRow{display:flex;justify-content:space-between;gap:12px;margin-top:12px;padding-top:9px;border-top:1px solid rgba(255,255,255,.24);font-size:.84em;opacity:.96}
 .now .nowRow .nowAfter{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .now .nowRow .nowWx{flex:0 0 auto;white-space:nowrap}
 
 .tzbtn{margin-left:auto;font-size:.76em;border:1px solid #bcd9e4;background:#eef7fa;color:#0e6e8f;border-radius:99px;padding:3px 10px;cursor:pointer}
-.fcard{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px}
+.fcard{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:0}
 .fcard.mine{border-color:#0e8f8f;background:#f2fbf9}
-.fkind{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-weight:700;font-size:1.0em}
-.fkind .fdur{font-size:.76em;color:var(--sub);font-weight:400;white-space:nowrap}
-.frow2{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:5px}
-.frow2 .no{font-weight:700;font-size:.98em;font-variant-numeric:tabular-nums}
-.frow2 a.track{font-size:.76em;color:#0e6e8f;text-decoration:none;border:1px solid #bcd9e4;background:#eef7fa;border-radius:99px;padding:2px 9px;white-space:nowrap;flex:0 0 auto}
-.fmeta{font-size:.76em;color:var(--sub);margin-top:3px}
+.flabel{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:14px 0 6px;font-weight:700;font-size:.95em;color:var(--brand)}
+.flabel .fdur{font-size:.76em;color:var(--sub);font-weight:400;white-space:nowrap}
+.frow2{display:flex;align-items:center;gap:10px}
+.frow2 .no{font-weight:700;font-size:1.0em;font-variant-numeric:tabular-nums}
+.frow2 a.track{font-size:.78em;color:#0e6e8f;text-decoration:none;border:1px solid #bcd9e4;background:#eef7fa;border-radius:99px;padding:2px 10px;white-space:nowrap;flex:0 0 auto}
+.fmeta{font-size:.76em;color:var(--sub);margin-top:4px}
 .froute{display:flex;align-items:center;gap:8px;margin-top:8px}
 .fend{flex:1;min-width:0}
 .fend.r{text-align:right}
@@ -106,21 +103,19 @@ footer a{color:var(--sub)}
 </head>
 <body>
 
-<div class="durfield" aria-hidden="true"></div>
+<img class="durbg" src="durian.png" alt="" aria-hidden="true">
 
 <div class="topbar">
   <div class="tbInner">
-    <div class="tbTitle">🇹🇭 曼谷之旅 <img class="dur" src="durian.png" alt="榴莲"></div>
-    <div class="tbCtrl">
-      <div class="tabWrap">
-        <button class="tabToggle" id="tabToggle">🗓️ 日程 <span class="car">▾</span></button>
-        <div class="tabMenu" id="tabMenu" hidden>
-          <button data-tab="plan" class="active">🗓️ 日程</button>
-          <button data-tab="jz">✈️ 机酒</button>
-        </div>
+    <div class="tbTitle">🇹🇭 曼谷之旅</div>
+    <div class="tabWrap">
+      <button class="tabToggle" id="tabToggle">🗓️ 日程 <span class="car">▾</span></button>
+      <div class="tabMenu" id="tabMenu" hidden>
+        <button data-tab="plan" class="active">🗓️ 日程</button>
+        <button data-tab="jz">✈️ 机酒</button>
       </div>
-      <select class="whoSel" id="who" aria-label="选择角色"></select>
     </div>
+    <select class="whoSel" id="who" aria-label="选择角色"></select>
   </div>
 </div>
 
@@ -139,11 +134,12 @@ footer a{color:var(--sub)}
 
     <!-- 此刻关注：下一件事 + 大倒计时；底部 下下件事 / 天气 -->
     <div class="card now">
-      <div class="nowHd">📍 此刻关注</div>
-      <div class="nowNext"><span class="nl" id="nowNextLabel">—</span><span class="ncd" id="nowCd"></span></div>
+      <div class="nowHd">📍 此刻关注 · 下一站</div>
+      <div class="nowNext" id="nowNextLabel">—</div>
+      <div class="nowCd" id="nowCd"></div>
       <div class="nowRow">
         <div class="nowAfter" id="nowAfter"></div>
-        <div class="nowWx">🌤 27–33°C · 雨季带伞</div>
+        <div class="nowWx">🌤 27–33°C</div>
       </div>
     </div>
 
@@ -254,11 +250,11 @@ document.getElementById("tzbtn").addEventListener("click", function(){
 });
 
 function fcard(kind, leg, mine){
-  if(!leg) return '<div class="fcard"><div class="fkind">'+kind+'</div><div class="fmeta">航班待补充</div></div>';
-  return '<div class="fcard'+(mine?' mine':'')+'">'+
-    '<div class="fkind">'+kind+'<span class="fdur">✈ 飞行 '+leg.dur+'</span></div>'+
+  var lab = '<div class="flabel">'+kind+(leg?'<span class="fdur">✈ 飞行 '+leg.dur+'</span>':'')+'</div>';
+  if(!leg) return lab+'<div class="fcard"><div class="fmeta">航班待补充</div></div>';
+  return lab+'<div class="fcard'+(mine?' mine':'')+'">'+
     '<div class="frow2"><span class="no">'+leg.air+' '+leg.no+'</span>'+
-      '<a class="track" target="_blank" rel="noopener" href="'+trackLink(leg.no)+'">📡 实时查询</a></div>'+
+      '<a class="track" target="_blank" rel="noopener" href="'+trackLink(leg.no)+'">实时查询</a></div>'+
     '<div class="fmeta">'+leg.meta+' · '+leg.price+'</div>'+
     '<div class="froute">'+
       '<div class="fend"><div class="fcity">'+leg.depCity+'</div><div class="ftime" data-bj="'+leg.depBJ+'" data-th="'+leg.depTH+'">'+leg.depBJ+'</div></div>'+
