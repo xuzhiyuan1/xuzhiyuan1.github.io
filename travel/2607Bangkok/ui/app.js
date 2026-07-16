@@ -1,15 +1,16 @@
 /* 曼谷之旅 · 全部逻辑（index.html 与 itinerary.html 共用）。
-   纯数据来自 data/site.json / trip.json / guide.json / users.json，
+   数据优先实时读后端（CONFIG.BACKEND_URL，秒级更新），后端不可达时兜底读本仓库
+   data/site.json / trip.json / guide.json / users.json（每天备份一次的静态副本）。
    本文件负责加载与渲染，等价复现原 data.js + 两页内联脚本的可见输出。 */
 (function(){
   "use strict";
 
   /* ============================================================
-     CONFIG（临时后端地址，将来正式上线后只需改这一行）
-     现在：Cloudflare 临时隧道；将来：https://trip.xuzhiyuan1.top
+     CONFIG（后端固定域名，走 Cloudflare Tunnel）
      ============================================================ */
   var CONFIG = {
-    BACKEND_URL: "https://trip.xuzhiyuan1.top" // TODO: 临时地址，将来换成 https://trip.xuzhiyuan1.top
+    BACKEND_URL: "https://trip.xuzhiyuan1.top",
+    BACKEND_TIMEOUT_MS: 5000 // 后端请求超时：超时/失败一律回退到仓库静态 JSON，保证不白屏
   };
 
   var DATA, SITE, GUIDE, USERS, ITINERARY, TRANSPORT, OVERVIEW, DUR;
@@ -90,8 +91,32 @@
     return '<li>' + runsHTML(item.runs) + (item.place ? mapA(item.place) : "") + '</li>';
   }
 
-  /* ---------- 数据加载（每次都带时间戳防缓存，保证轮询能拿到最新数据） ---------- */
-  function load(){
+  /* ---------- 数据加载：优先读后端实时接口，超时/失败兜底读仓库静态 JSON ---------- */
+
+  /* 带超时的 fetch：用 AbortController，超过 ms 毫秒直接判定失败（不无限等） */
+  function fetchWithTimeout(url, ms, opts){
+    var ctrl = ("AbortController" in window) ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function(){ ctrl.abort(); }, ms) : null;
+    var o = opts || {};
+    if (ctrl) o.signal = ctrl.signal;
+    return fetch(url, o).then(function(r){ clearTimeout(timer); return r; }, function(err){ clearTimeout(timer); throw err; });
+  }
+
+  /* 主路径：GET {BACKEND_URL}/data 一次性返回整个 bundle {site,trip,guide,users} */
+  function loadFromBackend(){
+    return fetchWithTimeout(CONFIG.BACKEND_URL + "/data", CONFIG.BACKEND_TIMEOUT_MS).then(function(r){
+      if (!r.ok) throw new Error("后端 /data HTTP " + r.status);
+      return r.json();
+    }).then(function(bundle){
+      if (!bundle || !bundle.site || !bundle.trip || !bundle.guide || !bundle.users){
+        throw new Error("后端 /data 返回结构不完整");
+      }
+      return bundle;
+    });
+  }
+
+  /* 兜底路径：分别 fetch 本仓库 data/*.json（带时间戳防缓存），拼成同样结构的 bundle */
+  function loadFromRepo(){
     var qs = "?t=" + Date.now();
     return Promise.all([
       fetch("data/site.json" + qs).then(function(r){ return r.json(); }),
@@ -99,7 +124,16 @@
       fetch("data/guide.json" + qs).then(function(r){ return r.json(); }),
       fetch("data/users.json" + qs).then(function(r){ return r.json(); })
     ]).then(function(res){
-      DATA = { site: res[0], trip: res[1], guide: res[2], users: res[3] };
+      return { site: res[0], trip: res[1], guide: res[2], users: res[3] };
+    });
+  }
+
+  function load(){
+    return loadFromBackend().catch(function(err){
+      console.warn("后端 /data 不可达，回退到仓库静态 JSON（最近一次备份）：", err);
+      return loadFromRepo();
+    }).then(function(bundle){
+      DATA = bundle;
       SITE = DATA.site; GUIDE = DATA.guide; USERS = DATA.users;
       ITINERARY = DATA.trip.itinerary; TRANSPORT = DATA.trip.transport;
       OVERVIEW = USERS.overviewLabel;
@@ -118,17 +152,32 @@
     setInterval(refreshData, 30000);
   }
 
-  /* ---------- 修改记录：data/history.json（同仓库相对路径，带时间戳防缓存；可能 404/为空）
+  /* ---------- 修改记录：优先读后端 {BACKEND_URL}/history（实时），超时/失败兜底读仓库
+     data/history.json（同仓库相对路径，带时间戳防缓存；可能 404/为空）。
      供"小王子·修改记录"面板 与 "下拉刷新指示条"（显示最新改动时间）共用，避免重复实现 ---------- */
-  function loadHistory(){
+  function loadHistoryFromRepo(){
     return fetch("data/history.json?t=" + Date.now()).then(function(r){
       if (!r.ok) return [];
       return r.json().catch(function(){ return []; });
     }).then(function(data){
       var arr = Array.isArray(data) ? data : ((data && (data.items || data.history || data.records)) || []);
       if (!Array.isArray(arr)) arr = [];
-      return arr.slice().reverse(); // 最新的在前
+      return arr;
     }).catch(function(){ return []; });
+  }
+  function loadHistory(){
+    return fetchWithTimeout(CONFIG.BACKEND_URL + "/history", CONFIG.BACKEND_TIMEOUT_MS).then(function(r){
+      if (!r.ok) throw new Error("后端 /history HTTP " + r.status);
+      return r.json();
+    }).then(function(data){
+      if (!data || !Array.isArray(data.history)) throw new Error("后端 /history 返回结构不对");
+      return data.history;
+    }).catch(function(err){
+      console.warn("后端 /history 不可达，回退到仓库 data/history.json（最近一次备份）：", err);
+      return loadHistoryFromRepo();
+    }).then(function(arr){
+      return arr.slice().reverse(); // 最新的在前
+    });
   }
 
   /* ============================================================
