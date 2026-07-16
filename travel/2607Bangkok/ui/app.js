@@ -421,6 +421,8 @@
     var bubbleHideTimer = null;
     var bubbleTimer = null;
     var msgIdx = 0;
+    var pollTimer = null;   // 对话区轮询定时器：仅对话框开着时存在，关闭对话框即清掉
+    var pollAuthor = null;  // 当前轮询对应的角色，防止切换角色/关闭后旧轮询结果串进新对话区
 
     function randBetween(a, b){ return a + Math.random() * (b - a); }
 
@@ -473,6 +475,7 @@
           '<div class="princeHd">👑 小王子</div>' +
           '<select class="princeRoleSel" id="princeRoleSel" aria-label="选择角色"></select>' +
           '<div class="princeSub">告诉我你想怎么改行程/攻略，我来帮你改～</div>' +
+          '<div class="princeChat" id="princeChat" hidden></div>' +
           '<textarea class="princeTextarea" id="princeText" rows="4" placeholder="想改什么？例：把8月1日大皇宫改到11点"></textarea>' +
           '<button type="button" class="princeSubmit" id="princeSubmit">提交给小王子</button>' +
           '<div class="princeStatus" id="princeStatus"></div>' +
@@ -511,6 +514,7 @@
         } else {
           localStorage.setItem("who", roleSel.value);
         }
+        loadChatForRole(roleSel.value);
       });
 
       submitBtn.addEventListener("click", function(){
@@ -529,25 +533,29 @@
         }
         submitBtn.disabled = true;
         statusEl.className = "princeStatus loading";
-        statusEl.textContent = "小王子正在改…（约30~60秒，请不要关闭页面）";
+        statusEl.textContent = "发送中…";
+        /* 发完就走：POST /edit 立即返回（几十毫秒），拿到成功响应就算发送成功，
+           不等后台真正改完。马上把这轮对话（用户说的话 + "正在改…"）画进对话区，
+           清空输入框，然后转入轮询等结果，全程不阻塞、可以直接关页面。 */
         postEdit(author, text).then(function(res){
           submitBtn.disabled = false;
           if (res.ok && res.data && res.data.ok){
             statusEl.className = "princeStatus ok";
-            statusEl.textContent = "改好啦！约1分钟后大家刷新就能看到 ✨";
+            statusEl.textContent = "已发送，小王子在后台改，可以关掉页面啦～";
+            renderChatArea({ text: text, reply: "", status: "处理中", at: new Date().toISOString() });
             textEl.value = "";
             localStorage.removeItem(DRAFT_KEY);
-            refreshData();
+            startPoll(author);
           } else {
             var errMsg = (res.data && res.data.error) ? res.data.error : ("提交失败（状态码 " + res.status + "）");
             statusEl.className = "princeStatus err";
-            statusEl.textContent = "没改成功：" + errMsg;
+            statusEl.textContent = "没发送成功：" + errMsg;
           }
         }).catch(function(err){
           submitBtn.disabled = false;
           statusEl.className = "princeStatus err";
           if (err && err.name === "AbortError"){
-            statusEl.textContent = "小王子改太久超时了，等会儿再试试，或者去看看是不是已经改好啦～";
+            statusEl.textContent = "发送超时了，检查一下网络再试试～";
           } else {
             statusEl.textContent = "网络好像断了，检查一下再试试～";
           }
@@ -616,12 +624,17 @@
         window.visualViewport.addEventListener("scroll", vvSyncHandler);
       }
       requestAnimationFrame(function(){ overlayEl.classList.add("show"); });
+      /* 每次打开都拉一下"当前角色最后一次对话"填进对话区：关掉再打开、或切到别的角色都能看到
+         各自最新的一轮（发的话 + 小王子回复/进度），不依赖前端是否还留着轮询 */
+      var roleSel = overlayEl.querySelector("#princeRoleSel");
+      loadChatForRole(roleSel ? roleSel.value : "");
     }
     function closeModal(){
       if (!overlayEl) return;
       overlayEl.classList.remove("show");
       modalOpen = false;
       fab.classList.remove("princeFabActive");
+      stopPoll(); // 对话框关了就不再轮询，省流量；下次打开 loadChatForRole 会重新拉最新状态
       if (window.visualViewport && vvSyncHandler){
         window.visualViewport.removeEventListener("resize", vvSyncHandler);
         window.visualViewport.removeEventListener("scroll", vvSyncHandler);
@@ -635,23 +648,102 @@
       }, 200);
     }
 
-    /* ===== 提交修改：POST {BACKEND_URL}/edit（后端调 DeepSeek 改数据+push，可能耗时 30~60s，超时设 120s） ===== */
+    /* ===== 提交修改：POST {BACKEND_URL}/edit —— 后端立即返回（几十毫秒）{ok:true,status:"处理中"}，
+       真正的改动在后端异步跑，前端不必等，拿到这个响应就算"发送成功" ===== */
     function postEdit(author, text){
-      var ctrl = ("AbortController" in window) ? new AbortController() : null;
-      var timer = ctrl ? setTimeout(function(){ ctrl.abort(); }, 120000) : null;
-      return fetch(CONFIG.BACKEND_URL + "/edit", {
+      return fetchWithTimeout(CONFIG.BACKEND_URL + "/edit", CONFIG.BACKEND_TIMEOUT_MS, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ author: author, text: text }),
-        signal: ctrl ? ctrl.signal : undefined
+        body: JSON.stringify({ author: author, text: text })
       }).then(function(r){
-        clearTimeout(timer);
         return r.json().catch(function(){ return {}; }).then(function(data){
           return { status: r.status, ok: r.ok, data: data };
         });
-      }, function(err){
-        clearTimeout(timer);
-        throw err;
+      });
+    }
+
+    /* ===== 对话区：GET {BACKEND_URL}/exchange?author=<角色> 拿该角色最后一次对话
+       { text, reply, status, at }，status ∈ 处理中/完成/失败；无记录时返回 {} ===== */
+    function fetchExchange(author){
+      return fetchWithTimeout(CONFIG.BACKEND_URL + "/exchange?author=" + encodeURIComponent(author), CONFIG.BACKEND_TIMEOUT_MS)
+        .then(function(r){
+          if (!r.ok) throw new Error("后端 /exchange HTTP " + r.status);
+          return r.json();
+        });
+    }
+
+    /* 把一轮对话（ex = {text, reply, status, at}）画进对话区：用户气泡靠右，小王子气泡靠左；
+       处理中＝"正在改…"+小圆点动画，完成＝显示 reply，失败＝显示 reply（错误说明）+ 醒目配色 */
+    function renderChatArea(ex){
+      if (!overlayEl) return;
+      var chatEl = overlayEl.querySelector("#princeChat");
+      if (!chatEl) return;
+      if (!ex || !ex.text){
+        chatEl.hidden = false;
+        chatEl.innerHTML = '<div class="princeChatEmpty">还没有对话记录，写点什么发给小王子试试吧～</div>';
+        return;
+      }
+      var status = ex.status || "完成";
+      var princeCls = "princeChatBubble prince";
+      var princeContent;
+      if (status === "处理中"){
+        princeCls += " loading";
+        princeContent = '小王子正在改<span class="princeDots"><span></span><span></span><span></span></span>';
+      } else if (status === "失败"){
+        princeCls += " err";
+        princeContent = escapeHtml(ex.reply || "没改成功，要不再试一次？");
+      } else {
+        princeContent = escapeHtml(ex.reply || "");
+      }
+      var timeLabel = "";
+      if (ex.at){ var d = new Date(ex.at); if (!isNaN(d.getTime())) timeLabel = fmtBJ(d); }
+      chatEl.hidden = false;
+      chatEl.innerHTML =
+        '<div class="princeChatBubble user">' + escapeHtml(ex.text) + '</div>' +
+        '<div class="' + princeCls + '">' + princeContent + '</div>' +
+        (timeLabel ? '<div class="princeChatTime">' + timeLabel + '</div>' : '');
+    }
+
+    /* 轮询管理：仅对话框开着时才跑（closeModal 会 stopPoll），每 3 秒查一次，
+       状态变"完成"/"失败"就把气泡更新到位并停止；"完成"顺便 refreshData() 让页面数据跟着刷新 */
+    function stopPoll(){
+      if (pollTimer){ clearInterval(pollTimer); pollTimer = null; }
+      pollAuthor = null;
+    }
+    function startPoll(author){
+      stopPoll();
+      pollAuthor = author;
+      pollTimer = setInterval(function(){
+        fetchExchange(author).then(function(ex){
+          if (pollAuthor !== author) return; // 期间已切换角色/关闭对话框，丢弃这次结果
+          renderChatArea(ex);
+          if (ex && (ex.status === "完成" || ex.status === "失败")){
+            stopPoll();
+            if (ex.status === "完成") refreshData();
+          }
+        }).catch(function(){ /* 单次轮询失败静默忽略，下一轮再试，不打断用户 */ });
+      }, 3000);
+    }
+
+    /* 打开对话框 / 切换角色下拉时调用：拉该角色最后一次对话填进对话区；
+       如果拉到的状态仍是"处理中"（比如提交后关了对话框、之后又打开），顺带恢复轮询 */
+    function loadChatForRole(author){
+      if (!overlayEl) return;
+      var chatEl = overlayEl.querySelector("#princeChat");
+      if (!chatEl) return;
+      if (!author || author === OVERVIEW){
+        stopPoll();
+        chatEl.hidden = true;
+        chatEl.innerHTML = "";
+        return;
+      }
+      stopPoll();
+      fetchExchange(author).then(function(ex){
+        renderChatArea(ex);
+        if (ex && ex.status === "处理中") startPoll(author);
+      }).catch(function(){
+        chatEl.hidden = false;
+        chatEl.innerHTML = '<div class="princeChatEmpty">对话记录加载失败，待会儿再看看～</div>';
       });
     }
 
