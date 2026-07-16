@@ -1,4 +1,4 @@
-const CACHE = "travel-bkk-v18";
+const CACHE = "travel-bkk-v19";
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll([
     "./",

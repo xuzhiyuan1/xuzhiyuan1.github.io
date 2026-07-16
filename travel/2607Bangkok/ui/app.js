@@ -9,7 +9,7 @@
      现在：Cloudflare 临时隧道；将来：https://trip.xuzhiyuan1.top
      ============================================================ */
   var CONFIG = {
-    BACKEND_URL: "https://ball-internal-configuring-paintings.trycloudflare.com" // TODO: 临时地址，将来换成 https://trip.xuzhiyuan1.top
+    BACKEND_URL: "https://trip.xuzhiyuan1.top" // TODO: 临时地址，将来换成 https://trip.xuzhiyuan1.top
   };
 
   var DATA, SITE, GUIDE, USERS, ITINERARY, TRANSPORT, OVERVIEW, DUR;
