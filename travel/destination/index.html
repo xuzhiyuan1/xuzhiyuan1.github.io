@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>目的地 · Destinations</title>
+    <meta name="description" content="记录我去过的地方,以及想要去的地方。" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a class="brand" href="https://xuzhiyuan1.github.io/">← Zhiyuan Xu</a>
+            <h1 class="site-title">目的地</h1>
+            <p class="site-subtitle">已经走过的地方 · 想要抵达的地方</p>
+        </div>
+    </header>
+
+    <nav class="filter-bar" aria-label="筛选">
+        <div class="container filter-row">
+            <div class="filter-group" role="tablist">
+                <button class="filter-btn is-active" data-filter="all" role="tab" aria-selected="true">全部</button>
+                <button class="filter-btn" data-filter="visited" role="tab" aria-selected="false">已去过</button>
+                <button class="filter-btn" data-filter="wishlist" role="tab" aria-selected="false">想去</button>
+            </div>
+            <div class="search-wrap">
+                <input id="search" type="search" placeholder="搜索城市或国家…" aria-label="搜索" />
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section id="visitedSection" class="section" aria-labelledby="visitedTitle">
+            <h2 id="visitedTitle" class="section-title">
+                <span class="dot dot-visited"></span>已去过
+                <span class="count" id="visitedCount">0</span>
+            </h2>
+            <div id="visitedGrid" class="grid" aria-live="polite"></div>
+            <p id="visitedEmpty" class="empty hidden">还没有记录,先去 <code>data.js</code> 添加一行吧。</p>
+        </section>
+
+        <section id="wishlistSection" class="section" aria-labelledby="wishlistTitle">
+            <h2 id="wishlistTitle" class="section-title">
+                <span class="dot dot-wishlist"></span>想去
+                <span class="count" id="wishlistCount">0</span>
+            </h2>
+            <div id="wishlistGrid" class="grid" aria-live="polite"></div>
+            <p id="wishlistEmpty" class="empty hidden">愿望清单暂时是空的。</p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>在 <code>data.js</code> 中编辑旅行清单。</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
