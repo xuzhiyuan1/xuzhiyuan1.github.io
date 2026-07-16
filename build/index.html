@@ -86,6 +86,75 @@
     min-height: 0;
   }
 
+  .dir-card {
+    background: var(--bg-elev);
+    border: 1.5px solid var(--accent);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    box-shadow: var(--shadow);
+    flex-shrink: 0;
+  }
+  .dir-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dir-input-row label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .dir-input-row input[type="text"] {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    padding: 7px 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .dir-input-row input[type="text"]:focus {
+    border-color: var(--accent);
+  }
+  .dir-hint {
+    font-size: 11px;
+    color: var(--text-dim);
+    padding: 6px 2px 0;
+    line-height: 1.5;
+  }
+
+  .dir-banner {
+    font-size: 13.5px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 10px;
+    padding: 9px 10px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+    background: var(--warn-bg);
+    color: var(--warn-text);
+    border: 1px solid var(--warn-border);
+  }
+  .dir-banner.active {
+    background: var(--accent);
+    color: var(--accent-text);
+    border: 1px solid var(--accent);
+  }
+
+  .auth-row {
+    font-size: 12px;
+    padding: 0 2px 8px;
+    flex-shrink: 0;
+    min-height: 1em;
+  }
+  .auth-row .auth-ok { color: var(--ok-text); }
+  .auth-row .auth-warn { color: var(--text-dim); }
+
   .pass-row {
     display: flex;
     align-items: center;
@@ -118,6 +187,10 @@
     color: var(--text-dim);
     padding: 0 2px 8px;
     flex-shrink: 0;
+  }
+  .dir-tag {
+    font-size: 10.5px;
+    opacity: 0.75;
   }
 
   .chat {
@@ -316,11 +389,23 @@
 </header>
 
 <div class="container">
-  <div class="pass-row">
+  <div class="dir-card">
+    <div class="dir-input-row">
+      <label for="dirInput">🏗️ 目标目录</label>
+      <input id="dirInput" type="text" placeholder="travel/2607Cangzhou" autocomplete="off" />
+    </div>
+    <div class="dir-hint">想为新旅行/新板块建页面,就填一个新目录名,例如 travel/2607Cangzhou;AI 只会在这个目录里开发。</div>
+  </div>
+
+  <div class="dir-banner" id="dirBanner">⚠️ 尚未设置目标目录,请先在上方填写</div>
+
+  <div class="auth-row" id="authRow"></div>
+
+  <div class="pass-row" id="passRow">
     <label for="passInput">口令</label>
     <input id="passInput" type="password" placeholder="输入口令" autocomplete="off" />
   </div>
-  <div class="pass-hint">口令只保存在你本地浏览器,不会被硬编码或上传到别处</div>
+  <div class="pass-hint" id="passHint">首次使用请输入口令注册本设备;口令只保存在你本地浏览器,不会被硬编码或上传到别处</div>
 
   <div class="chat" id="chat">
     <div class="empty-tip" id="emptyTip">还没有对话,说说你想怎么改网站吧 ~</div>
@@ -347,6 +432,9 @@
 
   var API_BASE = "https://build.xuzhiyuan1.top";
   var PASS_KEY = "buildRoom_pass";
+  var DIR_KEY = "buildRoom_dir";
+  var DEVICE_KEY = "deviceId"; // shared with travel/ pages (same-origin localStorage)
+  var WHO_KEY = "who";
   var MSGS_KEY = "buildRoom_msgs";
   var POST_TIMEOUT_MS = 10000;
   var POLL_INTERVAL_MS = 3500;
@@ -354,6 +442,11 @@
 
   var chatEl = document.getElementById("chat");
   var emptyTipEl = document.getElementById("emptyTip");
+  var dirInput = document.getElementById("dirInput");
+  var dirBanner = document.getElementById("dirBanner");
+  var authRow = document.getElementById("authRow");
+  var passRow = document.getElementById("passRow");
+  var passHint = document.getElementById("passHint");
   var passInput = document.getElementById("passInput");
   var msgInput = document.getElementById("msgInput");
   var sendBtn = document.getElementById("sendBtn");
@@ -363,6 +456,10 @@
   var imgPreviewThumb = document.getElementById("imgPreviewThumb");
   var imgPreviewName = document.getElementById("imgPreviewName");
   var imgRemoveBtn = document.getElementById("imgRemoveBtn");
+
+  // authState: "unknown" (not checked yet / network failure), "yes" (whitelisted/enrolled), "no" (confirmed not whitelisted)
+  var authState = "unknown";
+  var deviceLabel = "";
 
   var pendingImage = null; // { dataUrl, name }
   var pollTimers = {}; // taskId -> interval id
@@ -418,7 +515,7 @@
     var wrap = document.createElement("div");
     var who = document.createElement("div");
     who.className = "who";
-    who.textContent = "你";
+    who.textContent = m.dir ? ("你  ·  📁 " + m.dir) : "你";
     var bubble = document.createElement("div");
     bubble.className = "bubble";
     if (m.text) bubble.appendChild(document.createTextNode(m.text));
@@ -464,7 +561,7 @@
         note.style.marginTop = "6px";
         note.style.fontSize = "12.5px";
         note.style.opacity = "0.85";
-        note.textContent = "✅ 已改好,约1分钟后你的个人网站就更新了,刷新看看";
+        note.textContent = "✅ 已改好(目录 /" + (m.dir || "?") + "/),约1分钟后你的个人网站就更新了,刷新看看";
         bubble.appendChild(note);
       }
     } else if (m.status === "failed") {
@@ -487,6 +584,56 @@
     chatEl.scrollTop = chatEl.scrollHeight;
   }
 
+  // ---------- device id (shared with travel/ pages) ----------
+
+  function getDeviceId() {
+    try {
+      var id = localStorage.getItem(DEVICE_KEY);
+      if (!id) {
+        id = "D-" + Math.random().toString(36).slice(2, 8).toUpperCase();
+        localStorage.setItem(DEVICE_KEY, id);
+      }
+      return id;
+    } catch (e) {
+      return "D-UNKNOWN";
+    }
+  }
+  var deviceId = getDeviceId();
+
+  function getWho() {
+    try {
+      var w = localStorage.getItem(WHO_KEY);
+      return (w && typeof w === "string") ? w : "";
+    } catch (e) {
+      return "";
+    }
+  }
+
+  // ---------- target directory ----------
+
+  function updateDirBanner() {
+    var d = dirInput.value.trim();
+    if (d) {
+      dirBanner.textContent = "🏗️ 正在建设 /" + d + "/";
+      dirBanner.classList.add("active");
+    } else {
+      dirBanner.textContent = "⚠️ 尚未设置目标目录,请先在上方填写";
+      dirBanner.classList.remove("active");
+    }
+  }
+  function loadDir() {
+    try {
+      var d = localStorage.getItem(DIR_KEY);
+      if (d) dirInput.value = d;
+    } catch (e) { /* ignore */ }
+    updateDirBanner();
+  }
+  dirInput.addEventListener("input", function () {
+    try { localStorage.setItem(DIR_KEY, dirInput.value); } catch (e) { /* ignore */ }
+    updateDirBanner();
+  });
+  loadDir();
+
   // ---------- password ----------
 
   function loadPass() {
@@ -499,6 +646,39 @@
     try { localStorage.setItem(PASS_KEY, passInput.value); } catch (e) { /* ignore */ }
   });
   loadPass();
+
+  // ---------- device whitelist / authorization ----------
+
+  function setAuthorized(label) {
+    authState = "yes";
+    if (label) deviceLabel = label;
+    passRow.style.display = "none";
+    passHint.style.display = "none";
+    authRow.innerHTML = '<span class="auth-ok">✅ 本设备已授权' + (deviceLabel ? "(" + escapeHtml(deviceLabel) + ")" : "") + "</span>";
+  }
+
+  function setUnauthorized(msg) {
+    authState = "no";
+    passRow.style.display = "flex";
+    passHint.style.display = "block";
+    authRow.innerHTML = msg ? ('<span class="auth-warn">' + escapeHtml(msg) + "</span>") : "";
+  }
+
+  function checkDeviceAuth() {
+    fetch(API_BASE + "/device?device=" + encodeURIComponent(deviceId))
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.whitelisted) {
+          setAuthorized(data.label);
+        } else {
+          setUnauthorized("首次使用请输入口令注册本设备");
+        }
+      })
+      .catch(function () {
+        // network hiccup: leave authState as "unknown", don't force pass yet
+      });
+  }
+  checkDeviceAuth();
 
   // ---------- image picking ----------
 
@@ -554,12 +734,18 @@
   }
 
   function sendMessage() {
+    var dir = dirInput.value.trim();
     var pass = passInput.value.trim();
     var text = msgInput.value.trim();
     var image = pendingImage;
 
-    if (!pass) {
-      alert("先填一下口令");
+    if (!dir) {
+      alert("先填上要建设的目录,比如 travel/2607Cangzhou");
+      dirInput.focus();
+      return;
+    }
+    if (authState === "no" && !pass) {
+      alert("本设备未注册,先填一下口令");
       passInput.focus();
       return;
     }
@@ -572,6 +758,7 @@
     var msg = {
       id: localId,
       text: text,
+      dir: dir,
       imageThumb: image ? image.dataUrl : null,
       status: "pending",
       taskId: null,
@@ -596,7 +783,8 @@
 
     sendBtn.disabled = true;
 
-    var body = { pass: pass, text: text };
+    var body = { device: deviceId, label: getWho(), dir: dir, text: text };
+    if (authState !== "yes" && pass) body.pass = pass;
     if (image) body.image_b64 = image.dataUrl;
 
     var controller = ("AbortController" in window) ? new AbortController() : null;
@@ -621,10 +809,14 @@
         msg.status = "pending";
         saveMessages();
         updateAiRow(msg);
+        if (r.data.whitelisted || r.data.enrolled) {
+          setAuthorized(getWho());
+        }
         startPolling(msg);
       } else if (r.res.status === 401) {
+        setUnauthorized("口令不对或未注册,请输入口令注册本设备");
         msg.status = "error";
-        msg.errorMsg = "口令不对,填一下";
+        msg.errorMsg = (r.data && r.data.error) ? r.data.error : "口令不对或未注册,请输入口令注册本设备";
         saveMessages();
         updateAiRow(msg);
         passInput.focus();
