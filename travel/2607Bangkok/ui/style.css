@@ -93,6 +93,18 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index details summary{cursor:pointer;color:var(--brand);font-size:.92em;font-weight:600}
 .pg-index .allLink{display:block;text-decoration:none;color:inherit}
 .pg-index .allLink .note{margin-top:2px}
+/* 攻略本（第三个 tab）：DATA.guidebook 渲染的卡片，最新在上；tip=攻略要点+细节，qa=问+答 */
+.pg-index .guideCard{padding:14px 16px}
+.pg-index .guideTip .guideTitle{font-weight:700;font-size:1.0em;color:var(--brand);line-height:1.4}
+.pg-index .guideTip .guideDetail{margin-top:8px;font-size:.92em;line-height:1.55;color:var(--ink)}
+.pg-index .guideQa .guideQ{display:flex;gap:8px;align-items:flex-start;font-weight:700;font-size:.96em;color:var(--brand);line-height:1.45}
+.pg-index .guideQa .guideA{display:flex;gap:8px;align-items:flex-start;margin-top:9px;font-size:.92em;line-height:1.55;color:var(--ink)}
+.pg-index .guideTag{flex:0 0 auto;font-size:.7em;font-weight:700;padding:2px 8px;border-radius:99px;line-height:1.5;margin-top:1px}
+.pg-index .guideTag.q{background:#eef7fa;color:#0e6e8f;border:1px solid #bcd9e4}
+.pg-index .guideTag.a{background:#e6f5f0;color:#0a7d5f;border:1px solid #bfe8d6}
+.pg-index .guideMeta{display:flex;justify-content:space-between;gap:8px;margin-top:11px;font-size:.74em;color:var(--sub)}
+.pg-index .guideMeta b{color:var(--brand)}
+.pg-index .guideEmpty{text-align:center;color:var(--sub);font-size:.92em;padding:34px 16px;line-height:1.7}
 .pg-index .devbar{font-size:.78em;color:var(--sub);text-align:center;margin-top:16px;line-height:1.7}
 .pg-index .devid{font-family:ui-monospace,Menlo,monospace;background:#eef4f7;padding:1px 6px;border-radius:6px}
 .pg-index .defrole{display:inline-block;background:#e6f5f0;color:#0a7d5f;padding:1px 8px;border-radius:99px;font-weight:600}
@@ -230,7 +242,7 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 @keyframes princeDotPulse{0%,80%,100%{opacity:.25;transform:scale(.8)}40%{opacity:1;transform:scale(1.15)}}
 .pg-index .princeTextarea,.pg-itin .princeTextarea{
   display:block;width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;
-  padding:10px 11px;font-size:16px;font-family:inherit;line-height:1.4;resize:vertical;min-height:88px;
+  padding:10px 11px;font-size:16px;font-family:inherit;line-height:1.4;resize:vertical;min-height:58px;
 }
 .pg-index .princeSubmit,.pg-itin .princeSubmit{
   display:block;width:100%;margin-top:12px;border:0;border-radius:10px;background:var(--accent);color:#fff;
@@ -245,10 +257,15 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .princeStatus.ok,.pg-itin .princeStatus.ok{color:#0a7d5f;font-weight:600}
 .pg-index .princeStatus.err,.pg-itin .princeStatus.err{color:var(--warn);font-weight:600}
 .pg-index .princeDivider,.pg-itin .princeDivider{height:1px;background:var(--line);margin:10px 0 8px}
-.pg-index .princeHistoryBtn,.pg-itin .princeHistoryBtn{
-  display:block;width:100%;border:1px solid #bcd9e4;background:#eef7fa;color:#0e6e8f;border-radius:10px;
-  padding:9px;font-size:.88em;font-weight:600;cursor:pointer;
+/* 底部两个按钮并排：左「查看修改记录」保留原配色，右「共享攻略本」实心强调色，各占一半宽 */
+.pg-index .princeFooterRow,.pg-itin .princeFooterRow{display:flex;gap:8px}
+.pg-index .princeHistoryBtn,.pg-itin .princeHistoryBtn,
+.pg-index .princeShareBtn,.pg-itin .princeShareBtn{
+  flex:1;min-width:0;border:1px solid #bcd9e4;background:#eef7fa;color:#0e6e8f;border-radius:10px;
+  padding:9px 4px;font-size:.82em;font-weight:600;cursor:pointer;text-align:center;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
 }
+.pg-index .princeShareBtn,.pg-itin .princeShareBtn{border-color:#0e8f8f;background:#0e8f8f;color:#fff}
 /* 修改记录：限最近 20 条 + 独立可滚动容器，避免把对话框撑得很长 */
 .pg-index .princeHistory,.pg-itin .princeHistory{margin-top:12px;max-height:260px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .pg-index .princeHistNote,.pg-itin .princeHistNote{font-size:.76em;color:var(--sub);text-align:center;padding-bottom:8px}

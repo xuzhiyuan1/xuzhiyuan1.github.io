@@ -16,6 +16,9 @@
   var DATA, SITE, GUIDE, USERS, ITINERARY, TRANSPORT, OVERVIEW, DUR;
   var MAP_DEFAULT = "Bangkok Thailand";
   var pageRender = null; /* 当前页面的"用最新 DATA 重新渲染"函数：index=renderAll，itin=render */
+  var activateTab = null; /* index 页专属：切 tab 函数（由 initIndex 内的 showTab 赋值），供小王子对话框
+                              "共享攻略本"按钮跨作用域调用；itinerary 页没有 tab 结构，此值保持 null，
+                              对话框那边会退化成跳转到 index.html#guide */
 
   /* ---------- 公共小工具（原 data.js） ---------- */
   function enc(q){ return String(q).replace(/ /g, "+"); }
@@ -217,9 +220,11 @@
     $("durianList").innerHTML = GUIDE.durianTips.map(guideLi).join("");
     $("tipsList").innerHTML = GUIDE.practicalTips.map(guideLi).join("");
 
-    /* ====== 下拉 Tab ====== */
+    /* ====== 下拉 Tab（日程 / 机酒 / 攻略本） ====== */
     var tabToggle = $("tabToggle");
     var tabMenu = $("tabMenu");
+    var TAB_LABELS = { plan: "日程", jz: "机酒", guide: "攻略本" };
+    var TAB_PANES = { plan: "panePlan", jz: "paneJz", guide: "paneGuide" };
     tabToggle.addEventListener("click", function(e){
       e.stopPropagation();
       var open = tabMenu.hidden;
@@ -229,17 +234,28 @@
     document.addEventListener("click", function(e){
       if (!tabMenu.hidden && !tabMenu.contains(e.target) && e.target !== tabToggle){ tabMenu.hidden = true; tabToggle.classList.remove("open"); }
     });
-    Array.prototype.forEach.call(tabMenu.querySelectorAll("button"), function(btn){
-      btn.addEventListener("click", function(){
-        var tab = btn.dataset.tab;
-        var isPlan = tab === "plan";
-        $("panePlan").hidden = !isPlan;
-        $("paneJz").hidden = isPlan;
-        Array.prototype.forEach.call(tabMenu.querySelectorAll("button"), function(b){ b.classList.toggle("active", b === btn); });
-        tabToggle.innerHTML = (isPlan ? "日程" : "机酒") + ' <span class="car">▾</span>';
-        tabMenu.hidden = true; tabToggle.classList.remove("open");
+    /* 切 tab：按 tab 名显示对应 pane、同步下拉高亮态与折叠按钮文案。挂到模块级 activateTab，
+       供小王子对话框"共享攻略本"按钮直接调用（不用等下拉菜单里的按钮被点） */
+    function showTab(tab){
+      if (!TAB_LABELS[tab]) return;
+      Object.keys(TAB_PANES).forEach(function(t){
+        var el = $(TAB_PANES[t]);
+        if (el) el.hidden = (t !== tab);
       });
+      Array.prototype.forEach.call(tabMenu.querySelectorAll("button"), function(b){ b.classList.toggle("active", b.dataset.tab === tab); });
+      tabToggle.innerHTML = TAB_LABELS[tab] + ' <span class="car">▾</span>';
+      tabMenu.hidden = true; tabToggle.classList.remove("open");
+    }
+    Array.prototype.forEach.call(tabMenu.querySelectorAll("button"), function(btn){
+      btn.addEventListener("click", function(){ showTab(btn.dataset.tab); });
     });
+    activateTab = showTab;
+    /* 从 itinerary 页点"共享攻略本"会跳到 index.html#guide；这里接住这个 hash，直接打开攻略本 tab，
+       然后把 hash 清掉（history.replaceState），避免刷新/分享链接时又重复触发 */
+    if (location.hash === "#guide"){
+      showTab("guide");
+      if (window.history && history.replaceState) history.replaceState(null, "", location.pathname + location.search);
+    }
 
     /* ====== 角色选择 ====== */
     var whoSel = $("who");
@@ -286,6 +302,40 @@
       return '<div class="item"><div class="t">' + r.icon + '</div><div class="b">' + b + '</div></div>';
     }
     $("hotelBox").innerHTML = DATA.trip.hotel.rows.map(hotelRowHTML).join("");
+
+    /* ====== 攻略本（DATA.guidebook：大家跟小王子聊天时自动攒的攻略/问答，最新在上） ====== */
+    function guideCardHTML(item){
+      item = item || {};
+      var author = item.author ? escapeHtml(item.author) : "";
+      var d = item.at ? new Date(item.at) : null;
+      var timeLabel = (d && !isNaN(d.getTime())) ? fmtBJ(d) : "";
+      var metaHTML = (author || timeLabel)
+        ? '<div class="guideMeta">' + (author ? '<b>' + author + '</b>' : '<span></span>') + (timeLabel ? '<span>' + timeLabel + '</span>' : '') + '</div>'
+        : "";
+      if (item.type === "qa"){
+        return '<div class="card guideCard guideQa">' +
+          '<div class="guideQ"><span class="guideTag q">问</span><span>' + escapeHtml(item.q || "") + '</span></div>' +
+          '<div class="guideA"><span class="guideTag a">答</span><span>' + escapeHtml(item.a || "") + '</span></div>' +
+          metaHTML + '</div>';
+      }
+      /* 默认按 tip（攻略）渲染：q 是攻略要点（标题），a 是小王子整理的细节 */
+      return '<div class="card guideCard guideTip">' +
+        '<div class="guideTitle">📝 ' + escapeHtml(item.q || "") + '</div>' +
+        (item.a ? '<div class="guideDetail">' + escapeHtml(item.a) + '</div>' : "") +
+        metaHTML + '</div>';
+    }
+    function renderGuidebook(){
+      var box = $("guideCards");
+      if (!box) return;
+      var list = (DATA.guidebook || []).slice().sort(function(a, b){
+        return new Date((b && b.at) || 0).getTime() - new Date((a && a.at) || 0).getTime(); // 最新在上
+      });
+      if (!list.length){
+        box.innerHTML = '<div class="card guideEmpty">还没有攻略哦～点右下小王子，跟它分享一条攻略或问个问题吧🍈</div>';
+        return;
+      }
+      box.innerHTML = list.map(guideCardHTML).join("");
+    }
 
     /* ====== 地图卡（按"今天"动态定位/生成内容） ====== */
     function mapCardHTML(loc, title){
@@ -356,6 +406,7 @@
       renderFlights();
       renderSchedule();
       renderNow();
+      renderGuidebook();
     }
     whoSel.addEventListener("change", function(){ localStorage.setItem("who", whoSel.value); renderAll(); });
     renderAll();
@@ -476,11 +527,14 @@
           '<select class="princeRoleSel" id="princeRoleSel" aria-label="选择角色"></select>' +
           '<div class="princeSub">告诉我你想怎么改行程/攻略，我来帮你改～</div>' +
           '<div class="princeChat" id="princeChat" hidden></div>' +
-          '<textarea class="princeTextarea" id="princeText" rows="4" placeholder="想改什么？例：把8月1日大皇宫改到11点"></textarea>' +
+          '<textarea class="princeTextarea" id="princeText" rows="2" placeholder="想改什么？例：把8月1日大皇宫改到11点"></textarea>' +
           '<button type="button" class="princeSubmit" id="princeSubmit">提交给小王子</button>' +
           '<div class="princeStatus" id="princeStatus"></div>' +
           '<div class="princeDivider"></div>' +
-          '<button type="button" class="princeHistoryBtn" id="princeHistoryBtn">📜 查看修改记录</button>' +
+          '<div class="princeFooterRow">' +
+            '<button type="button" class="princeHistoryBtn" id="princeHistoryBtn">📜 查看修改记录</button>' +
+            '<button type="button" class="princeShareBtn" id="princeShareBtn">📖 共享攻略本</button>' +
+          '</div>' +
           '<div class="princeHistory" id="princeHistory" hidden></div>' +
         '</div>';
       document.body.appendChild(overlay);
@@ -495,6 +549,7 @@
       var historyBtn = overlay.querySelector("#princeHistoryBtn");
       var historyEl = overlay.querySelector("#princeHistory");
       var roleSel = overlay.querySelector("#princeRoleSel");
+      var shareBtn = overlay.querySelector("#princeShareBtn");
 
       /* 草稿：文本框内容随打随存到 localStorage，关闭对话框再打开、甚至刷新页面后都还在；
          提交成功后清空（用户手动清空文本框时 input 事件也会把草稿一起清掉）。 */
@@ -584,6 +639,18 @@
         }).catch(function(){
           historyEl.innerHTML = '<div class="princeHistEmpty">修改记录加载失败，待会儿再看看～</div>';
         });
+      });
+
+      /* 「共享攻略本」：关闭对话框 + 切到攻略本 tab。index 页有 activateTab（initIndex 里赋值的
+         showTab），直接调用即可；itinerary 页没有 tab 结构，退化成跳转到 index.html#guide，
+         index 页加载时会认出这个 hash 并直接打开攻略本 tab（见 initIndex 里的 hash 处理）。 */
+      shareBtn.addEventListener("click", function(){
+        closeModal();
+        if (typeof activateTab === "function"){
+          activateTab("guide");
+        } else {
+          location.href = "index.html#guide";
+        }
       });
 
       return overlay;
