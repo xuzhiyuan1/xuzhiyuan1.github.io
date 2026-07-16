@@ -131,6 +131,7 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .guideDetail h3{margin:.9em 0 .4em;font-size:1.05em;color:var(--brand)}
 .pg-index .guideDetail h3:first-child{margin-top:0}
 .pg-index .guideDetail h4{margin:.8em 0 .35em;font-size:.98em;color:var(--brand)}
+.pg-index .guideDetail hr{border:0;border-top:1px dashed var(--line);margin:.9em 0}
 .pg-index .guideDetail ul{margin:.4em 0;padding-left:1.3em}
 .pg-index .guideDetail li{margin:.35em 0}
 .pg-index .guideDetail strong{color:var(--brand);font-weight:700}

@@ -378,6 +378,7 @@
           return;
         }
         flushTable();
+        if (/^-{3,}$/.test(line.trim())){ flushList(); flushPara(); html += "<hr>"; return; } // 独立一行 --- 当分割线
         var h3 = line.match(/^###\s+(.*)/);
         var h2 = line.match(/^##\s+(.*)/);
         var li = line.match(/^[-*]\s+(.*)/);
