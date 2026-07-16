@@ -4,8 +4,17 @@
 (function(){
   "use strict";
 
+  /* ============================================================
+     CONFIG（临时后端地址，将来正式上线后只需改这一行）
+     现在：Cloudflare 临时隧道；将来：https://trip.xuzhiyuan1.top
+     ============================================================ */
+  var CONFIG = {
+    BACKEND_URL: "https://ball-internal-configuring-paintings.trycloudflare.com" // TODO: 临时地址，将来换成 https://trip.xuzhiyuan1.top
+  };
+
   var DATA, SITE, GUIDE, USERS, ITINERARY, FLIGHTS, OVERVIEW, DUR;
   var MAP_DEFAULT = "Bangkok Thailand";
+  var pageRender = null; /* 当前页面的"用最新 DATA 重新渲染"函数：index=renderAll，itin=render */
 
   /* ---------- 公共小工具（原 data.js） ---------- */
   function enc(q){ return String(q).replace(/ /g, "+"); }
@@ -62,13 +71,14 @@
     return '<li>' + runsHTML(item.runs) + (item.place ? mapA(item.place) : "") + '</li>';
   }
 
-  /* ---------- 数据加载 ---------- */
+  /* ---------- 数据加载（每次都带时间戳防缓存，保证轮询能拿到最新数据） ---------- */
   function load(){
+    var qs = "?t=" + Date.now();
     return Promise.all([
-      fetch("data/site.json").then(function(r){ return r.json(); }),
-      fetch("data/trip.json").then(function(r){ return r.json(); }),
-      fetch("data/guide.json").then(function(r){ return r.json(); }),
-      fetch("data/users.json").then(function(r){ return r.json(); })
+      fetch("data/site.json" + qs).then(function(r){ return r.json(); }),
+      fetch("data/trip.json" + qs).then(function(r){ return r.json(); }),
+      fetch("data/guide.json" + qs).then(function(r){ return r.json(); }),
+      fetch("data/users.json" + qs).then(function(r){ return r.json(); })
     ]).then(function(res){
       DATA = { site: res[0], trip: res[1], guide: res[2], users: res[3] };
       SITE = DATA.site; GUIDE = DATA.guide; USERS = DATA.users;
@@ -77,6 +87,16 @@
       DUR = '<img class="dur" src="ui/' + SITE.themeImage + '" alt="榴莲">';
       return DATA;
     });
+  }
+
+  /* 后台轮询：重新拉取 data/*.json 并调用当前页面已有的渲染函数（不新建渲染逻辑，不重复计时器） */
+  function refreshData(){
+    return load().then(function(){
+      if (typeof pageRender === "function") pageRender();
+    }).catch(function(err){ console.error("刷新数据失败", err); });
+  }
+  function startDataPolling(){
+    setInterval(refreshData, 30000);
   }
 
   /* ============================================================ index ============================================================ */
@@ -246,8 +266,8 @@
     }
     whoSel.addEventListener("change", function(){ localStorage.setItem("who", whoSel.value); renderAll(); });
     renderAll();
+    pageRender = renderAll; /* 供 30s 数据轮询复用，不再额外加 60s 定时器 */
     setInterval(renderNow, 1000);        // 倒计时每秒更新
-    setInterval(renderSchedule, 60000);  // 每分钟刷新一次"未完成行程"列表
 
     /* ====== 设备编号（不展示访问历史） ====== */
     var devId = localStorage.getItem("deviceId");
@@ -281,25 +301,223 @@
       document.getElementById("days").innerHTML = html;
     }
     render();
-    setInterval(render, 30000);
+    pageRender = render; /* 供 30s 数据轮询复用，不再额外加 30s 定时器 */
   }
 
-  /* ---------- 悬浮小助手（小王子，纯视觉占位，暂不接后端） ---------- */
+  /* ---------- 转义（历史记录/文案里可能是用户自由输入，插入 innerHTML 前需转义） ---------- */
+  function escapeHtml(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  /* ---------- 悬浮小助手（小王子）：偶尔冒气泡邀请 + 点击弹出"改行程"对话框 + 修改记录 ---------- */
   function initPrinceFab(){
     var fab = document.getElementById("princeFab");
     if (!fab) return;
-    var toast, hideTimer;
-    fab.addEventListener("click", function(){
-      if (!toast){
-        toast = document.createElement("div");
-        toast.className = "princeToast";
-        toast.textContent = "助手开发中～";
-        document.body.appendChild(toast);
-      }
-      toast.classList.add("show");
-      clearTimeout(hideTimer);
-      hideTimer = setTimeout(function(){ toast.classList.remove("show"); }, 1600);
-    });
+
+    var BUBBLE_MESSAGES = [
+      "行程/攻略有要改的？点我告诉小王子～",
+      "想调时间、加地点？点我一句话就行～",
+      "发现哪儿写错了？点我改～"
+    ];
+    var modalOpen = false;
+    var overlayEl = null;
+    var bubbleEl = null;
+    var bubbleHideTimer = null;
+    var bubbleTimer = null;
+    var msgIdx = 0;
+
+    function randBetween(a, b){ return a + Math.random() * (b - a); }
+
+    /* ===== 气泡 ===== */
+    function ensureBubble(){
+      if (bubbleEl) return bubbleEl;
+      bubbleEl = document.createElement("div");
+      bubbleEl.className = "princeBubble";
+      bubbleEl.innerHTML = '<span class="princeBubbleText"></span><button type="button" class="princeBubbleClose" aria-label="关闭">×</button>';
+      document.body.appendChild(bubbleEl);
+      bubbleEl.querySelector(".princeBubbleText").addEventListener("click", function(){
+        hideBubble();
+        openModal();
+      });
+      bubbleEl.querySelector(".princeBubbleClose").addEventListener("click", function(e){
+        e.stopPropagation();
+        hideBubble();
+      });
+      return bubbleEl;
+    }
+    function showBubble(){
+      if (modalOpen) return;
+      var el = ensureBubble();
+      el.querySelector(".princeBubbleText").textContent = BUBBLE_MESSAGES[msgIdx % BUBBLE_MESSAGES.length];
+      msgIdx++;
+      el.classList.add("show");
+      clearTimeout(bubbleHideTimer);
+      bubbleHideTimer = setTimeout(function(){ el.classList.remove("show"); }, 6000);
+    }
+    function hideBubble(){
+      if (bubbleEl) bubbleEl.classList.remove("show");
+      clearTimeout(bubbleHideTimer);
+    }
+    function scheduleNextBubble(delay){
+      clearTimeout(bubbleTimer);
+      bubbleTimer = setTimeout(function(){
+        if (!modalOpen) showBubble();
+        scheduleNextBubble(randBetween(4 * 60000, 6 * 60000)); // 之后每 4~6 分钟一次
+      }, delay);
+    }
+
+    /* ===== 对话框 ===== */
+    function buildModal(){
+      var overlay = document.createElement("div");
+      overlay.className = "princeOverlay";
+      overlay.hidden = true;
+      overlay.innerHTML =
+        '<div class="princeModal" role="dialog" aria-modal="true" aria-label="小王子·改行程">' +
+          '<button type="button" class="princeClose" aria-label="关闭">×</button>' +
+          '<div class="princeHd">👑 小王子</div>' +
+          '<div class="princeSub">告诉我你想怎么改行程/攻略，我来帮你改～</div>' +
+          '<input class="princeInput" id="princeAuthor" type="text" placeholder="你是谁？如 徐致远" maxlength="20" autocomplete="off">' +
+          '<textarea class="princeTextarea" id="princeText" rows="4" placeholder="想改什么？例：把8月1日大皇宫改到11点"></textarea>' +
+          '<button type="button" class="princeSubmit" id="princeSubmit">提交给小王子</button>' +
+          '<div class="princeStatus" id="princeStatus"></div>' +
+          '<div class="princeDivider"></div>' +
+          '<button type="button" class="princeHistoryBtn" id="princeHistoryBtn">📜 查看修改记录</button>' +
+          '<div class="princeHistory" id="princeHistory" hidden></div>' +
+        '</div>';
+      document.body.appendChild(overlay);
+
+      overlay.addEventListener("click", function(e){ if (e.target === overlay) closeModal(); });
+      overlay.querySelector(".princeClose").addEventListener("click", closeModal);
+
+      var authorEl = overlay.querySelector("#princeAuthor");
+      var textEl = overlay.querySelector("#princeText");
+      var submitBtn = overlay.querySelector("#princeSubmit");
+      var statusEl = overlay.querySelector("#princeStatus");
+      var historyBtn = overlay.querySelector("#princeHistoryBtn");
+      var historyEl = overlay.querySelector("#princeHistory");
+
+      submitBtn.addEventListener("click", function(){
+        var text = textEl.value.trim();
+        if (!text){
+          statusEl.className = "princeStatus err";
+          statusEl.textContent = "先写点想改的内容再提交哦～";
+          return;
+        }
+        var author = authorEl.value.trim();
+        localStorage.setItem("princeAuthor", author);
+        submitBtn.disabled = true;
+        statusEl.className = "princeStatus loading";
+        statusEl.textContent = "小王子正在改…（约30~60秒，请不要关闭页面）";
+        postEdit(author, text).then(function(res){
+          submitBtn.disabled = false;
+          if (res.ok && res.data && res.data.ok){
+            statusEl.className = "princeStatus ok";
+            statusEl.textContent = "改好啦！约1分钟后大家刷新就能看到 ✨";
+            textEl.value = "";
+            refreshData();
+          } else {
+            var errMsg = (res.data && res.data.error) ? res.data.error : ("提交失败（状态码 " + res.status + "）");
+            statusEl.className = "princeStatus err";
+            statusEl.textContent = "没改成功：" + errMsg;
+          }
+        }).catch(function(err){
+          submitBtn.disabled = false;
+          statusEl.className = "princeStatus err";
+          if (err && err.name === "AbortError"){
+            statusEl.textContent = "小王子改太久超时了，等会儿再试试，或者去看看是不是已经改好啦～";
+          } else {
+            statusEl.textContent = "网络好像断了，检查一下再试试～";
+          }
+        });
+      });
+
+      historyBtn.addEventListener("click", function(){
+        if (!historyEl.hidden){
+          historyEl.hidden = true;
+          historyBtn.textContent = "📜 查看修改记录";
+          return;
+        }
+        historyEl.hidden = false;
+        historyBtn.textContent = "📜 收起修改记录";
+        historyEl.innerHTML = '<div class="princeHistLoading">加载中…</div>';
+        loadHistory().then(function(list){
+          if (!list.length){
+            historyEl.innerHTML = '<div class="princeHistEmpty">还没有人改过～</div>';
+            return;
+          }
+          historyEl.innerHTML = list.map(historyItemHTML).join("");
+        }).catch(function(){
+          historyEl.innerHTML = '<div class="princeHistEmpty">修改记录加载失败，待会儿再看看～</div>';
+        });
+      });
+
+      return overlay;
+    }
+    function openModal(){
+      if (!overlayEl) overlayEl = buildModal();
+      var authorEl = overlayEl.querySelector("#princeAuthor");
+      authorEl.value = localStorage.getItem("princeAuthor") || "";
+      var statusEl = overlayEl.querySelector("#princeStatus");
+      statusEl.className = "princeStatus";
+      statusEl.textContent = "";
+      overlayEl.hidden = false;
+      modalOpen = true;
+      requestAnimationFrame(function(){ overlayEl.classList.add("show"); });
+    }
+    function closeModal(){
+      if (!overlayEl) return;
+      overlayEl.classList.remove("show");
+      modalOpen = false;
+      setTimeout(function(){ if (!modalOpen) overlayEl.hidden = true; }, 200);
+    }
+
+    /* ===== 提交修改：POST {BACKEND_URL}/edit（后端调 DeepSeek 改数据+push，可能耗时 30~60s，超时设 120s） ===== */
+    function postEdit(author, text){
+      var ctrl = ("AbortController" in window) ? new AbortController() : null;
+      var timer = ctrl ? setTimeout(function(){ ctrl.abort(); }, 120000) : null;
+      return fetch(CONFIG.BACKEND_URL + "/edit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ author: author, text: text }),
+        signal: ctrl ? ctrl.signal : undefined
+      }).then(function(r){
+        clearTimeout(timer);
+        return r.json().catch(function(){ return {}; }).then(function(data){
+          return { status: r.status, ok: r.ok, data: data };
+        });
+      }, function(err){
+        clearTimeout(timer);
+        throw err;
+      });
+    }
+
+    /* ===== 修改记录：data/history.json（同仓库相对路径，带时间戳防缓存；可能 404/为空） ===== */
+    function loadHistory(){
+      return fetch("data/history.json?t=" + Date.now()).then(function(r){
+        if (!r.ok) return [];
+        return r.json().catch(function(){ return []; });
+      }).then(function(data){
+        var arr = Array.isArray(data) ? data : ((data && (data.items || data.history || data.records)) || []);
+        if (!Array.isArray(arr)) arr = [];
+        return arr.slice().reverse(); // 最新的在前
+      }).catch(function(){ return []; });
+    }
+    function historyItemHTML(e){
+      e = e || {};
+      var author = e.author || e.name || e.user || e.who || "匿名";
+      var text = e.text || e.content || e.summary || e.change || e.desc || "";
+      var timeRaw = e.time || e.at || e.ts || e.date || e.created || "";
+      var timeLabel = timeRaw;
+      var d = timeRaw ? new Date(timeRaw) : null;
+      if (d && !isNaN(d.getTime())) timeLabel = d.toLocaleString("zh-CN", { hour12: false });
+      return '<div class="princeHistItem"><div class="princeHistMeta"><b>' + escapeHtml(author) + '</b><span>' +
+        escapeHtml(String(timeLabel)) + '</span></div><div class="princeHistText">' + escapeHtml(String(text)) + '</div></div>';
+    }
+
+    fab.addEventListener("click", function(){ openModal(); });
+    scheduleNextBubble(40000); // 加载后约 40 秒冒第一个气泡
   }
 
   /* ---------- 启动 ---------- */
@@ -309,5 +527,6 @@
     var page = document.body.getAttribute("data-page");
     if (page === "index") initIndex();
     else if (page === "itin") initItin();
+    startDataPolling(); // 每约 30 秒重新拉取 data/*.json 并复用现有渲染函数
   }).catch(function(err){ console.error("数据加载失败", err); });
 })();
