@@ -139,15 +139,21 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-itin footer a{color:var(--sub)}
 
 /* ============================================================ 悬浮小助手（小王子：气泡邀请 + 改行程对话框 + 修改记录） ============================================================ */
+/* z-index 高于 princeOverlay(200)，保证遮罩弹出时小王子本体仍完全高亮、浮在遮罩之上 */
 .pg-index .princeFab,.pg-itin .princeFab{
   position:fixed;right:24px;bottom:calc(18px + env(safe-area-inset-bottom,0px));
-  width:78px;height:auto;z-index:40;cursor:pointer;
+  width:78px;height:auto;z-index:205;cursor:pointer;
   filter:drop-shadow(0 6px 14px rgba(16,42,67,.32));
-  transition:transform .18s ease;touch-action:manipulation;
+  transition:transform .18s ease,filter .18s ease;touch-action:manipulation;
 }
 .pg-index .princeFab:active,.pg-itin .princeFab:active{transform:scale(.92)}
 @media (hover:hover){
   .pg-index .princeFab:hover,.pg-itin .princeFab:hover{transform:translateY(-3px)}
+}
+/* 对话框打开期间：小王子额外发光描边，强调"正在和它对话" */
+.pg-index .princeFab.princeFabActive,.pg-itin .princeFab.princeFabActive{
+  transform:scale(1.06);
+  filter:drop-shadow(0 8px 20px rgba(14,143,143,.55)) drop-shadow(0 0 14px rgba(14,143,143,.7)) drop-shadow(0 0 2px rgba(255,255,255,.9));
 }
 
 /* 气泡提示（偶尔冒出，邀请大家改行程） */
@@ -170,36 +176,46 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 }
 .pg-index .princeBubbleClose:hover,.pg-itin .princeBubbleClose:hover{color:#fff}
 
-/* 对话框：遮罩 + 居中卡片（手机友好） */
+/* 对话框：遮罩盖住整页（小王子因 z-index 更高而不受影响）+ 从小王子右下角"长出来"的对话框。
+   overlay 用 flex 靠右下对齐，并预留 padding-bottom 给小王子站位；modal 的 transform-origin
+   设在右下角，配合 scale+opacity 做"从那个角弹出"的缩放淡入动画，而不是居中 modal。
+   手机端键盘弹起时，JS 会把 overlay 的 top/height 同步到 visualViewport，保证输入框/提交按钮不被键盘挡住。 */
 .pg-index .princeOverlay,.pg-itin .princeOverlay{
   position:fixed;inset:0;z-index:200;background:rgba(10,20,28,.5);
-  display:flex;align-items:center;justify-content:center;padding:18px;
+  display:flex;align-items:flex-end;justify-content:flex-end;
+  padding:14px 20px;padding-bottom:calc(132px + env(safe-area-inset-bottom,0px));
   opacity:0;transition:opacity .2s ease;
 }
 .pg-index .princeOverlay.show,.pg-itin .princeOverlay.show{opacity:1}
+/* 小三角"嘴边"连接件，指向小王子，不参与滚动/点击 */
+.pg-index .princeTail,.pg-itin .princeTail{
+  position:absolute;right:52px;bottom:calc(114px + env(safe-area-inset-bottom,0px));
+  width:16px;height:16px;background:#fff;border-radius:3px;transform:rotate(45deg);
+  box-shadow:2px 2px 8px rgba(9,30,46,.14);
+  opacity:0;transition:opacity .18s ease;pointer-events:none;
+}
+.pg-index .princeOverlay.show .princeTail,.pg-itin .princeOverlay.show .princeTail{opacity:1}
 .pg-index .princeModal,.pg-itin .princeModal{
-  position:relative;background:#fff;border-radius:18px;max-width:420px;width:100%;
-  max-height:86vh;overflow-y:auto;padding:22px 20px 18px;
+  position:relative;background:#fff;border-radius:18px;max-width:360px;width:100%;
+  max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 18px 16px;
   box-shadow:0 20px 50px rgba(9,30,46,.35);
-  transform:translateY(10px);transition:transform .2s ease;
+  transform-origin:bottom right;
+  transform:scale(.82) translateY(10px);opacity:0;
+  transition:transform .22s cubic-bezier(.2,.9,.25,1),opacity .18s ease;
 }
-.pg-index .princeOverlay.show .princeModal,.pg-itin .princeOverlay.show .princeModal{transform:translateY(0)}
+.pg-index .princeOverlay.show .princeModal,.pg-itin .princeOverlay.show .princeModal{transform:scale(1) translateY(0);opacity:1}
 .pg-index .princeClose,.pg-itin .princeClose{
-  position:absolute;top:10px;right:12px;border:0;background:transparent;font-size:1.3em;
-  color:var(--sub);cursor:pointer;line-height:1;padding:4px 6px;
+  position:absolute;top:8px;right:10px;border:0;background:transparent;font-size:1.3em;
+  color:var(--sub);cursor:pointer;line-height:1;padding:6px;
 }
-.pg-index .princeHd,.pg-itin .princeHd{font-size:1.15em;font-weight:800;color:var(--brand)}
-.pg-index .princeSub,.pg-itin .princeSub{font-size:.85em;color:var(--sub);margin-top:4px;margin-bottom:14px}
-.pg-index .princeInput,.pg-itin .princeInput{
-  width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;
-  padding:9px 11px;font-size:.92em;margin-bottom:9px;font-family:inherit;
-}
+.pg-index .princeHd,.pg-itin .princeHd{font-size:1.15em;font-weight:800;color:var(--brand);padding-right:26px}
+.pg-index .princeSub,.pg-itin .princeSub{font-size:.85em;color:var(--sub);margin-top:5px;margin-bottom:16px;line-height:1.5}
 .pg-index .princeTextarea,.pg-itin .princeTextarea{
-  width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;
-  padding:9px 11px;font-size:.92em;font-family:inherit;resize:vertical;min-height:88px;
+  display:block;width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;
+  padding:10px 11px;font-size:16px;font-family:inherit;line-height:1.4;resize:vertical;min-height:88px;
 }
 .pg-index .princeSubmit,.pg-itin .princeSubmit{
-  width:100%;margin-top:12px;border:0;border-radius:10px;background:var(--accent);color:#fff;
+  display:block;width:100%;margin-top:12px;border:0;border-radius:10px;background:var(--accent);color:#fff;
   font-size:.96em;font-weight:700;padding:11px;cursor:pointer;transition:opacity .15s;
 }
 .pg-index .princeSubmit:disabled,.pg-itin .princeSubmit:disabled{opacity:.55;cursor:default}
@@ -209,10 +225,12 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .princeStatus.err,.pg-itin .princeStatus.err{color:var(--warn);font-weight:600}
 .pg-index .princeDivider,.pg-itin .princeDivider{height:1px;background:var(--line);margin:16px 0 12px}
 .pg-index .princeHistoryBtn,.pg-itin .princeHistoryBtn{
-  width:100%;border:1px solid #bcd9e4;background:#eef7fa;color:#0e6e8f;border-radius:10px;
+  display:block;width:100%;border:1px solid #bcd9e4;background:#eef7fa;color:#0e6e8f;border-radius:10px;
   padding:9px;font-size:.88em;font-weight:600;cursor:pointer;
 }
-.pg-index .princeHistory,.pg-itin .princeHistory{margin-top:12px;max-height:220px;overflow-y:auto}
+/* 修改记录：限最近 20 条 + 独立可滚动容器，避免把对话框撑得很长 */
+.pg-index .princeHistory,.pg-itin .princeHistory{margin-top:12px;max-height:260px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pg-index .princeHistNote,.pg-itin .princeHistNote{font-size:.76em;color:var(--sub);text-align:center;padding-bottom:8px}
 .pg-index .princeHistItem,.pg-itin .princeHistItem{padding:8px 0;border-bottom:1px dashed var(--line)}
 .pg-index .princeHistItem:last-child,.pg-itin .princeHistItem:last-child{border-bottom:none}
 .pg-index .princeHistMeta,.pg-itin .princeHistMeta{display:flex;justify-content:space-between;gap:8px;font-size:.78em;color:var(--sub)}

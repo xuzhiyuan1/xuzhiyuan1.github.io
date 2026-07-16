@@ -23,6 +23,22 @@
   function pad(n){ return String(n).padStart(2, "0"); }
   function todayKey(){ var d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
 
+  /* 北京时间格式化（"MM-DD HH:mm"）：后端记录的修改时间自带 +08:00 偏移，
+     用 Intl.DateTimeFormat 强制以 Asia/Shanghai 时区取字段，不管看的人手机在什么时区，
+     显示的都是北京时间（等价于 toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',...})）。
+     供"修改记录"列表 与 顶部下拉刷新条"最新改动"时间共用。 */
+  var BJ_FMT = ("Intl" in window) ? new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Shanghai", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false
+  }) : null;
+  function fmtBJ(d){
+    if (!(d instanceof Date) || isNaN(d.getTime())) return "";
+    if (!BJ_FMT) return pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+    var o = {};
+    BJ_FMT.formatToParts(d).forEach(function(p){ o[p.type] = p.value; });
+    var hh = (o.hour === "24") ? "00" : o.hour; // 少数环境 hour12:false 可能给 "24" 表示午夜
+    return o.month + "-" + o.day + " " + hh + ":" + o.minute;
+  }
+
   /* 倒计时文案（带秒，近的更精确） */
   function cdText(ms){
     if (ms <= 0) return "进行中";
@@ -402,6 +418,7 @@
       overlay.className = "princeOverlay";
       overlay.hidden = true;
       overlay.innerHTML =
+        '<div class="princeTail" aria-hidden="true"></div>' +
         '<div class="princeModal" role="dialog" aria-modal="true" aria-label="小王子·改行程">' +
           '<button type="button" class="princeClose" aria-label="关闭">×</button>' +
           '<div class="princeHd">👑 小王子</div>' +
@@ -479,13 +496,27 @@
             historyEl.innerHTML = '<div class="princeHistEmpty">还没有人改过～</div>';
             return;
           }
-          historyEl.innerHTML = list.map(historyItemHTML).join("");
+          /* 只展示最近 20 条，放进可滚动容器（.princeHistory 自带 max-height+overflow-y:auto），
+             列表再长也不会把对话框撑长，用滚轮/触摸即可翻看 */
+          var shown = list.slice(0, 20);
+          var note = list.length > 20 ? '<div class="princeHistNote">仅显示最近 20 条（共 ' + list.length + ' 条）</div>' : '';
+          historyEl.innerHTML = note + shown.map(historyItemHTML).join("");
         }).catch(function(){
           historyEl.innerHTML = '<div class="princeHistEmpty">修改记录加载失败，待会儿再看看～</div>';
         });
       });
 
       return overlay;
+    }
+
+    /* 手机端键盘弹起时，把 overlay 的 top/height 同步到 visualViewport（浏览器可见区域），
+       这样锚定在右下角的对话框会跟着可见区域收缩，输入框和提交按钮始终留在视口内、不被键盘挡住。 */
+    var vvSyncHandler = null;
+    function syncOverlayToViewport(){
+      if (!overlayEl || !window.visualViewport) return;
+      var vv = window.visualViewport;
+      overlayEl.style.top = vv.offsetTop + "px";
+      overlayEl.style.height = vv.height + "px";
     }
     function openModal(){
       if (!overlayEl) overlayEl = buildModal();
@@ -494,13 +525,31 @@
       statusEl.textContent = "";
       overlayEl.hidden = false;
       modalOpen = true;
+      fab.classList.add("princeFabActive"); // 小王子保持/加强高亮，呼应"正在对话"
+      if (window.visualViewport){
+        syncOverlayToViewport();
+        vvSyncHandler = syncOverlayToViewport;
+        window.visualViewport.addEventListener("resize", vvSyncHandler);
+        window.visualViewport.addEventListener("scroll", vvSyncHandler);
+      }
       requestAnimationFrame(function(){ overlayEl.classList.add("show"); });
     }
     function closeModal(){
       if (!overlayEl) return;
       overlayEl.classList.remove("show");
       modalOpen = false;
-      setTimeout(function(){ if (!modalOpen) overlayEl.hidden = true; }, 200);
+      fab.classList.remove("princeFabActive");
+      if (window.visualViewport && vvSyncHandler){
+        window.visualViewport.removeEventListener("resize", vvSyncHandler);
+        window.visualViewport.removeEventListener("scroll", vvSyncHandler);
+        vvSyncHandler = null;
+      }
+      setTimeout(function(){
+        if (!modalOpen){
+          overlayEl.hidden = true;
+          overlayEl.style.top = ""; overlayEl.style.height = "";
+        }
+      }, 200);
     }
 
     /* ===== 提交修改：POST {BACKEND_URL}/edit（后端调 DeepSeek 改数据+push，可能耗时 30~60s，超时设 120s） ===== */
@@ -531,7 +580,7 @@
       var timeRaw = e.time || e.at || e.ts || e.date || e.created || "";
       var timeLabel = timeRaw;
       var d = timeRaw ? new Date(timeRaw) : null;
-      if (d && !isNaN(d.getTime())) timeLabel = d.toLocaleString("zh-CN", { hour12: false });
+      if (d && !isNaN(d.getTime())) timeLabel = fmtBJ(d); // 统一按北京时间显示，不管看的人手机在什么时区
       return '<div class="princeHistItem"><div class="princeHistMeta"><b>' + escapeHtml(author) + '</b><span>' +
         escapeHtml(String(timeLabel)) + '</span></div><div class="princeHistText">' + escapeHtml(String(text)) + '</div></div>';
     }
@@ -567,7 +616,7 @@
     function fmtModTime(iso){
       var d = new Date(iso);
       if (isNaN(d.getTime())) return "";
-      return pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+      return fmtBJ(d); // 按北京时间显示（后端记录本身即 +08:00），不随看的人手机时区变化
     }
     /* 最近一次修改时间：复用 loadHistory()，取最新一条的 at 字段；短时间内缓存，避免频繁请求 */
     function loadLastModLabel(force){
