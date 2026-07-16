@@ -350,7 +350,7 @@
     border: none;
     background: transparent;
     color: var(--text);
-    font-size: 14.5px;
+    font-size: 16px;
     font-family: inherit;
     line-height: 1.4;
     max-height: 120px;
@@ -420,7 +420,7 @@
     <div class="input-row">
       <button type="button" class="icon-btn" id="imgBtn" title="加图片">🖼️</button>
       <input type="file" id="imgInput" accept="image/*" hidden />
-      <textarea id="msgInput" rows="1" placeholder="说说你想怎么改…(Enter 发送,Shift+Enter 换行)"></textarea>
+      <textarea id="msgInput" rows="1" placeholder="说说你想怎么改…"></textarea>
       <button type="button" class="send-btn" id="sendBtn">发送</button>
     </div>
   </div>
@@ -654,7 +654,8 @@
     if (label) deviceLabel = label;
     passRow.style.display = "none";
     passHint.style.display = "none";
-    authRow.innerHTML = '<span class="auth-ok">✅ 本设备已授权' + (deviceLabel ? "(" + escapeHtml(deviceLabel) + ")" : "") + "</span>";
+    var hasLabel = deviceLabel && deviceLabel.trim() && deviceLabel.trim() !== "?";
+    authRow.innerHTML = '<span class="auth-ok">✅ 本设备已授权' + (hasLabel ? "(" + escapeHtml(deviceLabel) + ")" : "") + "</span>";
   }
 
   function setUnauthorized(msg) {
