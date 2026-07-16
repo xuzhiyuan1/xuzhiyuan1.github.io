@@ -4,8 +4,14 @@
   "heroTag": "榴莲大吃特吃 {durian} · 旅途Helper",
   "themeImage": "theme.png",
   "timezones": {
-    "bj": { "label": "🕐 北京时间", "offset": 8 },
-    "th": { "label": "🕐 泰国时间", "offset": 7 }
+    "bj": {
+      "label": "🕐 北京时间",
+      "offset": 8
+    },
+    "th": {
+      "label": "🕐 泰国时间",
+      "offset": 7
+    }
   },
   "weatherBrief": "🌤 27–33°C",
   "tripEnd": "2026-08-03T12:00:00+08:00"
