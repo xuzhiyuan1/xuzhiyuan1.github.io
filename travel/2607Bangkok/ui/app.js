@@ -365,6 +365,7 @@
       "想调时间、加地点？点我一句话就行～",
       "发现哪儿写错了？点我改～"
     ];
+    var DRAFT_KEY = "princeDraft"; // 对话框输入框草稿：随打随存，关闭再打开还在，提交成功/手动清空才清除
     var modalOpen = false;
     var overlayEl = null;
     var bubbleEl = null;
@@ -420,8 +421,8 @@
       overlay.innerHTML =
         '<div class="princeTail" aria-hidden="true"></div>' +
         '<div class="princeModal" role="dialog" aria-modal="true" aria-label="小王子·改行程">' +
-          '<button type="button" class="princeClose" aria-label="关闭">×</button>' +
           '<div class="princeHd">👑 小王子</div>' +
+          '<select class="princeRoleSel" id="princeRoleSel" aria-label="选择角色"></select>' +
           '<div class="princeSub">告诉我你想怎么改行程/攻略，我来帮你改～</div>' +
           '<textarea class="princeTextarea" id="princeText" rows="4" placeholder="想改什么？例：把8月1日大皇宫改到11点"></textarea>' +
           '<button type="button" class="princeSubmit" id="princeSubmit">提交给小王子</button>' +
@@ -432,14 +433,36 @@
         '</div>';
       document.body.appendChild(overlay);
 
+      /* 没有×关闭按钮：点遮罩（对话框以外区域）关闭；点对话框内部（角色下拉/输入框/按钮/历史列表）不关。
+         再点一次小王子（princeFab）也能关闭——那部分逻辑在 fab 的 click 监听器里做成开关切换。 */
       overlay.addEventListener("click", function(e){ if (e.target === overlay) closeModal(); });
-      overlay.querySelector(".princeClose").addEventListener("click", closeModal);
 
       var textEl = overlay.querySelector("#princeText");
       var submitBtn = overlay.querySelector("#princeSubmit");
       var statusEl = overlay.querySelector("#princeStatus");
       var historyBtn = overlay.querySelector("#princeHistoryBtn");
       var historyEl = overlay.querySelector("#princeHistory");
+      var roleSel = overlay.querySelector("#princeRoleSel");
+
+      /* 草稿：文本框内容随打随存到 localStorage，关闭对话框再打开、甚至刷新页面后都还在；
+         提交成功后清空（用户手动清空文本框时 input 事件也会把草稿一起清掉）。 */
+      textEl.value = localStorage.getItem(DRAFT_KEY) || "";
+      textEl.addEventListener("input", function(){ localStorage.setItem(DRAFT_KEY, textEl.value); });
+
+      /* 角色下拉：选项与右上角整体角色选择器 #who 完全一致；在这里改 → 把 #who.value 设成新值并
+         触发它的 change，让页面原有逻辑（存 localStorage('who') + renderAll）照常跑一遍，整页角色
+         （机酒/此刻关注等）跟着变。itinerary 页没有 #who，就直接写 localStorage('who')。
+         默认值/与 #who 保持最新一致，由 openModal() 里的 syncRoleSel() 在每次打开时同步。 */
+      (USERS.roles.concat([OVERVIEW])).forEach(function(n){ roleSel.add(new Option(n, n)); });
+      roleSel.addEventListener("change", function(){
+        var whoEl = document.getElementById("who");
+        if (whoEl){
+          whoEl.value = roleSel.value;
+          whoEl.dispatchEvent(new Event("change"));
+        } else {
+          localStorage.setItem("who", roleSel.value);
+        }
+      });
 
       submitBtn.addEventListener("click", function(){
         var text = textEl.value.trim();
@@ -448,9 +471,8 @@
           statusEl.textContent = "先写点想改的内容再提交哦～";
           return;
         }
-        /* 作者自动取右上角角色选择器当前值（itinerary 页无该选择器时回退到 localStorage 记住的角色） */
-        var whoEl = document.getElementById("who");
-        var author = whoEl ? whoEl.value : (localStorage.getItem("who") || "");
+        /* 作者取对话框角色下拉的当前值（与 #who 保持同步一致） */
+        var author = roleSel.value || "";
         if (!author || author === OVERVIEW){
           statusEl.className = "princeStatus err";
           statusEl.textContent = "请先在右上角选一下你是谁~";
@@ -465,6 +487,7 @@
             statusEl.className = "princeStatus ok";
             statusEl.textContent = "改好啦！约1分钟后大家刷新就能看到 ✨";
             textEl.value = "";
+            localStorage.removeItem(DRAFT_KEY);
             refreshData();
           } else {
             var errMsg = (res.data && res.data.error) ? res.data.error : ("提交失败（状态码 " + res.status + "）");
@@ -518,8 +541,19 @@
       overlayEl.style.top = vv.offsetTop + "px";
       overlayEl.style.height = vv.height + "px";
     }
+    /* 每次打开对话框时，把角色下拉同步成"当前整体角色"：优先读 #who.value，
+       没有 #who 的页面（itinerary）读 localStorage('who')，保证外部若改过角色，下次打开能反映最新值。 */
+    function syncRoleSel(){
+      if (!overlayEl) return;
+      var roleSel = overlayEl.querySelector("#princeRoleSel");
+      if (!roleSel) return;
+      var whoEl = document.getElementById("who");
+      var cur = whoEl ? whoEl.value : (localStorage.getItem("who") || "");
+      if (cur) roleSel.value = cur;
+    }
     function openModal(){
       if (!overlayEl) overlayEl = buildModal();
+      syncRoleSel();
       var statusEl = overlayEl.querySelector("#princeStatus");
       statusEl.className = "princeStatus";
       statusEl.textContent = "";
@@ -585,7 +619,8 @@
         escapeHtml(String(timeLabel)) + '</span></div><div class="princeHistText">' + escapeHtml(String(text)) + '</div></div>';
     }
 
-    fab.addEventListener("click", function(){ openModal(); });
+    /* 点小王子＝开关切换：没开就打开，开着就关闭（配合去掉×号后的新关闭方式） */
+    fab.addEventListener("click", function(){ if (modalOpen) closeModal(); else openModal(); });
     scheduleNextBubble(40000); // 加载后约 40 秒冒第一个气泡
   }
 

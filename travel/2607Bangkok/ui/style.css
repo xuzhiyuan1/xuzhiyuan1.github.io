@@ -204,11 +204,14 @@ body.pg-index{-webkit-font-smoothing:antialiased}
   transition:transform .22s cubic-bezier(.2,.9,.25,1),opacity .18s ease;
 }
 .pg-index .princeOverlay.show .princeModal,.pg-itin .princeOverlay.show .princeModal{transform:scale(1) translateY(0);opacity:1}
-.pg-index .princeClose,.pg-itin .princeClose{
-  position:absolute;top:8px;right:10px;border:0;background:transparent;font-size:1.3em;
-  color:var(--sub);cursor:pointer;line-height:1;padding:6px;
+/* 已去掉×关闭按钮：改为点遮罩关闭 / 再点一次小王子关闭；原来×的位置换成右上角的角色下拉 */
+.pg-index .princeHd,.pg-itin .princeHd{font-size:1.15em;font-weight:800;color:var(--brand);padding-right:104px}
+.pg-index .princeRoleSel,.pg-itin .princeRoleSel{
+  position:absolute;top:16px;right:16px;max-width:82px;height:25px;
+  background:#eef7fa;color:var(--brand);border:1px solid #bcd9e4;border-radius:8px;
+  padding:0 5px;font-size:.72em;font-weight:700;cursor:pointer;
 }
-.pg-index .princeHd,.pg-itin .princeHd{font-size:1.15em;font-weight:800;color:var(--brand);padding-right:26px}
+.pg-index .princeRoleSel option,.pg-itin .princeRoleSel option{color:var(--ink)}
 .pg-index .princeSub,.pg-itin .princeSub{font-size:.85em;color:var(--sub);margin-top:5px;margin-bottom:16px;line-height:1.5}
 .pg-index .princeTextarea,.pg-itin .princeTextarea{
   display:block;width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;
@@ -219,11 +222,14 @@ body.pg-index{-webkit-font-smoothing:antialiased}
   font-size:.96em;font-weight:700;padding:11px;cursor:pointer;transition:opacity .15s;
 }
 .pg-index .princeSubmit:disabled,.pg-itin .princeSubmit:disabled{opacity:.55;cursor:default}
-.pg-index .princeStatus,.pg-itin .princeStatus{min-height:1.4em;font-size:.84em;margin-top:9px;line-height:1.4}
+/* 空状态（princeStatus 无文字）时不占位，避免和下面的分隔线叠加出一大段空白；
+   有状态文字时才让它撑开一点间距 */
+.pg-index .princeStatus,.pg-itin .princeStatus{font-size:.84em;margin-top:8px;line-height:1.4}
+.pg-index .princeStatus:empty,.pg-itin .princeStatus:empty{margin-top:0;line-height:0}
 .pg-index .princeStatus.loading,.pg-itin .princeStatus.loading{color:var(--sub)}
 .pg-index .princeStatus.ok,.pg-itin .princeStatus.ok{color:#0a7d5f;font-weight:600}
 .pg-index .princeStatus.err,.pg-itin .princeStatus.err{color:var(--warn);font-weight:600}
-.pg-index .princeDivider,.pg-itin .princeDivider{height:1px;background:var(--line);margin:16px 0 12px}
+.pg-index .princeDivider,.pg-itin .princeDivider{height:1px;background:var(--line);margin:10px 0 8px}
 .pg-index .princeHistoryBtn,.pg-itin .princeHistoryBtn{
   display:block;width:100%;border:1px solid #bcd9e4;background:#eef7fa;color:#0e6e8f;border-radius:10px;
   padding:9px;font-size:.88em;font-weight:600;cursor:pointer;
