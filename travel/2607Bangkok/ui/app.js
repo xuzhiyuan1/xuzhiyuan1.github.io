@@ -12,7 +12,7 @@
     BACKEND_URL: "https://ball-internal-configuring-paintings.trycloudflare.com" // TODO: 临时地址，将来换成 https://trip.xuzhiyuan1.top
   };
 
-  var DATA, SITE, GUIDE, USERS, ITINERARY, FLIGHTS, OVERVIEW, DUR;
+  var DATA, SITE, GUIDE, USERS, ITINERARY, TRANSPORT, OVERVIEW, DUR;
   var MAP_DEFAULT = "Bangkok Thailand";
   var pageRender = null; /* 当前页面的"用最新 DATA 重新渲染"函数：index=renderAll，itin=render */
 
@@ -51,9 +51,12 @@
       });
     });
     if (roleName && roleName !== OVERVIEW){
-      var p = FLIGHTS[roleName];
-      if (p && p.out) all.push({ t: p.out.t, label: "去程 " + p.out.no + " 起飞" });
-      if (p && p.ret) all.push({ t: p.ret.t, label: "返程 " + p.ret.no + " 起飞" });
+      var p = TRANSPORT[roleName];
+      if (p && p.segments){
+        p.segments.forEach(function(seg){
+          all.push({ t: seg.t, label: seg.label + " " + seg.no + " 起飞" });
+        });
+      }
     }
     return all.filter(function(e){ return new Date(e.t).getTime() > now; })
               .sort(function(a, b){ return new Date(a.t) - new Date(b.t); });
@@ -82,7 +85,7 @@
     ]).then(function(res){
       DATA = { site: res[0], trip: res[1], guide: res[2], users: res[3] };
       SITE = DATA.site; GUIDE = DATA.guide; USERS = DATA.users;
-      ITINERARY = DATA.trip.itinerary; FLIGHTS = DATA.trip.flights;
+      ITINERARY = DATA.trip.itinerary; TRANSPORT = DATA.trip.transport;
       OVERVIEW = USERS.overviewLabel;
       DUR = '<img class="dur" src="ui/' + SITE.themeImage + '" alt="榴莲">';
       return DATA;
@@ -111,6 +114,29 @@
       return arr.slice().reverse(); // 最新的在前
     }).catch(function(){ return []; });
   }
+
+  /* ============================================================
+     交通样式库：每种交通方式一款样式（本次曼谷之旅用「机票」款）。
+     以后加 train/car 各加一款：TRANSPORT_STYLES.train = ..., TRANSPORT_STYLES.car = ...
+     flight(seg, mine) 产出的 HTML 与原航班卡片（原 fcard）逐字节一致：
+       label 取 seg.label（去程/返程），其余字段由原 leg.xxx 换成 seg.xxx。
+     ============================================================ */
+  var TRANSPORT_STYLES = {
+    flight: function(seg, mine){
+      var lab = '<div class="flabel">' + seg.label + '</div>';
+      if (!seg) return lab + '<div class="fcard"><div class="fmeta">航班待补充</div></div>';
+      var meta = seg.meta + (seg.price ? ' · ' + seg.price : '');
+      return lab + '<div class="fcard' + (mine ? ' mine' : '') + '">' +
+        '<div class="frow2"><span class="no">' + seg.air + ' ' + seg.no + '</span><span class="fdur">✈ ' + seg.dur + '</span></div>' +
+        '<div class="fmeta">' + meta + '</div>' +
+        '<div class="froute">' +
+          '<div class="fend"><div class="fcity">' + seg.depCity + '</div><div class="ftime" data-bj="' + seg.depBJ + '" data-th="' + seg.depTH + '">' + seg.depBJ + '</div></div>' +
+          '<div class="farrow">→</div>' +
+          '<div class="fend r"><div class="fcity">' + seg.arrCity + '</div><div class="ftime" data-bj="' + seg.arrBJ + '" data-th="' + seg.arrTH + '">' + seg.arrBJ + '</div></div>' +
+        '</div>' +
+        '</div>';
+    }
+  };
 
   /* ============================================================ index ============================================================ */
   function initIndex(){
@@ -154,7 +180,7 @@
     var whoSel = $("who");
     USERS.roles.concat([OVERVIEW]).forEach(function(n){ whoSel.add(new Option(n, n)); });
     var saved = localStorage.getItem("who");
-    whoSel.value = (saved && (FLIGHTS[saved] || saved === OVERVIEW)) ? saved : USERS.defaultRole;
+    whoSel.value = (saved && (TRANSPORT[saved] || saved === OVERVIEW)) ? saved : USERS.defaultRole;
 
     /* ====== 时区切换（默认北京时间，机酒 tab 用） ====== */
     var tz = localStorage.getItem("tz") || "bj";
@@ -167,31 +193,20 @@
       tz = (tz === "bj" ? "th" : "bj"); localStorage.setItem("tz", tz); applyTz();
     });
 
-    /* ====== 航班卡 ====== */
-    function fcard(kind, leg, mine){
-      var lab = '<div class="flabel">' + kind + '</div>';
-      if (!leg) return lab + '<div class="fcard"><div class="fmeta">航班待补充</div></div>';
-      var meta = leg.meta + (leg.price ? ' · ' + leg.price : '');
-      return lab + '<div class="fcard' + (mine ? ' mine' : '') + '">' +
-        '<div class="frow2"><span class="no">' + leg.air + ' ' + leg.no + '</span><span class="fdur">✈ ' + leg.dur + '</span></div>' +
-        '<div class="fmeta">' + meta + '</div>' +
-        '<div class="froute">' +
-          '<div class="fend"><div class="fcity">' + leg.depCity + '</div><div class="ftime" data-bj="' + leg.depBJ + '" data-th="' + leg.depTH + '">' + leg.depBJ + '</div></div>' +
-          '<div class="farrow">→</div>' +
-          '<div class="fend r"><div class="fcity">' + leg.arrCity + '</div><div class="ftime" data-bj="' + leg.arrBJ + '" data-th="' + leg.arrTH + '">' + leg.arrBJ + '</div></div>' +
-        '</div>' +
-        '</div>';
+    /* ====== 交通卡（每段用交通样式库对应款渲染；本次全为机票款） ====== */
+    function segHTML(seg, mine){
+      return (TRANSPORT_STYLES[seg.type || "flight"] || TRANSPORT_STYLES.flight)(seg, mine);
     }
     function renderFlights(){
       var box = $("flightBox");
       if (whoSel.value === OVERVIEW){
         box.innerHTML = USERS.roles.map(function(n){
-          var p = FLIGHTS[n];
-          return '<div class="pname">' + n + '</div>' + fcard("去程", p.out, false) + fcard("返程", p.ret, false);
+          var p = TRANSPORT[n];
+          return '<div class="pname">' + n + '</div>' + (p.segments || []).map(function(seg){ return segHTML(seg, false); }).join("");
         }).join("");
       } else {
-        var p = FLIGHTS[whoSel.value];
-        box.innerHTML = fcard("去程", p.out, true) + fcard("返程", p.ret, true) + (p.note ? '<div class="note">' + p.note + '</div>' : '');
+        var p = TRANSPORT[whoSel.value];
+        box.innerHTML = (p.segments || []).map(function(seg){ return segHTML(seg, true); }).join("") + (p.note ? '<div class="note">' + p.note + '</div>' : '');
       }
       applyTz();
     }
@@ -391,7 +406,6 @@
           '<button type="button" class="princeClose" aria-label="关闭">×</button>' +
           '<div class="princeHd">👑 小王子</div>' +
           '<div class="princeSub">告诉我你想怎么改行程/攻略，我来帮你改～</div>' +
-          '<input class="princeInput" id="princeAuthor" type="text" placeholder="你是谁？如 徐致远" maxlength="20" autocomplete="off">' +
           '<textarea class="princeTextarea" id="princeText" rows="4" placeholder="想改什么？例：把8月1日大皇宫改到11点"></textarea>' +
           '<button type="button" class="princeSubmit" id="princeSubmit">提交给小王子</button>' +
           '<div class="princeStatus" id="princeStatus"></div>' +
@@ -404,7 +418,6 @@
       overlay.addEventListener("click", function(e){ if (e.target === overlay) closeModal(); });
       overlay.querySelector(".princeClose").addEventListener("click", closeModal);
 
-      var authorEl = overlay.querySelector("#princeAuthor");
       var textEl = overlay.querySelector("#princeText");
       var submitBtn = overlay.querySelector("#princeSubmit");
       var statusEl = overlay.querySelector("#princeStatus");
@@ -418,8 +431,14 @@
           statusEl.textContent = "先写点想改的内容再提交哦～";
           return;
         }
-        var author = authorEl.value.trim();
-        localStorage.setItem("princeAuthor", author);
+        /* 作者自动取右上角角色选择器当前值（itinerary 页无该选择器时回退到 localStorage 记住的角色） */
+        var whoEl = document.getElementById("who");
+        var author = whoEl ? whoEl.value : (localStorage.getItem("who") || "");
+        if (!author || author === OVERVIEW){
+          statusEl.className = "princeStatus err";
+          statusEl.textContent = "请先在右上角选一下你是谁~";
+          return;
+        }
         submitBtn.disabled = true;
         statusEl.className = "princeStatus loading";
         statusEl.textContent = "小王子正在改…（约30~60秒，请不要关闭页面）";
@@ -470,8 +489,6 @@
     }
     function openModal(){
       if (!overlayEl) overlayEl = buildModal();
-      var authorEl = overlayEl.querySelector("#princeAuthor");
-      authorEl.value = localStorage.getItem("princeAuthor") || "";
       var statusEl = overlayEl.querySelector("#princeStatus");
       statusEl.className = "princeStatus";
       statusEl.textContent = "";
