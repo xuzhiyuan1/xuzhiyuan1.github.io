@@ -195,9 +195,7 @@
       "title": "Day 1 · 8.1 周六 · 曼谷（示例，待确认）",
       "loc": [
         "Grand Palace Bangkok",
-        "Wat Pho Bangkok",
         "Wat Arun Bangkok",
-        "Siam Paragon Bangkok",
         "Yaowarat Road Bangkok"
       ],
       "items": [
@@ -217,28 +215,11 @@
           ]
         },
         {
-          "time": "13:00",
-          "iso": "2026-08-01T13:00:00+07:00",
-          "title": "卧佛寺 Wat Pho",
-          "places": [
-            "Wat Pho Bangkok"
-          ]
-        },
-        {
           "time": "15:00",
           "iso": "2026-08-01T15:00:00+07:00",
           "title": "湄南河游船 / 郑王庙",
           "places": [
             "Wat Arun Bangkok"
-          ]
-        },
-        {
-          "time": "16:30",
-          "iso": "2026-08-01T16:30:00+07:00",
-          "title": "暹罗百丽宫 Siam Paragon",
-          "note": "曼谷市中心大型购物中心，美食广场、奢侈品、暹罗海洋世界",
-          "places": [
-            "Siam Paragon Bangkok"
           ]
         },
         {
@@ -257,7 +238,9 @@
       "title": "Day 2 · 8.2 周日 · 返程（示例，待确认）",
       "loc": [
         "Chatuchak Weekend Market",
-        "Or Tor Kor Market Bangkok"
+        "Or Tor Kor Market Bangkok",
+        "Siam Paragon Bangkok",
+        "CentralWorld Bangkok"
       ],
       "items": [
         {
@@ -272,6 +255,24 @@
           "time": "12:00",
           "iso": "2026-08-02T12:00:00+07:00",
           "title": "退房，行李寄存酒店前台"
+        },
+        {
+          "time": "13:30",
+          "iso": "2026-08-02T13:30:00+07:00",
+          "title": "暹罗百丽宫 Siam Paragon",
+          "note": "曼谷市中心大型购物中心，美食广场、奢侈品、暹罗海洋世界",
+          "places": [
+            "Siam Paragon Bangkok"
+          ]
+        },
+        {
+          "time": "16:00",
+          "iso": "2026-08-02T16:00:00+07:00",
+          "title": "CentralWorld 中央世界购物中心 → 买西太后 Vivienne Westwood",
+          "note": "从 Siam Paragon 坐 BTS 一站到 Chit Lom 站即达；Vivienne Westwood（西太后）在 CentralWorld 1F，东南亚最大购物中心之一",
+          "places": [
+            "CentralWorld Bangkok"
+          ]
         },
         {
           "time": "深夜",
