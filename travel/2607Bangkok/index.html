@@ -38,6 +38,17 @@
 
 <div class="wrap">
 
+  <!-- 下拉刷新指示条：移动端下拉手势 / 桌面端鼠标下拉或点击，显示"数据最新改动时间" -->
+  <div class="pullBanner" id="pullBanner">
+    <div class="pullSpacer" id="pullSpacer"></div>
+    <div class="pullRow" id="pullRow" role="button" tabindex="0" aria-label="下拉或点击刷新数据">
+      <span class="pullIcon" id="pullIcon">⌄</span>
+      <span class="pullStatus" id="pullStatus">下拉刷新</span>
+      <span class="pullDot">·</span>
+      <span class="pullTime" id="pullTime">加载中…</span>
+    </div>
+  </div>
+
   <!-- ============ 日程 ============ -->
   <section id="panePlan">
 

@@ -99,6 +99,19 @@
     setInterval(refreshData, 30000);
   }
 
+  /* ---------- 修改记录：data/history.json（同仓库相对路径，带时间戳防缓存；可能 404/为空）
+     供"小王子·修改记录"面板 与 "下拉刷新指示条"（显示最新改动时间）共用，避免重复实现 ---------- */
+  function loadHistory(){
+    return fetch("data/history.json?t=" + Date.now()).then(function(r){
+      if (!r.ok) return [];
+      return r.json().catch(function(){ return []; });
+    }).then(function(data){
+      var arr = Array.isArray(data) ? data : ((data && (data.items || data.history || data.records)) || []);
+      if (!Array.isArray(arr)) arr = [];
+      return arr.slice().reverse(); // 最新的在前
+    }).catch(function(){ return []; });
+  }
+
   /* ============================================================ index ============================================================ */
   function initIndex(){
     var $ = function(id){ return document.getElementById(id); };
@@ -493,17 +506,7 @@
       });
     }
 
-    /* ===== 修改记录：data/history.json（同仓库相对路径，带时间戳防缓存；可能 404/为空） ===== */
-    function loadHistory(){
-      return fetch("data/history.json?t=" + Date.now()).then(function(r){
-        if (!r.ok) return [];
-        return r.json().catch(function(){ return []; });
-      }).then(function(data){
-        var arr = Array.isArray(data) ? data : ((data && (data.items || data.history || data.records)) || []);
-        if (!Array.isArray(arr)) arr = [];
-        return arr.slice().reverse(); // 最新的在前
-      }).catch(function(){ return []; });
-    }
+    /* 修改记录列表的单条渲染（loadHistory() 已上移到模块作用域，供本面板与下拉刷新指示条共用） */
     function historyItemHTML(e){
       e = e || {};
       var author = e.author || e.name || e.user || e.who || "匿名";
@@ -520,8 +523,164 @@
     scheduleNextBubble(40000); // 加载后约 40 秒冒第一个气泡
   }
 
+  /* ---------- 下拉刷新（顶部指示条）：移动端手指下拉 + 桌面端鼠标下拉/点击均可，两页共用。
+     指示条 DOM 是 index.html / itinerary.html 里已有的 #pullBanner（本函数只接线交互逻辑），
+     刷新动作直接复用现有 refreshData()，不新建轮询/定时器；时间来源复用 loadHistory()。 ---------- */
+  function initPullRefresh(){
+    var banner = document.getElementById("pullBanner");
+    var spacer = document.getElementById("pullSpacer");
+    var row = document.getElementById("pullRow");
+    if (!banner || !spacer || !row) return;
+    var iconEl = document.getElementById("pullIcon");
+    var statusEl = document.getElementById("pullStatus");
+    var timeEl = document.getElementById("pullTime");
+
+    var THRESHOLD = 60;  // 下拉超过这个距离松手才会触发刷新
+    var MAX_PULL = 92;   // 视觉上允许下拉的最大距离（带阻尼，指头实际位移会更大）
+    var REFRESH_H = 40;  // 刷新中/刷新完成时指示条固定撑开的高度
+
+    var touchTracking = false, touchDecided = null, touchStartX = 0, touchStartY = 0;
+    var mouseDragging = false, mouseMoved = false, mouseStartY = 0;
+    var dist = 0, refreshing = false;
+    var timeCache = null, timeCacheAt = 0;
+
+    function scrollTopPx(){
+      return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    }
+    function fmtModTime(iso){
+      var d = new Date(iso);
+      if (isNaN(d.getTime())) return "";
+      return pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+    }
+    /* 最近一次修改时间：复用 loadHistory()，取最新一条的 at 字段；短时间内缓存，避免频繁请求 */
+    function loadLastModLabel(force){
+      var now = Date.now();
+      if (!force && timeCache && (now - timeCacheAt) < 15000) return Promise.resolve(timeCache);
+      return loadHistory().then(function(list){
+        var label = (list && list.length && list[0] && list[0].at) ? ("最新改动 " + fmtModTime(list[0].at)) : "暂无修改记录";
+        timeCache = label; timeCacheAt = Date.now();
+        return label;
+      });
+    }
+    function ensureTime(){ loadLastModLabel().then(function(label){ timeEl.textContent = label; }); }
+
+    function updateDrag(rawDelta){
+      dist = Math.min(MAX_PULL, Math.max(0, rawDelta * 0.5)); // 简单阻尼，越往下拉越沉
+      banner.classList.add("dragging");
+      spacer.style.height = dist + "px";
+      if (dist >= THRESHOLD){
+        iconEl.classList.add("ready");
+        statusEl.textContent = "松开刷新";
+      } else {
+        iconEl.classList.remove("ready");
+        statusEl.textContent = "下拉刷新";
+      }
+      ensureTime();
+    }
+
+    function resetVisual(){
+      banner.classList.remove("dragging", "ok", "err");
+      iconEl.classList.remove("ready", "spin");
+      statusEl.textContent = "下拉刷新";
+      spacer.style.height = "0px";
+      dist = 0;
+    }
+
+    function doRefresh(){
+      if (refreshing) return;
+      refreshing = true;
+      banner.classList.remove("dragging", "ok", "err");
+      spacer.style.height = REFRESH_H + "px";
+      iconEl.classList.remove("ready");
+      iconEl.classList.add("spin");
+      statusEl.textContent = "刷新中…";
+      ensureTime();
+      refreshData().then(function(){
+        return loadLastModLabel(true);
+      }).then(function(label){
+        timeEl.textContent = label;
+        iconEl.classList.remove("spin");
+        banner.classList.add("ok");
+        statusEl.textContent = "已是最新 ✓";
+      }).catch(function(){
+        iconEl.classList.remove("spin");
+        banner.classList.add("err");
+        statusEl.textContent = "刷新失败，稍后再试";
+      }).then(function(){
+        setTimeout(function(){
+          refreshing = false;
+          resetVisual();
+        }, 1500);
+      });
+    }
+
+    /* ===== 移动端：整页手指下拉手势（只在 scrollTop≈0 时激活，避免和正常滚动打架） ===== */
+    document.addEventListener("touchstart", function(e){
+      if (refreshing || scrollTopPx() > 0 || (e.target.closest && e.target.closest(".princeOverlay"))){
+        touchTracking = false; touchDecided = null; return;
+      }
+      var t = e.touches[0];
+      touchStartX = t.clientX; touchStartY = t.clientY;
+      touchTracking = true; touchDecided = null;
+    }, { passive: true });
+
+    document.addEventListener("touchmove", function(e){
+      if (!touchTracking || refreshing) return;
+      var t = e.touches[0];
+      var dx = t.clientX - touchStartX, dy = t.clientY - touchStartY;
+      if (touchDecided === null){
+        if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return; // 移动太小，先不判断方向
+        touchDecided = (dy > 0 && Math.abs(dy) > Math.abs(dx) && scrollTopPx() <= 0) ? "pull" : "other";
+      }
+      if (touchDecided !== "pull") return;
+      if (scrollTopPx() > 0){ touchTracking = false; resetVisual(); return; } // 期间页面被滚动了，取消
+      e.preventDefault(); // 阻止原生下拉回弹/刷新，接管为自定义指示条
+      updateDrag(dy);
+    }, { passive: false });
+
+    function touchFinish(){
+      if (!touchTracking) return;
+      touchTracking = false;
+      if (touchDecided === "pull"){
+        if (dist >= THRESHOLD) doRefresh(); else resetVisual();
+      }
+      touchDecided = null;
+    }
+    document.addEventListener("touchend", touchFinish, { passive: true });
+    document.addEventListener("touchcancel", touchFinish, { passive: true });
+
+    /* ===== 桌面端：在指示条上鼠标下拉 / 悬停显示时间 / 直接点击也能触发刷新 ===== */
+    row.addEventListener("mouseenter", function(){ if (!refreshing) ensureTime(); });
+    row.addEventListener("mousedown", function(e){
+      if (refreshing) return;
+      mouseDragging = true; mouseMoved = false; mouseStartY = e.clientY;
+      ensureTime();
+    });
+    window.addEventListener("mousemove", function(e){
+      if (!mouseDragging || refreshing) return;
+      var dy = e.clientY - mouseStartY;
+      if (Math.abs(dy) > 4) mouseMoved = true;
+      updateDrag(Math.max(0, dy));
+    });
+    window.addEventListener("mouseup", function(){
+      if (!mouseDragging) return;
+      mouseDragging = false;
+      if (dist >= THRESHOLD) doRefresh(); else resetVisual();
+    });
+    row.addEventListener("click", function(){
+      if (refreshing || mouseMoved) return; // 有效拖拽已在 mouseup 里处理，避免点击重复触发
+      doRefresh();
+    });
+    row.addEventListener("keydown", function(e){
+      if (e.key === "Enter" || e.key === " "){ e.preventDefault(); doRefresh(); }
+    });
+
+    ensureTime();
+  }
+
   /* ---------- 启动 ---------- */
   initPrinceFab();
+  initPullRefresh();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function(){});
   load().then(function(){
     var page = document.body.getAttribute("data-page");

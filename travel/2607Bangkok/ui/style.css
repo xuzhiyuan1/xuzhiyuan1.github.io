@@ -221,3 +221,25 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .princeHistEmpty,.pg-itin .princeHistEmpty,.pg-index .princeHistLoading,.pg-itin .princeHistLoading{
   font-size:.86em;color:var(--sub);text-align:center;padding:14px 0;
 }
+
+/* ============================================================ 下拉刷新指示条（顶部；移动端手指下拉 / 桌面端鼠标下拉或点击，两页共用） ============================================================ */
+.pg-index .pullBanner,.pg-itin .pullBanner{position:relative;z-index:2;user-select:none;-webkit-user-select:none}
+.pg-index .pullSpacer,.pg-itin .pullSpacer{height:0;overflow:hidden;transition:height .25s cubic-bezier(.2,.8,.2,1)}
+.pg-index .pullBanner.dragging .pullSpacer,.pg-itin .pullBanner.dragging .pullSpacer{transition:none}
+.pg-index .pullRow,.pg-itin .pullRow{
+  display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;
+  margin:10px 0 2px;padding:7px 14px;border-radius:99px;cursor:pointer;
+  background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
+  border:1px solid var(--line);box-shadow:0 1px 6px rgba(16,42,67,.08);
+  font-size:.78em;color:var(--sub);transition:background .15s,color .15s,border-color .15s;
+}
+.pg-index .pullRow:hover,.pg-itin .pullRow:hover{background:rgba(255,255,255,.88);color:var(--brand)}
+.pg-index .pullIcon,.pg-itin .pullIcon{display:inline-block;font-weight:700;transition:transform .2s}
+.pg-index .pullIcon.ready,.pg-itin .pullIcon.ready{transform:rotate(180deg)}
+.pg-index .pullIcon.spin,.pg-itin .pullIcon.spin{animation:pullSpin .8s linear infinite}
+@keyframes pullSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.pg-index .pullStatus,.pg-itin .pullStatus{font-weight:700}
+.pg-index .pullDot,.pg-itin .pullDot{opacity:.5}
+.pg-index .pullTime,.pg-itin .pullTime{opacity:.92}
+.pg-index .pullBanner.ok .pullRow,.pg-itin .pullBanner.ok .pullRow{color:#0a7d5f;background:#eafaf3;border-color:#bfe8d6}
+.pg-index .pullBanner.err .pullRow,.pg-itin .pullBanner.err .pullRow{color:var(--warn);background:#fff2ec;border-color:#f3c8ad}
