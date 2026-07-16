@@ -245,6 +245,8 @@
       Array.prototype.forEach.call(tabMenu.querySelectorAll("button"), function(b){ b.classList.toggle("active", b.dataset.tab === tab); });
       tabToggle.innerHTML = TAB_LABELS[tab] + ' <span class="car">▾</span>';
       tabMenu.hidden = true; tabToggle.classList.remove("open");
+      /* 每次切进攻略本 tab，重新随机一遍顶部推荐胶囊（数据已加载时才有意义，见 renderGuideRandom 的空判断） */
+      if (tab === "guide" && typeof renderGuideRandom === "function") renderGuideRandom();
     }
     Array.prototype.forEach.call(tabMenu.querySelectorAll("button"), function(btn){
       btn.addEventListener("click", function(){ showTab(btn.dataset.tab); });
@@ -303,38 +305,198 @@
     }
     $("hotelBox").innerHTML = DATA.trip.hotel.rows.map(hotelRowHTML).join("");
 
-    /* ====== 攻略本（DATA.guidebook：大家跟小王子聊天时自动攒的攻略/问答，最新在上） ====== */
-    function guideCardHTML(item){
+    /* ====== 攻略本（DATA.guidebook：大家跟小王子聊天时自动攒的攻略/问答，最新在上） ======
+       - 顶部「随机推荐」：随机挑几条做成小胶囊，点了滚动+展开对应卡片
+       - 每张卡默认收起（问题/要点 + 答案摘要 + 展开按钮），点开显示完整 Markdown 渲染 */
+    var guideCardsBox = $("guideCards");
+    var guideRandomBox = $("guideRandom");
+
+    function truncate(s, n){
+      s = String(s == null ? "" : s);
+      return s.length > n ? s.slice(0, n) + "…" : s;
+    }
+    /* 从原始（未渲染）Markdown 里抠一份纯文本预览：去掉标题号/列表号/粗斜体符号/链接语法/表格竖线，
+       多个换行合并成空格。给"摘要"和"随机推荐胶囊标签"共用，避免展示 Markdown 语法符号或对已转义的
+       HTML 再转义一遍（那样 & 之类字符会变成 &amp;amp; 这种双重转义）。 */
+    function mdPlainPreview(raw){
+      return String(raw == null ? "" : raw)
+        .replace(/^#{1,6}\s*/gm, "")
+        .replace(/\*\*?/g, "")
+        .replace(/`/g, "")
+        .replace(/^[-*]\s+/gm, "")
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+        .replace(/\|/g, " ")
+        .replace(/\s*\n\s*/g, " ")
+        .replace(/\s{2,}/g, " ")
+        .trim();
+    }
+
+    /* ---- 极简手写 Markdown → HTML（不引外部库）：
+       先整体转义防 XSS，再按行处理 ##/### 小标题、- 列表、| 表格，行内处理 **粗** *斜* `码` [文字](链接)，
+       空行分段（<p>），段内单个换行转 <br> ---- */
+    function mdInline(s){
+      s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+      s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      s = s.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+      s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      return s;
+    }
+    function mdToHtml(src){
+      var esc = escapeHtml(src);
+      var lines = esc.split(/\r?\n/);
+      var html = "", para = [], listItems = null, tableRows = [];
+      function isTableLine(l){ return /^\|.*\|$/.test(l.trim()); }
+      function isSepLine(l){ return /^\|?[\s:|-]+\|[\s:|-]*\|?$/.test(l.trim()) && l.indexOf("-") > -1; }
+      function flushPara(){
+        if (para.length){ html += "<p>" + mdInline(para.join("<br>")) + "</p>"; para = []; }
+      }
+      function flushList(){
+        if (listItems){ html += "<ul>" + listItems.map(function(li){ return "<li>" + mdInline(li) + "</li>"; }).join("") + "</ul>"; listItems = null; }
+      }
+      function flushTable(){
+        if (!tableRows.length) return;
+        var rows = tableRows.map(function(r){
+          return r.trim().replace(/^\||\|$/g, "").split("|").map(function(c){ return c.trim(); });
+        });
+        var head = null, start = 0;
+        if (rows.length > 1 && rows[1].every(function(c){ return /^:?-{1,}:?$/.test(c); })){ head = rows[0]; start = 2; }
+        html += '<div class="mdTableWrap"><table class="mdTable">';
+        if (head) html += "<thead><tr>" + head.map(function(c){ return "<th>" + mdInline(c) + "</th>"; }).join("") + "</tr></thead>";
+        html += "<tbody>";
+        for (var i = start; i < rows.length; i++){ html += "<tr>" + rows[i].map(function(c){ return "<td>" + mdInline(c) + "</td>"; }).join("") + "</tr>"; }
+        html += "</tbody></table></div>";
+        tableRows = [];
+      }
+      function flushAll(){ flushList(); flushPara(); flushTable(); }
+      lines.forEach(function(raw){
+        var line = raw.replace(/\s+$/, "");
+        if (!line.trim()){ flushAll(); return; }
+        if (isTableLine(line)){
+          if (isSepLine(line) && !tableRows.length) return; // 孤立分隔线直接忽略
+          flushList(); flushPara();
+          tableRows.push(line);
+          return;
+        }
+        flushTable();
+        var h3 = line.match(/^###\s+(.*)/);
+        var h2 = line.match(/^##\s+(.*)/);
+        var li = line.match(/^[-*]\s+(.*)/);
+        if (h3){ flushList(); flushPara(); html += "<h4>" + mdInline(h3[1]) + "</h4>"; return; }
+        if (h2){ flushList(); flushPara(); html += "<h3>" + mdInline(h2[1]) + "</h3>"; return; }
+        if (li){
+          flushPara();
+          if (!listItems) listItems = [];
+          listItems.push(li[1]);
+          return;
+        }
+        flushList();
+        para.push(line);
+      });
+      flushAll();
+      return html;
+    }
+
+    function findGuideCard(gid){
+      if (!guideCardsBox) return null;
+      var cards = guideCardsBox.querySelectorAll(".guideCard");
+      for (var i = 0; i < cards.length; i++){ if (cards[i].getAttribute("data-gid") === gid) return cards[i]; }
+      return null;
+    }
+    function setGuideCardExpanded(card, expanded){
+      if (!card) return;
+      card.classList.toggle("expanded", expanded);
+      var head = card.querySelector(".guideCardHead");
+      if (head) head.setAttribute("aria-expanded", expanded ? "true" : "false");
+      var icon = card.querySelector(".guideToggleIcon");
+      if (icon) icon.textContent = expanded ? "▾" : "▸";
+    }
+    function expandGuideCardById(gid){
+      var card = findGuideCard(gid);
+      if (!card) return;
+      setGuideCardExpanded(card, true);
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function guideCardHTML(item, idx){
       item = item || {};
-      var author = item.author ? escapeHtml(item.author) : "";
+      var gid = item.id || ("gc" + idx);
+      var authorsArr = (Array.isArray(item.authors) && item.authors.length) ? item.authors : (item.author ? [item.author] : []);
+      var authorLabel = authorsArr.join("、");
       var d = item.at ? new Date(item.at) : null;
       var timeLabel = (d && !isNaN(d.getTime())) ? fmtBJ(d) : "";
-      var metaHTML = (author || timeLabel)
-        ? '<div class="guideMeta">' + (author ? '<b>' + author + '</b>' : '<span></span>') + (timeLabel ? '<span>' + timeLabel + '</span>' : '') + '</div>'
+      var metaHTML = (authorLabel || timeLabel)
+        ? '<div class="guideMeta">' + (authorLabel ? "<b>" + escapeHtml(authorLabel) + "</b>" : "<span></span>") + (timeLabel ? "<span>" + timeLabel + "</span>" : "") + "</div>"
         : "";
-      if (item.type === "qa"){
-        return '<div class="card guideCard guideQa">' +
-          '<div class="guideQ"><span class="guideTag q">问</span><span>' + escapeHtml(item.q || "") + '</span></div>' +
-          '<div class="guideA"><span class="guideTag a">答</span><span>' + escapeHtml(item.a || "") + '</span></div>' +
-          metaHTML + '</div>';
-      }
-      /* 默认按 tip（攻略）渲染：q 是攻略要点（标题），a 是小王子整理的细节 */
-      return '<div class="card guideCard guideTip">' +
-        '<div class="guideTitle">📝 ' + escapeHtml(item.q || "") + '</div>' +
-        (item.a ? '<div class="guideDetail">' + escapeHtml(item.a) + '</div>' : "") +
-        metaHTML + '</div>';
+      var isQa = item.type === "qa";
+      var qText = escapeHtml(item.q || "");
+      var aHtml = mdToHtml(item.a || "");
+      var summary = truncate(mdPlainPreview(item.a), 48);
+      var headMain = isQa
+        ? '<div class="guideQ"><span class="guideTag q">问</span><span>' + qText + "</span></div>"
+        : '<div class="guideTitle">📝 ' + qText + "</div>";
+      return '<div class="card guideCard' + (isQa ? " guideQa" : " guideTip") + '" data-gid="' + escapeHtml(gid) + '">' +
+        '<button type="button" class="guideCardHead" aria-expanded="false">' +
+          '<div class="guideCardHeadMain">' + headMain +
+            (summary ? '<div class="guideSummary">' + escapeHtml(summary) + "</div>" : "") +
+          "</div>" +
+          '<span class="guideToggleIcon" aria-hidden="true">▸</span>' +
+        "</button>" +
+        '<div class="guideBody">' +
+          '<div class="guideDetail">' + aHtml + "</div>" +
+          metaHTML +
+        "</div>" +
+      "</div>";
     }
     function renderGuidebook(){
-      var box = $("guideCards");
+      var box = guideCardsBox;
       if (!box) return;
       var list = (DATA.guidebook || []).slice().sort(function(a, b){
         return new Date((b && b.at) || 0).getTime() - new Date((a && a.at) || 0).getTime(); // 最新在上
       });
       if (!list.length){
         box.innerHTML = '<div class="card guideEmpty">还没有攻略哦～点右下小王子，跟它分享一条攻略或问个问题吧🍈</div>';
-        return;
+      } else {
+        box.innerHTML = list.map(guideCardHTML).join("");
       }
-      box.innerHTML = list.map(guideCardHTML).join("");
+      renderGuideRandom();
+    }
+    /* 顶部「随机推荐」胶囊：从 DATA.guidebook 随机挑 4~6 条（不足则全部挑），截断成短标签；
+       每次调用都重新洗牌，供 renderGuidebook()（数据刷新时）与 showTab("guide")（进入 tab 时）复用 */
+    function renderGuideRandom(){
+      var box = guideRandomBox;
+      if (!box) return;
+      var list = DATA.guidebook || [];
+      if (!list.length){ box.hidden = true; box.innerHTML = ""; return; }
+      var pool = list.slice();
+      for (var i = pool.length - 1; i > 0; i--){ // Fisher-Yates 洗牌
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+      }
+      var n = Math.min(pool.length, 4 + Math.floor(Math.random() * 3)); // 4~6 条
+      var picked = pool.slice(0, n);
+      box.hidden = false;
+      box.innerHTML = '<div class="guideRandomHd">🎲 随机推荐</div><div class="guideChips">' +
+        picked.map(function(item, idx){
+          var gid = item.id || ("gc" + idx);
+          var label = truncate(item.q ? String(item.q) : mdPlainPreview(item.a), 14);
+          return '<button type="button" class="guideChip" data-gid="' + escapeHtml(gid) + '">' + escapeHtml(label) + "</button>";
+        }).join("") + "</div>";
+    }
+    if (guideCardsBox){
+      guideCardsBox.addEventListener("click", function(e){
+        var head = e.target.closest ? e.target.closest(".guideCardHead") : null;
+        if (!head) return;
+        var card = head.closest(".guideCard");
+        if (!card) return;
+        setGuideCardExpanded(card, !card.classList.contains("expanded"));
+      });
+    }
+    if (guideRandomBox){
+      guideRandomBox.addEventListener("click", function(e){
+        var chip = e.target.closest ? e.target.closest(".guideChip") : null;
+        if (!chip) return;
+        expandGuideCardById(chip.getAttribute("data-gid"));
+      });
     }
 
     /* ====== 地图卡（按"今天"动态定位/生成内容） ====== */
@@ -521,7 +683,6 @@
       overlay.className = "princeOverlay";
       overlay.hidden = true;
       overlay.innerHTML =
-        '<div class="princeTail" aria-hidden="true"></div>' +
         '<div class="princeModal" role="dialog" aria-modal="true" aria-label="小王子·改行程">' +
           '<div class="princeHd">👑 小王子</div>' +
           '<select class="princeRoleSel" id="princeRoleSel" aria-label="选择角色"></select>' +

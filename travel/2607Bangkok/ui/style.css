@@ -93,16 +93,54 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index details summary{cursor:pointer;color:var(--brand);font-size:.92em;font-weight:600}
 .pg-index .allLink{display:block;text-decoration:none;color:inherit}
 .pg-index .allLink .note{margin-top:2px}
-/* 攻略本（第三个 tab）：DATA.guidebook 渲染的卡片，最新在上；tip=攻略要点+细节，qa=问+答 */
-.pg-index .guideCard{padding:14px 16px}
+/* 随机推荐（词云胶囊）：攻略本顶部，随机挑几条做成小标签，点了滚动+展开对应卡片（见 .guideCard 折叠区） */
+.pg-index .guideRandom{margin-top:14px}
+.pg-index .guideRandomHd{font-size:.86em;font-weight:700;color:var(--brand);margin-bottom:8px;padding-left:2px}
+.pg-index .guideChips{display:flex;flex-wrap:wrap;gap:8px}
+.pg-index .guideChip{
+  border:1px solid #bcd9e4;background:rgba(255,255,255,.7);color:#0e6e8f;border-radius:99px;
+  padding:6px 13px;font-size:.82em;font-weight:600;cursor:pointer;max-width:100%;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:background .15s,transform .1s;
+}
+.pg-index .guideChip:active{transform:scale(.96)}
+@media (hover:hover){ .pg-index .guideChip:hover{background:#eef7fa} }
+
+/* 攻略卡（第三个 tab）：DATA.guidebook 渲染的卡片，最新在上；tip=攻略要点+细节，qa=问+答；
+   默认收起——只显示 guideCardHead（问题/要点 + 摘要 + 折叠箭头），点了展开 guideBody（完整 Markdown 渲染） */
+.pg-index .guideCard{padding:0;overflow:hidden;max-width:100%}
+.pg-index .guideCardHead{
+  display:flex;align-items:flex-start;gap:10px;width:100%;border:0;background:transparent;
+  padding:14px 16px;cursor:pointer;text-align:left;font:inherit;color:inherit;
+}
+.pg-index .guideCardHeadMain{flex:1;min-width:0}
 .pg-index .guideTip .guideTitle{font-weight:700;font-size:1.0em;color:var(--brand);line-height:1.4}
-.pg-index .guideTip .guideDetail{margin-top:8px;font-size:.92em;line-height:1.55;color:var(--ink)}
 .pg-index .guideQa .guideQ{display:flex;gap:8px;align-items:flex-start;font-weight:700;font-size:.96em;color:var(--brand);line-height:1.45}
-.pg-index .guideQa .guideA{display:flex;gap:8px;align-items:flex-start;margin-top:9px;font-size:.92em;line-height:1.55;color:var(--ink)}
+.pg-index .guideSummary{margin-top:6px;font-size:.86em;line-height:1.5;color:var(--sub);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pg-index .guideToggleIcon{flex:0 0 auto;color:var(--accent);font-size:.95em;margin-top:2px;transition:transform .15s}
+.pg-index .guideCard.expanded .guideCardHead{padding-bottom:6px}
 .pg-index .guideTag{flex:0 0 auto;font-size:.7em;font-weight:700;padding:2px 8px;border-radius:99px;line-height:1.5;margin-top:1px}
 .pg-index .guideTag.q{background:#eef7fa;color:#0e6e8f;border:1px solid #bcd9e4}
 .pg-index .guideTag.a{background:#e6f5f0;color:#0a7d5f;border:1px solid #bfe8d6}
-.pg-index .guideMeta{display:flex;justify-content:space-between;gap:8px;margin-top:11px;font-size:.74em;color:var(--sub)}
+/* 展开区：默认收起（不占位），展开后带 Markdown 渲染的完整答案 + 署名/时间 */
+.pg-index .guideBody{display:none;padding:0 16px 16px}
+.pg-index .guideCard.expanded .guideBody{display:block}
+.pg-index .guideDetail{font-size:.92em;line-height:1.65;color:var(--ink)}
+.pg-index .guideDetail p{margin:.6em 0}
+.pg-index .guideDetail p:first-child{margin-top:0}
+.pg-index .guideDetail h3{margin:.9em 0 .4em;font-size:1.05em;color:var(--brand)}
+.pg-index .guideDetail h3:first-child{margin-top:0}
+.pg-index .guideDetail h4{margin:.8em 0 .35em;font-size:.98em;color:var(--brand)}
+.pg-index .guideDetail ul{margin:.4em 0;padding-left:1.3em}
+.pg-index .guideDetail li{margin:.35em 0}
+.pg-index .guideDetail strong{color:var(--brand);font-weight:700}
+.pg-index .guideDetail code{background:#eef4f7;color:#0b3d5c;border-radius:4px;padding:1px 5px;font-size:.9em;font-family:ui-monospace,Menlo,monospace}
+.pg-index .guideDetail a{color:#0e6e8f}
+.pg-index .guideDetail .mdTableWrap{overflow-x:auto;margin:.6em 0;-webkit-overflow-scrolling:touch}
+.pg-index .guideDetail table.mdTable{border-collapse:collapse;width:100%;font-size:.92em}
+.pg-index .guideDetail table.mdTable th,.pg-index .guideDetail table.mdTable td{border:1px solid var(--line);padding:5px 9px;text-align:left}
+.pg-index .guideDetail table.mdTable th{background:#eef4f7;color:var(--brand)}
+.pg-index .guideMeta{display:flex;justify-content:space-between;gap:8px;margin-top:12px;font-size:.74em;color:var(--sub)}
 .pg-index .guideMeta b{color:var(--brand)}
 .pg-index .guideEmpty{text-align:center;color:var(--sub);font-size:.92em;padding:34px 16px;line-height:1.7}
 .pg-index .devbar{font-size:.78em;color:var(--sub);text-align:center;margin-top:16px;line-height:1.7}
@@ -189,33 +227,31 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .princeBubbleClose:hover,.pg-itin .princeBubbleClose:hover{color:#fff}
 
 /* 对话框：遮罩盖住整页（小王子因 z-index 更高而不受影响）+ 从小王子右下角"长出来"的对话框。
-   overlay 用 flex 靠右下对齐，并预留 padding-bottom 给小王子站位；modal 的 transform-origin
-   设在右下角，配合 scale+opacity 做"从那个角弹出"的缩放淡入动画，而不是居中 modal。
-   手机端键盘弹起时，JS 会把 overlay 的 top/height 同步到 visualViewport，保证输入框/提交按钮不被键盘挡住。 */
+   overlay 用 flex 靠右下对齐，但只留很小的边距（不再为小王子站位预留大块底部空间——展开后盖住小王子没关系），
+   modal 的 transform-origin 设在右下角，配合 scale+opacity 做"从那个角弹出"的缩放淡入动画，
+   最终静止态是一个几乎撑满 overlay（=撑满可见视口）的大面板，避免键盘弹起后中间留出一大段空白。
+   手机端键盘弹起时，JS 会把 overlay 的 top/height 同步到 visualViewport.height/offsetTop，
+   modal 高度=100%跟着一起收缩到"键盘正上方"，文本框（flex:1）随之占满多出来的空间。 */
 .pg-index .princeOverlay,.pg-itin .princeOverlay{
   position:fixed;inset:0;z-index:200;background:rgba(10,20,28,.5);
-  display:flex;align-items:flex-end;justify-content:flex-end;
-  padding:14px 20px;padding-bottom:calc(132px + env(safe-area-inset-bottom,0px));
+  display:flex;align-items:stretch;justify-content:flex-end;
+  padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));
   opacity:0;transition:opacity .2s ease;
 }
 .pg-index .princeOverlay.show,.pg-itin .princeOverlay.show{opacity:1}
-/* 小三角"嘴边"连接件，指向小王子，不参与滚动/点击 */
-.pg-index .princeTail,.pg-itin .princeTail{
-  position:absolute;right:52px;bottom:calc(114px + env(safe-area-inset-bottom,0px));
-  width:16px;height:16px;background:#fff;border-radius:3px;transform:rotate(45deg);
-  box-shadow:2px 2px 8px rgba(9,30,46,.14);
-  opacity:0;transition:opacity .18s ease;pointer-events:none;
-}
-.pg-index .princeOverlay.show .princeTail,.pg-itin .princeOverlay.show .princeTail{opacity:1}
 .pg-index .princeModal,.pg-itin .princeModal{
   position:relative;background:#fff;border-radius:18px;max-width:360px;width:100%;
-  max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 18px 16px;
+  height:100%;max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  display:flex;flex-direction:column;padding:20px 18px 16px;
   box-shadow:0 20px 50px rgba(9,30,46,.35);
   transform-origin:bottom right;
   transform:scale(.82) translateY(10px);opacity:0;
   transition:transform .22s cubic-bezier(.2,.9,.25,1),opacity .18s ease;
 }
 .pg-index .princeOverlay.show .princeModal,.pg-itin .princeOverlay.show .princeModal{transform:scale(1) translateY(0);opacity:1}
+/* modal 内除输入框外的所有直接子元素都保持自身内容高度（不被 flex 挤压变形）；
+   输入框（.princeTextarea）用 flex:1 吃掉剩余空间，键盘弹起、可用高度变小时它也会跟着变矮，但不会被压没 */
+.pg-index .princeModal>*,.pg-itin .princeModal>*{flex:0 0 auto}
 /* 已去掉×关闭按钮：改为点遮罩关闭 / 再点一次小王子关闭；原来×的位置换成右上角的角色下拉 */
 .pg-index .princeHd,.pg-itin .princeHd{font-size:1.15em;font-weight:800;color:var(--brand);padding-right:104px}
 .pg-index .princeRoleSel,.pg-itin .princeRoleSel{
@@ -243,6 +279,7 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .princeTextarea,.pg-itin .princeTextarea{
   display:block;width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;
   padding:10px 11px;font-size:16px;font-family:inherit;line-height:1.4;resize:vertical;min-height:58px;
+  flex:1 1 90px; /* 吃掉 modal 里除文本框外其余元素占完之后剩下的空间，面板越大/键盘挤压后可用高度越小，它都跟着变 */
 }
 .pg-index .princeSubmit,.pg-itin .princeSubmit{
   display:block;width:100%;margin-top:12px;border:0;border-radius:10px;background:var(--accent);color:#fff;
