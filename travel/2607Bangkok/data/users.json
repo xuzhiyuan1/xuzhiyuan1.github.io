@@ -1,10 +1,5 @@
 {
-  "roles": [
-    "徐致远",
-    "崔嘉骏",
-    "唐娅妮",
-    "潘骁腾"
-  ],
+  "roles": ["徐致远", "崔嘉骏", "唐娅妮", "潘骁腾"],
   "overviewLabel": "总览",
   "defaultRole": "总览",
   "userCount": null
