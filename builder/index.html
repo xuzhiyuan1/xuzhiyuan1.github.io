@@ -596,7 +596,7 @@
 (function () {
   "use strict";
 
-  var API_BASE = "https://builder.xuzhiyuan1.top";
+  var API_BASE = "https://build.xuzhiyuan1.top";
   var PASS_KEY = "builderRoom_pass";
   var DIR_KEY = "builderRoom_dir";
   var DEVICE_KEY = "deviceId"; // shared with travel/ pages (same-origin localStorage)
@@ -1074,7 +1074,7 @@
       if (controller) controller.abort();
     }, POST_TIMEOUT_MS);
 
-    fetch(API_BASE + "/builder", {
+    fetch(API_BASE + "/build", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
