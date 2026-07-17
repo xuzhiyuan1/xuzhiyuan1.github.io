@@ -43,7 +43,7 @@
   var ov = document.createElement("div");
   ov.id = "opaliteGate";
   ov.innerHTML =
-    '<div class="lk">🔒</div><h2>Opalite</h2>' +
+    '<div class="lk">🔒</div><h2>私密</h2>' +
     '<p>私密页面。首次进入需输入口令授权本设备,之后本设备免密。</p>' +
     '<div id="ogForm" style="display:none;width:100%;max-width:300px">' +
     '<input id="ogPw" type="password" placeholder="口令" autocomplete="off">' +
