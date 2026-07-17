@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="模型 API 余额汇总:自动获取各家大模型 API 的剩余额度,一键跳转充值。">
+<title>Model API · 余额汇总</title>
+<script src="/opalite/gate.js"></script>
+<style>
+  :root{--bg:#0e1016;--panel:#171a22;--panel2:#1e222c;--line:#2a2f3a;--tx:#e7e9ee;--mut:#8b93a3;--acc:#7c9cff;--acc2:#a78bfa;--ok:#4ade80;--warn:#fbbf24;}
+  *{box-sizing:border-box}html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--tx);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:16px}
+  .top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .top .dot{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+  .top h1{font-size:19px;margin:0;font-weight:700}
+  .top .sp{flex:1}
+  a.back{color:var(--mut);font-size:13px;text-decoration:none}
+  a.back:hover{color:var(--tx)}
+  .sub{color:var(--mut);font-size:12.5px;margin:0 0 16px}
+  .btn{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer;text-decoration:none}
+  .btn:active{transform:translateY(1px)}
+  .btn.acc{background:var(--acc);color:#0b0e16;border:none;font-weight:600}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:6px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+  .card .h{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+  .card .name{font-weight:700;font-size:16px}
+  .card .badge{font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);color:var(--mut)}
+  .card .badge.on{color:var(--ok);border-color:rgba(74,222,128,.4)}
+  .card .badge.off{color:var(--warn);border-color:rgba(251,191,36,.4)}
+  .bal{font-size:30px;font-weight:800;letter-spacing:.5px}
+  .bal .u{font-size:15px;font-weight:600;color:var(--mut);margin-left:4px}
+  .note{color:var(--warn);font-size:13px;line-height:1.5}
+  .detail{color:var(--mut);font-size:12.5px;margin-top:4px}
+  .card .foot{display:flex;gap:8px;margin-top:14px}
+  .empty{color:var(--mut);text-align:center;margin-top:60px}
+  .foothint{color:var(--mut);font-size:12px;margin-top:22px;text-align:center}
+  #app{display:none}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <div class="top">
+    <span class="dot"></span><h1>Model API</h1>
+    <span class="sp"></span>
+    <a class="back" href="/opalite/">← Opalite</a>
+  </div>
+  <p class="sub" id="sub">各家大模型 API 余额汇总 · <span id="ts"></span> <a href="#" id="refresh" style="color:var(--acc);text-decoration:none">刷新</a></p>
+  <div class="cards" id="cards"><div class="empty">正在查询各家余额…</div></div>
+  <div class="foothint">余额由服务器端用你的 API Key 直接查询,Key 只存服务器、不经过浏览器。<br>没有公开余额接口的(如 MiniMax 按量计费)可点卡片按钮一键跳转控制台查看。</div>
+</div>
+<script>
+  function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  function card(p){
+    var on = p.ok;
+    var badge = on ? '<span class="badge on">已连接</span>' : '<span class="badge off">需控制台</span>';
+    var mid;
+    if(on){
+      mid = '<div class="bal">'+esc(p.balance)+'<span class="u">'+esc(p.unit||"")+'</span></div>'
+          + (p.detail ? '<div class="detail">'+esc(p.detail)+'</div>' : '');
+    } else {
+      mid = '<div class="note">'+esc(p.note||"无法自动查询")+'</div>';
+    }
+    var foot = p.console ? '<a class="btn acc" href="'+esc(p.console)+'" target="_blank" rel="noopener">查看 / 充值 ↗</a>' : '';
+    return '<div class="card"><div class="h"><span class="name">'+esc(p.name)+'</span>'+badge+'</div>'+mid+'<div class="foot">'+foot+'</div></div>';
+  }
+  function load(){
+    document.getElementById("cards").innerHTML='<div class="empty">正在查询各家余额…</div>';
+    opaliteFetch("/models").then(function(j){
+      if(!j||!j.ok){ document.getElementById("cards").innerHTML='<div class="empty">加载失败,请刷新重试</div>'; return; }
+      var ps=j.providers||[];
+      document.getElementById("cards").innerHTML = ps.length ? ps.map(card).join("") : '<div class="empty">还没有配置任何模型 API</div>';
+      document.getElementById("ts").textContent = "更新于 "+String(j.at||"").replace("T"," ").slice(5,16);
+    }).catch(function(){ document.getElementById("cards").innerHTML='<div class="empty">连不上服务器</div>'; });
+  }
+  document.getElementById("refresh").addEventListener("click",function(e){e.preventDefault();load();});
+  window.addEventListener("opalite:ready",function(){ document.getElementById("app").style.display="block"; load(); });
+</script>
+</body>
+</html>

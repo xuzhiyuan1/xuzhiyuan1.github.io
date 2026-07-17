@@ -18,7 +18,7 @@
   .field{width:100%;max-width:320px;margin:7px 0}
   input,textarea,select{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:12px 14px;font:inherit;outline:none}
   input:focus,textarea:focus{border-color:var(--acc)}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--acc);color:#0b0e16;border:none;border-radius:12px;padding:12px 16px;font-weight:600;font-size:15px;cursor:pointer;width:100%;max-width:320px;margin-top:10px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--acc);color:#0b0e16;border:none;border-radius:12px;padding:12px 16px;font-weight:600;font-size:15px;cursor:pointer;text-decoration:none;width:100%;max-width:320px;margin-top:10px}
   .btn:active{transform:translateY(1px)}
   .btn:disabled{opacity:.55}
   .btn.sec{background:var(--panel2);color:var(--tx);border:1px solid var(--line)}
@@ -98,7 +98,7 @@
       <div class="brand"><span class="dot"></span> Opalite</div>
       <div class="sp"></div>
       <span class="who" id="who"></span>
-      <button class="btn sec mini" id="newBtn">+ 新建</button>
+      <a class="btn sec mini" href="/opalite/models/">💰 API</a><a class="btn sec mini" href="/opalite/ls/">🗂 LS</a><button class="btn sec mini" id="newBtn">+ 新建</button>
     </div>
     <div class="cols">
       <div class="side" id="side"></div>
