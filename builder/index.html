@@ -661,12 +661,18 @@
   // ---------- rendering ----------
 
   function deviceModel() {
-    var ua = navigator.userAgent || "";
-    if (/iPhone/.test(ua)) return "iPhone";
-    if (/iPad/.test(ua)) return "iPad";
-    if (/Macintosh/.test(ua)) return "Mac";
+    var ua = navigator.userAgent || "", tp = navigator.maxTouchPoints || 0;
+    // iOS/iPad 的 Safari 会故意发 Mac UA;真 Mac 触摸点=0,iPhone/iPad>1 → 据此揪出伪装
+    var iosLike = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && tp > 1);
+    if (iosLike) {
+      if (/iPad/.test(ua)) return "iPad";
+      if (/iPhone|iPod/.test(ua)) return "iPhone";
+      var mn = Math.min(screen.width || 0, screen.height || 0);
+      return (mn && mn <= 500) ? "iPhone" : "iPad";
+    }
     var m = ua.match(/Android[^;]*;\s*([^);]+?)(?:\sBuild|[;)])/);
     if (m && m[1]) return m[1].trim().slice(0, 24);
+    if (/Macintosh|Mac OS X/.test(ua)) return "Mac";
     if (/Windows/.test(ua)) return "Windows";
     if (/Linux/.test(ua)) return "Linux";
     return "本设备";
