@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0b0f">
+<title>亲亲小白 · Kiss Him</title>
+<style>
+  :root {
+    --bg: #0b0b0f;
+    --ink: #f5e9d7;
+    --accent: #ff7aa2;
+    --accent2: #ffb3c8;
+    --shadow: rgba(255, 122, 162, 0.45);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+    min-height: 100%;
+    overflow-x: hidden;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 12px 32px;
+    background:
+      radial-gradient(ellipse at top, #2a1530 0%, #0b0b0f 55%) fixed,
+      var(--bg);
+  }
+  header {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  h1 {
+    margin: 4px 0 2px;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    background: linear-gradient(120deg, var(--accent2), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .sub {
+    font-size: 12px;
+    color: #c9b89a;
+    opacity: 0.85;
+    margin-bottom: 8px;
+  }
+
+  /* ASCII face stage */
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .ascii-wrap {
+    position: relative;
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06),
+      0 30px 60px -20px var(--shadow);
+    background: #07070a;
+  }
+  pre.ascii {
+    margin: 0;
+    padding: 6px 4px;
+    width: 100%;
+    font-family: "SFMono-Regular", "Menlo", "Consolas", "Courier New", monospace;
+    font-size: 6.5px;
+    line-height: 6px;
+    letter-spacing: 0;
+    color: var(--ink);
+    text-align: center;
+    white-space: pre;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    display: block;
+  }
+  @media (min-width: 420px) {
+    pre.ascii { font-size: 7.5px; line-height: 7.5px; }
+  }
+  @media (min-width: 640px) {
+    pre.ascii { font-size: 9px; line-height: 9px; }
+  }
+
+  /* Floating kiss markers */
+  .kiss {
+    position: absolute;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0;
+    font-size: 28px;
+    line-height: 1;
+    will-change: transform, opacity;
+    animation: kissPop 1100ms ease-out forwards;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.45);
+  }
+  @keyframes kissPop {
+    0%   { transform: translate(-50%, -50%) scale(0.4) rotate(-12deg); opacity: 0; }
+    25%  { transform: translate(-50%, -70%) scale(1.15) rotate(-6deg); opacity: 1; }
+    55%  { transform: translate(-50%, -120%) scale(1.0) rotate(4deg); opacity: 1; }
+    100% { transform: translate(-50%, -200%) scale(0.7) rotate(0deg); opacity: 0; }
+  }
+  .kiss .lips { display: inline-block; }
+  .kiss .lips.big { font-size: 1.4em; }
+  .kiss .text {
+    display: block;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(180deg, #ff6b95, #ff3d77);
+    padding: 3px 8px;
+    border-radius: 999px;
+    margin-top: 2px;
+    box-shadow: 0 4px 14px rgba(255, 61, 119, 0.5);
+    white-space: nowrap;
+  }
+
+  /* counter + hint */
+  .footer {
+    margin-top: 14px;
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+    color: #d8c8a8;
+  }
+  .counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 122, 162, 0.25);
+    border-radius: 999px;
+  }
+  .counter .num { color: var(--accent2); font-weight: 700; min-width: 1.5em; text-align: right; }
+  .reset {
+    background: transparent;
+    color: #c9b89a;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .reset:active { transform: scale(0.96); }
+
+  .hint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #a89878;
+    text-align: center;
+    opacity: 0.85;
+  }
+
+  /* Heart particles */
+  .heart {
+    position: absolute;
+    pointer-events: none;
+    font-size: 14px;
+    will-change: transform, opacity;
+    animation: heartFloat 1400ms ease-out forwards;
+  }
+  @keyframes heartFloat {
+    0%   { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+    20%  { opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--dx, 0px)), calc(-50% - var(--dy, 80px))) scale(1.1); opacity: 0; }
+  }
+
+  /* loading */
+  .loading {
+    color: #c9b89a;
+    font-size: 12px;
+    padding: 40px 0;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>亲亲小白 💋</h1>
+  <div class="sub">点一下他的脸 · 亲一下</div>
+</header>
+
+<div class="stage">
+  <div class="ascii-wrap">
+    <pre class="ascii" id="ascii" aria-label="点击亲亲他">
+      <div class="loading" id="loading">正在画他的脸…</div>
+    </pre>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="counter">已被亲 <span class="num" id="count">0</span> 次</div>
+  <button class="reset" id="reset" type="button">清零</button>
+</div>
+<div class="hint">提示：可以亲头发 / 眼镜 / 脸颊 / 嘴巴,随便点</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const IMG_URL = 'face.png';
+  const asciiEl = document.getElementById('ascii');
+  const loadingEl = document.getElementById('loading');
+  const countEl = document.getElementById('count');
+  const resetBtn = document.getElementById('reset');
+  const stage = document.querySelector('.stage');
+  const asciiWrap = document.querySelector('.ascii-wrap');
+
+  // brightness ramp: light -> dark
+  const RAMP = ' .,:;~+=*?#%@$█'.split('');
+  // Slightly longer ramp keeps subtle skin tones visible
+  // (also includes a full block for the darkest pixels like hair)
+
+  // adapt grid to viewport
+  function targetGrid() {
+    const w = Math.min(window.innerWidth, 520);
+    // pick cols to match aspect ratio of face (~600x689 → ~0.87 ratio)
+    // also keep cells roughly square after CSS scaling
+    const cols = w < 380 ? 70 : w < 520 ? 90 : 110;
+    return cols;
+  }
+
+  // convert image to ASCII art
+  function imageToAscii(img, cols) {
+    const aspect = img.height / img.width;
+    // each character is roughly 2x tall as wide in monospace → halve row count
+    const rows = Math.max(8, Math.round(cols * aspect * 0.5));
+
+    const canvas = document.createElement('canvas');
+    canvas.width = cols;
+    canvas.height = rows;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    // smooth scaling
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, 0, 0, cols, rows);
+
+    const data = ctx.getImageData(0, 0, cols, rows).data;
+
+    const lines = [];
+    let line = '';
+    for (let y = 0; y < rows; y++) {
+      line = '';
+      for (let x = 0; x < cols; x++) {
+        const i = (y * cols + x) * 4;
+        const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3];
+        // perceived luminance
+        const lum = (0.299 * r + 0.587 * g + 0.114 * b) * (a / 255);
+        // map 0..255 to ramp
+        const idx = Math.min(RAMP.length - 1, Math.max(0, Math.floor(lum / 255 * (RAMP.length - 1))));
+        line += RAMP[idx];
+      }
+      lines.push(line);
+    }
+    return { text: lines.join('\n'), cols, rows };
+  }
+
+  function renderAscii() {
+    const cols = targetGrid();
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function () {
+      const { text } = imageToAscii(img, cols);
+      // set as text inside pre
+      asciiEl.textContent = text;
+      // store as data attribute for reference
+      asciiEl.dataset.cols = cols;
+      asciiEl.dataset.ready = '1';
+    };
+    img.onerror = function () {
+      loadingEl.textContent = '图片加载失败,确认 face.png 是否在同目录下';
+    };
+    img.src = IMG_URL;
+  }
+
+  // build a character-cell grid for hit-testing
+  // (we approximate by tracking bounding rect + line height)
+  function cellMetrics() {
+    const cs = getComputedStyle(asciiEl);
+    const lineH = parseFloat(cs.lineHeight);
+    const fs = parseFloat(cs.fontSize);
+    const charH = isFinite(lineH) ? lineH : fs * 1;
+    const charW = fs * 0.6; // monospace ≈ 0.6em
+    const rect = asciiEl.getBoundingClientRect();
+    return { rect, charW, charH, lineH: charH };
+  }
+
+  // count stored across sessions (localStorage)
+  let count = parseInt(localStorage.getItem('kiss_count') || '0', 10) || 0;
+  countEl.textContent = String(count);
+
+  function makeKiss(x, y) {
+    const k = document.createElement('div');
+    k.className = 'kiss';
+    k.style.left = x + 'px';
+    k.style.top = y + 'px';
+    const lips = document.createElement('span');
+    lips.className = 'lips' + (Math.random() < 0.3 ? ' big' : '');
+    lips.textContent = '💋';
+    k.appendChild(lips);
+
+    if (Math.random() < 0.55) {
+      const t = document.createElement('span');
+      t.className = 'text';
+      const labels = ['啵!', 'mua~', '亲亲', '♥', 'muah', '💗', '亲一口'];
+      t.textContent = labels[Math.floor(Math.random() * labels.length)];
+      k.appendChild(t);
+    }
+    asciiWrap.appendChild(k);
+    setTimeout(() => k.remove(), 1200);
+  }
+
+  function makeHearts(x, y) {
+    const n = 3 + Math.floor(Math.random() * 3);
+    const palette = ['❤️', '💖', '💕', '💗', '🌸'];
+    for (let i = 0; i < n; i++) {
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = palette[Math.floor(Math.random() * palette.length)];
+      h.style.left = (x + (Math.random() - 0.5) * 30) + 'px';
+      h.style.top = (y + (Math.random() - 0.5) * 16) + 'px';
+      h.style.setProperty('--dx', ((Math.random() - 0.5) * 90).toFixed(0) + 'px');
+      h.style.setProperty('--dy', (60 + Math.random() * 60).toFixed(0) + 'px');
+      h.style.fontSize = (12 + Math.random() * 8).toFixed(0) + 'px';
+      h.style.animationDelay = (i * 60) + 'ms';
+      asciiWrap.appendChild(h);
+      setTimeout(() => h.remove(), 1700);
+    }
+  }
+
+  function handleTap(clientX, clientY) {
+    const r = asciiWrap.getBoundingClientRect();
+    const x = clientX - r.left;
+    const y = clientY - r.top;
+    // bounds check (only kiss inside the face area)
+    if (x < 0 || y < 0 || x > r.width || y > r.height) return;
+
+    makeKiss(x, y);
+    makeHearts(x, y);
+
+    count += 1;
+    countEl.textContent = String(count);
+    localStorage.setItem('kiss_count', String(count));
+
+    // little wobble feedback on the face
+    asciiEl.animate(
+      [
+        { transform: 'scale(1)' },
+        { transform: 'scale(1.015)' },
+        { transform: 'scale(0.995)' },
+        { transform: 'scale(1)' }
+      ],
+      { duration: 320, easing: 'ease-out' }
+    );
+  }
+
+  // use pointer events so mouse + touch both work
+  asciiEl.addEventListener('pointerdown', function (e) {
+    if (asciiEl.dataset.ready !== '1') return;
+    e.preventDefault();
+    handleTap(e.clientX, e.clientY);
+  });
+
+  resetBtn.addEventListener('click', function () {
+    count = 0;
+    countEl.textContent = '0';
+    localStorage.setItem('kiss_count', '0');
+  });
+
+  // debounced resize re-render
+  let resizeTimer = null;
+  window.addEventListener('resize', function () {
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      // only re-render if a meaningful change
+      const desired = targetGrid();
+      if (String(desired) !== asciiEl.dataset.cols) renderAscii();
+    }, 200);
+  });
+
+  // keyboard shortcut: spacebar = kiss center (a11y)
+  document.addEventListener('keydown', function (e) {
+    if (e.code === 'Space' && asciiEl.dataset.ready === '1') {
+      e.preventDefault();
+      const r = asciiWrap.getBoundingClientRect();
+      handleTap(r.left + r.width / 2 + (Math.random() - 0.5) * 60,
+                r.top + r.height / 2 + (Math.random() - 0.5) * 40);
+    }
+  });
+
+  renderAscii();
+})();
+</script>
+
+</body>
+</html>
