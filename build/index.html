@@ -145,6 +145,11 @@
     color: var(--accent-text);
     border: 1px solid var(--accent);
   }
+  .dir-banner .banner-crane {
+    display: inline-block;
+    transform-origin: bottom center;
+    animation: crane-sway 2.4s ease-in-out infinite;
+  }
 
   .auth-row {
     font-size: 12px;
@@ -263,19 +268,68 @@
   }
   .row.user .who { text-align: right; }
 
-  .dots::after {
-    content: "";
-    display: inline-block;
-    width: 1em;
-    text-align: left;
-    animation: dots 1.2s steps(4, end) infinite;
+  /* ---- construction scene (pending AI reply) ---- */
+  .construction-scene {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    line-height: 1;
+    padding: 2px 0;
   }
-  @keyframes dots {
-    0% { content: ""; }
-    25% { content: "."; }
-    50% { content: ".."; }
-    75% { content: "..."; }
-    100% { content: ""; }
+  .construction-scene .em {
+    display: inline-block;
+    font-size: 22px;
+  }
+  .construction-scene .em.crane {
+    transform-origin: bottom center;
+    animation: crane-sway 2.4s ease-in-out infinite;
+  }
+  .construction-scene .em.hammer {
+    transform-origin: top right;
+    animation: hammer-hit 1s ease-in-out infinite;
+  }
+  .construction-scene .bricks {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 0 2px;
+  }
+  .construction-scene .brick {
+    display: inline-block;
+    width: 14px;
+    height: 9px;
+    background: var(--accent);
+    border-radius: 2px;
+    opacity: 0.22;
+    animation: brick-fill 1.6s ease-in-out infinite;
+  }
+  .construction-scene .brick:nth-child(1) { animation-delay: 0s; }
+  .construction-scene .brick:nth-child(5) { animation-delay: 0.6s; }
+  .construction-scene .brick:nth-child(4) { animation-delay: 0.45s; }
+  .construction-scene .brick:nth-child(3) { animation-delay: 0.3s; }
+  .construction-scene .brick:nth-child(2) { animation-delay: 0.15s; }
+
+  @keyframes crane-sway {
+    0%, 100% { transform: rotate(-6deg); }
+    50%      { transform: rotate(6deg); }
+  }
+  @keyframes hammer-hit {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    40%      { transform: translate(-3px, -4px) rotate(-25deg); }
+    60%      { transform: translate(2px, 2px) rotate(10deg); }
+  }
+  @keyframes brick-fill {
+    0%, 100% { opacity: 0.22; transform: translateY(0); }
+    50%      { opacity: 1;    transform: translateY(-2px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .construction-scene .em,
+    .construction-scene .brick,
+    .dir-banner .banner-crane {
+      animation: none;
+    }
   }
 
   .composer {
@@ -553,7 +607,18 @@
     bubble.className = "bubble ai-bubble";
     if (m.status === "pending") {
       bubble.classList.add("pending");
-      bubble.innerHTML = '<span class="dots">正在改</span>';
+      bubble.innerHTML =
+        '<span class="construction-scene">' +
+          '<span class="em crane">🏗️</span>' +
+          '<span class="bricks">' +
+            '<span class="brick"></span>' +
+            '<span class="brick"></span>' +
+            '<span class="brick"></span>' +
+            '<span class="brick"></span>' +
+            '<span class="brick"></span>' +
+          '</span>' +
+          '<span class="em hammer">🔨</span>' +
+        '</span>';
     } else if (m.status === "done") {
       bubble.textContent = m.reply || "(没有返回内容)";
       if (m.showSuccessNote) {
@@ -614,7 +679,7 @@
   function updateDirBanner() {
     var d = dirInput.value.trim();
     if (d) {
-      dirBanner.textContent = "🏗️ 正在建设 /" + d + "/";
+      dirBanner.innerHTML = '<span class="banner-crane">🏗️</span> 正在建设 /' + escapeHtml(d) + '/';
       dirBanner.classList.add("active");
     } else {
       dirBanner.textContent = "⚠️ 尚未设置目标目录,请先在上方填写";
