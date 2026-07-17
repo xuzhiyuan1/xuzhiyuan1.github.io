@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>🛠️ 个人网站建造室 / Build</title>
+<title>🛠️ 个人网站建造室 / Builder</title>
 <meta name="description" content="跟 AI 说需求,它自动帮你改个人网站" />
 <meta name="robots" content="noindex" />
 <style>
@@ -438,7 +438,7 @@
 <body>
 
 <header class="top">
-  <h1>🛠️ 个人网站建造室 / Build</h1>
+  <h1>🛠️ 个人网站建造室 / Builder</h1>
   <p>跟它说你想怎么改你的个人网站(可传图参考),它会自动帮你改好并发布</p>
 </header>
 
@@ -484,12 +484,12 @@
 (function () {
   "use strict";
 
-  var API_BASE = "https://build.xuzhiyuan1.top";
-  var PASS_KEY = "buildRoom_pass";
-  var DIR_KEY = "buildRoom_dir";
+  var API_BASE = "https://builder.xuzhiyuan1.top";
+  var PASS_KEY = "builderRoom_pass";
+  var DIR_KEY = "builderRoom_dir";
   var DEVICE_KEY = "deviceId"; // shared with travel/ pages (same-origin localStorage)
   var WHO_KEY = "who";
-  var MSGS_KEY = "buildRoom_msgs";
+  var MSGS_KEY = "builderRoom_msgs";
   var POST_TIMEOUT_MS = 10000;
   var POLL_INTERVAL_MS = 3500;
   var MAX_IMAGE_BYTES = 8 * 1024 * 1024;
@@ -858,7 +858,7 @@
       if (controller) controller.abort();
     }, POST_TIMEOUT_MS);
 
-    fetch(API_BASE + "/build", {
+    fetch(API_BASE + "/builder", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
