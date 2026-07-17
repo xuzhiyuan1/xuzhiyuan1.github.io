@@ -11,7 +11,6 @@
   html,body{margin:0;height:100%}
   body{background:var(--bg);color:var(--tx);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;-webkit-text-size-adjust:100%}
   .wrap{max-width:820px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
-  /* 登录门 */
   .gate{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;text-align:center}
   .logo{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:18px;box-shadow:0 10px 30px rgba(124,156,255,.25)}
   .gate h1{margin:0 0 6px;font-size:22px;letter-spacing:.5px}
@@ -21,12 +20,12 @@
   input:focus,textarea:focus{border-color:var(--acc)}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--acc);color:#0b0e16;border:none;border-radius:12px;padding:12px 16px;font-weight:600;font-size:15px;cursor:pointer;width:100%;max-width:320px;margin-top:10px}
   .btn:active{transform:translateY(1px)}
+  .btn:disabled{opacity:.55}
   .btn.sec{background:var(--panel2);color:var(--tx);border:1px solid var(--line)}
   .btn.mini{width:auto;padding:7px 12px;font-size:13px;margin:0}
   .btn.danger{color:var(--danger)}
   .err{color:var(--danger);font-size:13px;min-height:18px;margin-top:8px}
   .hint{color:var(--mut);font-size:12px;margin-top:14px}
-  /* 内容区 */
   .app{display:none;flex:1;flex-direction:column}
   .top{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(14,16,22,.92);backdrop-filter:blur(8px);z-index:5}
   .top .brand{display:flex;align-items:center;gap:8px;font-weight:700;letter-spacing:.5px}
@@ -54,11 +53,23 @@
   .content th,.content td{border:1px solid var(--line);padding:6px 10px}
   .rowbtns{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
   .meta{color:var(--mut);font-size:12px;margin-bottom:16px}
+  /* 想法流 */
+  .addbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin:6px 0 20px}
+  .addbox textarea{min-height:70px;resize:vertical;background:var(--panel2)}
+  .addbox .r{display:flex;justify-content:flex-end;margin-top:8px}
+  .entry{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:12px;background:var(--panel)}
+  .entry .etime{display:flex;align-items:center;gap:8px;color:var(--mut);font-size:12px;margin-bottom:6px}
+  .entry .etime .sp{flex:1}
+  .entry .edel{cursor:pointer;color:var(--mut);font-size:16px;line-height:1;padding:0 4px}
+  .entry .edel:hover{color:var(--danger)}
+  .entry .ebody :first-child{margin-top:0}
+  .entry .ebody :last-child{margin-bottom:0}
+  /* 编辑器 */
   .editor{display:none;flex-direction:column;gap:10px}
   .editor textarea{min-height:46vh;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;line-height:1.55}
   .editor .r{display:flex;gap:10px;align-items:center}
   .editor .r select{width:auto}
-  .empty{color:var(--mut);text-align:center;margin-top:60px}
+  .empty{color:var(--mut);text-align:center;margin-top:40px}
   @media(max-width:620px){
     .cols{flex-direction:column}
     .side{width:auto;border-right:none;border-bottom:1px solid var(--line);display:flex;gap:6px;overflow:auto;padding:8px 10px}
@@ -71,7 +82,6 @@
 <body>
 <div class="wrap">
 
-  <!-- 登录门 -->
   <div class="gate" id="gate">
     <div class="logo">🔒</div>
     <h1>Opalite</h1>
@@ -83,7 +93,6 @@
     <div class="hint" id="gateHint">正在连接…</div>
   </div>
 
-  <!-- 内容区 -->
   <div class="app" id="app">
     <div class="top">
       <div class="brand"><span class="dot"></span> Opalite</div>
@@ -98,12 +107,16 @@
         <div class="editor" id="editor">
           <input id="edTitle" type="text" placeholder="标题">
           <div class="r">
-            <select id="edFmt"><option value="md">Markdown</option><option value="html">HTML</option></select>
+            <select id="edFmt">
+              <option value="md">Markdown 页</option>
+              <option value="log">想法流(可追加)</option>
+              <option value="html">HTML 页</option>
+            </select>
             <span class="sp" style="flex:1"></span>
             <button class="btn mini" id="saveBtn">保存</button>
             <button class="btn sec mini" id="cancelBtn">取消</button>
           </div>
-          <textarea id="edBody" placeholder="在这里写私密内容(支持 Markdown)…"></textarea>
+          <textarea id="edBody" placeholder="在这里写内容(支持 Markdown)…"></textarea>
         </div>
       </div>
     </div>
@@ -114,12 +127,12 @@
 (function(){
   var BACKEND = "https://opalite.xuzhiyuan1.top";
   var LS_DEV = "opalite_device";
-  function uuid(){ return (Date.now().toString(36) + Math.random().toString(36).slice(2,10)); }
+  function uid(){ return (Date.now().toString(36) + Math.random().toString(36).slice(2,10)); }
   var device = localStorage.getItem(LS_DEV);
-  if(!device){ device = uuid(); localStorage.setItem(LS_DEV, device); }
+  if(!device){ device = uid(); localStorage.setItem(LS_DEV, device); }
 
   var $ = function(id){ return document.getElementById(id); };
-  var PAGES = [], curId = null, editing = false;
+  var PAGES = [], curId = null;
 
   function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
   function inl(s){
@@ -161,7 +174,6 @@
     return fetch(BACKEND+path, opts).then(function(r){ return r.json().catch(function(){return {ok:false};}).then(function(j){ j.__status=r.status; return j; }); });
   }
 
-  // ---- 登录门 ----
   function showGate(msg){ $("app").style.display="none"; $("gate").style.display="flex"; if(msg) $("gateHint").textContent=msg; }
   function tryEnter(){
     var pw=$("pw").value, label=$("label").value.trim();
@@ -177,13 +189,12 @@
   $("pw").addEventListener("keydown", function(e){ if(e.key==="Enter") tryEnter(); });
   $("label").addEventListener("keydown", function(e){ if(e.key==="Enter") tryEnter(); });
 
-  // ---- 内容 ----
   function loadData(){
     return api("/data?device="+encodeURIComponent(device)).then(function(j){
       if(!j||!j.ok){ throw new Error("unauth"); }
       PAGES = j.pages||[]; renderSide();
       if(PAGES.length){ if(!curId || !PAGES.some(function(p){return p.id===curId;})) curId=PAGES[0].id; openPage(curId); }
-      else { $("viewer").innerHTML='<div class="empty">还没有私密页面。点右上角 <b>+ 新建</b> 开始。</div>'; }
+      else { $("editor").style.display="none"; $("viewer").style.display="block"; $("viewer").innerHTML='<div class="empty">还没有私密页面。点右上角 <b>+ 新建</b> 开始。</div>'; }
     });
   }
   function renderSide(){
@@ -192,40 +203,81 @@
       var d=document.createElement("div");
       d.className="plink"+(p.id===curId?" on":"");
       d.innerHTML=esc(p.title||"未命名")+'<span class="t">'+fmtBJ(p.at)+"</span>";
-      d.addEventListener("click", function(){ curId=p.id; editing=false; openPage(p.id); renderSide(); });
+      d.addEventListener("click", function(){ curId=p.id; openPage(p.id); renderSide(); });
       s.appendChild(d);
     });
   }
   function findPage(id){ for(var i=0;i<PAGES.length;i++) if(PAGES[i].id===id) return PAGES[i]; return null; }
+
   function openPage(id){
     var p=findPage(id); if(!p) return;
     $("editor").style.display="none"; $("viewer").style.display="block";
+    if(p.format==="log") return renderLog(p);
     var body = p.format==="html" ? p.body : mdToHtml(p.body||"");
     $("viewer").innerHTML =
-      '<div class="rowbtns">'
-      + '<button class="btn sec mini" id="editBtn">编辑</button>'
-      + '<button class="btn sec mini danger" id="delBtn">删除</button>'
-      + '</div>'
+      '<div class="rowbtns"><button class="btn sec mini" id="editBtn">编辑</button>'
+      + '<button class="btn sec mini danger" id="delBtn">删除页</button></div>'
       + '<div class="meta">更新于 '+fmtBJ(p.at)+'</div>'
       + '<div>'+body+'</div>';
     $("editBtn").addEventListener("click", function(){ openEditor(p); });
     $("delBtn").addEventListener("click", function(){ delPage(p); });
   }
+
+  function renderLog(p){
+    var entries=(p.entries||[]).slice().sort(function(a,b){return (b.at||"").localeCompare(a.at||"");});
+    var html =
+      '<div class="rowbtns"><button class="btn sec mini" id="editBtn">改标题</button>'
+      + '<button class="btn sec mini danger" id="delBtn">删除页</button></div>'
+      + '<h1 style="margin:.1em 0 .1em">'+esc(p.title||"未命名")+'</h1>'
+      + '<div class="meta">共 '+entries.length+' 条 · 最近更新 '+fmtBJ(p.at)+'</div>'
+      + '<div class="addbox"><textarea id="logInput" placeholder="记下一个想法…（支持 Markdown，Ctrl/⌘+Enter 添加）"></textarea>'
+      + '<div class="r"><button class="btn mini" id="logAdd">添加</button></div></div>';
+    if(!entries.length){ html += '<div class="empty">还没有想法,写下第一条 👆</div>'; }
+    else{
+      html += entries.map(function(e){
+        return '<div class="entry"><div class="etime">🕒 '+fmtBJ(e.at)
+          +'<span class="sp"></span><span class="edel" data-eid="'+e.id+'" title="删除这条">×</span></div>'
+          +'<div class="ebody">'+mdToHtml(e.text||"")+'</div></div>';
+      }).join("");
+    }
+    $("viewer").innerHTML=html;
+    $("editBtn").addEventListener("click", function(){ openEditor(p); });
+    $("delBtn").addEventListener("click", function(){ delPage(p); });
+    var inp=$("logInput");
+    function add(){
+      var t=inp.value.trim(); if(!t) return;
+      var btn=$("logAdd"); btn.disabled=true; btn.textContent="添加中…";
+      api("/append",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({device:device,id:p.id,text:t})})
+        .then(function(j){ if(j&&j.ok){ inp.value=""; loadData(); } else { btn.disabled=false; btn.textContent="添加"; alert("添加失败"); } })
+        .catch(function(){ btn.disabled=false; btn.textContent="添加"; alert("连不上服务器"); });
+    }
+    $("logAdd").addEventListener("click", add);
+    inp.addEventListener("keydown", function(e){ if((e.metaKey||e.ctrlKey)&&e.key==="Enter") add(); });
+    Array.prototype.forEach.call($("viewer").querySelectorAll(".edel"), function(x){
+      x.addEventListener("click", function(){
+        if(!confirm("删除这条想法?")) return;
+        api("/delentry",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({device:device,id:p.id,eid:x.getAttribute("data-eid")})})
+          .then(function(j){ if(j&&j.ok) loadData(); });
+      });
+    });
+  }
+
+  function toggleBody(){ $("edBody").style.display = ($("edFmt").value==="log") ? "none" : "block"; }
   function openEditor(p){
-    editing=true;
     $("viewer").style.display="none"; $("editor").style.display="flex";
     $("edTitle").value = p?(p.title||""):"";
-    $("edFmt").value   = (p&&p.format==="html")?"html":"md";
-    $("edBody").value  = p?(p.body||""):"";
+    $("edFmt").value   = (p&&p.format)?p.format:"md";
+    $("edBody").value  = (p&&p.format!=="log")?(p.body||""):"";
     $("editor").dataset.pid = p?p.id:"";
+    toggleBody();
   }
   function saveEdit(){
     var pid=$("editor").dataset.pid||"";
     var page={ id:pid, title:$("edTitle").value.trim(), format:$("edFmt").value, body:$("edBody").value };
-    $("saveBtn").textContent="保存中…";
+    var b=$("saveBtn"); b.disabled=true; b.textContent="保存中…";
     api("/save",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({device:device,page:page})})
-      .then(function(j){ $("saveBtn").textContent="保存"; if(j&&j.ok){ curId=j.id; editing=false; loadData(); } else { alert("保存失败"); } })
-      .catch(function(){ $("saveBtn").textContent="保存"; alert("连不上服务器"); });
+      .then(function(j){ b.disabled=false; b.textContent="保存"; if(j&&j.ok){ curId=j.id; loadData(); } else { alert("保存失败"); } })
+      .catch(function(){ b.disabled=false; b.textContent="保存"; alert("连不上服务器"); });
   }
   function delPage(p){
     if(!confirm('删除“'+(p.title||"未命名")+'”?此操作不可恢复。')) return;
@@ -233,18 +285,16 @@
       .then(function(j){ if(j&&j.ok){ curId=null; loadData(); } });
   }
   $("newBtn").addEventListener("click", function(){ openEditor(null); });
+  $("edFmt").addEventListener("change", toggleBody);
   $("saveBtn").addEventListener("click", saveEdit);
-  $("cancelBtn").addEventListener("click", function(){ editing=false; if(curId) openPage(curId); else loadData(); });
+  $("cancelBtn").addEventListener("click", function(){ if(curId) openPage(curId); else loadData(); });
 
   function boot(){
     $("gate").style.display="none"; $("app").style.display="flex";
-    api("/whoami?device="+encodeURIComponent(device)).then(function(j){
-      $("who").textContent = (j&&j.label)? j.label : "已授权";
-    });
+    api("/whoami?device="+encodeURIComponent(device)).then(function(j){ $("who").textContent = (j&&j.label)? j.label : "已授权"; });
     loadData().catch(function(){ showGate(""); });
   }
 
-  // 启动:先探活,再看本设备是否已授权
   api("/ping").then(function(j){
     if(!j||!j.ok){ showGate("服务器暂时连不上,稍后再试"); return; }
     api("/whoami?device="+encodeURIComponent(device)).then(function(w){
