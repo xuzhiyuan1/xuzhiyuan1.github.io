@@ -479,7 +479,7 @@
       box.innerHTML = '<div class="guideRandomHd">🎲 随机推荐</div><div class="guideChips">' +
         picked.map(function(item, idx){
           var gid = item.id || ("gc" + idx);
-          var label = truncate(item.q ? String(item.q) : mdPlainPreview(item.a), 14);
+          var label = item.topic ? String(item.topic) : truncate(item.q ? String(item.q) : mdPlainPreview(item.a), 14); // 优先用精简主题字段 topic，无则回退截断预览
           return '<button type="button" class="guideChip" data-gid="' + escapeHtml(gid) + '">' + escapeHtml(label) + "</button>";
         }).join("") + "</div>";
     }
@@ -824,8 +824,17 @@
     function syncOverlayToViewport(){
       if (!overlayEl || !window.visualViewport) return;
       var vv = window.visualViewport;
-      overlayEl.style.top = vv.offsetTop + "px";
-      overlayEl.style.height = vv.height + "px";
+      /* 键盘弹起判据：可见视口比窗口矮出一截（>140px）即认为键盘把页面顶起了 ——
+         此时切到 kb-up 态（对话框填满可见视口、贴键盘上沿），否则回默认态（底部给小王子留位、内容自适应高度） */
+      var kbUp = (window.innerHeight - vv.height) > 140;
+      overlayEl.classList.toggle("kb-up", kbUp);
+      if (kbUp){
+        overlayEl.style.top = vv.offsetTop + "px";
+        overlayEl.style.height = vv.height + "px";
+      } else {
+        overlayEl.style.top = "";
+        overlayEl.style.height = "";
+      }
     }
     /* 每次打开对话框时，把角色下拉同步成"当前整体角色"：优先读 #who.value，
        没有 #who 的页面（itinerary）读 localStorage('who')，保证外部若改过角色，下次打开能反映最新值。 */
@@ -873,6 +882,7 @@
         if (!modalOpen){
           overlayEl.hidden = true;
           overlayEl.style.top = ""; overlayEl.style.height = "";
+          overlayEl.classList.remove("kb-up"); // 关闭后清掉键盘态，下次打开从默认态开始
         }
       }, 200);
     }

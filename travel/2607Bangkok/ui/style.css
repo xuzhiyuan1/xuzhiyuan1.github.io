@@ -235,14 +235,19 @@ body.pg-index{-webkit-font-smoothing:antialiased}
    modal 高度=100%跟着一起收缩到"键盘正上方"，文本框（flex:1）随之占满多出来的空间。 */
 .pg-index .princeOverlay,.pg-itin .princeOverlay{
   position:fixed;inset:0;z-index:200;background:rgba(10,20,28,.5);
-  display:flex;align-items:stretch;justify-content:flex-end;
-  padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));
+  display:flex;align-items:flex-end;justify-content:flex-end;
+  padding:14px 14px calc(132px + env(safe-area-inset-bottom,0px));
   opacity:0;transition:opacity .2s ease;
 }
 .pg-index .princeOverlay.show,.pg-itin .princeOverlay.show{opacity:1}
+/* 键盘弹起态：JS 检测到 visualViewport 收缩后加 .kb-up —— 对话框填满可见视口、底部贴键盘上沿、不再为右下角小王子预留底部空间（默认态才留） */
+.pg-index .princeOverlay.kb-up,.pg-itin .princeOverlay.kb-up{
+  align-items:stretch;
+  padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));
+}
 .pg-index .princeModal,.pg-itin .princeModal{
   position:relative;background:#fff;border-radius:18px;max-width:360px;width:100%;
-  height:100%;max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  max-height:min(78vh,640px);overflow-y:auto;-webkit-overflow-scrolling:touch;
   display:flex;flex-direction:column;padding:20px 18px 16px;
   box-shadow:0 20px 50px rgba(9,30,46,.35);
   transform-origin:bottom right;
@@ -250,6 +255,10 @@ body.pg-index{-webkit-font-smoothing:antialiased}
   transition:transform .22s cubic-bezier(.2,.9,.25,1),opacity .18s ease;
 }
 .pg-index .princeOverlay.show .princeModal,.pg-itin .princeOverlay.show .princeModal{transform:scale(1) translateY(0);opacity:1}
+/* 键盘弹起态：modal 填满 overlay（=可见视口）高度，输入框 .princeTextarea 用 flex:1 吃掉剩余空间，中间不留黑缝 */
+.pg-index .princeOverlay.kb-up .princeModal,.pg-itin .princeOverlay.kb-up .princeModal{
+  height:100%;max-height:100%;
+}
 /* modal 内除输入框外的所有直接子元素都保持自身内容高度（不被 flex 挤压变形）；
    输入框（.princeTextarea）用 flex:1 吃掉剩余空间，键盘弹起、可用高度变小时它也会跟着变矮，但不会被压没 */
 .pg-index .princeModal>*,.pg-itin .princeModal>*{flex:0 0 auto}
