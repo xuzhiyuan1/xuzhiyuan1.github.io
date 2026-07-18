@@ -2,27 +2,31 @@
 
 个人菜谱网站,部署在 https://xuzhiyuan1.github.io/recipe/
 
-## 目录结构
+## 站点结构(4 个分类页,详情内联)
 
 ```
 recipe/
 ├─ index.html                    # 入口页(4 个分类卡片)
 ├─ assets/
 │  ├─ css/style.css              # 全站样式
-│  └─ js/assistant.js            # 小王子悬浮助手
+│  ├─ js/assistant.js            # 小王子悬浮助手(图标来自曼谷之行)
+│  ├─ js/render.js               # 分类页共享渲染器(列表 + 内联展开详情)
+│  └─ img/prince.png             # 小王子图标(沿用 2607Bangkok/ui/prince.png)
 ├─ _data/                        # 菜谱与分类数据(JSON)
 │  ├─ categories.json            # 4 个分类
 │  ├─ chaocai.json               # 炒菜分类索引(列出菜品 slug)
-│  ├─ qingjiao-chaopaigu.json    # 第一道菜
-│  └─ ...
-├─ chaocai/                      # 炒菜分类
-│  ├─ index.html
-│  └─ qingjiao-chaopaigu/
-│     └─ index.html              # 菜品详情页(从 JSON 渲染)
-├─ xican/                        # 西餐(占位)
-├─ tianpin/                      # 甜品 / 烘焙(占位)
-└─ qita/                         # 其他(占位)
+│  ├─ xican.json                 # 西餐(初始为空数组)
+│  ├─ tianpin.json               # 甜品 / 烘焙(初始为空数组)
+│  ├─ qita.json                  # 其他(初始为空数组)
+│  └─ <拼音-slug>.json           # 每道菜一份
+├─ chaocai/index.html            # 4 个分类页都共用同一套结构
+├─ xican/index.html
+├─ tianpin/index.html
+└─ qita/index.html
 ```
+
+> 不再为每道菜单独建一个子目录。点开分类页里的卡片,菜谱详情直接在当前页展开;
+> 助手「📋 总结当前页面」读到的就是刚展开的那道菜。
 
 ## 新增一道菜的流程
 
@@ -46,7 +50,7 @@ recipe/
        { "name": "葱", "amount": "少许", "highlight": true }
      ],
      "steps": [
-       { "title": "热锅", "desc": "..." , "tip": "..." }
+       { "title": "热锅", "desc": "...", "tip": "..." }
      ],
      "tips": ["..."]
    }
@@ -57,17 +61,15 @@ recipe/
 2. **挂到分类索引**:在 `_data/<分类>.json` 的 `recipes` 数组里加上 slug。
    例如炒菜:`_data/chaocai.json` → `recipes: ["qingjiao-chaopaigu", "my-dish"]`。
 
-3. **建详情页目录**:在对应分类目录下新建 `<slug>/index.html`。
-   模板可直接复用 `chaocai/qingjiao-chaopaigu/index.html`,只改一行:
-   ```js
-   data = await fetch('../../_data/<slug>.json').then(...)
-   ```
+完成。无需再建 HTML 子页 — 分类页的 `render.js` 会自动拉索引与每道菜 JSON 渲染卡片。
 
 ## 小王子悬浮助手 👑
 
-右下角的悬浮按钮,提供:
+悬浮按钮(用的是 `assets/img/prince.png`,沿用 `2607Bangkok/ui/prince.png` 同款小王子),
+提供:
 
 - **📋 总结当前页面** — 读取 `window.__CURRENT_RECIPE__` 生成结构化摘要
+  (分类页展开某道菜后,这个变量会被填上)
 - **➕ 起草新菜谱** — 输入 `添加:菜名 食材 步骤` 帮你生成 JSON 草稿
 - **🍺 / ❓ 关键词问答** — 内置常见问题
 - **📷 上传图片** — 优先上传到后端,失败时回退到浏览器本地(base64)
@@ -88,25 +90,22 @@ recipe/
 
 不配置也能用:关键词问答与图片本地存储都默认工作。
 
-### AI 后端协议(参考)
+## 数据获取失败排查
 
-```
-POST {aiEndpoint}
-Content-Type: application/json
-Body: { "messages": [{role,content}, ...], "system": "..." }
-→ 返回 { "reply": "..." }  (或 answer / message / 任意字符串字段)
-```
+`render.js` 在加载失败时会:
+- 在控制台打印 `[recipe] 加载失败: <原因>`
+- 在页面上渲染一个带诊断提示的空状态(提示检查 `_data/<cat>.json` 是否存在、浏览器是否允许 `fetch`)
 
-### 图片上传协议(参考)
-
-```
-POST {uploadEndpoint}  multipart/form-data, field "file"
-→ 返回 { "url": "https://..." }
-```
+最常见原因:
+- **GitHub Pages 缓存**:浏览器缓存了旧的 HTML,Ctrl/Cmd-Shift-R 强刷。
+- **路径错位**:分类页与首页的相对路径不同,确保 `_data/*.json` 与 `assets/` 都在
+  `/recipe/` 根下。
+- **本地 file:// 打开**:`fetch` 在 `file://` 协议下会被浏览器拒绝,需要起一个本地
+  HTTP 服务(如 `python3 -m http.server`)再访问。
 
 ## 设计取向
 
 - 暖色食物风,移动端优先
-- 所有页面共享顶部导航与底部
-- 数据驱动,加新菜只需 JSON + 一个新目录
+- 4 个分类页共享顶部导航与底部
+- 数据驱动,加新菜只需 JSON(无需新 HTML)
 - 图片不上 GitHub,默认走你的后端

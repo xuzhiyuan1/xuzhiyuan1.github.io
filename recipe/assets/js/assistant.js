@@ -50,6 +50,28 @@
     return node;
   }
 
+  // 推断当前页面的 assets 根路径(因为本脚本可能被 /<cat>/ 页面通过 ../assets/js/assistant.js 引入)
+  // 关键:用 getAttribute('src') 而不是 .src,因为浏览器会把 .src 里的 ../ 解析成绝对 URL,
+  // 那样就分不清当前页是在根还是子目录里了
+  function detectAssetsBase() {
+    try {
+      var scripts = document.getElementsByTagName('script');
+      for (var i = 0; i < scripts.length; i++) {
+        var s = scripts[i].getAttribute('src') || scripts[i].src || '';
+        var m = s.match(/^((?:\.\.\/)*)assets\/js\/assistant\.js(?:\?.*)?$/);
+        if (m) return m[1] + 'assets/';
+      }
+    } catch (e) {}
+    // 兜底:用 location.pathname 算深度
+    var segs = location.pathname.split('/').filter(Boolean);
+    // 假设最后一段是 index.html(可能)
+    if (segs.length && /\.html?$/.test(segs[segs.length - 1])) segs.pop();
+    var base = '';
+    for (var j = 0; j < segs.length; j++) base += '../';
+    return base + 'assets/';
+  }
+  var ASSETS_BASE = detectAssetsBase();
+
   // ---------- 本地规则 ----------
   var state = loadState();
   if (!state.history) state.history = [];
@@ -171,9 +193,10 @@
 
   // ---------- UI 渲染 ----------
   function buildUI() {
-    // 浮动按钮
+    // 浮动按钮(用曼谷版小王子图)
+    var princeImg = el('img', { class: 'face', src: ASSETS_BASE + 'img/prince.png', alt: '小王子', width: '64', height: '84' });
     var fab = el('button', { class: 'prince-fab', 'aria-label': '打开小王子', title: '小王子' }, [
-      el('span', { class: 'face', text: '👑' })
+      princeImg
     ]);
     fab.addEventListener('click', function () {
       panel.classList.toggle('open');
@@ -320,7 +343,9 @@
 
     // 头部
     var head = el('div', { class: 'head' }, [
-      el('div', { class: 'avatar', text: '👑' }),
+      el('div', { class: 'avatar' }, [
+        el('img', { src: ASSETS_BASE + 'img/prince.png', alt: '小王子' })
+      ]),
       el('div', {}, [
         el('div', { class: 'title', text: '小王子 · 菜谱助手' }),
         el('div', { class: 'sub', text: '帮你录入、总结、配图' })

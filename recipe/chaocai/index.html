@@ -41,44 +41,8 @@
 <footer class="site-footer">© Recipe · 私人菜谱 · 由小王子 👑 协助维护</footer>
 
 <script src="../assets/js/assistant.js"></script>
-<script>
-  // 加载分类索引 → 逐个拉菜谱 JSON → 渲染卡片
-  (async function () {
-    var grid = document.getElementById('grid');
-    try {
-      var idx = await fetch('../_data/chaocai.json').then(function (r) { return r.json(); });
-      var recipes = await Promise.all(idx.recipes.map(function (slug) {
-        return fetch('../_data/' + slug + '.json').then(function (r) {
-          if (!r.ok) throw new Error('missing ' + slug);
-          return r.json();
-        });
-      }));
-
-      if (!recipes.length) {
-        grid.innerHTML = '<div class="empty"><div class="emoji">🥢</div>暂无菜品,让小王子帮你录入第一道菜吧!</div>';
-        return;
-      }
-
-      grid.innerHTML = recipes.map(function (r) {
-        return ''
-          + '<a class="recipe-card" href="./' + r.slug + '/">'
-          +   '<div class="cover">' + (r.emoji || '🍳') + '</div>'
-          +   '<div class="body">'
-          +     '<h3>' + r.name + '</h3>'
-          +     '<div class="meta">'
-          +       (r.time ? '<span>' + r.time + '</span>' : '')
-          +       (r.difficulty ? '<span>' + r.difficulty + '</span>' : '')
-          +       (r.servings ? '<span>' + r.servings + '</span>' : '')
-          +     '</div>'
-          +     '<p class="summary">' + (r.summary || '') + '</p>'
-          +   '</div>'
-          + '</a>';
-      }).join('');
-    } catch (err) {
-      grid.innerHTML = '<div class="empty"><div class="emoji">😢</div>菜谱加载失败:' + err.message + '</div>';
-    }
-  })();
-</script>
+<script>window.__RECIPE_CAT__ = 'chaocai';</script>
+<script src="../assets/js/render.js"></script>
 
 </body>
 </html>

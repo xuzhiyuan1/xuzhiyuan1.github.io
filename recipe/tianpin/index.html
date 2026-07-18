@@ -32,12 +32,8 @@
     <p class="sub">蛋糕 · 饼干 · 冰品 · Desserts & Bakery</p>
   </section>
 
-  <section class="recipe-grid">
-    <div class="empty">
-      <div class="emoji">🧁</div>
-      <p>甜品分类下还没有菜品。</p>
-      <p style="margin-top:12px;">点右下角 👑 小王子,跟它说:<br /><strong>"添加:菜名 食材 步骤"</strong> 就能起一个菜谱草稿。</p>
-    </div>
+  <section class="recipe-grid" id="grid">
+    <div class="empty"><div class="emoji">🍳</div>正在加载菜谱…</div>
   </section>
 
 </main>
@@ -45,5 +41,8 @@
 <footer class="site-footer">© Recipe · 私人菜谱 · 由小王子 👑 协助维护</footer>
 
 <script src="../assets/js/assistant.js"></script>
+<script>window.__RECIPE_CAT__ = 'tianpin';</script>
+<script src="../assets/js/render.js"></script>
+
 </body>
 </html>
