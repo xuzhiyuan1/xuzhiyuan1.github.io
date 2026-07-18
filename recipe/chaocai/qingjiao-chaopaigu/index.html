@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#d97742" />
+<title>青椒炒排骨 · 炒菜 · 我的菜谱</title>
+<meta name="description" content="生姜爆香,排骨煎至金黄,加小米辣与啤酒焖煮,最后青椒蚝油提鲜 — 一道浓郁入味的啤酒排骨。" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌶️%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="../../assets/css/style.css" />
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="inner">
+    <div class="brand"><span class="logo"></span> Recipe · 我的菜谱</div>
+    <nav class="nav-links">
+      <a href="../../">首页</a>
+      <a href="../" class="active">炒菜</a>
+      <a href="../../xican/">西餐</a>
+      <a href="../../tianpin/">甜品</a>
+      <a href="../../qita/">其他</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="crumb">
+    <a href="../../">首页</a><span class="sep">/</span>
+    <a href="../">炒菜</a><span class="sep">/</span>
+    <span id="crumb-name">青椒炒排骨</span>
+  </div>
+
+  <section class="recipe-hero" id="hero">
+    <h1 id="r-name">青椒炒排骨</h1>
+    <div class="sub-en" id="r-name-en">Stir-Fried Ribs with Green Pepper</div>
+    <p id="r-summary" style="margin:8px 0 0; color: var(--ink-soft); max-width: 640px;"></p>
+    <div class="badges" id="r-badges"></div>
+  </section>
+
+  <section class="recipe-body">
+    <aside class="panel">
+      <h2>食材</h2>
+      <ul class="ing-list" id="r-ingredients"></ul>
+    </aside>
+
+    <article class="panel">
+      <h2>步骤</h2>
+      <ol class="steps" id="r-steps"></ol>
+
+      <div class="tips-block" id="r-tips-wrap" style="display:none;">
+        <h3>⭐ 烹饪小贴士</h3>
+        <ul id="r-tips"></ul>
+      </div>
+    </article>
+  </section>
+
+</main>
+
+<footer class="site-footer">© Recipe · 私人菜谱 · 由小王子 👑 协助维护</footer>
+
+<script src="../../assets/js/assistant.js"></script>
+<script>
+  (async function () {
+    var data;
+    try {
+      data = await fetch('../../_data/qingjiao-chaopaigu.json').then(function (r) { return r.json(); });
+    } catch (e) {
+      document.querySelector('main').innerHTML =
+        '<div class="empty"><div class="emoji">😢</div>菜谱数据加载失败。</div>';
+      return;
+    }
+
+    // 暴露给助手「总结当前页面」用
+    window.__CURRENT_RECIPE__ = data;
+
+    document.title = data.name + ' · 炒菜 · 我的菜谱';
+    document.getElementById('r-name').textContent = data.name;
+    document.getElementById('r-name-en').textContent = data.nameEn || '';
+    document.getElementById('crumb-name').textContent = data.name;
+    document.getElementById('r-summary').textContent = data.summary || '';
+
+    // 顶部大字 emoji
+    if (data.emoji) {
+      var emoji = document.createElement('div');
+      emoji.textContent = data.emoji;
+      emoji.style.fontSize = '64px';
+      emoji.style.lineHeight = '1';
+      emoji.style.marginBottom = '10px';
+      document.getElementById('hero').insertBefore(emoji, document.getElementById('r-name'));
+    }
+
+    // 顶部徽章
+    var badges = document.getElementById('r-badges');
+    function badge(label, value) {
+      var b = document.createElement('span');
+      b.className = 'badge-item';
+      b.innerHTML = label + ' <strong>' + value + '</strong>';
+      badges.appendChild(b);
+    }
+    if (data.difficulty) badge('难度', data.difficulty);
+    if (data.time) badge('用时', data.time);
+    if (data.servings) badge('份量', data.servings);
+    if (data.tags && data.tags.length) badge('标签', data.tags.join(' · '));
+
+    // 食材
+    var ing = document.getElementById('r-ingredients');
+    ing.innerHTML = (data.ingredients || []).map(function (it) {
+      return '<li>'
+           +   '<span class="ing-name">' + it.name + '</span>'
+           +   '<span class="ing-amount' + (it.highlight ? ' hi' : '') + '">' + (it.amount || '') + '</span>'
+           + '</li>';
+    }).join('');
+
+    // 步骤
+    var steps = document.getElementById('r-steps');
+    steps.innerHTML = (data.steps || []).map(function (s, i) {
+      return '<li class="step-item">'
+           +   '<div class="num">' + (i + 1) + '</div>'
+           +   '<h3>' + (s.title || ('步骤 ' + (i + 1))) + '</h3>'
+           +   '<p>' + (s.desc || '') + '</p>'
+           +   (s.tip ? '<div class="tip">' + s.tip + '</div>' : '')
+           + '</li>';
+    }).join('');
+
+    // 小贴士
+    if (data.tips && data.tips.length) {
+      document.getElementById('r-tips-wrap').style.display = '';
+      document.getElementById('r-tips').innerHTML = data.tips.map(function (t) {
+        return '<li>' + t + '</li>';
+      }).join('');
+    }
+  })();
+</script>
+
+</body>
+</html>

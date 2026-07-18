@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#d97742" />
+<title>炒菜 · 我的菜谱</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🥘%3C/text%3E%3C/svg%3E" />
+<link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="inner">
+    <div class="brand"><span class="logo"></span> Recipe · 我的菜谱</div>
+    <nav class="nav-links">
+      <a href="../">首页</a>
+      <a href="./" class="active">炒菜</a>
+      <a href="../xican/">西餐</a>
+      <a href="../tianpin/">甜品</a>
+      <a href="../qita/">其他</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="crumb"><a href="../">首页</a><span class="sep">/</span>炒菜</div>
+
+  <section class="page-hero">
+    <h1>🥘 炒菜</h1>
+    <p class="sub">锅气十足的家常味道 · Stir-Fry · Home Kitchen Favorites</p>
+  </section>
+
+  <section class="recipe-grid" id="grid">
+    <div class="empty"><div class="emoji">🍳</div>正在加载菜谱…</div>
+  </section>
+
+</main>
+
+<footer class="site-footer">© Recipe · 私人菜谱 · 由小王子 👑 协助维护</footer>
+
+<script src="../assets/js/assistant.js"></script>
+<script>
+  // 加载分类索引 → 逐个拉菜谱 JSON → 渲染卡片
+  (async function () {
+    var grid = document.getElementById('grid');
+    try {
+      var idx = await fetch('../_data/chaocai.json').then(function (r) { return r.json(); });
+      var recipes = await Promise.all(idx.recipes.map(function (slug) {
+        return fetch('../_data/' + slug + '.json').then(function (r) {
+          if (!r.ok) throw new Error('missing ' + slug);
+          return r.json();
+        });
+      }));
+
+      if (!recipes.length) {
+        grid.innerHTML = '<div class="empty"><div class="emoji">🥢</div>暂无菜品,让小王子帮你录入第一道菜吧!</div>';
+        return;
+      }
+
+      grid.innerHTML = recipes.map(function (r) {
+        return ''
+          + '<a class="recipe-card" href="./' + r.slug + '/">'
+          +   '<div class="cover">' + (r.emoji || '🍳') + '</div>'
+          +   '<div class="body">'
+          +     '<h3>' + r.name + '</h3>'
+          +     '<div class="meta">'
+          +       (r.time ? '<span>' + r.time + '</span>' : '')
+          +       (r.difficulty ? '<span>' + r.difficulty + '</span>' : '')
+          +       (r.servings ? '<span>' + r.servings + '</span>' : '')
+          +     '</div>'
+          +     '<p class="summary">' + (r.summary || '') + '</p>'
+          +   '</div>'
+          + '</a>';
+      }).join('');
+    } catch (err) {
+      grid.innerHTML = '<div class="empty"><div class="emoji">😢</div>菜谱加载失败:' + err.message + '</div>';
+    }
+  })();
+</script>
+
+</body>
+</html>
