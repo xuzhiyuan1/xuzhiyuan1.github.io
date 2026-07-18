@@ -223,39 +223,6 @@
     font-size: 14px;
     margin-bottom: 16px;
   }
-  .empty-hint {
-    font-size: 12px;
-    color: var(--text-dim);
-    margin-bottom: 10px;
-  }
-  .suggestions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-  .chip {
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 9px 14px;
-    border-radius: 18px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
-    font-family: inherit;
-    line-height: 1.3;
-  }
-  .chip:hover {
-    border-color: var(--accent);
-    background: var(--accent);
-    color: var(--accent-text);
-    transform: translateY(-1px);
-  }
-  .chip:active { transform: scale(0.96); }
-
   .chat-tools {
     display: none;
     justify-content: flex-end;
@@ -563,13 +530,6 @@
   <div class="chat" id="chat">
     <div class="empty-tip" id="emptyTip">
       <div class="empty-line">还没有对话,说说你想怎么改网站吧 ~</div>
-      <div class="empty-hint">💡 不知道说啥?点一个快速开始</div>
-      <div class="suggestions" id="suggestions">
-        <button type="button" class="chip" data-dir="" data-prompt="帮我新建一个旅行页,目的地是杭州西湖,做成清新淡雅的风格,有地图、行程、照片墙三个板块">🎒 新建旅行页</button>
-        <button type="button" class="chip" data-dir="index.html" data-prompt="给首页加一个深色模式切换按钮,放在右上角,记住用户偏好">🌙 加深色模式</button>
-        <button type="button" class="chip" data-dir="index.html" data-prompt="把主色调改成莫兰迪色系,柔和一些,看起来更舒服">🎨 改莫兰迪色调</button>
-        <button type="button" class="chip" data-dir="index.html" data-prompt="把首页 hero 区改大一点,标题用大字,加一个副标题和 CTA 按钮">✨ 改 hero 区</button>
-      </div>
     </div>
   </div>
 
@@ -610,7 +570,6 @@
   var emptyTipEl = document.getElementById("emptyTip");
   var chatTools = document.getElementById("chatTools");
   var clearBtn = document.getElementById("clearBtn");
-  var suggestionsEl = document.getElementById("suggestions");
   var lightbox = document.getElementById("lightbox");
   var lightboxImg = document.getElementById("lightboxImg");
   var dirInput = document.getElementById("dirInput");
@@ -972,25 +931,6 @@
   lightbox.addEventListener("click", closeLightbox);
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && lightbox.classList.contains("show")) closeLightbox();
-  });
-
-  // ---------- suggestion chips ----------
-
-  suggestionsEl.addEventListener("click", function (e) {
-    var btn = e.target.closest && e.target.closest(".chip");
-    if (!btn) return;
-    var chipDir = btn.getAttribute("data-dir") || "";
-    var chipPrompt = btn.getAttribute("data-prompt") || "";
-    if (chipDir && !dirInput.value.trim()) {
-      dirInput.value = chipDir;
-      try { localStorage.setItem(DIR_KEY, chipDir); } catch (err) { /* ignore */ }
-      updateDirBanner();
-    }
-    msgInput.value = chipPrompt;
-    msgInput.style.height = "auto";
-    msgInput.style.height = Math.min(msgInput.scrollHeight, 120) + "px";
-    msgInput.focus();
-    sendMessage();
   });
 
   // ---------- clear conversation ----------
