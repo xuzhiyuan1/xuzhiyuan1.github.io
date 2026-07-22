@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="菜谱后台管理:私密、深色、移动端友好的菜谱增删改后台。">
+<title>Recipe · 后台管理</title>
+<style>
+  :root{--bg:#0e1016;--panel:#171a22;--panel2:#1e222c;--line:#2a2f3a;--tx:#e7e9ee;--mut:#8b93a3;--acc:#7c9cff;--acc2:#a78bfa;--ok:#4ade80;--warn:#fbbf24;--danger:#ff6b6b;}
+  *{box-sizing:border-box}html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--tx);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:16px}
+  .top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .top .dot{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+  .top h1{font-size:19px;margin:0;font-weight:700}
+  .top .sp{flex:1}
+  a.back{color:var(--mut);font-size:13px;text-decoration:none}
+  a.back:hover{color:var(--tx)}
+  .sub{color:var(--mut);font-size:12.5px;margin:0 0 16px}
+  .btn{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer;text-decoration:none}
+  .btn:active{transform:translateY(1px)}
+  .btn.acc{background:var(--acc);color:#0b0e16;border:none;font-weight:600}
+  .btn.danger{color:var(--danger);border-color:rgba(255,107,107,.4)}
+  .btn.sm{padding:5px 9px;font-size:12px;border-radius:8px}
+  .btn:disabled{opacity:.5;cursor:default}
+  /* 列表 */
+  .catgrp{margin-top:18px}
+  .cathead{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;margin-bottom:8px;color:var(--tx)}
+  .cathead .cnt{color:var(--mut);font-size:12px;font-weight:400}
+  .rlist{display:grid;gap:10px}
+  .ritem{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .ritem .em{font-size:26px;flex:0 0 auto;width:34px;text-align:center}
+  .ritem .info{flex:1;min-width:0}
+  .ritem .nm{font-weight:700;font-size:15px}
+  .ritem .nm .en{color:var(--mut);font-weight:400;font-size:12px;margin-left:6px}
+  .ritem .sm2{color:var(--mut);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ritem .acts{display:flex;gap:6px;flex:0 0 auto}
+  .empty{color:var(--mut);text-align:center;margin:40px 0}
+  /* 表单 */
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:12.5px;color:var(--mut);margin-bottom:5px}
+  .field label .req{color:var(--acc)}
+  input[type=text],input[type=number],textarea,select{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--tx);border-radius:10px;padding:10px 12px;font:inherit;outline:none}
+  input:focus,textarea:focus,select:focus{border-color:var(--acc)}
+  textarea{resize:vertical;min-height:60px;line-height:1.5}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  @media(max-width:520px){.row3{grid-template-columns:1fr 1fr}}
+  .sec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:16px}
+  .sec>h3{margin:0 0 10px;font-size:14px;font-weight:700}
+  .sec>h3 .hint{color:var(--mut);font-weight:400;font-size:12px;margin-left:6px}
+  .subrow{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:10px;position:relative}
+  .subrow .rm{position:absolute;top:8px;right:8px}
+  .chk{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--tx);cursor:pointer;user-select:none}
+  .chk input{width:auto;margin:0}
+  .imgbox{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .imgprev{width:100px;height:70px;border-radius:10px;object-fit:cover;border:1px solid var(--line);background:var(--panel2)}
+  .filelbl{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer}
+  .filelbl input{display:none}
+  .uphint{color:var(--mut);font-size:12px}
+  .uphint.err{color:var(--danger)}
+  .formbar{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,var(--bg) 30%);padding:14px 0 6px;display:flex;gap:10px;margin-top:6px}
+  .formbar .sp{flex:1}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--line);color:var(--tx);padding:10px 16px;border-radius:12px;font-size:13.5px;z-index:9000;box-shadow:0 8px 30px rgba(0,0,0,.4);max-width:90vw}
+  .toast.ok{border-color:rgba(74,222,128,.5)}
+  .toast.err{border-color:rgba(255,107,107,.5);color:#ffb4b4}
+  #app{display:none}
+  /* 门卫 */
+  #gate{position:fixed;inset:0;z-index:99999;background:var(--bg);color:var(--tx);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;text-align:center}
+  #gate .lk{width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:16px}
+  #gate h2{margin:0 0 4px;font-size:20px}#gate p{margin:0 0 18px;color:var(--mut);font-size:13px;max-width:320px}
+  #gate .gform{display:none;width:100%;max-width:300px}
+  #gate input{width:100%;max-width:300px;background:var(--panel2);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:12px 14px;font:inherit;outline:none;margin:6px 0}
+  #gate input:focus{border-color:var(--acc)}
+  #gate button{width:100%;max-width:300px;background:var(--acc);color:#0b0e16;border:none;border-radius:12px;padding:12px;font-weight:600;font-size:15px;cursor:pointer;margin-top:8px}
+  #gate button:disabled{opacity:.55}
+  #gate .ge{color:var(--danger);font-size:13px;min-height:18px;margin-top:8px}
+  #gate .gh{color:var(--mut);font-size:12px;margin-top:12px}
+</style>
+</head>
+<body>
+<!-- 门卫层 -->
+<div id="gate">
+  <div class="lk">🍳</div><h2>菜谱后台</h2>
+  <p>私密管理页。首次进入需输入口令授权本设备,之后本设备免密。</p>
+  <div class="gform" id="gform">
+    <input id="gpw" type="password" placeholder="口令" autocomplete="off">
+    <input id="glabel" type="text" placeholder="给本设备起个名(可选)" autocomplete="off">
+    <button id="gbtn">进入</button>
+    <div class="ge" id="gerr"></div>
+  </div>
+  <div class="gh" id="ghint">正在验证本设备…</div>
+</div>
+
+<!-- 主应用 -->
+<div class="wrap" id="app">
+  <div class="top">
+    <span class="dot"></span><h1>Recipe 后台</h1>
+    <span class="sp"></span>
+    <a class="back" href="/tools/">← Tools</a>
+  </div>
+
+  <!-- 列表视图 -->
+  <div id="listView">
+    <p class="sub">菜谱增删改 · <span id="devlabel"></span> <a href="#" id="reload" style="color:var(--acc);text-decoration:none">刷新</a></p>
+    <div style="display:flex;gap:10px;margin-bottom:6px">
+      <button class="btn acc" id="newBtn">＋ 新建菜谱</button>
+    </div>
+    <div id="listBody"><div class="empty">正在加载菜谱…</div></div>
+  </div>
+
+  <!-- 编辑/新建视图 -->
+  <div id="editView" style="display:none">
+    <p class="sub"><a href="#" id="backList" style="color:var(--acc);text-decoration:none">← 返回列表</a> · <span id="editTitle">新建菜谱</span></p>
+
+    <div class="sec">
+      <div class="field"><label>菜名 <span class="req">*</span></label><input type="text" id="f_name" placeholder="如:番茄炒蛋"></div>
+      <div class="row2">
+        <div class="field"><label>英文名</label><input type="text" id="f_nameEn" placeholder="Scrambled Eggs with Tomato"></div>
+        <div class="field"><label>分类</label><select id="f_category">
+          <option value="chaocai">炒菜</option>
+          <option value="xican">西餐</option>
+          <option value="tianpin">甜品 / 烘焙</option>
+          <option value="qita">其他</option>
+        </select></div>
+      </div>
+      <div class="row3">
+        <div class="field"><label>图标 emoji</label><input type="text" id="f_emoji" placeholder="🍅" maxlength="4"></div>
+        <div class="field"><label>难度</label><input type="text" id="f_difficulty" placeholder="简单"></div>
+        <div class="field"><label>用时</label><input type="text" id="f_time" placeholder="15 分钟"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>份量</label><input type="text" id="f_servings" placeholder="2 人份"></div>
+        <div class="field"><label>标签(逗号分隔)</label><input type="text" id="f_tags" placeholder="快手, 下饭, 家常"></div>
+      </div>
+      <div class="field"><label>简介</label><textarea id="f_summary" placeholder="一句话介绍这道菜"></textarea></div>
+    </div>
+
+    <!-- 首页大图 -->
+    <div class="sec">
+      <h3>首页大图 hero<span class="hint">封面图,建议横图</span></h3>
+      <div class="imgbox">
+        <img class="imgprev" id="heroPrev" alt="" style="display:none">
+        <label class="filelbl">📷 选择图片<input type="file" id="heroFile" accept="image/*"></label>
+        <button class="btn sm" id="heroClear" style="display:none">清除</button>
+        <span class="uphint" id="heroHint"></span>
+      </div>
+    </div>
+
+    <!-- 食材 -->
+    <div class="sec">
+      <h3>食材 ingredients<span class="hint">勾选表示关键食材</span></h3>
+      <div id="ingList"></div>
+      <button class="btn sm" id="addIng">＋ 加一行食材</button>
+    </div>
+
+    <!-- 步骤 -->
+    <div class="sec">
+      <h3>步骤 steps</h3>
+      <div id="stepList"></div>
+      <button class="btn sm" id="addStep">＋ 加一步</button>
+    </div>
+
+    <!-- 小贴士 -->
+    <div class="sec">
+      <h3>小贴士 tips</h3>
+      <div id="tipList"></div>
+      <button class="btn sm" id="addTip">＋ 加一条贴士</button>
+    </div>
+
+    <!-- 备注图文 -->
+    <div class="sec">
+      <h3>备注图文 notes<span class="hint">一段文字 + 可选一张图</span></h3>
+      <div id="noteList"></div>
+      <button class="btn sm" id="addNote">＋ 加一条备注</button>
+    </div>
+
+    <div class="formbar">
+      <button class="btn" id="cancelBtn">取消</button>
+      <span class="sp"></span>
+      <button class="btn acc" id="saveBtn">保存菜谱</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var BACKEND = "https://recipe.xuzhiyuan1.top";
+  var LS = "recipe_device";
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,10); }
+  var device = localStorage.getItem(LS);
+  if(!device){ device = uid(); localStorage.setItem(LS, device); }
+
+  function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+  function $(id){ return document.getElementById(id); }
+
+  // ---- 网络封装 ----
+  function apiGet(path){
+    var url = BACKEND + path + (path.indexOf("?")>=0?"&":"?") + "device=" + encodeURIComponent(device);
+    return fetch(url).then(function(r){ return r.json().catch(function(){ return {ok:false}; }); });
+  }
+  function apiPost(path, body){
+    return fetch(BACKEND + path, { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(body) })
+      .then(function(r){ return r.json().then(function(j){ j.__s=r.status; return j; }).catch(function(){ return {ok:false,__s:r.status}; }); });
+  }
+
+  // ---- toast ----
+  var toastT;
+  function toast(msg, kind){
+    var t = document.createElement("div");
+    t.className = "toast " + (kind||"");
+    t.textContent = msg;
+    document.body.appendChild(t);
+    clearTimeout(toastT);
+    toastT = setTimeout(function(){ t.remove(); }, kind==="err"?3200:2000);
+  }
+
+  // ================= 门卫 =================
+  function gateReady(){
+    $("gate").style.display = "none";
+    $("app").style.display = "block";
+    loadList();
+  }
+  function mountGate(){
+    var form=$("gform"), hint=$("ghint"), pw=$("gpw"), lab=$("glabel"), btn=$("gbtn"), err=$("gerr");
+    function showForm(msg){ hint.style.display="none"; form.style.display="block"; if(msg) err.textContent=msg; pw.focus(); }
+    function submit(){
+      err.textContent=""; btn.disabled=true; btn.textContent="验证中…";
+      apiPost("/auth", { device:device, pass:pw.value, label:lab.value.trim() }).then(function(j){
+        btn.disabled=false; btn.textContent="进入";
+        if(j && j.ok){ gateReady(); }
+        else{ err.textContent = (j && j.__s===401) ? "口令不对" : "进入失败,请重试"; }
+      }).catch(function(){ btn.disabled=false; btn.textContent="进入"; err.textContent="连不上服务器"; });
+    }
+    btn.addEventListener("click", submit);
+    pw.addEventListener("keydown", function(e){ if(e.key==="Enter") submit(); });
+    lab.addEventListener("keydown", function(e){ if(e.key==="Enter") submit(); });
+    apiGet("/whoami").then(function(w){
+      if(w && w.ok && w.authorized){ if(w.label){ $("devlabel").textContent = "设备:"+w.label+" · "; } gateReady(); }
+      else{ showForm(""); }
+    }).catch(function(){ hint.textContent="服务器暂时连不上,稍后再试"; });
+  }
+
+  // ================= 列表视图 =================
+  var CAT_ORDER = ["chaocai","xican","tianpin","qita"];
+  var CAT_NAME = { chaocai:"炒菜", xican:"西餐", tianpin:"甜品 / 烘焙", qita:"其他" };
+  var CAT_EMOJI = { chaocai:"🥘", xican:"🍝", tianpin:"🍰", qita:"🍽" };
+  var allRecipes = [];
+
+  function showList(){ $("listView").style.display="block"; $("editView").style.display="none"; window.scrollTo(0,0); }
+  function showEdit(){ $("listView").style.display="none"; $("editView").style.display="block"; window.scrollTo(0,0); }
+
+  function loadList(){
+    $("listBody").innerHTML = '<div class="empty">正在加载菜谱…</div>';
+    apiGet("/data").then(function(j){
+      if(!j || !j.ok){ $("listBody").innerHTML='<div class="empty">加载失败,请刷新重试</div>'; return; }
+      allRecipes = j.recipes || [];
+      // 用后端返回的分类名(若有)覆盖默认
+      (j.categories||[]).forEach(function(c){ if(c.key && c.name){ CAT_NAME[c.key]=c.name; } if(c.key&&c.emoji){ CAT_EMOJI[c.key]=c.emoji; } });
+      renderList();
+    }).catch(function(){ $("listBody").innerHTML='<div class="empty">连不上服务器</div>'; });
+  }
+
+  function renderList(){
+    if(!allRecipes.length){ $("listBody").innerHTML='<div class="empty">还没有菜谱,点上面「＋ 新建菜谱」开始吧</div>'; return; }
+    var byCat = {};
+    allRecipes.forEach(function(r){ var c=r.category||"qita"; if(!CAT_NAME[c]) c="qita"; (byCat[c]=byCat[c]||[]).push(r); });
+    var keys = CAT_ORDER.slice();
+    Object.keys(byCat).forEach(function(k){ if(keys.indexOf(k)<0) keys.push(k); });
+    var html = "";
+    keys.forEach(function(c){
+      var list = byCat[c]; if(!list || !list.length) return;
+      html += '<div class="catgrp"><div class="cathead">'+esc(CAT_EMOJI[c]||"🍽")+' '+esc(CAT_NAME[c]||c)
+            + ' <span class="cnt">'+list.length+' 道</span></div><div class="rlist">';
+      list.forEach(function(r){
+        html += '<div class="ritem">'
+          + '<div class="em">'+esc(r.emoji||"🍲")+'</div>'
+          + '<div class="info"><div class="nm">'+esc(r.name||"(未命名)")
+          + (r.nameEn?'<span class="en">'+esc(r.nameEn)+'</span>':'')+'</div>'
+          + '<div class="sm2">'+esc(r.summary||"—")+'</div></div>'
+          + '<div class="acts">'
+          + '<button class="btn sm" data-edit="'+esc(r.id)+'">编辑</button>'
+          + '<button class="btn sm danger" data-del="'+esc(r.id)+'" data-name="'+esc(r.name||"")+'">删除</button>'
+          + '</div></div>';
+      });
+      html += '</div></div>';
+    });
+    $("listBody").innerHTML = html;
+    Array.prototype.forEach.call($("listBody").querySelectorAll("[data-edit]"), function(b){
+      b.addEventListener("click", function(){ openEdit(b.getAttribute("data-edit")); });
+    });
+    Array.prototype.forEach.call($("listBody").querySelectorAll("[data-del]"), function(b){
+      b.addEventListener("click", function(){ doDelete(b.getAttribute("data-del"), b.getAttribute("data-name")); });
+    });
+  }
+
+  function doDelete(id, name){
+    if(!confirm('确定删除「'+(name||"这道菜")+'」?此操作不可撤销,会连同图片一起删除。')) return;
+    toast("正在删除…");
+    apiPost("/del", { device:device, id:id }).then(function(j){
+      if(j && j.ok){ toast("已删除", "ok"); loadList(); }
+      else{ toast("删除失败", "err"); }
+    }).catch(function(){ toast("连不上服务器", "err"); });
+  }
+
+  // ================= 编辑/新建视图 =================
+  var curId = null;      // 编辑中的 id;新建为 null
+  var curSlug = "";      // 保留原 slug
+  var heroFile = null;   // hero 图片文件名
+
+  // ---- 通用图片上传 ----
+  function uploadImage(file, maxw, onStart, onDone, onErr){
+    if(!file){ return; }
+    var reader = new FileReader();
+    reader.onload = function(){
+      onStart && onStart();
+      apiPost("/upload", { device:device, image_b64:reader.result, maxw:maxw }).then(function(j){
+        if(j && j.ok && j.file){ onDone(j.file, j.url); }
+        else{ onErr && onErr(); }
+      }).catch(function(){ onErr && onErr(); });
+    };
+    reader.onerror = function(){ onErr && onErr(); };
+    reader.readAsDataURL(file);
+  }
+
+  // ---- hero ----
+  function setHero(file, url){
+    heroFile = file || null;
+    var prev = $("heroPrev"), clr = $("heroClear");
+    if(heroFile){
+      prev.src = url || (BACKEND + "/img/" + heroFile);
+      prev.style.display = "block"; clr.style.display = "inline-flex";
+    } else {
+      prev.style.display = "none"; clr.style.display = "none"; prev.src = "";
+    }
+  }
+  $("heroFile").addEventListener("change", function(){
+    var f = this.files && this.files[0]; if(!f) return;
+    var h = $("heroHint"); h.className="uphint";
+    uploadImage(f, 1400,
+      function(){ h.textContent="上传中…"; },
+      function(file,url){ h.textContent="已上传"; setHero(file,url); },
+      function(){ h.className="uphint err"; h.textContent="上传失败,重试"; });
+    this.value = "";
+  });
+  $("heroClear").addEventListener("click", function(){ setHero(null); $("heroHint").textContent=""; });
+
+  // ---- 食材行 ----
+  function ingRow(d){
+    d = d || {};
+    var w = document.createElement("div"); w.className="subrow";
+    w.innerHTML =
+      '<div class="row2" style="margin-right:56px">'
+      + '<input type="text" class="i-name" placeholder="食材名,如 番茄">'
+      + '<input type="text" class="i-amt" placeholder="用量,如 2 个">'
+      + '</div>'
+      + '<label class="chk" style="margin-top:8px"><input type="checkbox" class="i-hl"> 关键食材</label>'
+      + '<button class="btn sm danger rm">删</button>';
+    w.querySelector(".i-name").value = d.name||"";
+    w.querySelector(".i-amt").value = d.amount||"";
+    w.querySelector(".i-hl").checked = !!d.highlight;
+    w.querySelector(".rm").addEventListener("click", function(){ w.remove(); });
+    return w;
+  }
+  $("addIng").addEventListener("click", function(){ $("ingList").appendChild(ingRow()); });
+
+  // ---- 步骤行 ----
+  function stepRow(d){
+    d = d || {};
+    var w = document.createElement("div"); w.className="subrow";
+    w.innerHTML =
+      '<div class="field" style="margin-right:44px;margin-bottom:8px"><input type="text" class="s-title" placeholder="步骤标题,如 炒鸡蛋"></div>'
+      + '<div class="field" style="margin-bottom:8px"><textarea class="s-desc" placeholder="这一步的详细做法"></textarea></div>'
+      + '<div class="field" style="margin-bottom:0"><input type="text" class="s-tip" placeholder="小提示(可选)"></div>'
+      + '<button class="btn sm danger rm">删</button>';
+    w.querySelector(".s-title").value = d.title||"";
+    w.querySelector(".s-desc").value = d.desc||"";
+    w.querySelector(".s-tip").value = d.tip||"";
+    w.querySelector(".rm").addEventListener("click", function(){ w.remove(); });
+    return w;
+  }
+  $("addStep").addEventListener("click", function(){ $("stepList").appendChild(stepRow()); });
+
+  // ---- 贴士行 ----
+  function tipRow(v){
+    var w = document.createElement("div"); w.className="subrow";
+    w.innerHTML = '<div style="margin-right:44px"><input type="text" class="t-val" placeholder="一条小贴士"></div><button class="btn sm danger rm">删</button>';
+    w.querySelector(".t-val").value = v||"";
+    w.querySelector(".rm").addEventListener("click", function(){ w.remove(); });
+    return w;
+  }
+  $("addTip").addEventListener("click", function(){ $("tipList").appendChild(tipRow()); });
+
+  // ---- 备注图文行 ----
+  function noteRow(d){
+    d = d || {};
+    var w = document.createElement("div"); w.className="subrow";
+    w.innerHTML =
+      '<div class="field" style="margin-right:44px;margin-bottom:8px"><textarea class="n-text" placeholder="备注文字"></textarea></div>'
+      + '<div class="imgbox">'
+      + '<img class="imgprev n-prev" alt="" style="display:none">'
+      + '<label class="filelbl">📷 图片<input type="file" class="n-file" accept="image/*"></label>'
+      + '<button class="btn sm n-clr" style="display:none">清除</button>'
+      + '<span class="uphint n-hint"></span>'
+      + '</div>'
+      + '<button class="btn sm danger rm">删</button>';
+    w.querySelector(".n-text").value = d.text||"";
+    var img = null;
+    var prev = w.querySelector(".n-prev"), clr = w.querySelector(".n-clr"), hint = w.querySelector(".n-hint");
+    function setImg(file, url){
+      img = file || null;
+      if(img){ prev.src = url || (BACKEND+"/img/"+img); prev.style.display="block"; clr.style.display="inline-flex"; }
+      else{ prev.style.display="none"; clr.style.display="none"; prev.src=""; }
+    }
+    if(d.img){ setImg(d.img); }
+    w.querySelector(".n-file").addEventListener("change", function(){
+      var f = this.files && this.files[0]; if(!f) return;
+      hint.className="uphint n-hint";
+      uploadImage(f, 1000,
+        function(){ hint.textContent="上传中…"; },
+        function(file,url){ hint.textContent="已上传"; setImg(file,url); },
+        function(){ hint.className="uphint n-hint err"; hint.textContent="上传失败"; });
+      this.value="";
+    });
+    clr.addEventListener("click", function(){ setImg(null); hint.textContent=""; });
+    w.querySelector(".rm").addEventListener("click", function(){ w.remove(); });
+    w._getImg = function(){ return img; };
+    return w;
+  }
+  $("addNote").addEventListener("click", function(){ $("noteList").appendChild(noteRow()); });
+
+  // ---- 打开编辑 / 新建 ----
+  function resetForm(){
+    ["f_name","f_nameEn","f_emoji","f_difficulty","f_time","f_servings","f_tags","f_summary"].forEach(function(id){ $(id).value=""; });
+    $("f_category").value = "chaocai";
+    $("ingList").innerHTML=""; $("stepList").innerHTML=""; $("tipList").innerHTML=""; $("noteList").innerHTML="";
+    setHero(null); $("heroHint").textContent="";
+  }
+  function openNew(){
+    curId=null; curSlug=""; resetForm();
+    $("editTitle").textContent="新建菜谱";
+    // 各给一行方便填
+    $("ingList").appendChild(ingRow());
+    $("stepList").appendChild(stepRow());
+    showEdit();
+  }
+  function openEdit(id){
+    var r = null; for(var i=0;i<allRecipes.length;i++){ if(String(allRecipes[i].id)===String(id)){ r=allRecipes[i]; break; } }
+    if(!r){ toast("找不到该菜谱,请刷新", "err"); return; }
+    curId = r.id; curSlug = r.slug||"";
+    resetForm();
+    $("editTitle").textContent = "编辑:" + (r.name||"");
+    $("f_name").value = r.name||""; $("f_nameEn").value = r.nameEn||"";
+    $("f_category").value = (CAT_NAME[r.category]?r.category:"qita");
+    $("f_emoji").value = r.emoji||""; $("f_difficulty").value = r.difficulty||"";
+    $("f_time").value = r.time||""; $("f_servings").value = r.servings||"";
+    $("f_tags").value = (r.tags||[]).join(", ");
+    $("f_summary").value = r.summary||"";
+    (r.ingredients||[]).forEach(function(d){ $("ingList").appendChild(ingRow(d)); });
+    (r.steps||[]).forEach(function(d){ $("stepList").appendChild(stepRow(d)); });
+    (r.tips||[]).forEach(function(v){ $("tipList").appendChild(tipRow(v)); });
+    (r.notes||[]).forEach(function(d){ $("noteList").appendChild(noteRow(d)); });
+    if(r.hero){ setHero(r.hero); $("heroHint").textContent=""; }
+    showEdit();
+  }
+
+  // ---- 收集表单 -> recipe 对象 ----
+  function collect(){
+    var name = $("f_name").value.trim();
+    if(!name){ toast("菜名必填", "err"); $("f_name").focus(); return null; }
+    var tags = $("f_tags").value.split(",").map(function(s){ return s.trim(); }).filter(function(s){ return s; });
+    var ings = [];
+    Array.prototype.forEach.call($("ingList").children, function(w){
+      var n = w.querySelector(".i-name").value.trim(), a = w.querySelector(".i-amt").value.trim();
+      if(n||a){ ings.push({ name:n, amount:a, highlight: w.querySelector(".i-hl").checked }); }
+    });
+    var steps = [];
+    Array.prototype.forEach.call($("stepList").children, function(w){
+      var t=w.querySelector(".s-title").value.trim(), d=w.querySelector(".s-desc").value.trim(), tp=w.querySelector(".s-tip").value.trim();
+      if(t||d||tp){ steps.push({ title:t, desc:d, tip:tp }); }
+    });
+    var tips = [];
+    Array.prototype.forEach.call($("tipList").children, function(w){
+      var v = w.querySelector(".t-val").value.trim(); if(v) tips.push(v);
+    });
+    var notes = [];
+    Array.prototype.forEach.call($("noteList").children, function(w){
+      var t = w.querySelector(".n-text").value.trim(), img = w._getImg();
+      if(t || img){ notes.push({ text:t, img: img||null }); }
+    });
+    var rec = {
+      slug: curSlug || "",
+      name: name,
+      nameEn: $("f_nameEn").value.trim(),
+      category: $("f_category").value,
+      emoji: $("f_emoji").value.trim(),
+      difficulty: $("f_difficulty").value.trim(),
+      time: $("f_time").value.trim(),
+      servings: $("f_servings").value.trim(),
+      tags: tags,
+      summary: $("f_summary").value.trim(),
+      hero: heroFile || null,
+      ingredients: ings,
+      steps: steps,
+      tips: tips,
+      notes: notes
+    };
+    if(curId){ rec.id = curId; }
+    return rec;
+  }
+
+  function doSave(){
+    var rec = collect(); if(!rec) return;
+    var btn = $("saveBtn"); btn.disabled=true; btn.textContent="保存中…";
+    apiPost("/recipe", { device:device, recipe:rec }).then(function(j){
+      btn.disabled=false; btn.textContent="保存菜谱";
+      if(j && j.ok){ toast("已保存", "ok"); showList(); loadList(); }
+      else{ toast((j&&j.__s===401)?"未授权,请刷新页面":"保存失败,请重试", "err"); }
+    }).catch(function(){ btn.disabled=false; btn.textContent="保存菜谱"; toast("连不上服务器", "err"); });
+  }
+
+  // ---- 绑定 ----
+  $("newBtn").addEventListener("click", openNew);
+  $("reload").addEventListener("click", function(e){ e.preventDefault(); loadList(); });
+  $("backList").addEventListener("click", function(e){ e.preventDefault(); showList(); });
+  $("cancelBtn").addEventListener("click", showList);
+  $("saveBtn").addEventListener("click", doSave);
+
+  // 启动
+  if(document.body) mountGate();
+  else document.addEventListener("DOMContentLoaded", mountGate);
+})();
+</script>
+</body>
+</html>
