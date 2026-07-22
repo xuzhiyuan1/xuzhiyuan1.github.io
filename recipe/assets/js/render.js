@@ -4,9 +4,11 @@
      <script>window.__RECIPE_CAT__ = 'chaocai';</script>
      <script src="../assets/js/render.js"></script>
    行为:
-     1. 拉 _data/<cat>.json 拿到 recipes 列表
-     2. 逐个拉 _data/<slug>.json
+     1. 拉后端 API https://recipe.xuzhiyuan1.top/data 拿到全部 recipes
+     2. 按 window.__RECIPE_CAT__ 过滤当前分类
      3. 渲染成可展开的卡片(点开看完整菜谱,不再跳子页)
+        - 卡片顶部:heroUrl 有值显示大图,否则用 emoji 封面
+        - 详情末尾:notes 图文备注区
      4. 把当前展开的菜谱挂到 window.__CURRENT_RECIPE__,助手可总结
    ============================================================ */
 (function () {
@@ -18,13 +20,8 @@
     return;
   }
 
-  // 站点根(从当前页向上找到 /recipe/)
-  // 分类页都在 /recipe/<cat>/index.html,根为 ../_data/
-  var DATA_BASE = (function () {
-    // 通过 script 的 src 反查更稳;但简单点,直接用相对路径
-    // 当前页路径形如 /<cat>/ 或 /<cat>/index.html,base 为 ../_data/
-    return '../_data/';
-  })();
+  // 数据源:后端 API(取代原来的 ../_data/*.json 静态文件)
+  var API = 'https://recipe.xuzhiyuan1.top/data';
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function el(tag, attrs, children) {
@@ -47,7 +44,7 @@
       + '<div class="empty">'
       +   '<div class="emoji">😢</div>'
       +   '<p>菜谱加载失败:' + msg + '</p>'
-      +   '<p style="margin-top:10px;font-size:12px;">检查 _data/' + CAT + '.json 是否存在、浏览器是否允许 fetch</p>'
+      +   '<p style="margin-top:10px;font-size:12px;">该页面数据来自后端 API,需要后端在线才能显示菜谱,请确认 recipe.xuzhiyuan1.top 可访问后重试。</p>'
       + '</div>';
   }
 
@@ -64,6 +61,17 @@
     return '<span class="badge-item">' + label + ' <strong>' + value + '</strong></span>';
   }
 
+  // 卡片封面:heroUrl 有值用大图(圆角/满宽/cover/懒加载),否则沿用 emoji
+  function cover(r) {
+    if (r.heroUrl) {
+      return '<div class="cover has-img" style="padding:0;">'
+        +   '<img src="' + r.heroUrl + '" alt="' + (r.name || '') + '" loading="lazy" '
+        +     'style="width:100%;height:100%;max-width:100%;object-fit:cover;display:block;border-radius:inherit;" />'
+        + '</div>';
+    }
+    return '<div class="cover">' + (r.emoji || '🍳') + '</div>';
+  }
+
   function renderCard(r) {
     var meta = []
       .concat(r.time ? badge('用时', r.time) : '')
@@ -74,7 +82,7 @@
     return ''
       + '<article class="recipe-card" data-slug="' + r.slug + '">'
       +   '<button class="card-toggle" type="button" aria-expanded="false">'
-      +     '<div class="cover">' + (r.emoji || '🍳') + '</div>'
+      +     cover(r)
       +     '<div class="body">'
       +       '<h3>' + r.name + '</h3>'
       +       '<div class="meta">' + meta + '</div>'
@@ -84,6 +92,27 @@
       +   '</button>'
       +   '<div class="detail" hidden></div>'
       + '</article>';
+  }
+
+  // 备注图文区:每条一段文字(保留换行),imgUrl 非空则配一张满宽圆角图
+  function renderNotes(r) {
+    var notes = (r.notes || []).filter(function (n) { return n && (n.text || n.imgUrl); });
+    if (!notes.length) return '';
+    var items = notes.map(function (n) {
+      var img = n.imgUrl
+        ? '<img src="' + n.imgUrl + '" alt="备注图" loading="lazy" '
+          + 'style="display:block;width:100%;max-width:100%;object-fit:cover;border-radius:14px;margin:10px 0 0;" />'
+        : '';
+      var text = n.text
+        ? '<p style="margin:0;white-space:pre-wrap;line-height:1.7;color:var(--ink-soft);">' + n.text + '</p>'
+        : '';
+      return '<div class="note-item" style="margin-bottom:16px;">' + text + img + '</div>';
+    }).join('');
+    return ''
+      + '<section class="recipe-notes panel" style="margin-top:16px;">'
+      +   '<h2>备注</h2>'
+      +   items
+      + '</section>';
   }
 
   function renderDetail(r) {
@@ -130,6 +159,7 @@
       +     '<aside class="panel"><h2>食材</h2><ul class="ing-list">' + ing + '</ul></aside>'
       +     '<article class="panel"><h2>步骤</h2><ol class="steps">' + steps + '</ol>' + tips + '</article>'
       +   '</section>'
+      +   renderNotes(r)
       +   '<div class="detail-foot">'
       +     '<button class="close-detail" type="button">收起 ▴</button>'
       +   '</div>'
@@ -193,30 +223,13 @@
     }
 
     try {
-      var idxUrl = DATA_BASE + CAT + '.json';
-      var resp = await fetch(idxUrl, { cache: 'no-cache' });
-      if (!resp.ok) throw new Error('索引 ' + idxUrl + ' → HTTP ' + resp.status);
-      var idx = await resp.json();
+      var resp = await fetch(API, { cache: 'no-cache' });
+      if (!resp.ok) throw new Error('后端 ' + API + ' → HTTP ' + resp.status);
+      var data = await resp.json();
+      if (!data || data.ok === false) throw new Error('后端返回异常');
 
-      var slugs = (idx.recipes || []).slice();
-      if (!slugs.length) { showEmpty(grid); return; }
-
-      var recipes = [];
-      var errors = [];
-      for (var i = 0; i < slugs.length; i++) {
-        var slug = slugs[i];
-        try {
-          var r = await fetch(DATA_BASE + slug + '.json', { cache: 'no-cache' });
-          if (!r.ok) throw new Error('HTTP ' + r.status);
-          recipes.push(await r.json());
-        } catch (e) {
-          errors.push(slug + '(' + e.message + ')');
-        }
-      }
-      if (!recipes.length) {
-        showError(grid, errors.length ? ('所有菜品加载失败: ' + errors.join(', ')) : '无数据');
-        return;
-      }
+      var recipes = (data.recipes || []).filter(function (r) { return r && r.category === CAT; });
+      if (!recipes.length) { showEmpty(grid); return; }
 
       grid.classList.add('recipe-grid');
       grid.innerHTML = recipes.map(renderCard).join('');
@@ -224,10 +237,6 @@
         var card = grid.children[i];
         attachToggle(card, r);
       });
-
-      if (errors.length) {
-        console.warn('[recipe] 部分菜品加载失败:', errors);
-      }
     } catch (e) {
       console.error('[recipe] 加载失败:', e);
       showError(grid, e.message || String(e));

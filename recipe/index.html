@@ -52,18 +52,20 @@
 </script> -->
 <script src="assets/js/assistant.js"></script>
 <script>
-  // 加载分类清单并渲染卡片
-  fetch('_data/categories.json')
+  // 从后端 API 加载分类与菜谱,渲染分类卡(卡上显示该分类的菜品数)
+  fetch('https://recipe.xuzhiyuan1.top/data')
     .then(function (r) { return r.json(); })
     .then(function (data) {
       var wrap = document.getElementById('categories');
-      var html = data.categories.map(function (c) {
+      var recipes = data.recipes || [];
+      var html = (data.categories || []).map(function (c) {
+        var count = recipes.filter(function (r) { return r && r.category === c.key; }).length;
         return ''
           + '<a class="cat-card ' + c.key + '" href="./' + c.slug + '/">'
           +   '<div class="emoji">' + c.emoji + '</div>'
           +   '<h2>' + c.name + '</h2>'
           +   '<div class="desc">' + c.desc + '</div>'
-          +   '<span class="count">查看 →</span>'
+          +   '<span class="count">' + count + ' 道 →</span>'
           +   '<div class="deco"></div>'
           + '</a>';
       }).join('');
@@ -71,7 +73,7 @@
     })
     .catch(function () {
       document.getElementById('categories').innerHTML =
-        '<div class="empty"><div class="emoji">🍳</div>分类加载失败,请稍后再试。</div>';
+        '<div class="empty"><div class="emoji">🍳</div>分类加载失败,该页面数据来自后端 API,需要后端在线(recipe.xuzhiyuan1.top),请稍后再试。</div>';
     });
 </script>
 
