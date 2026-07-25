@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#1a2b5e" />
+  <title>B612 · 礼物星图</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 星空背景 -->
+  <div class="sky">
+    <div class="star s1"></div><div class="star s2"></div><div class="star s3"></div>
+    <div class="star s4"></div><div class="star s5"></div><div class="star s6"></div>
+    <div class="star s7"></div><div class="star s8"></div>
+    <div class="planet"></div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>🌹 B612 · 礼物星图</h1>
+        <p class="subtitle">"真正重要的东西，眼睛是看不见的。"</p>
+        <p class="subtitle-en">— 记录每一份被惦记的心意 —</p>
+      </div>
+      <div class="prince">
+        <svg viewBox="0 0 80 90" aria-hidden="true">
+          <circle cx="40" cy="22" r="14" fill="#f6c97a"/>
+          <path d="M26 22 Q40 4 54 22 Q40 18 26 22Z" fill="#a23b2a"/>
+          <rect x="30" y="36" width="20" height="30" rx="4" fill="#3b6ea8"/>
+          <rect x="32" y="66" width="6" height="14" fill="#3b6ea8"/>
+          <rect x="42" y="66" width="6" height="14" fill="#3b6ea8"/>
+          <ellipse cx="36" cy="24" rx="1.6" ry="2" fill="#1a2b5e"/>
+          <ellipse cx="44" cy="24" rx="1.6" ry="2" fill="#1a2b5e"/>
+          <path d="M36 30 Q40 32 44 30" stroke="#1a2b5e" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- 顶部统计条 -->
+  <section class="stats-bar" aria-label="概览">
+    <div class="stat"><div class="num" id="stat-received">0</div><div class="label">收到</div></div>
+    <div class="stat"><div class="num" id="stat-sent">0</div><div class="label">送出</div></div>
+    <div class="stat"><div class="num" id="stat-people">0</div><div class="label">心意</div></div>
+    <div class="stat"><div class="num" id="stat-years">0</div><div class="label>年份</div></div>
+  </section>
+
+  <!-- 视图切换 -->
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-view="records">📖 星图</button>
+    <button class="tab" data-view="add">✍️ 记录</button>
+    <button class="tab" data-view="assistant">🦊 狐狸助手</button>
+    <button class="tab" data-view="settings">⚙️ 设置</button>
+  </nav>
+
+  <main>
+    <!-- ============= 星图（列表） ============= -->
+    <section class="view active" id="view-records">
+      <div class="filters">
+        <div class="filter-group">
+          <label>类型</label>
+          <select id="filter-direction">
+            <option value="all">全部</option>
+            <option value="received">收到 🎁</option>
+            <option value="sent">送出 💝</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>年份</label>
+          <select id="filter-year"><option value="all">全部</option></select>
+        </div>
+        <div class="filter-group">
+          <label>搜索</label>
+          <input type="search" id="filter-q" placeholder="人名 / 礼物关键词" />
+        </div>
+      </div>
+
+      <div class="list" id="records-list"></div>
+      <div class="empty" id="empty-records" hidden>
+        <div class="empty-emoji">🌌</div>
+        <p>这片星图还是空的。<br/>去「记录」写下第一颗星星吧 ✨</p>
+      </div>
+    </section>
+
+    <!-- ============= 记录（表单） ============= -->
+    <section class="view" id="view-add">
+      <form class="form" id="add-form" autocomplete="off">
+        <div class="seg">
+          <label class="seg-opt">
+            <input type="radio" name="direction" value="received" checked />
+            <span>🎁 收到礼物</span>
+          </label>
+          <label class="seg-opt">
+            <input type="radio" name="direction" value="sent" />
+            <span>💝 送出礼物</span>
+          </label>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>年份</label>
+            <input type="number" name="year" required min="1900" max="2100" placeholder="2026" />
+          </div>
+          <div class="field">
+            <label>日期</label>
+            <input type="date" name="date" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>对方姓名</label>
+          <input type="text" name="person" required placeholder="例如：小明 / 妈妈 / 闺蜜阿琳" />
+        </div>
+
+        <div class="field">
+          <label>礼物 / 描述</label>
+          <textarea name="gift" required rows="2" placeholder="例如：一本《小王子》插画版 / 自制生日蛋糕"></textarea>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label>场合</label>
+            <select name="occasion">
+              <option value="birthday">生日</option>
+              <option value="christmas">圣诞</option>
+              <option value="newyear">新年</option>
+              <option value="anniversary">纪念日</option>
+              <option value="other">其它</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>花费（选填）</label>
+            <input type="number" name="price" min="0" step="0.01" placeholder="¥" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>备注（选填）</label>
+          <textarea name="note" rows="2" placeholder="想起的小故事、当时的天气……"></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn primary">🌟 种下这颗星</button>
+          <button type="reset" class="btn ghost">清空</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ============= 狐狸助手 ============= -->
+    <section class="view" id="view-assistant">
+      <div class="assistant-intro">
+        <div class="fox">🦊</div>
+        <div>
+          <h3>狐狸说</h3>
+          <p>用一句话告诉我发生了什么，我来帮你归档成星星。<br/>例如：<em>"2024 年生日小明送了我一本《小王子》"</em> 或 <em>"去年圣诞节我给妈妈织了一条围巾"</em>。</p>
+        </div>
+      </div>
+
+      <div class="chat" id="chat-log" aria-live="polite"></div>
+
+      <form class="chat-input" id="chat-form">
+        <textarea id="chat-text" rows="1" placeholder="告诉小狐狸今天发生了什么…"></textarea>
+        <button type="submit" class="btn primary" id="chat-send">送出 ✨</button>
+      </form>
+      <p class="hint" id="chat-hint">提示：先在「设置」里填入 DeepSeek API Key 才能使用助手。</p>
+    </section>
+
+    <!-- ============= 设置 ============= -->
+    <section class="view" id="view-settings">
+      <form class="form" id="settings-form" autocomplete="off">
+        <div class="field">
+          <label>DeepSeek API Key</label>
+          <input type="password" id="api-key" placeholder="sk-..." autocomplete="off" />
+          <p class="hint">仅保存在你本机的浏览器中（localStorage），不会上传任何服务器。</p>
+        </div>
+        <div class="field">
+          <label>模型</label>
+          <select id="api-model">
+            <option value="deepseek-chat">deepseek-chat（V3，推荐）</option>
+            <option value="deepseek-reasoner">deepseek-reasoner（R1，思考型）</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>API Base URL</label>
+          <input type="text" id="api-base" value="https://api.deepseek.com/v1" />
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary">💾 保存</button>
+          <button type="button" class="btn ghost" id="btn-test">🔌 测试连接</button>
+        </div>
+      </form>
+
+      <hr class="divider" />
+
+      <div class="data-actions">
+        <h3>数据</h3>
+        <p class="hint">所有礼物都保存在本机浏览器里。建议定期导出备份。</p>
+        <div class="actions">
+          <button type="button" class="btn" id="btn-export">⬇️ 导出 JSON</button>
+          <button type="button" class="btn" id="btn-import">⬆️ 导入 JSON</button>
+          <input type="file" id="import-file" accept="application/json" hidden />
+          <button type="button" class="btn danger" id="btn-clear">🗑️ 清空全部</button>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <div class="about">
+        <h3>关于</h3>
+        <p>"所有的大人都曾经是小孩，虽然只有少数人记得。"</p>
+        <p class="hint">B612 · 礼物星图 · 静态页面 · 数据存本地</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- 详情 / 编辑 弹层 -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close" aria-label="关闭">×</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- 提示条 -->
+  <div class="toast" id="toast" hidden></div>
+
+  <footer>
+    <span>⭐</span>
+    <span>"你为你的玫瑰花费了时间，这才使你的玫瑰变得如此重要。"</span>
+    <span>⭐</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
