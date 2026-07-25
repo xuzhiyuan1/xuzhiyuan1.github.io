@@ -131,6 +131,26 @@
     els.statYears.textContent = years.size;
   }
 
+  /** 单条记录的 HTML(桌面端展开版,移动端 CSS 会自动塌缩) */
+  function renderRecord(r){
+    return `
+      <div class="record ${r.direction}" data-id="${r.id}">
+        <div class="badge">${r.direction==='received'?'🎁':'💝'}</div>
+        <div class="body">
+          <div class="meta">
+            <span class="yr">${esc(r.year||'')}</span>
+            ${r.date?`<span>${esc(r.date)}</span>`:''}
+            <span class="occ">${esc(OCC_LABEL[r.occasion]||r.occasion||'')}</span>
+            ${r.price?`<span class="price">${esc(fmtMoney(r.price))}</span>`:''}
+          </div>
+          <div class="person">${r.direction==='received'?'来自':'送给'} ${esc(r.person)}</div>
+          <div class="gift">${esc(r.gift)}</div>
+          ${r.note?`<div class="note">"${esc(r.note)}"</div>`:''}
+        </div>
+      </div>
+    `;
+  }
+
   function renderList(){
     renderYears();
     renderStats();
@@ -141,20 +161,26 @@
       return;
     }
     els.empty.hidden = true;
-    els.list.innerHTML = data.map(r=>`
-      <div class="record ${r.direction}" data-id="${r.id}">
-        <div class="badge">${r.direction==='received'?'🎁':'💝'}</div>
-        <div class="body">
-          <div class="meta">
-            <span class="year">${esc(r.year||'')}</span>
-            ${r.date?`<span>${esc(r.date)}</span>`:''}
-            <span class="occ">${esc(OCC_LABEL[r.occasion]||r.occasion||'')}</span>
-            ${r.price?`<span class="price">${esc(fmtMoney(r.price))}</span>`:''}
-          </div>
-          <div class="person">${r.direction==='received'?'来自':'送给'}：${esc(r.person)}</div>
-          <div class="gift">${esc(r.gift)}</div>
-          ${r.note?`<div class="note">"${esc(r.note)}"</div>`:''}
+    // 按年份分组,便于纵向滚动时有清晰结构(尤其移动端)
+    const groups = new Map();
+    data.forEach(r=>{
+      const y = r.year || '其他';
+      if(!groups.has(y)) groups.set(y, []);
+      groups.get(y).push(r);
+    });
+    const years = Array.from(groups.keys()).sort((a,b)=>{
+      // 把"其他"排到最后
+      if(a==='其他') return 1;
+      if(b==='其他') return -1;
+      return Number(b) - Number(a);
+    });
+    els.list.innerHTML = years.map(y=>`
+      <div class="year-group">
+        <div class="year-header">
+          <span class="year-label">${esc(y)}</span>
+          <span class="year-count">${groups.get(y).length} 颗星</span>
         </div>
+        <div class="group-list">${groups.get(y).map(renderRecord).join('')}</div>
       </div>
     `).join('');
     $$('.record', els.list).forEach(node=>{
