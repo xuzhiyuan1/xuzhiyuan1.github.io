@@ -258,50 +258,116 @@
     {
       "date": "2026-08-02",
       "label": "Day 2",
-      "title": "Day 2 · 8.2 周日 · 返程",
+      "title": "Day 2 · 8.2 周日 · 返程 · 暹罗商圈+马杀鸡",
       "loc": [
-        "Chatuchak Weekend Market",
-        "Or Tor Kor Market Bangkok",
         "Siam Paragon Bangkok",
-        "CentralWorld Bangkok"
+        "Siam Center Bangkok",
+        "CentralWorld Bangkok",
+        "Big C Ratchadamri Bangkok",
+        "Sukhumvit Soi 24 Bangkok"
       ],
       "items": [
         {
-          "time": "上午",
-          "iso": "2026-08-02T10:00:00+07:00",
-          "title": "乍都乍周末市场（周日开）＋ Or Tor Kor 榴莲收尾 {durian}",
-          "places": [
-            "Chatuchak Weekend Market"
-          ]
+          "time": "08:30",
+          "iso": "2026-08-02T08:30:00+07:00",
+          "title": "起床 + 早餐 🥐",
+          "note": "酒店自助早餐或楼下 7-Eleven 简餐；吃完回房间收拾行李，准备退房。今天要赶飞机，贵重物品（护照/钱包/手机）随身背好"
         },
         {
-          "time": "12:00",
-          "iso": "2026-08-02T12:00:00+07:00",
-          "title": "退房，行李寄存酒店前台"
+          "time": "09:00",
+          "iso": "2026-08-02T09:00:00+07:00",
+          "title": "退房，行李寄存前台 🧳",
+          "note": "12:00 前退房即可，早上办好省心；大件行李寄存在前台（免费），傍晚回来取。只带随身小包+购物袋去暹罗商圈，轻装上阵"
         },
         {
-          "time": "13:30",
-          "iso": "2026-08-02T13:30:00+07:00",
-          "title": "暹罗百丽宫 Siam Paragon",
-          "note": "曼谷市中心大型购物中心，美食广场、奢侈品、暹罗海洋世界",
+          "time": "09:15",
+          "iso": "2026-08-02T09:15:00+07:00",
+          "title": "出发 → 暹罗商圈 🚝",
+          "note": "BTS Phrom Phong → Siam 仅 2 站约 5 分钟，超近！暹罗商圈四大商场（百丽宫、Siam Center、Siam Discovery、CentralWorld）+ Big C 全部由 Skywalk 天桥连接，全程不用打车。商场大多 10:00 开门，9:15 出发到 Siam 站约 9:25，先在 Siam 站周边溜达一下等开门～",
           "places": [
             "Siam Paragon Bangkok"
           ]
         },
         {
-          "time": "16:00",
-          "iso": "2026-08-02T16:00:00+07:00",
-          "title": "CentralWorld 中央世界购物中心 → 买西太后 Vivienne Westwood",
-          "note": "从 Siam Paragon 坐 BTS 一站到 Chit Lom 站即达；Vivienne Westwood（西太后）在 CentralWorld 1F，东南亚最大购物中心之一",
+          "time": "09:30",
+          "iso": "2026-08-02T09:30:00+07:00",
+          "title": "暹罗百丽宫 Siam Paragon 🛍️",
+          "note": "BTS Siam 站直通，曼谷老牌顶奢购物地标。必逛：GF 层 Gourmet Market 高端超市 + Food Hall（泰国土产伴手礼——榴莲干/芒果干/泰式调料，比 Big C 精致但价格稍高）、M 层奢侈品区、1F-2F 国际大牌、3F 书店 Kinokuniya + 电子产品、GF 层 Siam Ocean World 海洋世界（东南亚最大室内水族馆，想进去逛需预留 1.5–2 小时，门票约 ¥150–200，赶时间的话跳过外观打卡即可）。百丽宫是你们的首要目标，好好逛！",
+          "places": [
+            "Siam Paragon Bangkok"
+          ]
+        },
+        {
+          "time": "11:00",
+          "iso": "2026-08-02T11:00:00+07:00",
+          "title": "暹罗中心 Siam Center 🎨 小王子推荐①",
+          "note": "紧挨百丽宫、天桥直连，主打泰国本土设计师品牌，200+ 设计师店铺，衣服/包包/饰品很多是独一无二的！¥100–300 就能买到很有设计感的单品，比 Paragon 亲民多了。Fly Now、Kloset、Theatre、Issue 等知名泰国设计师品牌都在这里。装修风格很艺术范，逛起来像逛美术馆～隔壁 Siam Discovery（天桥连着，步行 2 分钟）有小王子推荐②：日本 LOFT 杂货铺（文具/家居/美妆创意小物）+ 三宅一生旗舰店，设计感超强，有时间可以快速逛一圈（约 30 分钟）",
+          "places": [
+            "Siam Center Bangkok"
+          ]
+        },
+        {
+          "time": "12:00",
+          "iso": "2026-08-02T12:00:00+07:00",
+          "title": "午餐 @ 暹罗商圈 🍜",
+          "note": "推荐选择：① Siam Paragon GF 层 Food Hall（选择最多，泰式中式日式全有，人均 ¥30–60，吃完直接去 CentralWorld）；② CentralWorld 7F 美食区（到 CentralWorld 后再吃也行，看逛的节奏，Food Village 选择多且便宜）。想吃甜点去 Siam Paragon GF 层 After You（榴莲刨冰！）或 Pang Cha（米其林推荐泰奶刨冰），饭后一份冰甜品完美收尾～"
+        },
+        {
+          "time": "13:00",
+          "iso": "2026-08-02T13:00:00+07:00",
+          "title": "CentralWorld 尚泰购物中心 🏬",
+          "note": "从 Siam Center 走 Skywalk 天桥约 8–10 分钟即达（也可 BTS Siam → Chit Lom 坐 1 站）。曼谷第二大购物中心，必逛：1F 西太后 Vivienne Westwood（你们的重点目标！就在 1F 正门附近）、Zen 百货（CentralWorld 里的日系百货，美妆/家居/女装）、3F 本土品牌区 + 生活方式店、7F SF Cinema 影院 + 美食区。CentralWorld 外面广场常有市集/活动，可以顺便看看～",
           "places": [
             "CentralWorld Bangkok"
           ]
         },
         {
-          "time": "深夜",
-          "iso": "2026-08-02T22:00:00+07:00",
-          "title": "取行李 → 去机场赶航班（各人时间不同，见「机酒」）",
-          "note": "崔嘉骏/唐娅妮/潘骁腾 21:30 起飞（泰国时间），徐致远最晚 8.3 凌晨 02:05 起飞（泰国时间）；国际航班建议提前 3 小时到机场"
+          "time": "14:30",
+          "iso": "2026-08-02T14:30:00+07:00",
+          "title": "Big C Ratchadamri 扫货 🛒",
+          "note": "CentralWorld 马路对面就是 Big C，过天桥 2 分钟就到！曼谷最方便的大型超市，扫货天堂。推荐买：榴莲干/芒果干/泰式调料包/MAMA 方便面/小老板海苔/青草膏/鼻通/虎标万金油/泰式奶茶粉/Dentiste 牙膏。一楼有药妆区 + 零食区 + 泰国特产专区，一站式买齐伴手礼，支持支付宝/微信。买满 2000 泰铢记得拿护照办退税！",
+          "places": [
+            "Big C Ratchadamri Bangkok"
+          ]
+        },
+        {
+          "time": "15:30",
+          "iso": "2026-08-02T15:30:00+07:00",
+          "title": "返回素坤逸区 🚝",
+          "note": "从 Big C 步行 2 分钟到 BTS Chit Lom 站 → Phrom Phong（3 站，约 8 分钟），超快！比去 ICONSIAM 省了至少半小时在路上，多出来的时间全留给逛街了 😎"
+        },
+        {
+          "time": "16:00",
+          "iso": "2026-08-02T16:00:00+07:00",
+          "title": "泰式按摩马杀鸡 💆",
+          "note": "素坤逸 Soi 24 沿街按摩店密集，推荐：Health Land Asoke（连锁标杆，传统泰式 2h 约 ¥110–130，建议提前电话预约）或 Let's Relax（轻奢体验，按完送芒果糯米饭，¥160–240）或路边 local 店（1h 约 ¥60–80，walk-in 即可，选灯光明亮、客人多的店）。建议传统泰式 1–1.5 小时，暴走两天后全身拉伸+指压，舒服到不想起来！力道沟通：'Bao bao'（轻点）/'Nak nak'（重点）。详情见攻略本「泰式按摩安排」～",
+          "places": [
+            "Sukhumvit Soi 24 Bangkok"
+          ]
+        },
+        {
+          "time": "17:00",
+          "iso": "2026-08-02T17:00:00+07:00",
+          "title": "回酒店取行李 + 简单整理 🎒",
+          "note": "从按摩店步行回美居酒店（Soi 24 沿街几分钟就到）；取寄存行李、换衣服、最后检查房间有无遗漏物品（约半小时）。把护照从行李箱深处拿出来放随身包——到机场值机第一件事就要用！"
+        },
+        {
+          "time": "17:30",
+          "iso": "2026-08-02T17:30:00+07:00",
+          "title": "出发去素万那普机场 ✈️",
+          "note": "提前 3 小时到机场就够了，17:30 出发稳稳的。打 Grab 走高速 Toll way（约 40–60 分钟、350–500 泰铢，四人平摊很划算），跟司机说 'Toll way, krub'。周日傍晚出城方向一般不堵。备选方案：BTS + 机场快线 ARL（Phrom Phong → Phaya Thai 换乘 ARL → 机场，全程约 70–80 分钟，不怕堵车）。详情见攻略本「返程机场交通」～"
+        },
+        {
+          "time": "18:30",
+          "iso": "2026-08-02T18:30:00+07:00",
+          "title": "抵达机场 → 值机+托运+边检+安检 🛂",
+          "note": "春秋 9C7420 21:30 起飞，提前 3 小时到时间刚好，不用太早到干等。流程：值机托运 → 出境边检 → 安检 → 逛 King Power 免税店 → 3F Magic Food Point 美食广场吃个简餐（机场员工也去吃的地方，价格亲民味道不错，比楼上餐厅便宜一半）→ 走到登机口（素万那普很大，登机口可能要走 10–15 分钟，注意听广播）"
+        },
+        {
+          "time": "21:30",
+          "iso": "2026-08-02T21:30:00+07:00",
+          "title": "起飞回国 🇨🇳",
+          "note": "崔嘉骏/唐娅妮/潘骁腾 春秋 9C7420 曼谷 → 广州，8.3 凌晨 01:20 抵达白云机场。徐致远最晚 8.3 凌晨 02:05 东航 MU2072 曼谷 → 北京大兴（徐致远不用赶 17:00 出发，可以多逛一会儿或再加一轮按摩，自行把握时间）"
         }
       ]
     }
