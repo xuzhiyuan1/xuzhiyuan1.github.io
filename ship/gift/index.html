@@ -16,6 +16,34 @@
     <div class="planet"></div>
   </div>
 
+  <!-- ============= prince 密码门 ============= -->
+  <div class="gate" id="gate" hidden>
+    <div class="gate-card">
+      <div class="prince gate-prince">
+        <svg viewBox="0 0 80 90" aria-hidden="true">
+          <circle cx="40" cy="22" r="14" fill="#f6c97a"/>
+          <path d="M26 22 Q40 4 54 22 Q40 18 26 22Z" fill="#a23b2a"/>
+          <rect x="30" y="36" width="20" height="30" rx="4" fill="#3b6ea8"/>
+          <rect x="32" y="66" width="6" height="14" fill="#3b6ea8"/>
+          <rect x="42" y="66" width="6" height="14" fill="#3b6ea8"/>
+          <ellipse cx="36" cy="24" rx="1.6" ry="2" fill="#1a2b5e"/>
+          <ellipse cx="44" cy="24" rx="1.6" ry="2" fill="#1a2b5e"/>
+          <path d="M36 30 Q40 32 44 30" stroke="#1a2b5e" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h2>🌹 只有小王子能进来</h2>
+      <p class="gate-sub">"驯服我吧。" —— 输入通关口令，把这台设备记进玫瑰的名册。</p>
+      <form id="gate-form" autocomplete="off">
+        <input type="password" id="gate-pass" placeholder="口令" />
+        <input type="text" id="gate-label" placeholder="给这台设备起个名（选填，如：小琳的手机）" />
+        <button type="submit" class="btn primary" id="gate-btn">驯服这颗星球 ✨</button>
+      </form>
+      <p class="gate-msg" id="gate-msg"></p>
+    </div>
+  </div>
+
+  <!-- ============= 主应用 ============= -->
+  <div id="app" hidden>
   <header class="hero">
     <div class="hero-inner">
       <div class="hero-text">
@@ -97,6 +125,20 @@
           </label>
         </div>
 
+        <div class="field">
+          <label>送出方（谁送的）</label>
+          <div class="chips-input" id="senders-input" data-side="senders"></div>
+        </div>
+        <div class="field">
+          <label>收礼方（谁收的）</label>
+          <div class="chips-input" id="recipients-input" data-side="recipients"></div>
+        </div>
+
+        <div class="field">
+          <label>事件标签</label>
+          <div class="event-chips" id="event-chips"></div>
+        </div>
+
         <div class="row">
           <div class="field">
             <label>年份</label>
@@ -109,29 +151,18 @@
         </div>
 
         <div class="field">
-          <label>对方姓名</label>
-          <input type="text" name="person" required placeholder="例如：小明 / 妈妈 / 闺蜜阿琳" />
-        </div>
-
-        <div class="field">
           <label>礼物 / 描述</label>
           <textarea name="gift" required rows="2" placeholder="例如：一本《小王子》插画版 / 自制生日蛋糕"></textarea>
         </div>
 
         <div class="row">
           <div class="field">
-            <label>场合</label>
-            <select name="occasion">
-              <option value="birthday">生日</option>
-              <option value="christmas">圣诞</option>
-              <option value="newyear">新年</option>
-              <option value="anniversary">纪念日</option>
-              <option value="other">其它</option>
-            </select>
-          </div>
-          <div class="field">
             <label>花费（选填）</label>
             <input type="number" name="price" min="0" step="0.01" placeholder="¥" />
+          </div>
+          <div class="field align-hint">
+            <label>&nbsp;</label>
+            <div class="hint mini">🎂 事件为生日、收礼方一人且日期留空时，会按名册自动填日期</div>
           </div>
         </div>
 
@@ -145,7 +176,7 @@
           <label class="photo-picker" for="gift-images">＋ 选择手机照片</label>
           <input type="file" id="gift-images" accept="image/*" multiple hidden />
           <div class="photo-preview" id="gift-image-preview"></div>
-          <p class="hint">上传后由服务器上的 DeepSeek CC 自动压缩，每张不超过 300KB。</p>
+          <p class="hint">上传后由学校服务器自动压缩，每张不超过 300KB。</p>
         </div>
 
         <div class="actions">
@@ -161,7 +192,7 @@
         <div class="fox">👑</div>
         <div>
           <h3>小王子说</h3>
-          <p>用一句话告诉我发生了什么，我来帮你归档成星星。<br/>例如：<em>"2024 年生日小明送了我一本《小王子》"</em> 或 <em>"去年圣诞节我给妈妈织了一条围巾"</em>。</p>
+          <p>用一句话告诉我发生了什么，我来帮你归档成星星。<br/>例如：<em>"2024 年生日小明送了我一本《小王子》"</em> 或 <em>"去年圣诞节我和阿琳一起给妈妈织了围巾"</em>。</p>
         </div>
       </div>
 
@@ -171,7 +202,7 @@
         <textarea id="chat-text" rows="1" placeholder="告诉小王子今天发生了什么…"></textarea>
         <button type="submit" class="btn primary" id="chat-send">送出 ✨</button>
       </form>
-      <p class="hint" id="chat-hint">正在连接学校服务器上的 DeepSeek 小王子…</p>
+      <p class="hint" id="chat-hint">正在连接学校服务器上的小王子…</p>
     </section>
 
     <!-- ============= 设置 ============= -->
@@ -179,7 +210,7 @@
       <div class="service-card">
         <div class="service-dot" id="service-dot"></div>
         <div>
-          <h3>小王子助手</h3>
+          <h3>服务器连接</h3>
           <p class="hint" id="service-status">正在检查服务器连接…</p>
         </div>
         <button type="button" class="btn ghost" id="btn-test">重新检查</button>
@@ -189,12 +220,10 @@
 
       <div class="data-actions">
         <h3>数据</h3>
-        <p class="hint">礼物文字仍保存在这台手机里，兼容你已有的记录；照片保存在学校服务器。建议定期导出备份。</p>
+        <p class="hint">所有礼物记录与照片都保存在学校服务器（prince 名册授权），换设备只要再输一次口令即可同步。这台设备本地只保存一个匿名标识，不存任何记录。</p>
+        <p class="hint" id="device-line"></p>
         <div class="actions">
-          <button type="button" class="btn" id="btn-export">⬇️ 导出 JSON</button>
-          <button type="button" class="btn" id="btn-import">⬆️ 导入 JSON</button>
-          <input type="file" id="import-file" accept="application/json" hidden />
-          <button type="button" class="btn danger" id="btn-clear">🗑️ 清空全部</button>
+          <button type="button" class="btn" id="btn-refresh">🔄 重新同步数据</button>
         </div>
       </div>
 
@@ -203,10 +232,17 @@
       <div class="about">
         <h3>关于</h3>
         <p>"所有的大人都曾经是小孩，虽然只有少数人记得。"</p>
-        <p class="hint">B612 · 礼物星图 · 手机专属 · DeepSeek CC 助手</p>
+        <p class="hint">B612 · 礼物星图 · prince 名册 · 后端存储</p>
       </div>
     </section>
   </main>
+
+  <footer>
+    <span>⭐</span>
+    <span>"你为你的玫瑰花费了时间，这才使你的玫瑰变得如此重要。"</span>
+    <span>⭐</span>
+  </footer>
+  </div><!-- /#app -->
 
   <!-- 详情 / 编辑 弹层 -->
   <div class="modal" id="modal" hidden>
@@ -218,12 +254,6 @@
 
   <!-- 提示条 -->
   <div class="toast" id="toast" hidden></div>
-
-  <footer>
-    <span>⭐</span>
-    <span>"你为你的玫瑰花费了时间，这才使你的玫瑰变得如此重要。"</span>
-    <span>⭐</span>
-  </footer>
 
   <script src="app.js"></script>
 </body>

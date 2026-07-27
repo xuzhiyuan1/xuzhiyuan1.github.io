@@ -1,4 +1,4 @@
-/* ===== 小王子 B612 主题 ===== */
+/* ===== 小王子 B612 主题 · 礼物星图（后端数据版） ===== */
 :root{
   --night:#0b1430;
   --night-2:#15225a;
@@ -21,11 +21,13 @@ html,body{margin:0;padding:0;background:var(--night);color:var(--paper);font-fam
 html,body{overflow-x:hidden;max-width:100%}
 body{min-height:100vh;display:flex;flex-direction:column}
 
-/* 防止子元素把容器撑开 */
 .hero-inner,.hero-text,.stats-bar,.stat,.tab,.filters,.filter-group,.list,
 .record,.record .body,.record .meta,.record .gift,.record .note,
 .form,.row,.field,.seg,.tabs,main,header,section{min-width:0}
 input,select,textarea,button{min-width:0;max-width:100%}
+
+/* 关键：所有输入统一 16px，避免 iOS 点击整页放大 */
+input,select,textarea{font-size:16px}
 
 /* === 星空背景 === */
 .sky{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at top,#1f2f78 0%,#0b1430 55%,#06091c 100%);overflow:hidden}
@@ -42,6 +44,18 @@ input,select,textarea,button{min-width:0;max-width:100%}
 .planet{position:absolute;top:-80px;right:-80px;width:280px;height:280px;border-radius:50%;
   background:radial-gradient(circle at 30% 30%,#f6c97a 0%,#e2a23f 40%,#a23b2a 90%);
   box-shadow:inset -30px -40px 80px rgba(0,0,0,.45),0 0 60px rgba(246,201,122,.25);opacity:.85;pointer-events:none}
+
+/* === prince 密码门 === */
+.gate{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.gate[hidden]{display:none}
+.gate-card{width:100%;max-width:380px;background:linear-gradient(180deg,rgba(26,43,94,.96),rgba(11,20,48,.98));border:1px solid var(--line);border-radius:20px;padding:28px 22px 24px;text-align:center;box-shadow:var(--shadow)}
+.gate-prince{width:72px;height:80px;margin:0 auto 8px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.4))}
+.gate-card h2{margin:4px 0 6px;color:var(--cream);font-size:19px}
+.gate-sub{margin:0 0 16px;color:#d9d2b8;font-size:13px;font-style:italic;line-height:1.6}
+.gate-card form{display:flex;flex-direction:column;gap:10px}
+.gate-card input{background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--cream);border-radius:12px;padding:12px 14px;font-family:inherit}
+.gate-card input:focus{outline:0;border-color:var(--gold)}
+.gate-msg{min-height:18px;margin:12px 0 0;font-size:13px;color:var(--rose)}
 
 /* === Hero === */
 .hero{padding:24px 16px 14px}
@@ -73,50 +87,46 @@ main{flex:1;max-width:720px;width:100%;margin:0 auto;padding:14px 14px 80px;over
 /* === Filters === */
 .filters{display:grid;grid-template-columns:auto auto 1fr;gap:8px;margin-bottom:14px;align-items:end}
 .filter-group label{display:block;font-size:11px;color:#aab0d2;margin-bottom:4px;letter-spacing:1px}
-.filter-group select,.filter-group input{width:100%;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--cream);border-radius:10px;padding:9px 10px;font-size:14px;font-family:inherit;min-height:38px}
+.filter-group select,.filter-group input{width:100%;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--cream);border-radius:10px;padding:9px 10px;font-size:16px;font-family:inherit;min-height:40px}
 .filter-group select:focus,.filter-group input:focus{outline:0;border-color:var(--gold)}
 
 /* === 年份分组 === */
 .year-group{margin-bottom:18px}
 .year-group:last-child{margin-bottom:0}
 .year-header{
-  display:flex;align-items:baseline;gap:10px;
-  padding:8px 4px 6px;
-  margin-bottom:6px;
-  border-bottom:1px dashed rgba(246,201,122,.22);
-  position:sticky;
-  top:52px;
-  z-index:10;
+  display:flex;align-items:baseline;gap:10px;padding:8px 4px 6px;margin-bottom:6px;
+  border-bottom:1px dashed rgba(246,201,122,.22);position:sticky;top:52px;z-index:10;
   background:linear-gradient(180deg,rgba(11,20,48,.96) 70%,rgba(11,20,48,.5));
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  border-radius:6px 6px 0 0;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:6px 6px 0 0;
 }
 .year-header .year-label{font-size:18px;font-weight:700;color:var(--gold);letter-spacing:.5px}
 .year-header .year-count{font-size:11px;color:#aab0d2;letter-spacing:.5px}
 
 /* === List === */
 .list{display:flex;flex-direction:column;gap:12px}
-.record{
-  background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:14px;
+.record{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:14px;
   padding:14px;cursor:pointer;transition:transform .15s,background .15s,border-color .15s;
-  display:flex;gap:12px;align-items:flex-start;
-}
+  display:flex;gap:12px;align-items:flex-start}
 .record:hover{transform:translateY(-1px);background:rgba(255,255,255,.1);border-color:rgba(246,201,122,.3)}
 .record:active{transform:scale(.99)}
 .record .badge{flex-shrink:0;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
 .record.received .badge{background:linear-gradient(135deg,#e87a8a,#c45b6d)}
 .record.sent .badge{background:linear-gradient(135deg,#5fb585,#3d8a5d)}
 .record .body{flex:1;min-width:0}
-.record .meta{display:flex;gap:6px;font-size:12px;color:#aab0d2;margin-bottom:4px;align-items:center;flex-wrap:wrap}
-.record .meta .yr{color:var(--gold);font-weight:700}
-.record .meta .occ{background:rgba(246,201,122,.15);color:var(--gold);padding:2px 8px;border-radius:8px;font-size:11px}
-.record .person{font-size:15px;font-weight:600;color:var(--cream);margin:2px 0;word-break:break-word}
-.record .gift{font-size:14px;color:#d9d2b8;word-break:break-word;overflow-wrap:anywhere}
-.record .note{margin-top:6px;font-size:12px;color:#9fa3c5;font-style:italic;word-break:break-word;overflow-wrap:anywhere}
-.record .price{margin-left:auto;color:var(--gold);font-size:12px;white-space:nowrap}
 
-/* 一个组的内列表 */
+/* hashtag 标签行 */
+.record .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.tag{font-size:11px;padding:2px 9px;border-radius:9px;font-weight:600;letter-spacing:.3px;white-space:nowrap}
+.tag.dir.received{background:rgba(232,122,138,.18);color:var(--rose-soft)}
+.tag.dir.sent{background:rgba(95,181,133,.18);color:#a7e0c1}
+.tag.evt{background:rgba(246,201,122,.15);color:var(--gold)}
+
+.record .person{font-size:15px;font-weight:600;color:var(--cream);margin:2px 0;word-break:break-word}
+.record .person .arrow{color:var(--gold);margin:0 3px}
+.record .gift{font-size:14px;color:#d9d2b8;word-break:break-word;overflow-wrap:anywhere}
+.record .meta{display:flex;gap:8px;font-size:12px;color:#aab0d2;margin-top:5px;align-items:center;flex-wrap:wrap}
+.record .meta .price{color:var(--gold)}
+.record .note{margin-top:6px;font-size:12px;color:#9fa3c5;font-style:italic;word-break:break-word;overflow-wrap:anywhere}
 .group-list{display:flex;flex-direction:column;gap:10px}
 
 .empty{text-align:center;padding:60px 20px;color:#aab0d2}
@@ -126,21 +136,41 @@ main{flex:1;max-width:720px;width:100%;margin:0 auto;padding:14px 14px 80px;over
 .form{display:flex;flex-direction:column;gap:14px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .field label{display:block;font-size:12px;color:#cfd2e6;margin-bottom:6px;letter-spacing:1px}
-.field input,.field textarea,.field select{width:100%;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--cream);border-radius:10px;padding:10px 12px;font-size:15px;font-family:inherit;resize:vertical}
+.field input,.field textarea,.field select{width:100%;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--cream);border-radius:10px;padding:10px 12px;font-size:16px;font-family:inherit;resize:vertical}
 .field input:focus,.field textarea:focus,.field select:focus{outline:0;border-color:var(--gold)}
+.align-hint{display:flex;flex-direction:column}
+.hint.mini{font-size:11px;line-height:1.4;color:#9fa3c5}
+
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:rgba(255,255,255,.05);border-radius:12px;padding:4px;border:1px solid var(--line)}
 .seg-opt{position:relative;display:block}
 .seg-opt input{position:absolute;opacity:0;inset:0;cursor:pointer;width:100%;height:100%}
 .seg-opt span{display:block;text-align:center;padding:10px;border-radius:9px;font-size:14px;cursor:pointer;transition:all .2s;color:#cfd2e6}
 .seg-opt input:checked + span{background:linear-gradient(135deg,#3b6ea8,#5b8ed8);color:#fff;box-shadow:0 4px 12px rgba(59,110,168,.3)}
 
+/* === chip 多人输入 === */
+.chips-input{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:10px;padding:8px;min-height:44px}
+.chips-input:focus-within{border-color:var(--gold)}
+.chip{display:inline-flex;align-items:center;gap:4px;background:rgba(59,110,168,.35);color:var(--cream);border-radius:8px;padding:5px 6px 5px 10px;font-size:14px}
+.chip.me{background:linear-gradient(135deg,var(--gold-deep),var(--gold));color:var(--night);font-weight:700}
+.chip button{border:0;background:transparent;color:inherit;font-size:16px;line-height:1;cursor:pointer;padding:0 2px}
+.chip-add{flex:1;min-width:90px;background:transparent!important;border:0!important;color:var(--cream);padding:6px 4px!important;font-size:16px;font-family:inherit}
+.chip-add:focus{outline:0}
+
+/* === 事件 chip === */
+.event-chips{display:flex;flex-wrap:wrap;gap:8px}
+.ev-chip{background:rgba(255,255,255,.06);border:1px solid var(--line);color:#cfd2e6;border-radius:20px;padding:7px 13px;font-size:14px;font-family:inherit;cursor:pointer;transition:all .18s}
+.ev-chip:hover{background:rgba(255,255,255,.12)}
+.ev-chip.on{background:linear-gradient(135deg,var(--gold-deep),var(--gold));color:var(--night);font-weight:700;border-color:transparent}
+.ev-chip.add{border-style:dashed;color:var(--gold);border-color:rgba(246,201,122,.5)}
+
 .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.btn{border:0;border-radius:12px;padding:10px 16px;font-size:14px;font-family:inherit;cursor:pointer;background:rgba(255,255,255,.1);color:var(--cream);transition:all .2s}
+.btn{border:0;border-radius:12px;padding:10px 16px;font-size:14px;font-family:inherit;cursor:pointer;background:rgba(255,255,255,.1);color:var(--cream);transition:all .2s;min-height:44px}
 .btn:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}
 .btn.primary{background:linear-gradient(135deg,var(--gold-deep),var(--gold));color:var(--night);font-weight:700;box-shadow:0 6px 16px rgba(226,162,63,.35)}
 .btn.primary:hover{filter:brightness(1.05)}
 .btn.ghost{background:transparent;border:1px solid var(--line)}
 .btn.danger{background:rgba(232,122,138,.15);color:var(--rose)}
+.btn:disabled{opacity:.55;cursor:wait;transform:none}
 
 /* === Assistant === */
 .assistant-intro{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(135deg,rgba(95,181,133,.12),rgba(246,201,122,.1));border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
@@ -157,7 +187,7 @@ main{flex:1;max-width:720px;width:100%;margin:0 auto;padding:14px 14px 80px;over
 .msg .actions{margin-top:8px}
 
 .chat-input{display:flex;gap:8px;align-items:flex-end}
-.chat-input textarea{flex:1;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--cream);border-radius:12px;padding:10px 12px;font-size:15px;font-family:inherit;resize:none;max-height:120px}
+.chat-input textarea{flex:1;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--cream);border-radius:12px;padding:10px 12px;font-size:16px;font-family:inherit;resize:none;max-height:120px}
 .chat-input textarea:focus{outline:0;border-color:var(--gold)}
 
 .hint{font-size:12px;color:#aab0d2;margin:6px 0 0}
@@ -172,6 +202,7 @@ main{flex:1;max-width:720px;width:100%;margin:0 auto;padding:14px 14px 80px;over
 @keyframes slideup{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
 .modal-close{position:absolute;top:10px;right:14px;background:transparent;border:0;color:#cfd2e6;font-size:26px;cursor:pointer;line-height:1;width:32px;height:32px;border-radius:50%}
 .modal-close:hover{background:rgba(255,255,255,.1);color:#fff}
+.modal-title{margin:0 0 12px;color:var(--gold)}
 
 /* === Toast === */
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--night);padding:10px 18px;border-radius:22px;font-size:14px;font-weight:600;box-shadow:var(--shadow);z-index:100;animation:pop .25s;max-width:90vw;word-break:break-word}
@@ -182,151 +213,90 @@ main{flex:1;max-width:720px;width:100%;margin:0 auto;padding:14px 14px 80px;over
 footer{margin-top:auto;padding:20px 16px;text-align:center;color:#aab0d2;font-size:12px;font-style:italic;letter-spacing:.5px}
 footer span{margin:0 6px}
 
-/* === Desktop >= 720 一些额外 === */
 @media (min-width:720px){
   .hero{padding-top:36px}
   main{padding:16px 16px 80px}
 }
 
-/* ===========================================================
- * 移动端 (<= 600px) — 重新设计：2×2 统计 + 紧凑布局 + 防溢出
- * =========================================================== */
+/* === 图片上传与展示 === */
+.photo-picker{display:flex!important;align-items:center;justify-content:center;min-height:46px;border:1px dashed rgba(246,201,122,.48);border-radius:12px;background:rgba(246,201,122,.08);color:var(--gold)!important;cursor:pointer;font-size:14px!important;letter-spacing:0!important;margin:0!important}
+.photo-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.photo-preview:empty{display:none}
+.photo-thumb{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+.photo-thumb img{width:100%;height:100%;display:block;object-fit:cover}
+.photo-thumb button{position:absolute;top:4px;right:4px;width:26px;height:26px;border:0;border-radius:50%;background:rgba(6,9,28,.78);color:#fff;font-size:18px;line-height:1;cursor:pointer}
+.record-photo{position:relative;margin-top:8px;width:100%;height:150px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.05)}
+.record-photo img{width:100%;height:100%;display:block;object-fit:cover}
+.record-photo span{position:absolute;right:7px;bottom:7px;padding:3px 8px;border-radius:12px;background:rgba(6,9,28,.78);color:#fff;font-size:11px}
+
+/* === 服务器状态 === */
+.service-card{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.05)}
+.service-card h3{margin:0;color:var(--gold);font-size:15px}
+.service-card .hint{margin:2px 0 0}
+.service-dot{width:10px;height:10px;border-radius:50%;background:#e87a8a;box-shadow:0 0 8px rgba(232,122,138,.6)}
+.service-dot.online{background:#5fb585;box-shadow:0 0 8px rgba(95,181,133,.75)}
+.service-card .btn{padding:8px 10px;font-size:12px;min-height:auto}
+
+/* === 移动端 <=600 === */
 @media (max-width:600px){
-
-  /* 顶部背景星球缩小 */
   .planet{width:180px;height:180px;top:-50px;right:-50px}
-
-  /* Hero — 中央堆叠 */
   .hero{padding:12px 12px 4px}
   .hero-inner{flex-direction:column;gap:4px;justify-content:center}
   .hero-text h1{font-size:17px}
   .subtitle{font-size:11px;margin-top:2px}
   .subtitle-en{font-size:10px}
   .prince{width:42px;height:48px;margin-top:2px}
-
-  /* 统计 — 2×2 网格,每格更大更易读 */
-  .stats-bar{
-    grid-template-columns:repeat(2,1fr);
-    gap:8px;
-    padding:4px 10px 12px;
-    max-width:720px;
-  }
+  .stats-bar{grid-template-columns:repeat(2,1fr);gap:8px;padding:4px 10px 12px;max-width:720px}
   .stat{padding:10px 6px;border-radius:12px}
   .stat .num{font-size:22px}
   .stat .label{font-size:11px;letter-spacing:1px}
-
-  /* Tabs — 稍紧凑 */
   .tabs{padding:6px 8px;gap:4px}
   .tab{font-size:12px;padding:8px 2px;border-radius:8px}
-
-  /* 主区 */
   main{padding:8px 10px 90px}
-
-  /* 滤镜 — 全宽纵向堆叠,搜索独占一行 */
-  .filters{
-    grid-template-columns:1fr 1fr;
-    gap:6px;
-    margin-bottom:10px;
-  }
+  .filters{grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
   .filter-group{display:flex;flex-direction:column;gap:0}
   .filter-group:last-child{grid-column:1/-1}
   .filter-group label{font-size:10px;margin-bottom:3px;letter-spacing:.5px}
-  .filter-group select,
-  .filter-group input{
-    padding:7px 9px;
-    font-size:13px;
-    min-height:34px;
-    border-radius:8px;
-  }
-
-  /* 年份分组 — 紧凑 + 缩小滚动留白 */
+  .filter-group select,.filter-group input{padding:8px 9px;font-size:16px;min-height:40px;border-radius:8px}
   .year-group{margin-bottom:12px}
   .year-header{padding:5px 4px 4px;top:46px;margin-bottom:4px}
   .year-header .year-label{font-size:14px}
   .year-header .year-count{font-size:10px}
-
-  /* 记录卡片 — 紧凑 */
   .list{gap:8px}
   .group-list{gap:6px}
-  .record{
-    padding:10px 11px;
-    border-radius:11px;
-    gap:10px;
-    align-items:flex-start;
-  }
-  .record .badge{
-    width:34px;height:34px;font-size:15px;
-  }
-  .record .body{min-width:0;flex:1}
-  .record .meta{
-    font-size:10px;
-    margin-bottom:2px;
-    gap:4px;
-  }
-  .record .meta .yr{font-size:11px}
-  .record .meta .occ{font-size:9px;padding:1px 6px;border-radius:6px}
-  .record .person{font-size:13px;margin:0;line-height:1.3;word-break:break-word}
-  .record .gift{
-    font-size:12px;
-    color:#cfd2e6;
-    margin-top:2px;
-    line-height:1.4;
-    word-break:break-word;
-    overflow-wrap:anywhere;
-    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
-  }
-  .record .note{
-    font-size:11px;
-    margin-top:3px;
-    word-break:break-word;
-    overflow-wrap:anywhere;
-    display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;
-  }
-  .record .price{font-size:11px;white-space:nowrap}
-
-  /* 空状态 */
+  .record{padding:10px 11px;border-radius:11px;gap:10px}
+  .record .badge{width:34px;height:34px;font-size:15px}
+  .record .tags{gap:5px;margin-bottom:4px}
+  .tag{font-size:10px;padding:1px 7px}
+  .record .person{font-size:13px;margin:0;line-height:1.3}
+  .record .gift{font-size:12px;color:#cfd2e6;margin-top:2px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .record .meta{font-size:11px;margin-top:3px;gap:6px}
+  .record .note{font-size:11px;margin-top:3px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
   .empty{padding:40px 16px}
   .empty-emoji{font-size:40px}
-
-  /* 表单 — 紧凑 */
   .form{gap:10px}
   .field label{font-size:11px;margin-bottom:4px;letter-spacing:.5px}
-  .field input,
-  .field textarea,
-  .field select{padding:9px 11px;font-size:14px;border-radius:9px}
+  .field input,.field textarea,.field select{padding:9px 11px;font-size:16px;border-radius:9px}
   .row{grid-template-columns:1fr;gap:8px}
   .seg{border-radius:10px;padding:3px}
-  .seg-opt span{padding:8px;font-size:13px;border-radius:8px}
+  .seg-opt span{padding:8px;font-size:14px;border-radius:8px}
+  .ev-chip{padding:6px 12px;font-size:14px}
+  .chip{font-size:14px}
   .btn{padding:9px 14px;font-size:13px;border-radius:10px}
-
-  /* 助手 — 调整高度 */
   .assistant-intro{padding:11px;gap:10px;margin-bottom:10px}
   .assistant-intro .fox{font-size:28px}
   .assistant-intro h3{font-size:14px}
   .assistant-intro p{font-size:12px;line-height:1.5}
   .chat{min-height:200px;max-height:42vh;padding:10px;gap:8px;border-radius:11px}
-  .msg{font-size:13px;padding:8px 11px;border-radius:11px}
-  .chat-input textarea{padding:8px 10px;font-size:14px;border-radius:10px;max-height:96px}
+  .msg{font-size:14px;padding:8px 11px;border-radius:11px}
+  .chat-input textarea{padding:8px 10px;font-size:16px;border-radius:10px;max-height:96px}
   #chat-send{padding:8px 12px;font-size:13px}
-
-  /* 设置页 */
   .divider{margin:18px 0}
   .data-actions h3,.about h3{font-size:14px}
-
-  /* Modal — 全屏式更像原生 */
   .modal{align-items:stretch;justify-content:stretch}
-  .modal-card{
-    border-radius:18px 18px 0 0;
-    max-width:none;
-    max-height:92vh;
-    padding:20px 16px 24px;
-  }
+  .modal-card{border-radius:18px 18px 0 0;max-width:none;max-height:92vh;padding:20px 16px 24px}
   .modal-close{top:8px;right:10px;width:30px;height:30px;font-size:24px}
-
-  /* Toast */
   .toast{bottom:18px;padding:8px 14px;font-size:13px}
-
-  /* Footer */
   footer{padding:14px 10px;font-size:11px}
 }
 
@@ -335,8 +305,6 @@ footer span{margin:0 6px}
   .stat{padding:9px 4px}
   .stat .num{font-size:20px}
   .stat .label{font-size:10px}
-  .filter-group select,
-  .filter-group input{font-size:12px;padding:6px 8px}
   .hero-text h1{font-size:16px}
 }
 
@@ -359,25 +327,4 @@ main{padding:8px 10px 90px}
 .filters{grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
 .filter-group:last-child{grid-column:1/-1}
 .row{grid-template-columns:1fr;gap:8px}
-.btn{min-height:42px}
-.btn:disabled{opacity:.55;cursor:wait;transform:none}
 .modal-card{max-width:430px}
-
-/* === 图片上传与展示 === */
-.photo-picker{display:flex!important;align-items:center;justify-content:center;min-height:46px;border:1px dashed rgba(246,201,122,.48);border-radius:12px;background:rgba(246,201,122,.08);color:var(--gold)!important;cursor:pointer;font-size:14px!important;letter-spacing:0!important;margin:0!important}
-.photo-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
-.photo-preview:empty{display:none}
-.photo-thumb{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.06);border:1px solid var(--line)}
-.photo-thumb img{width:100%;height:100%;display:block;object-fit:cover}
-.photo-thumb button{position:absolute;top:4px;right:4px;width:26px;height:26px;border:0;border-radius:50%;background:rgba(6,9,28,.78);color:#fff;font-size:18px;line-height:1;cursor:pointer}
-.record-photo{position:relative;margin-top:8px;width:100%;height:150px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.05)}
-.record-photo img{width:100%;height:100%;display:block;object-fit:cover}
-.record-photo span{position:absolute;right:7px;bottom:7px;padding:3px 8px;border-radius:12px;background:rgba(6,9,28,.78);color:#fff;font-size:11px}
-
-/* === 独立生日后端状态 === */
-.service-card{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.05)}
-.service-card h3{margin:0;color:var(--gold);font-size:15px}
-.service-card .hint{margin:2px 0 0}
-.service-dot{width:10px;height:10px;border-radius:50%;background:#e87a8a;box-shadow:0 0 8px rgba(232,122,138,.6)}
-.service-dot.online{background:#5fb585;box-shadow:0 0 8px rgba(95,181,133,.75)}
-.service-card .btn{padding:8px 10px;font-size:12px}
