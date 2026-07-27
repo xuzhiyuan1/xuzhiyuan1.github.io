@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#1a2b5e" />
   <title>B612 · 礼物星图</title>
   <link rel="stylesheet" href="style.css" />
@@ -50,8 +50,8 @@
   <nav class="tabs" role="tablist">
     <button class="tab active" data-view="records">📖 星图</button>
     <button class="tab" data-view="add">✍️ 记录</button>
-    <button class="tab" data-view="assistant">🦊 狐狸助手</button>
-    <button class="tab" data-view="settings">⚙️ 设置</button>
+    <button class="tab" data-view="assistant">👑 小王子</button>
+    <button class="tab" data-view="settings">⚙️ 数据</button>
   </nav>
 
   <main>
@@ -140,6 +140,14 @@
           <textarea name="note" rows="2" placeholder="想起的小故事、当时的天气……"></textarea>
         </div>
 
+        <div class="field photo-field">
+          <label>礼物照片（选填，最多 6 张）</label>
+          <label class="photo-picker" for="gift-images">＋ 选择手机照片</label>
+          <input type="file" id="gift-images" accept="image/*" multiple hidden />
+          <div class="photo-preview" id="gift-image-preview"></div>
+          <p class="hint">上传后由服务器上的 DeepSeek CC 自动压缩，每张不超过 300KB。</p>
+        </div>
+
         <div class="actions">
           <button type="submit" class="btn primary">🌟 种下这颗星</button>
           <button type="reset" class="btn ghost">清空</button>
@@ -147,12 +155,12 @@
       </form>
     </section>
 
-    <!-- ============= 狐狸助手 ============= -->
+    <!-- ============= 小王子助手 ============= -->
     <section class="view" id="view-assistant">
       <div class="assistant-intro">
-        <div class="fox">🦊</div>
+        <div class="fox">👑</div>
         <div>
-          <h3>狐狸说</h3>
+          <h3>小王子说</h3>
           <p>用一句话告诉我发生了什么，我来帮你归档成星星。<br/>例如：<em>"2024 年生日小明送了我一本《小王子》"</em> 或 <em>"去年圣诞节我给妈妈织了一条围巾"</em>。</p>
         </div>
       </div>
@@ -160,42 +168,28 @@
       <div class="chat" id="chat-log" aria-live="polite"></div>
 
       <form class="chat-input" id="chat-form">
-        <textarea id="chat-text" rows="1" placeholder="告诉小狐狸今天发生了什么…"></textarea>
+        <textarea id="chat-text" rows="1" placeholder="告诉小王子今天发生了什么…"></textarea>
         <button type="submit" class="btn primary" id="chat-send">送出 ✨</button>
       </form>
-      <p class="hint" id="chat-hint">提示：先在「设置」里填入 DeepSeek API Key 才能使用助手。</p>
+      <p class="hint" id="chat-hint">正在连接学校服务器上的 DeepSeek 小王子…</p>
     </section>
 
     <!-- ============= 设置 ============= -->
     <section class="view" id="view-settings">
-      <form class="form" id="settings-form" autocomplete="off">
-        <div class="field">
-          <label>DeepSeek API Key</label>
-          <input type="password" id="api-key" placeholder="sk-..." autocomplete="off" />
-          <p class="hint">仅保存在你本机的浏览器中（localStorage），不会上传任何服务器。</p>
+      <div class="service-card">
+        <div class="service-dot" id="service-dot"></div>
+        <div>
+          <h3>小王子助手</h3>
+          <p class="hint" id="service-status">正在检查服务器连接…</p>
         </div>
-        <div class="field">
-          <label>模型</label>
-          <select id="api-model">
-            <option value="deepseek-chat">deepseek-chat（V3，推荐）</option>
-            <option value="deepseek-reasoner">deepseek-reasoner（R1，思考型）</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>API Base URL</label>
-          <input type="text" id="api-base" value="https://api.deepseek.com/v1" />
-        </div>
-        <div class="actions">
-          <button type="submit" class="btn primary">💾 保存</button>
-          <button type="button" class="btn ghost" id="btn-test">🔌 测试连接</button>
-        </div>
-      </form>
+        <button type="button" class="btn ghost" id="btn-test">重新检查</button>
+      </div>
 
       <hr class="divider" />
 
       <div class="data-actions">
         <h3>数据</h3>
-        <p class="hint">所有礼物都保存在本机浏览器里。建议定期导出备份。</p>
+        <p class="hint">礼物文字仍保存在这台手机里，兼容你已有的记录；照片保存在学校服务器。建议定期导出备份。</p>
         <div class="actions">
           <button type="button" class="btn" id="btn-export">⬇️ 导出 JSON</button>
           <button type="button" class="btn" id="btn-import">⬆️ 导入 JSON</button>
@@ -209,7 +203,7 @@
       <div class="about">
         <h3>关于</h3>
         <p>"所有的大人都曾经是小孩，虽然只有少数人记得。"</p>
-        <p class="hint">B612 · 礼物星图 · 静态页面 · 数据存本地</p>
+        <p class="hint">B612 · 礼物星图 · 手机专属 · DeepSeek CC 助手</p>
       </div>
     </section>
   </main>

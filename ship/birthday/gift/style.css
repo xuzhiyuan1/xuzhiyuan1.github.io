@@ -339,3 +339,45 @@ footer span{margin:0 6px}
   .filter-group input{font-size:12px;padding:6px 8px}
   .hero-text h1{font-size:16px}
 }
+
+/* === 固定手机画布：桌面打开也保持与手机一致 === */
+.hero,.stats-bar,.tabs,main,footer{width:100%;max-width:430px;margin-left:auto;margin-right:auto}
+.hero{padding:12px 12px 4px}
+.hero-inner{max-width:430px;flex-direction:column;gap:4px}
+.hero-text h1{font-size:17px}
+.subtitle{font-size:11px;margin-top:2px}
+.subtitle-en{font-size:10px}
+.prince{width:42px;height:48px;margin-top:2px}
+.planet{width:180px;height:180px;top:-50px;right:-50px}
+.stats-bar{grid-template-columns:repeat(2,1fr);gap:8px;padding:4px 10px 12px}
+.stat{padding:10px 6px;border-radius:12px}
+.stat .num{font-size:22px}
+.stat .label{font-size:11px;letter-spacing:1px}
+.tabs{padding:6px 8px;gap:4px}
+.tab{font-size:12px;padding:8px 2px;border-radius:8px;min-height:42px}
+main{padding:8px 10px 90px}
+.filters{grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.filter-group:last-child{grid-column:1/-1}
+.row{grid-template-columns:1fr;gap:8px}
+.btn{min-height:42px}
+.btn:disabled{opacity:.55;cursor:wait;transform:none}
+.modal-card{max-width:430px}
+
+/* === 图片上传与展示 === */
+.photo-picker{display:flex!important;align-items:center;justify-content:center;min-height:46px;border:1px dashed rgba(246,201,122,.48);border-radius:12px;background:rgba(246,201,122,.08);color:var(--gold)!important;cursor:pointer;font-size:14px!important;letter-spacing:0!important;margin:0!important}
+.photo-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.photo-preview:empty{display:none}
+.photo-thumb{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+.photo-thumb img{width:100%;height:100%;display:block;object-fit:cover}
+.photo-thumb button{position:absolute;top:4px;right:4px;width:26px;height:26px;border:0;border-radius:50%;background:rgba(6,9,28,.78);color:#fff;font-size:18px;line-height:1;cursor:pointer}
+.record-photo{position:relative;margin-top:8px;width:100%;height:150px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.05)}
+.record-photo img{width:100%;height:100%;display:block;object-fit:cover}
+.record-photo span{position:absolute;right:7px;bottom:7px;padding:3px 8px;border-radius:12px;background:rgba(6,9,28,.78);color:#fff;font-size:11px}
+
+/* === 独立生日后端状态 === */
+.service-card{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.05)}
+.service-card h3{margin:0;color:var(--gold);font-size:15px}
+.service-card .hint{margin:2px 0 0}
+.service-dot{width:10px;height:10px;border-radius:50%;background:#e87a8a;box-shadow:0 0 8px rgba(232,122,138,.6)}
+.service-dot.online{background:#5fb585;box-shadow:0 0 8px rgba(95,181,133,.75)}
+.service-card .btn{padding:8px 10px;font-size:12px}

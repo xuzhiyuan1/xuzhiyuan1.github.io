@@ -1,6 +1,6 @@
 /* ============================================================
  * B612 · 礼物星图 — 小王子主题生日礼物记录
- * 纯静态 + localStorage + DeepSeek API 助手
+ * 手机优先 + localStorage 礼物记录 + 独立生日后端（DeepSeek CC / 图片）
  * ============================================================ */
 
 (function(){
@@ -8,7 +8,8 @@
 
   // ---------- 数据 ----------
   const STORAGE_KEY = 'b612-gift-records-v1';
-  const SETTINGS_KEY = 'b612-settings-v1';
+  const API_BASE = 'https://ship.xuzhiyuan1.top/birthday/gift';
+  const MAX_PHOTOS = 6;
 
   /** 加载所有礼物记录 */
   function loadRecords(){
@@ -22,24 +23,9 @@
   function saveRecords(records){
     localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
   }
-  function loadSettings(){
-    try{
-      const raw = localStorage.getItem(SETTINGS_KEY);
-      const def = {
-        apiKey:'',
-        model:'deepseek-chat',
-        baseUrl:'https://api.deepseek.com/v1'
-      };
-      return Object.assign(def, raw ? JSON.parse(raw) : {});
-    }catch(e){ return {apiKey:'',model:'deepseek-chat',baseUrl:'https://api.deepseek.com/v1'}; }
-  }
-  function saveSettings(s){
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(s));
-  }
-
   // ---------- 状态 ----------
   let records = loadRecords();
-  let settings = loadSettings();
+  let pendingPhotos = [];
 
   // ---------- DOM ----------
   const $ = (s,root=document)=>root.querySelector(s);
@@ -56,10 +42,10 @@
     statPeople: $('#stat-people'),
     statYears: $('#stat-years'),
     form: $('#add-form'),
-    settingsForm: $('#settings-form'),
-    apiKey: $('#api-key'),
-    apiModel: $('#api-model'),
-    apiBase: $('#api-base'),
+    photoInput: $('#gift-images'),
+    photoPreview: $('#gift-image-preview'),
+    serviceDot: $('#service-dot'),
+    serviceStatus: $('#service-status'),
     chatLog: $('#chat-log'),
     chatForm: $('#chat-form'),
     chatText: $('#chat-text'),
@@ -83,6 +69,60 @@
   function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
   function fmtMoney(p){ if(p==null||p==='') return ''; return '¥' + Number(p).toFixed(2).replace(/\.00$/,''); }
   const OCC_LABEL = {birthday:'生日',christmas:'圣诞',newyear:'新年',anniversary:'纪念日',other:'其它'};
+  function photosOf(record){
+    return (Array.isArray(record.images) ? record.images : [])
+      .map(item=>typeof item==='string' ? {url:item} : item)
+      .filter(item=>item && /^https:\/\//.test(item.url||''));
+  }
+  function fileDataUrl(file){
+    return new Promise((resolve,reject)=>{
+      const reader = new FileReader();
+      reader.onload = ()=>resolve(reader.result);
+      reader.onerror = ()=>reject(new Error('照片读取失败'));
+      reader.readAsDataURL(file);
+    });
+  }
+  async function uploadPhoto(file){
+    if(!file || !String(file.type||'').startsWith('image/')) throw new Error('请选择图片文件');
+    if(file.size > 16*1024*1024) throw new Error('单张原图不能超过 16MB');
+    const imageB64 = await fileDataUrl(file);
+    const controller = 'AbortController' in window ? new AbortController() : null;
+    const timer = controller ? setTimeout(()=>controller.abort(), 210000) : null;
+    try{
+      const response = await fetch(API_BASE + '/upload', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({image_b64:imageB64, name:file.name||''}),
+        signal:controller ? controller.signal : undefined
+      });
+      const data = await response.json().catch(()=>({}));
+      if(!response.ok || !data.ok) throw new Error(data.error || `上传失败 (${response.status})`);
+      return {url:data.url, bytes:data.bytes||0};
+    }finally{ if(timer) clearTimeout(timer); }
+  }
+  async function uploadFiles(files){
+    const uploaded = [];
+    for(let i=0;i<files.length;i++){
+      toast(`正在压缩第 ${i+1}/${files.length} 张照片…`, 220000);
+      uploaded.push(await uploadPhoto(files[i]));
+    }
+    return uploaded;
+  }
+  function renderPendingPhotos(){
+    els.photoPreview.innerHTML = pendingPhotos.map((item,index)=>
+      `<div class="photo-thumb"><img src="${esc(item.preview)}" alt="待上传照片"><button type="button" data-remove-pending="${index}" aria-label="移除照片">×</button></div>`
+    ).join('');
+    $$('[data-remove-pending]',els.photoPreview).forEach(button=>button.addEventListener('click',()=>{
+      const index=Number(button.dataset.removePending);
+      const old=pendingPhotos[index]; if(old&&old.preview) URL.revokeObjectURL(old.preview);
+      pendingPhotos.splice(index,1); renderPendingPhotos();
+    }));
+  }
+  els.photoInput.addEventListener('change',()=>{
+    const room=MAX_PHOTOS-pendingPhotos.length;
+    Array.from(els.photoInput.files||[]).slice(0,room).forEach(file=>pendingPhotos.push({file,preview:URL.createObjectURL(file)}));
+    els.photoInput.value=''; renderPendingPhotos();
+    if(room<=0) toast('每条记录最多 6 张照片');
+  });
 
   // ---------- Tabs ----------
   els.tabs.forEach(t=>{
@@ -133,6 +173,7 @@
 
   /** 单条记录的 HTML(桌面端展开版,移动端 CSS 会自动塌缩) */
   function renderRecord(r){
+    const photos=photosOf(r);
     return `
       <div class="record ${r.direction}" data-id="${r.id}">
         <div class="badge">${r.direction==='received'?'🎁':'💝'}</div>
@@ -146,6 +187,7 @@
           <div class="person">${r.direction==='received'?'来自':'送给'} ${esc(r.person)}</div>
           <div class="gift">${esc(r.gift)}</div>
           ${r.note?`<div class="note">"${esc(r.note)}"</div>`:''}
+          ${photos.length?`<div class="record-photo"><img src="${esc(photos[0].url)}" alt="${esc(r.gift||'礼物照片')}" loading="lazy">${photos.length>1?`<span>+${photos.length-1}</span>`:''}</div>`:''}
         </div>
       </div>
     `;
@@ -197,6 +239,7 @@
   // ---------- 弹层（查看 / 编辑 / 删除） ----------
   function openModal(r){
     const isRecv = r.direction === 'received';
+    let keptPhotos = photosOf(r).slice(0,MAX_PHOTOS);
     els.modalBody.innerHTML = `
       <h3 style="margin:0 0 12px;color:var(--gold)">${isRecv?'🎁 收到的礼物':'💝 送出的礼物'}</h3>
       <form class="form" id="modal-form">
@@ -215,6 +258,13 @@
           <div class="field"><label>花费</label><input type="number" name="price" min="0" step="0.01" value="${esc(r.price||'')}"></div>
         </div>
         <div class="field"><label>备注</label><textarea name="note" rows="2">${esc(r.note||'')}</textarea></div>
+        <div class="field photo-field">
+          <label>礼物照片</label>
+          <div class="photo-preview modal-photos" id="modal-photo-list"></div>
+          <label class="photo-picker" for="modal-images">＋ 添加照片</label>
+          <input type="file" id="modal-images" accept="image/*" multiple hidden>
+          <p class="hint">最多 6 张；新增照片保存时上传并压缩。</p>
+        </div>
         <div class="field"><label>类型</label>
           <div class="seg">
             <label class="seg-opt"><input type="radio" name="direction" value="received" ${isRecv?'checked':''}><span>🎁 收到</span></label>
@@ -229,11 +279,29 @@
     `;
     els.modal.hidden = false;
 
-    $('#modal-form', els.modalBody).addEventListener('submit', e=>{
+    const photoList=$('#modal-photo-list',els.modalBody);
+    function renderModalPhotos(){
+      photoList.innerHTML=keptPhotos.map((photo,index)=>
+        `<div class="photo-thumb"><img src="${esc(photo.url)}" alt="礼物照片"><button type="button" data-remove-photo="${index}" aria-label="移除照片">×</button></div>`
+      ).join('');
+      $$('[data-remove-photo]',photoList).forEach(button=>button.addEventListener('click',()=>{
+        keptPhotos.splice(Number(button.dataset.removePhoto),1); renderModalPhotos();
+      }));
+    }
+    renderModalPhotos();
+
+    $('#modal-form', els.modalBody).addEventListener('submit', async e=>{
       e.preventDefault();
       const fd = new FormData(e.target);
       const idx = records.findIndex(x=>x.id===r.id);
       if(idx<0) return;
+      const files=Array.from($('#modal-images',els.modalBody).files||[]);
+      if(keptPhotos.length+files.length>MAX_PHOTOS){ toast('每条记录最多 6 张照片'); return; }
+      const submit=e.target.querySelector('button[type="submit"]');
+      submit.disabled=true;
+      let uploaded=[];
+      try{ uploaded=await uploadFiles(files); }
+      catch(err){ submit.disabled=false; toast(err.message||'照片上传失败',3200); return; }
       records[idx] = Object.assign({}, records[idx], {
         year: Number(fd.get('year')),
         date: fd.get('date')||'',
@@ -243,6 +311,7 @@
         price: fd.get('price')?Number(fd.get('price')):null,
         note: String(fd.get('note')||'').trim(),
         direction: fd.get('direction'),
+        images: keptPhotos.concat(uploaded),
         updatedAt: Date.now()
       });
       saveRecords(records);
@@ -265,7 +334,7 @@
   els.modal.addEventListener('click', e=>{ if(e.target===els.modal) closeModal(); });
 
   // ---------- 新增表单 ----------
-  els.form.addEventListener('submit', e=>{
+  els.form.addEventListener('submit', async e=>{
     e.preventDefault();
     const fd = new FormData(els.form);
     const yearVal = fd.get('year');
@@ -280,54 +349,52 @@
       occasion: fd.get('occasion')||'birthday',
       price: fd.get('price')?Number(fd.get('price')):null,
       note: String(fd.get('note')||'').trim(),
+      images: [],
       createdAt: Date.now()
     };
     if(!rec.person || !rec.gift){ toast('请填写对方姓名和礼物'); return; }
+    const submit=els.form.querySelector('button[type="submit"]');
+    submit.disabled=true;
+    try{ rec.images=await uploadFiles(pendingPhotos.map(item=>item.file)); }
+    catch(err){ submit.disabled=false; toast(err.message||'照片上传失败',3200); return; }
     records.unshift(rec);
     saveRecords(records);
+    pendingPhotos.forEach(item=>item.preview&&URL.revokeObjectURL(item.preview));
+    pendingPhotos=[]; renderPendingPhotos();
     els.form.reset();
+    submit.disabled=false;
     toast('已种下一颗星 🌟');
     renderList();
     // 自动跳到星图
     els.tabs[0].click();
   });
-
-  // ---------- 设置 ----------
-  function fillSettings(){
-    els.apiKey.value = settings.apiKey || '';
-    els.apiModel.value = settings.model || 'deepseek-chat';
-    els.apiBase.value = settings.baseUrl || 'https://api.deepseek.com/v1';
-  }
-  els.settingsForm.addEventListener('submit', e=>{
-    e.preventDefault();
-    settings = {
-      apiKey: els.apiKey.value.trim(),
-      model: els.apiModel.value,
-      baseUrl: els.apiBase.value.trim() || 'https://api.deepseek.com/v1'
-    };
-    saveSettings(settings);
-    toast('设置已保存 💾');
-    updateChatHint();
+  els.form.addEventListener('reset',()=>{
+    pendingPhotos.forEach(item=>item.preview&&URL.revokeObjectURL(item.preview));
+    pendingPhotos=[]; renderPendingPhotos();
   });
-  fillSettings();
 
-  $('#btn-test').addEventListener('click', async ()=>{
-    const tmp = {
-      apiKey: els.apiKey.value.trim(),
-      model: els.apiModel.value,
-      baseUrl: els.apiBase.value.trim() || 'https://api.deepseek.com/v1'
-    };
-    if(!tmp.apiKey){ toast('请先填入 API Key'); return; }
-    toast('正在测试连接…');
+  // ---------- 独立后端状态 ----------
+  async function checkService(showToast=false){
     try{
-      const res = await callDeepSeek(tmp, [{role:'user',content:'只回复一个字：好'}]);
-      toast('连接成功 ✅');
-      addChat('bot', '连接成功 ✅ 模型回应：' + (res||'(空)'));
-    }catch(err){
-      toast('连接失败 ❌');
-      addChat('bot', '连接失败：' + (err.message||err));
+      const response=await fetch(API_BASE+'/ping',{cache:'no-store'});
+      const data=await response.json();
+      if(!response.ok||!data.ok) throw new Error('offline');
+      els.serviceDot.classList.add('online');
+      els.serviceStatus.textContent='已连接 · 独立生日后端 · DeepSeek CC · 图片≤300KB';
+      els.chatHint.textContent='小王子运行在学校服务器，使用与曼谷相同的 DeepSeek API 配置。';
+      els.chatHint.style.color='#aab0d2';
+      if(showToast) toast('连接正常 ✅');
+      return true;
+    }catch(_){
+      els.serviceDot.classList.remove('online');
+      els.serviceStatus.textContent='暂时连接不上服务器';
+      els.chatHint.textContent='⚠️ 小王子暂时离线，礼物文字记录仍可正常使用。';
+      els.chatHint.style.color='#e87a8a';
+      if(showToast) toast('连接失败，请稍后再试');
+      return false;
     }
-  });
+  }
+  $('#btn-test').addEventListener('click',()=>checkService(true));
 
   // ---------- 数据导入/导出/清空 ----------
   $('#btn-export').addEventListener('click', ()=>{
@@ -373,62 +440,16 @@
   });
 
   // ============================================================
-  //                     DeepSeek 狐狸助手
+  //                     DeepSeek 小王子助手
   // ============================================================
-  const SYSTEM_PROMPT = `你是"小王子"的狐狸助手，住在 B612 星球。任务是帮用户把生日礼物相关的事件（收到 / 送出）记录下来。
-
-请按以下规则工作：
-1. 仔细阅读用户的输入（中文为主），从中抽取：年份、日期（如未给出则为空）、对方姓名、礼物/描述、场合（birthday/christmas/newyear/anniversary/other 之一，默认 birthday）、金额（如未给出则为 null）、备注（简短情节或心情，可为空）、direction（received=收到 / sent=送出，从语境推断）。
-2. 只能基于用户输入抽取，不要编造字段。如果某字段用户没提到，填合理默认：年份默认当前年，场合默认 birthday。
-3. 如果用户说"刚"、"今年"等模糊词，年份使用当前年。
-4. 输出一个 JSON 对象（不要任何其它文字、不要 markdown 代码块），字段：
-   {"direction":"received|sent","year":2024,"date":"2024-03-15 或 空","person":"姓名","gift":"礼物描述","occasion":"birthday","price":null,"note":"备注 或 空","reply":"一句温柔的小王子风格回复"}
-5. "reply" 字段是你对用户的话，不超过 30 字，中文。
-6. 若用户输入与礼物记录完全无关（例如闲聊、问别的），reply 直接回答问题，direction 设为 "none"，其它字段填空字符串或 null。`;
-
-  function buildContextPrompt(){
-    // 携带最近 30 条做去重参考，让模型能识别"又是小明"
-    const recent = records.slice(0,30).map(r=>({
-      direction:r.direction, year:r.year, person:r.person, gift:r.gift
-    }));
-    return `当前日期：${new Date().toISOString().slice(0,10)}。\n以下是用户已记录的最近礼物（参考，不要直接重复）：${JSON.stringify(recent)}`;
-  }
-
-  async function callDeepSeek(opts, messages){
-    const url = (opts.baseUrl||'https://api.deepseek.com/v1').replace(/\/+$/,'') + '/chat/completions';
-    const body = {
-      model: opts.model || 'deepseek-chat',
-      messages,
-      temperature: 0.4,
-      max_tokens: 600,
-      stream: false
-    };
-    const resp = await fetch(url, {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'Authorization': 'Bearer ' + opts.apiKey
-      },
-      body: JSON.stringify(body)
+  async function callAssistant(text){
+    const recent=records.slice(0,30).map(r=>({direction:r.direction,year:r.year,person:r.person,gift:r.gift}));
+    const response=await fetch(API_BASE+'/chat',{
+      method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,recent})
     });
-    if(!resp.ok){
-      let msg = resp.status + ' ' + resp.statusText;
-      try{ const j = await resp.json(); msg = (j.error&&j.error.message) || j.message || msg; }catch(_){}
-      throw new Error(msg);
-    }
-    const data = await resp.json();
-    const content = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
-    return String(content||'').trim();
-  }
-
-  function extractJSON(text){
-    // 尝试从回复中抠 JSON
-    const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
-    if(fenced) text = fenced[1];
-    const start = text.indexOf('{');
-    const end = text.lastIndexOf('}');
-    if(start<0||end<0||end<=start) return null;
-    try{ return JSON.parse(text.slice(start, end+1)); }catch(_){ return null; }
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||!data.ok) throw new Error(data.error||`请求失败 (${response.status})`);
+    return data.result||{};
   }
 
   function addChat(role, text, extra=''){
@@ -441,36 +462,20 @@
   }
 
   function updateChatHint(){
-    if(!settings.apiKey){
-      els.chatHint.textContent = '⚠️ 先在「设置」里填入 DeepSeek API Key 才能使用助手。';
-      els.chatHint.style.color = '#e87a8a';
-    }else{
-      els.chatHint.textContent = '已配置 API Key（' + settings.model + '）· 数据仅在本机浏览器';
-      els.chatHint.style.color = '#aab0d2';
-    }
+    checkService(false);
   }
 
   async function handleChat(text){
     if(!text.trim()) return;
-    if(!settings.apiKey){
-      addChat('bot', '请先到「设置」页填入 DeepSeek API Key。我在这儿等你 🦊');
-      return;
-    }
     addChat('user', text);
     els.chatText.value = '';
-    const placeholder = addChat('bot', '小狐狸在想…');
-    placeholder.textContent = '小狐狸在想…';
+    const placeholder = addChat('bot', '小王子在想…');
+    placeholder.textContent = '小王子在想…';
     try{
-      const msgs = [
-        {role:'system', content: SYSTEM_PROMPT},
-        {role:'system', content: buildContextPrompt()},
-        {role:'user', content: text}
-      ];
-      const raw = await callDeepSeek(settings, msgs);
-      const data = extractJSON(raw) || {};
+      const data = await callAssistant(text);
       placeholder.classList.remove('success');
       if(data.direction === 'none' || !data.person){
-        placeholder.textContent = (data.reply || raw || '我没能听清，能再说一次吗？');
+        placeholder.textContent = (data.reply || '我没能听清，能再说一次吗？');
         return;
       }
       // 构造记录
@@ -508,7 +513,7 @@
       }
     }catch(err){
       placeholder.classList.remove('success');
-      placeholder.textContent = '呜呜，狐狸摔了一跤 🦊💫：' + (err.message||err);
+      placeholder.textContent = '小王子的星球暂时失联了 💫：' + (err.message||err);
     }
   }
 
@@ -526,9 +531,8 @@
   // ---------- 启动 ----------
   updateChatHint();
   renderList();
-  fillSettings();
 
   // 暴露给调试用
-  window.__B612 = { records: ()=>records, settings: ()=>settings };
+  window.__B612 = { records: ()=>records, apiBase:API_BASE };
 
 })();
