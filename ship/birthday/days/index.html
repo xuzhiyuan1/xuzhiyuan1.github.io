@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a2b5e" />
+  <title>B612 · 生日名册</title>
+  <style>
+  /* ===== 小王子 B612 主题 ===== */
+  :root{
+    --night:#0b1430;
+    --night-2:#15225a;
+    --gold:#f6c97a;
+    --gold-deep:#e2a23f;
+    --rose:#e87a8a;
+    --leaf:#5fb585;
+    --cream:#fff5e1;
+    --ink-soft:#5b567a;
+    --line:rgba(255,255,255,.12);
+    --shadow:0 12px 30px rgba(11,20,48,.35);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--night);color:var(--cream);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;max-width:100%}
+  body{min-height:100vh;display:flex;flex-direction:column}
+  input,select,textarea,button{min-width:0;max-width:100%}
+
+  /* === 星空背景 === */
+  .sky{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at top,#1f2f78 0%,#0b1430 55%,#06091c 100%);overflow:hidden}
+  .star{position:absolute;background:#fff;border-radius:50%;box-shadow:0 0 6px rgba(255,255,255,.6);animation:twinkle 4s infinite ease-in-out}
+  .star.s1{top:8%;left:12%;width:2px;height:2px;animation-delay:.2s}
+  .star.s2{top:18%;left:78%;width:3px;height:3px;animation-delay:1.1s}
+  .star.s3{top:35%;left:8%;width:1.5px;height:1.5px;animation-delay:.7s}
+  .star.s4{top:55%;left:88%;width:2.5px;height:2.5px;animation-delay:2s}
+  .star.s5{top:72%;left:22%;width:2px;height:2px;animation-delay:1.6s}
+  .star.s6{top:88%;left:62%;width:1.5px;height:1.5px;animation-delay:.4s}
+  .star.s7{top:5%;left:48%;width:2px;height:2px;animation-delay:2.4s}
+  .star.s8{top:62%;left:42%;width:3px;height:3px;animation-delay:1.9s}
+  @keyframes twinkle{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
+  .planet{position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;
+    background:radial-gradient(circle at 30% 30%,#f6c97a 0%,#e2a23f 40%,#a23b2a 90%);
+    box-shadow:inset -30px -40px 80px rgba(0,0,0,.45),0 0 60px rgba(246,201,122,.25);opacity:.85;pointer-events:none}
+
+  /* === 固定手机画布 === */
+  .wrap{width:100%;max-width:430px;margin:0 auto;flex:1;display:flex;flex-direction:column;padding:0 12px 90px}
+
+  /* === Hero === */
+  .hero{padding:16px 4px 8px;text-align:center}
+  .hero h1{margin:0;font-size:19px;letter-spacing:.5px;color:var(--cream)}
+  .hero .subtitle{margin:4px 0 0;color:#d9d2b8;font-size:12px;font-style:italic;opacity:.9}
+  .hero .prince{width:46px;height:52px;margin:6px auto 0;display:block;filter:drop-shadow(0 6px 12px rgba(0,0,0,.4))}
+
+  /* === 顶部工具条 === */
+  .toolbar{display:flex;align-items:center;gap:10px;margin:10px 0 12px}
+  .toolbar .count{font-size:12px;color:#aab0d2;letter-spacing:.5px}
+  .toolbar .spacer{flex:1}
+
+  /* === 按钮 === */
+  .btn{border:0;border-radius:12px;padding:10px 16px;font-size:16px;font-family:inherit;cursor:pointer;background:rgba(255,255,255,.1);color:var(--cream);transition:all .2s;min-height:44px}
+  .btn:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}
+  .btn.primary{background:linear-gradient(135deg,var(--gold-deep),var(--gold));color:var(--night);font-weight:700;box-shadow:0 6px 16px rgba(226,162,63,.35)}
+  .btn.primary:hover{filter:brightness(1.05)}
+  .btn.ghost{background:transparent;border:1px solid var(--line)}
+  .btn.danger{background:rgba(232,122,138,.15);color:var(--rose)}
+  .btn.sm{padding:8px 13px;font-size:14px;min-height:auto;border-radius:10px}
+  .btn:disabled{opacity:.55;cursor:wait;transform:none}
+
+  /* === 名册列表 === */
+  .list{display:flex;flex-direction:column;gap:10px}
+  .card{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:14px;padding:13px 14px;display:flex;gap:12px;align-items:center}
+  .card .cake{flex-shrink:0;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;
+    background:linear-gradient(135deg,rgba(246,201,122,.22),rgba(232,122,138,.18));border:1px solid rgba(246,201,122,.25)}
+  .card .cake.soon{background:linear-gradient(135deg,#e2a23f,#f6c97a);border-color:transparent}
+  .card .cake.today{background:linear-gradient(135deg,#e87a8a,#c45b6d);border-color:transparent;animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,122,138,.5)}50%{box-shadow:0 0 0 8px rgba(232,122,138,0)}}
+  .card .body{flex:1;min-width:0}
+  .card .name{font-size:15px;font-weight:600;color:var(--cream);word-break:break-word}
+  .card .date{font-size:13px;color:var(--gold);margin-top:2px}
+  .card .countdown{font-size:11px;color:#9fb5d9;font-weight:400}
+  .card .countdown.today{color:var(--rose);font-weight:700}
+  .card .note{font-size:12px;color:#9fa3c5;font-style:italic;margin-top:3px;word-break:break-word;overflow-wrap:anywhere}
+  .card .ops{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+  .icon-btn{width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.05);color:#cfd2e6;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+  .icon-btn:hover{background:rgba(255,255,255,.12);color:#fff}
+  .icon-btn.del:hover{color:var(--rose);border-color:rgba(232,122,138,.4)}
+
+  .empty{text-align:center;padding:56px 20px;color:#aab0d2}
+  .empty-emoji{font-size:46px;margin-bottom:10px;opacity:.7}
+  .state{text-align:center;padding:40px 20px;color:#aab0d2;font-size:14px}
+  .state .btn{margin-top:14px}
+
+  /* === 口令层 / 弹层 === */
+  .modal{position:fixed;inset:0;background:rgba(6,9,28,.72);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px;animation:fade .2s}
+  .modal[hidden]{display:none}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .modal-card{background:linear-gradient(180deg,#1a2b5e,#0b1430);border:1px solid var(--line);border-radius:18px;max-width:400px;width:100%;padding:24px 20px 26px;position:relative;max-height:90vh;overflow-y:auto;animation:slideup .25s}
+  @keyframes slideup{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+  .modal-card h2{margin:0 0 6px;color:var(--gold);font-size:18px;text-align:center}
+  .modal-card .lead{margin:0 0 16px;color:#cfd2e6;font-size:13px;text-align:center;line-height:1.6}
+  .modal-close{position:absolute;top:8px;right:12px;background:transparent;border:0;color:#cfd2e6;font-size:26px;cursor:pointer;line-height:1;width:34px;height:34px;border-radius:50%}
+  .modal-close:hover{background:rgba(255,255,255,.1);color:#fff}
+
+  /* === 表单 === */
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:12px;color:#cfd2e6;margin-bottom:6px;letter-spacing:.5px}
+  .field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--cream);border-radius:10px;padding:11px 12px;font-size:16px;font-family:inherit;resize:vertical}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--gold)}
+  .field input::placeholder,.field textarea::placeholder{color:#7f84a6}
+  .md-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .actions{display:flex;gap:8px;margin-top:6px}
+  .actions .btn{flex:1}
+  .err-msg{color:var(--rose);font-size:12px;margin:0 0 12px;min-height:1em;text-align:center}
+
+  /* === Toast === */
+  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--night);padding:10px 18px;border-radius:22px;font-size:14px;font-weight:600;box-shadow:var(--shadow);z-index:100;animation:pop .25s;max-width:90vw;word-break:break-word}
+  .toast[hidden]{display:none}
+  @keyframes pop{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+
+  footer{margin-top:auto;padding:18px 12px;text-align:center;color:#aab0d2;font-size:11px;font-style:italic;letter-spacing:.5px}
+  </style>
+</head>
+<body>
+  <div class="sky">
+    <div class="star s1"></div><div class="star s2"></div><div class="star s3"></div>
+    <div class="star s4"></div><div class="star s5"></div><div class="star s6"></div>
+    <div class="star s7"></div><div class="star s8"></div>
+    <div class="planet"></div>
+  </div>
+
+  <div class="wrap">
+    <header class="hero">
+      <h1>🎂 B612 · 生日名册</h1>
+      <p class="subtitle">"仪式感，就是让某一天与其他日子不同。"</p>
+      <svg class="prince" viewBox="0 0 80 90" aria-hidden="true">
+        <circle cx="40" cy="22" r="14" fill="#f6c97a"/>
+        <path d="M26 22 Q40 4 54 22 Q40 18 26 22Z" fill="#a23b2a"/>
+        <rect x="30" y="36" width="20" height="30" rx="4" fill="#3b6ea8"/>
+        <rect x="32" y="66" width="6" height="14" fill="#3b6ea8"/>
+        <rect x="42" y="66" width="6" height="14" fill="#3b6ea8"/>
+        <ellipse cx="36" cy="24" rx="1.6" ry="2" fill="#1a2b5e"/>
+        <ellipse cx="44" cy="24" rx="1.6" ry="2" fill="#1a2b5e"/>
+        <path d="M36 30 Q40 32 44 30" stroke="#1a2b5e" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      </svg>
+    </header>
+
+    <main id="app">
+      <div class="toolbar" id="toolbar" hidden>
+        <span class="count" id="count">共 0 人</span>
+        <span class="spacer"></span>
+        <button class="btn primary sm" id="btn-add">＋ 添加生日</button>
+      </div>
+
+      <div class="state" id="state">正在连接名册…</div>
+      <div class="list" id="list"></div>
+      <div class="empty" id="empty" hidden>
+        <div class="empty-emoji">🎈</div>
+        <p>名册还是空的。<br/>点「添加生日」记下第一个人吧 ✨</p>
+      </div>
+    </main>
+
+    <footer>⭐ 记住每一个值得被点亮蜡烛的日子 ⭐</footer>
+  </div>
+
+  <!-- 口令层 -->
+  <div class="modal" id="auth-modal" hidden>
+    <div class="modal-card">
+      <h2>🔒 需要口令</h2>
+      <p class="lead">这是私人生日名册。<br/>请输入 prince 口令以解锁本设备。</p>
+      <p class="err-msg" id="auth-err"></p>
+      <form id="auth-form" autocomplete="off">
+        <div class="field">
+          <label>口令</label>
+          <input type="password" id="auth-pass" placeholder="prince" autocomplete="off" />
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary" id="auth-submit">解锁</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 添加/编辑层 -->
+  <div class="modal" id="edit-modal" hidden>
+    <div class="modal-card">
+      <button class="modal-close" id="edit-close" aria-label="关闭">×</button>
+      <h2 id="edit-title">添加生日</h2>
+      <p class="err-msg" id="edit-err"></p>
+      <form id="edit-form" autocomplete="off">
+        <input type="hidden" id="edit-orig-name" />
+        <div class="field">
+          <label>姓名</label>
+          <input type="text" id="f-name" placeholder="例如：小明 / 妈妈 / 阿琳" />
+        </div>
+        <div class="field">
+          <label>生日（只记月和日）</label>
+          <div class="md-row">
+            <select id="f-month"></select>
+            <select id="f-day"></select>
+          </div>
+        </div>
+        <div class="field">
+          <label>备注（选填）</label>
+          <textarea id="f-note" rows="2" placeholder="喜欢的礼物、星座、想说的话…"></textarea>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary" id="edit-submit">保存</button>
+          <button type="button" class="btn ghost" id="edit-cancel">取消</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script>
+  (function(){
+    'use strict';
+    const API = 'https://ship.xuzhiyuan1.top/birthday/days';
+
+    // === 设备 id：与 gift 站共享同一 key，一处解锁两站通用 ===
+    const DEVICE_KEY = 'ship_device';
+    let device = localStorage.getItem(DEVICE_KEY);
+    if(!device){
+      device = 'dev_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem(DEVICE_KEY, device);
+    }
+
+    const $ = id => document.getElementById(id);
+    const els = {
+      toolbar:$('toolbar'), count:$('count'), state:$('state'), list:$('list'), empty:$('empty'),
+      btnAdd:$('btn-add'), toast:$('toast'),
+      authModal:$('auth-modal'), authForm:$('auth-form'), authPass:$('auth-pass'), authErr:$('auth-err'), authSubmit:$('auth-submit'),
+      editModal:$('edit-modal'), editForm:$('edit-form'), editTitle:$('edit-title'), editErr:$('edit-err'),
+      editClose:$('edit-close'), editCancel:$('edit-cancel'), editSubmit:$('edit-submit'),
+      origName:$('edit-orig-name'), fName:$('f-name'), fMonth:$('f-month'), fDay:$('f-day'), fNote:$('f-note')
+    };
+
+    let birthdays = [];
+
+    // === 工具 ===
+    function toast(msg){
+      els.toast.textContent = msg; els.toast.hidden = false;
+      clearTimeout(toast._t); toast._t = setTimeout(()=>{els.toast.hidden = true;}, 2200);
+    }
+    const pad2 = n => String(n).padStart(2,'0');
+    function daysInMonth(m){ return [31,29,31,30,31,30,31,31,30,31,30,31][m-1]; }
+    function friendlyMd(md){
+      const p = /^(\d{2})-(\d{2})$/.exec(md||'');
+      if(!p) return md||'';
+      return (+p[1]) + '月' + (+p[2]) + '日';
+    }
+    // 距下次生日还有多少天（忽略年份；2/29 落在平年按 3/1 计）
+    function daysUntil(md){
+      const p = /^(\d{2})-(\d{2})$/.exec(md||''); if(!p) return null;
+      const mm = +p[1], dd = +p[2];
+      const now = new Date(); now.setHours(0,0,0,0);
+      const y = now.getFullYear();
+      function make(year){
+        let d = new Date(year, mm-1, dd);
+        if(d.getMonth() !== mm-1) d = new Date(year, mm, 1); // 2/29 平年 -> 3/1
+        d.setHours(0,0,0,0); return d;
+      }
+      let next = make(y);
+      if(next < now) next = make(y+1);
+      return Math.round((next - now) / 86400000);
+    }
+    function countdownText(md){
+      const d = daysUntil(md);
+      if(d === null) return '';
+      if(d === 0) return '就是今天 🎉';
+      if(d === 1) return '还有 1 天';
+      return '还有 ' + d + ' 天';
+    }
+
+    // === 名册渲染 ===
+    function render(){
+      const sorted = birthdays.slice().sort((a,b)=>{
+        const da = daysUntil(a.md), db = daysUntil(b.md);
+        if(da === null || db === null) return (a.md||'').localeCompare(b.md||'');
+        return da - db; // 距下次生日近的排前面
+      });
+      els.count.textContent = '共 ' + sorted.length + ' 人';
+      els.list.innerHTML = '';
+      els.empty.hidden = sorted.length > 0;
+      for(const b of sorted){
+        const d = daysUntil(b.md);
+        const isToday = d === 0;
+        const soon = d !== null && d > 0 && d <= 14;
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML =
+          '<div class="cake ' + (isToday?'today':(soon?'soon':'')) + '">' + (isToday?'🎉':'🎂') + '</div>' +
+          '<div class="body">' +
+            '<div class="name"></div>' +
+            '<div class="date"><span class="d"></span> · <span class="countdown ' + (isToday?'today':'') + '"></span></div>' +
+            (b.note ? '<div class="note"></div>' : '') +
+          '</div>' +
+          '<div class="ops">' +
+            '<button class="icon-btn edit" title="编辑">✎</button>' +
+            '<button class="icon-btn del" title="删除">🗑</button>' +
+          '</div>';
+        card.querySelector('.name').textContent = b.name;
+        card.querySelector('.date .d').textContent = friendlyMd(b.md);
+        card.querySelector('.countdown').textContent = countdownText(b.md);
+        if(b.note) card.querySelector('.note').textContent = b.note;
+        card.querySelector('.edit').addEventListener('click', ()=>openEdit(b));
+        card.querySelector('.del').addEventListener('click', ()=>doDelete(b));
+        els.list.appendChild(card);
+      }
+    }
+
+    // === API ===
+    function api(path, opts){
+      return fetch(API + path, Object.assign({
+        headers:{'Content-Type':'application/json'}, cache:'no-store'
+      }, opts));
+    }
+
+    async function loadData(){
+      els.state.hidden = false; els.state.textContent = '正在连接名册…';
+      els.toolbar.hidden = true; els.list.innerHTML = ''; els.empty.hidden = true;
+      let res;
+      try{
+        res = await api('/data?device=' + encodeURIComponent(device));
+      }catch(e){
+        return showOffline();
+      }
+      if(res.status === 401){ showAuth(); return; }
+      if(!res.ok){ return showOffline(); }
+      let data;
+      try{ data = await res.json(); }catch(e){ return showOffline(); }
+      if(!data.ok){ return showOffline(); }
+      birthdays = Array.isArray(data.birthdays) ? data.birthdays : [];
+      els.state.hidden = true; els.toolbar.hidden = false;
+      hideAuth();
+      render();
+    }
+
+    function showOffline(){
+      els.state.hidden = false; els.toolbar.hidden = true;
+      els.state.innerHTML = '😿 连不上名册服务器。<br/>请检查网络后重试。' +
+        '<div><button class="btn ghost sm" id="retry">重新加载</button></div>';
+      $('retry').addEventListener('click', loadData);
+    }
+
+    // === 口令层 ===
+    function showAuth(){
+      els.state.hidden = true; els.toolbar.hidden = true;
+      els.authErr.textContent = ''; els.authPass.value = '';
+      els.authModal.hidden = false;
+      setTimeout(()=>els.authPass.focus(), 100);
+    }
+    function hideAuth(){ els.authModal.hidden = true; }
+
+    els.authForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const pass = els.authPass.value.trim();
+      if(!pass){ els.authErr.textContent = '请输入口令'; return; }
+      els.authSubmit.disabled = true; els.authErr.textContent = '';
+      try{
+        const res = await api('/auth', {method:'POST', body:JSON.stringify({device, pass, label:'birthday-days'})});
+        const data = await res.json().catch(()=>({}));
+        if(res.ok && data.ok){
+          toast('已解锁 ✨');
+          hideAuth();
+          await loadData();
+        }else{
+          els.authErr.textContent = '口令不对，再试试';
+        }
+      }catch(err){
+        els.authErr.textContent = '连接失败，请检查网络';
+      }finally{
+        els.authSubmit.disabled = false;
+      }
+    });
+
+    // === 编辑层 ===
+    function fillMonthDay(){
+      els.fMonth.innerHTML = '';
+      for(let m=1;m<=12;m++){
+        const o = document.createElement('option'); o.value = pad2(m); o.textContent = m + '月';
+        els.fMonth.appendChild(o);
+      }
+      updateDays();
+    }
+    function updateDays(){
+      const m = +els.fMonth.value || 1;
+      const cur = els.fDay.value;
+      els.fDay.innerHTML = '';
+      const max = daysInMonth(m);
+      for(let d=1;d<=max;d++){
+        const o = document.createElement('option'); o.value = pad2(d); o.textContent = d + '日';
+        els.fDay.appendChild(o);
+      }
+      if(cur && +cur <= max) els.fDay.value = cur;
+    }
+    els.fMonth.addEventListener('change', updateDays);
+
+    function openEdit(b){
+      els.editErr.textContent = '';
+      if(b){
+        els.editTitle.textContent = '编辑 · ' + b.name;
+        els.origName.value = b.name;
+        els.fName.value = b.name;
+        const p = /^(\d{2})-(\d{2})$/.exec(b.md||'');
+        els.fMonth.value = p ? p[1] : '01'; updateDays();
+        els.fDay.value = p ? p[2] : '01';
+        els.fNote.value = b.note || '';
+      }else{
+        els.editTitle.textContent = '添加生日';
+        els.origName.value = '';
+        els.fName.value = '';
+        els.fMonth.value = '01'; updateDays(); els.fDay.value = '01';
+        els.fNote.value = '';
+      }
+      els.editModal.hidden = false;
+      setTimeout(()=>{ if(!b) els.fName.focus(); }, 100);
+    }
+    function closeEdit(){ els.editModal.hidden = true; }
+    els.editClose.addEventListener('click', closeEdit);
+    els.editCancel.addEventListener('click', closeEdit);
+    els.btnAdd.addEventListener('click', ()=>openEdit(null));
+
+    els.editForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const name = els.fName.value.trim();
+      const md = els.fMonth.value + '-' + els.fDay.value;
+      const note = els.fNote.value.trim();
+      if(!name){ els.editErr.textContent = '请填写姓名'; return; }
+      // 前端校验日期合法（月 01-12，日在该月范围内）
+      const p = /^(\d{2})-(\d{2})$/.exec(md);
+      if(!p || +p[1]<1 || +p[1]>12 || +p[2]<1 || +p[2]>daysInMonth(+p[1])){
+        els.editErr.textContent = '生日日期不合法'; return;
+      }
+      els.editSubmit.disabled = true; els.editErr.textContent = '';
+      try{
+        const res = await api('/set', {method:'POST', body:JSON.stringify({device, person:{name, md, note}})});
+        if(res.status === 401){ closeEdit(); showAuth(); return; }
+        const data = await res.json().catch(()=>({}));
+        if(res.ok && data.ok !== false){
+          toast('已保存 🎂');
+          closeEdit();
+          await loadData();
+        }else{
+          els.editErr.textContent = (data && data.error) ? ('保存失败：' + data.error) : '保存失败，请重试';
+        }
+      }catch(err){
+        els.editErr.textContent = '连接失败，请检查网络';
+      }finally{
+        els.editSubmit.disabled = false;
+      }
+    });
+
+    // === 删除 ===
+    async function doDelete(b){
+      if(!confirm('确定要把「' + b.name + '」从名册删除吗？')) return;
+      try{
+        const res = await api('/del', {method:'POST', body:JSON.stringify({device, name:b.name})});
+        if(res.status === 401){ showAuth(); return; }
+        const data = await res.json().catch(()=>({}));
+        if(res.ok && data.ok !== false){
+          toast('已删除');
+          await loadData();
+        }else{
+          toast('删除失败，请重试');
+        }
+      }catch(err){
+        toast('连接失败，请检查网络');
+      }
+    }
+
+    // === 启动 ===
+    fillMonthDay();
+    loadData();
+  })();
+  </script>
+</body>
+</html>
