@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07110f" />
+  <meta name="description" content="以基本面、估值、相对强弱和风险验证为核心的 A 股科技与电力观察台。" />
+  <meta property="og:title" content="A股观察台 · 科技与电力" />
+  <meta property="og:description" content="研究优先，交易克制。每天用证据更新科技与电力观察池。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://xuzhiyuan1.github.io/finance/stocks/" />
+  <meta property="og:image" content="https://xuzhiyuan1.github.io/finance/stocks/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>A股观察台 · 科技与电力</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="site-head">
+    <div class="brand-row">
+      <div>
+        <p class="eyebrow">FINANCE / STOCKS</p>
+        <h1>A股观察台</h1>
+      </div>
+      <button class="refresh-button" id="refresh" type="button" aria-label="刷新今日分析">刷新</button>
+    </div>
+    <div class="live-row">
+      <span class="live-dot" id="live-dot"></span>
+      <span id="connection-label">正在读取学校服务器…</span>
+      <span class="spacer"></span>
+      <span id="as-of">--</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="loading-card" id="loading" aria-live="polite">
+      <div class="loading-line wide"></div>
+      <div class="loading-line"></div>
+      <div class="loading-grid">
+        <i></i><i></i><i></i><i></i>
+      </div>
+    </section>
+
+    <div id="content" hidden>
+      <section class="stance-card" aria-labelledby="today-title">
+        <div class="stance-topline">
+          <span class="phase-pill" id="market-phase">--</span>
+          <span class="confidence" id="confidence">--</span>
+        </div>
+        <p class="kicker">TODAY'S REGIME</p>
+        <h2 id="today-title">--</h2>
+        <p class="headline" id="headline">--</p>
+        <div class="stance-note" id="stance-note"></div>
+      </section>
+
+      <section class="section-block" aria-labelledby="market-title">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">MARKET PULSE</p>
+            <h2 id="market-title">指数与广度</h2>
+          </div>
+          <span class="section-meta" id="market-date">--</span>
+        </div>
+        <div class="index-strip" id="indices"></div>
+        <article class="breadth-card" id="breadth"></article>
+      </section>
+
+      <section class="section-block" aria-labelledby="sector-title">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">SECTOR RADAR</p>
+            <h2 id="sector-title">科技 × 电力</h2>
+          </div>
+        </div>
+        <div class="sector-grid" id="sectors"></div>
+      </section>
+
+      <section class="section-block" aria-labelledby="watch-title">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">RESEARCH WATCHLIST</p>
+            <h2 id="watch-title">今日研究优先级</h2>
+          </div>
+          <span class="section-meta">不是买入榜</span>
+        </div>
+        <div class="watch-list" id="watchlist"></div>
+      </section>
+
+      <section class="section-block" aria-labelledby="avoid-title">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">RISK DESK</p>
+            <h2 id="avoid-title">今天不做什么</h2>
+          </div>
+        </div>
+        <div class="risk-list" id="avoid-list"></div>
+      </section>
+
+      <section class="section-block" aria-labelledby="playbook-title">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">NEXT CHECK</p>
+            <h2 id="playbook-title">下一步观察</h2>
+          </div>
+        </div>
+        <ol class="playbook" id="playbook"></ol>
+      </section>
+
+      <section class="section-block source-block" aria-labelledby="source-title">
+        <details>
+          <summary>
+            <span>
+              <small>TRACEABILITY</small>
+              <strong id="source-title">数据来源与方法</strong>
+            </span>
+            <span class="summary-mark">+</span>
+          </summary>
+          <div class="details-body">
+            <p id="method-note"></p>
+            <div class="source-list" id="sources"></div>
+            <a class="agent-link" href="agent.md">查看完整 agent.md 分析流程 →</a>
+          </div>
+        </details>
+      </section>
+
+      <p class="disclaimer" id="disclaimer"></p>
+    </div>
+
+    <section class="error-card" id="error" hidden>
+      <p class="kicker">CONNECTION ERROR</p>
+      <h2>暂时没有读到分析</h2>
+      <p id="error-message">学校服务器可能离线，请稍后重试。</p>
+      <button type="button" id="retry">重新连接</button>
+    </section>
+  </main>
+
+  <footer>
+    <span>Research before action.</span>
+    <span>研究优先，交易克制。</span>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
