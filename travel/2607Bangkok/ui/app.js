@@ -966,6 +966,7 @@
         });
     }
 
+    var PRINCE_WORKS = ["捣蛋中", "烹制中", "思考中", "学习中", "翻找记忆中", "编织回忆中", "施展魔法中", "认真记录中"];
     /* 把一轮对话（ex = {text, reply, status, at}）画进对话区：用户气泡靠右，小王子气泡靠左；
        处理中＝"正在改…"+小圆点动画，完成＝显示 reply，失败＝显示 reply（错误说明）+ 醒目配色 */
     function renderChatArea(ex){
@@ -982,7 +983,8 @@
       var princeContent;
       if (status === "处理中"){
         princeCls += " loading";
-        princeContent = '小王子正在改<span class="princeDots"><span></span><span></span><span></span></span>';
+        var work = PRINCE_WORKS[Math.floor(Math.random() * PRINCE_WORKS.length)];
+        princeContent = '小王子正在<span class="princeWorkWord">' + work + '</span><span class="princeDots"><span></span><span></span><span></span></span>';
       } else if (status === "失败"){
         princeCls += " err";
         princeContent = escapeHtml(ex.reply || "没改成功，要不再试一次？");
