@@ -65,7 +65,7 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 /* 行程回顾：旅行结束后的长期参考页 */
 .pg-index .reviewHero{margin-top:14px;padding:22px 20px 20px;border-radius:18px;color:#fff;
   background:linear-gradient(135deg,#0b3d5c 0%,#0e6e8f 55%,#0e8f8f 100%);box-shadow:var(--shadow);overflow:hidden;position:relative}
-.pg-index .reviewHero::after{content:"🍈";position:absolute;right:-8px;bottom:-20px;font-size:7em;opacity:.14;transform:rotate(-14deg)}
+.pg-index .reviewDur{position:absolute;right:-10px;bottom:-22px;width:132px;height:auto;opacity:.18;transform:rotate(-14deg);pointer-events:none}
 .pg-index .reviewEyebrow{font-size:.73em;font-weight:800;letter-spacing:1.6px;opacity:.75}
 .pg-index .reviewHero h1{margin:7px 0 5px;font-size:2em;letter-spacing:.04em;position:relative}
 .pg-index .reviewHero p{margin:0;line-height:1.65;font-size:.93em;opacity:.94;position:relative}
@@ -74,14 +74,14 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .reviewIcon{flex:0 0 auto;width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:#e6f5f0;font-size:1.28em}
 .pg-index .reviewContent{min-width:0}
 .pg-index .reviewCard h2{margin:1px 0 5px}
-.pg-index .reviewCard p{margin:6px 0 0;font-size:.91em;line-height:1.65;color:var(--sub)}
-.pg-index .reviewCard .reviewLead{margin-top:0;color:var(--brand);font-weight:700}
-.pg-index .reviewTakeaway{margin-top:11px;padding:9px 10px;border-radius:10px;background:#eef7fa;color:#38606f;font-size:.85em;line-height:1.55}
-.pg-index .reviewTakeaway b{display:block;margin-bottom:2px;color:#0e6e8f;font-size:.9em}
+.pg-index .reviewEntry{display:flex;align-items:flex-start;gap:9px;margin-top:8px}
+.pg-index .reviewEntry p{flex:1;margin:0;font-size:.91em;line-height:1.65;color:var(--sub)}
+.pg-index .reviewBy{flex:0 0 auto;margin-top:2px;padding:2px 7px;border-radius:6px;background:#e6f5f0;color:#0a7d5f;font:700 .73em ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.04em}
 .pg-index .reviewContribute{border-left-color:#e0a11a;background:rgba(255,250,233,.84)}
 .pg-index .reviewContribute p{margin:0;color:var(--sub);font-size:.9em;line-height:1.65}
 .pg-index .reviewWriteBtn{margin-top:13px;border:0;border-radius:99px;padding:10px 15px;background:#0e8f8f;color:#fff;font:inherit;font-size:.88em;font-weight:700;cursor:pointer;box-shadow:0 3px 8px rgba(14,143,143,.22)}
 .pg-index .reviewWriteBtn:active{transform:translateY(1px)}
+.pg-index .reviewHint{margin:14px 4px 0;color:var(--sub);font-size:.78em;line-height:1.5}
 
 .pg-index .tzbtn{margin-left:auto;font-size:.76em;border:1px solid #bcd9e4;background:#eef7fa;color:#0e6e8f;border-radius:99px;padding:3px 10px;cursor:pointer}
 .pg-index .fcard{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:0}
