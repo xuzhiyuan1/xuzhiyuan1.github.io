@@ -33,6 +33,15 @@
             "size": "normal",
             "color": "brand"
           }
+        },
+        {
+          "by": "tyn",
+          "highlight": "Thong Smith船面，香晕了！",
+          "text": "Thong Smith船面超级好吃，是这趟曼谷之行的一大美食亮点。",
+          "style": {
+            "size": "large",
+            "color": "warm"
+          }
         }
       ]
     },
@@ -68,12 +77,13 @@
         },
         {
           "by": "tyn",
-          "highlight": "下次泰国行程已有雏形",
-          "text": "下次再来泰国：中午落地，和阿姨共度下午两小时，晚上前往夜市大吃特吃；第二天上午去大皇宫，下午去另一个商场买西太后，晚上再和阿姨共度两小时；第三天上午飞清迈或普吉岛。",
+          "highlight": "Siam Center的衣服我还有不少想试的，下次更从容些要都试了。",
+          "text": "在Siam Center逛街时被好多泰国本土设计师品牌吸引，衣服、包包、饰品都很有设计感，但时间安排偏紧，还有很多想试的衣服没来得及试。希望下次来曼谷能留出更充裕的时间，慢慢逛、慢慢试，把喜欢的都拿下。",
           "style": {
             "size": "normal",
             "color": "brand"
-          }
+          },
+          "tip": "下次给暹罗商圈留足一整天，Siam Center（本土设计师）+ Siam Discovery（LOFT杂货铺）+ CentralWorld（西太后），三连逛不赶时间，从容试到满意为止。"
         }
       ]
     },
