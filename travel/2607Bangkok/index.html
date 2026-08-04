@@ -15,9 +15,10 @@
   <div class="tbInner">
     <div class="tbTitle"><img class="dur" src="ui/theme.png" alt="榴莲"> <span id="brandTitle"></span></div>
     <div class="tabWrap">
-      <button class="tabToggle" id="tabToggle">日程 <span class="car">▾</span></button>
+      <button class="tabToggle" id="tabToggle">行程回顾 <span class="car">▾</span></button>
       <div class="tabMenu" id="tabMenu" hidden>
-        <button data-tab="plan" class="active">日程</button>
+        <button data-tab="review" class="active">行程回顾</button>
+        <button data-tab="plan">日程</button>
         <button data-tab="jz">机酒</button>
         <button data-tab="guide">攻略本</button>
       </div>
@@ -50,8 +51,24 @@
     </div>
   </div>
 
+  <!-- ============ 行程回顾 ============ -->
+  <section id="paneReview">
+    <div class="reviewHero">
+      <div class="reviewEyebrow">2026 · BANGKOK</div>
+      <h1>行程回顾</h1>
+      <p>三天两夜，吃得很满足，逛得很尽兴。<br>这份记录留给下一次更从容地再见曼谷。</p>
+      <div class="reviewAuthor">记录人 · 徐致远</div>
+    </div>
+    <div id="reviewCards"></div>
+    <div class="card reviewContribute">
+      <h2>🍈 把这次旅行继续写下去</h2>
+      <p>其他同行者也可以选择自己的名字，找小王子补充攻略、踩坑和个人记忆。它会整理进攻略本，留给下一次曼谷之旅参考。</p>
+      <button type="button" class="reviewWriteBtn" id="reviewWriteBtn">找小王子写下我的记录</button>
+    </div>
+  </section>
+
   <!-- ============ 日程 ============ -->
-  <section id="panePlan">
+  <section id="panePlan" hidden>
 
     <!-- 此刻关注：标题 / 倒计时 / 说明 / 完整下一个日程 / Next -->
     <div class="card now">
