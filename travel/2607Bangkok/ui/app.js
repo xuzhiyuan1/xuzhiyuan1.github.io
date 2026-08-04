@@ -15,7 +15,12 @@
 
   var DATA, SITE, GUIDE, USERS, ITINERARY, TRANSPORT, OVERVIEW, DUR;
   var MAP_DEFAULT = "Bangkok Thailand";
-  var REVIEW = [
+  var DEFAULT_REVIEW = {
+    eyebrow: "2026 · BANGKOK",
+    title: "行程回顾",
+    intro: "两天两晚，吃得很满足，逛得很尽兴。\n这份记录留给下一次更从容地再见曼谷。",
+    authorLine: "我们一起写给下一次曼谷",
+    sections: [
     {
       icon: "🏨", title: "住",
       entries: [{ by: "xzy", highlight: "素坤逸，下次继续住。", text: "干净、安全，也更有成熟城区的从容感。周边酒店选择多，许多都配有无边泳池；按摩店密集，出门就能把一天过得很舒服。", tip: "不特别需要无边泳池的话，优先考虑美居隔壁的 ibis：楼下就是大型 7-Eleven，体验相近，房价大约便宜三百多元。" }]
@@ -36,7 +41,8 @@
       icon: "✨", title: "其他",
       entries: [{ by: "xzy", highlight: "曼谷的审美，比内地好不少。", text: "商场从空间、陈列到整体氛围都很有吸引力，很容易让人产生“想再逛一会儿”的冲动。", tip: "下次可以少排一点景点，把时间留给慢逛商场、按摩和临时发现。" }]
     }
-  ];
+    ]
+  };
   var pageRender = null; /* 当前页面的"用最新 DATA 重新渲染"函数：index=renderAll，itin=render */
   var activateTab = null; /* index 页专属：切 tab 函数（由 initIndex 内的 showTab 赋值），供小王子对话框
                               "共享攻略本"按钮跨作用域调用；itinerary 页没有 tab 结构，此值保持 null，
@@ -147,9 +153,10 @@
       fetch("data/site.json" + qs).then(function(r){ return r.json(); }),
       fetch("data/trip.json" + qs).then(function(r){ return r.json(); }),
       fetch("data/guide.json" + qs).then(function(r){ return r.json(); }),
-      fetch("data/users.json" + qs).then(function(r){ return r.json(); })
+      fetch("data/users.json" + qs).then(function(r){ return r.json(); }),
+      fetch("data/review.json" + qs).then(function(r){ return r.ok ? r.json() : DEFAULT_REVIEW; })
     ]).then(function(res){
-      return { site: res[0], trip: res[1], guide: res[2], users: res[3] };
+      return { site: res[0], trip: res[1], guide: res[2], users: res[3], review: res[4] };
     });
   }
 
@@ -284,11 +291,16 @@
     function renderReview(){
       var box = $("reviewCards");
       if (!box) return;
-      box.innerHTML = REVIEW.map(function(item){
+      var review = DATA.review || DEFAULT_REVIEW;
+      $("reviewEyebrow").textContent = review.eyebrow || DEFAULT_REVIEW.eyebrow;
+      $("reviewTitle").textContent = review.title || DEFAULT_REVIEW.title;
+      $("reviewIntro").textContent = review.intro || DEFAULT_REVIEW.intro;
+      $("reviewAuthor").textContent = review.authorLine || DEFAULT_REVIEW.authorLine;
+      box.innerHTML = (review.sections || []).map(function(item){
         return '<article class="card reviewCard">' +
-          '<div class="reviewIcon">' + item.icon + '</div>' +
-          '<div class="reviewContent"><h2>' + item.title + '</h2>' +
-          (item.entries || []).map(function(entry){ return '<div class="reviewEntry"><span class="reviewBy">' + entry.by + '</span><div class="reviewEntryBody"><strong class="reviewHighlight' + (entry.tone === "shout" ? " shout" : "") + '">' + entry.highlight + '</strong><p>' + entry.text + '</p>' + (entry.tip ? '<div class="reviewTip"><b>下次</b>' + entry.tip + '</div>' : '') + '</div></div>'; }).join('') +
+          '<div class="reviewIcon">' + escapeHtml(item.icon || "📝") + '</div>' +
+          '<div class="reviewContent"><h2>' + escapeHtml(item.title || "回顾") + '</h2>' +
+          (item.entries || []).map(function(entry){ return '<div class="reviewEntry"><span class="reviewBy">' + escapeHtml(entry.by || "匿名") + '</span><div class="reviewEntryBody"><strong class="reviewHighlight' + (entry.tone === "shout" ? " shout" : "") + '">' + escapeHtml(entry.highlight || "") + '</strong><p>' + escapeHtml(entry.text || "") + '</p>' + (entry.tip ? '<div class="reviewTip"><b>下次</b>' + escapeHtml(entry.tip) + '</div>' : '') + '</div></div>'; }).join('') +
           '</div></article>';
       }).join('');
     }

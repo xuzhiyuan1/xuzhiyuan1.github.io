@@ -1,4 +1,4 @@
-const CACHE = "travel-bkk-v27";
+const CACHE = "travel-bkk-v28";
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll([
     "./",
@@ -12,6 +12,7 @@ self.addEventListener("install", e => {
     "./data/trip.json",
     "./data/guide.json",
     "./data/users.json"
+    ,"./data/review.json"
   ])));
   self.skipWaiting();
 });
