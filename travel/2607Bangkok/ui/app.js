@@ -23,23 +23,23 @@
     sections: [
     {
       icon: "🏨", title: "住",
-      entries: [{ by: "xzy", highlight: "素坤逸，下次继续住。", text: "干净、安全，也更有成熟城区的从容感。周边酒店选择多，许多都配有无边泳池；按摩店密集，出门就能把一天过得很舒服。", tip: "不特别需要无边泳池的话，优先考虑美居隔壁的 ibis：楼下就是大型 7-Eleven，体验相近，房价大约便宜三百多元。" }]
+      entries: [{ by: "xzy", highlight: "素坤逸，下次继续住。", text: "干净、安全，也更有成熟城区的从容感。周边酒店选择多，许多都配有无边泳池；按摩店密集，出门就能把一天过得很舒服。", tip: "不特别需要无边泳池的话，优先考虑美居隔壁的 ibis：楼下就是大型 7-Eleven，体验相近，房价大约便宜三百多元。", style: { size: "normal", color: "brand" } }]
     },
     {
       icon: "🍤", title: "吃",
-      entries: [{ by: "xzy", highlight: "这趟，没吃到过难吃的。", text: "Here Hai 的基围虾和皮皮虾很满意；ChonThong Original 的罗勒肉炒饭值得专程去吃；Chom Arun 的湄南河边晚餐，把风景和味道一起吃进了记忆里。", tip: "托曼尼和长柄都绵密，长柄有点龙眼香，但还是不如金枕。下次试试青尼。" }]
+      entries: [{ by: "xzy", highlight: "这趟，没吃到过难吃的。", text: "Here Hai 的基围虾和皮皮虾很满意；ChonThong Original 的罗勒肉炒饭值得专程去吃；Chom Arun 的湄南河边晚餐，把风景和味道一起吃进了记忆里。", tip: "托曼尼和长柄都绵密，长柄有点龙眼香，但还是不如金枕。下次试试青尼。", style: { size: "normal", color: "brand" } }]
     },
     {
       icon: "🛺", title: "行",
-      entries: [{ by: "xzy", highlight: "四个人出行，终于找到好处了。", text: "Grab 不便宜，突突车更贵；但四个人分摊下来很舒服。随时能叫 Grab，坐上香香车就走，不必为了省一点钱反复折腾路线。", tip: "下次仍然优先 Grab，把预算留给舒服、方便和不赶时间。" }]
+      entries: [{ by: "xzy", highlight: "四个人出行，终于找到好处了。", text: "Grab 不便宜，突突车更贵；但四个人分摊下来很舒服。随时能叫 Grab，坐上香香车就走，不必为了省一点钱反复折腾路线。", tip: "下次仍然优先 Grab，把预算留给舒服、方便和不赶时间。", style: { size: "normal", color: "brand" } }]
     },
     {
       icon: "💆", title: "玩",
-      entries: [{ by: "xzy", highlight: "马杀鸡！！！！马杀鸡！！！！", text: "暹罗百丽宫附近的商圈特别好逛，适合把购物欲一次释放；暹罗天地的城市景观很漂亮，值得为它留出傍晚的时间。", tip: "下次想打卡像素大厦，把城市天际线也收进这趟旅行。", tone: "shout" }]
+      entries: [{ by: "xzy", highlight: "马杀鸡！！！！马杀鸡！！！！", text: "暹罗百丽宫附近的商圈特别好逛，适合把购物欲一次释放；暹罗天地的城市景观很漂亮，值得为它留出傍晚的时间。", tip: "下次想打卡像素大厦，把城市天际线也收进这趟旅行。", style: { size: "large", color: "warm" } }]
     },
     {
       icon: "✨", title: "其他",
-      entries: [{ by: "xzy", highlight: "曼谷的审美，比内地好不少。", text: "商场从空间、陈列到整体氛围都很有吸引力，很容易让人产生“想再逛一会儿”的冲动。", tip: "下次可以少排一点景点，把时间留给慢逛商场、按摩和临时发现。" }]
+      entries: [{ by: "xzy", highlight: "曼谷的审美，比内地好不少。", text: "商场从空间、陈列到整体氛围都很有吸引力，很容易让人产生“想再逛一会儿”的冲动。", tip: "下次可以少排一点景点，把时间留给慢逛商场、按摩和临时发现。", style: { size: "normal", color: "brand" } }]
     }
     ]
   };
@@ -300,7 +300,7 @@
         return '<article class="card reviewCard">' +
           '<div class="reviewIcon">' + escapeHtml(item.icon || "📝") + '</div>' +
           '<div class="reviewContent"><h2>' + escapeHtml(item.title || "回顾") + '</h2>' +
-          (item.entries || []).map(function(entry){ return '<div class="reviewEntry"><span class="reviewBy">' + escapeHtml(entry.by || "匿名") + '</span><div class="reviewEntryBody"><strong class="reviewHighlight' + (entry.tone === "shout" ? " shout" : "") + '">' + escapeHtml(entry.highlight || "") + '</strong><p>' + escapeHtml(entry.text || "") + '</p>' + (entry.tip ? '<div class="reviewTip"><b>下次</b>' + escapeHtml(entry.tip) + '</div>' : '') + '</div></div>'; }).join('') +
+          (item.entries || []).map(function(entry){ var style = entry.style || {}; var cls = "reviewHighlight" + (style.size === "large" ? " large" : "") + (style.color === "warm" ? " warm" : ""); return '<div class="reviewEntry"><span class="reviewBy">' + escapeHtml(entry.by || "匿名") + '</span><div class="reviewEntryBody"><strong class="' + cls + '">' + escapeHtml(entry.highlight || "") + '</strong><p>' + escapeHtml(entry.text || "") + '</p>' + (entry.tip ? '<div class="reviewTip"><b>下次</b>' + escapeHtml(entry.tip) + '</div>' : '') + '</div></div>'; }).join('') +
           '</div></article>';
       }).join('');
     }
