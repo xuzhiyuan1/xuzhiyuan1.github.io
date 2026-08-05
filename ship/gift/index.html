@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#1a2b5e" />
-  <title>B612 · 礼物星图</title>
+  <meta name="theme-color" content="#f7f0e5" />
+  <title>B612 · 礼物簿</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -19,24 +19,13 @@
   <!-- ============= prince 密码门 ============= -->
   <div class="gate" id="gate" hidden>
     <div class="gate-card">
-      <div class="prince gate-prince">
-        <svg viewBox="0 0 80 90" aria-hidden="true">
-          <circle cx="40" cy="22" r="14" fill="#f6c97a"/>
-          <path d="M26 22 Q40 4 54 22 Q40 18 26 22Z" fill="#a23b2a"/>
-          <rect x="30" y="36" width="20" height="30" rx="4" fill="#3b6ea8"/>
-          <rect x="32" y="66" width="6" height="14" fill="#3b6ea8"/>
-          <rect x="42" y="66" width="6" height="14" fill="#3b6ea8"/>
-          <ellipse cx="36" cy="24" rx="1.6" ry="2" fill="#1a2b5e"/>
-          <ellipse cx="44" cy="24" rx="1.6" ry="2" fill="#1a2b5e"/>
-          <path d="M36 30 Q40 32 44 30" stroke="#1a2b5e" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <h2>🌹 只有小王子能进来</h2>
-      <p class="gate-sub">"驯服我吧。" —— 输入通关口令，把这台设备记进玫瑰的名册。</p>
+      <div class="gate-mark" aria-hidden="true">✦</div>
+      <h2>写给重要的人</h2>
+      <p class="gate-sub">输入口令，打开这本只属于你们的礼物簿。</p>
       <form id="gate-form" autocomplete="off">
         <input type="password" id="gate-pass" placeholder="口令" />
         <input type="text" id="gate-label" placeholder="给这台设备起个名（选填，如：小琳的手机）" />
-        <button type="submit" class="btn primary" id="gate-btn">驯服这颗星球 ✨</button>
+        <button type="submit" class="btn primary" id="gate-btn">打开礼物簿</button>
       </form>
       <p class="gate-msg" id="gate-msg"></p>
     </div>
@@ -47,22 +36,11 @@
   <header class="hero">
     <div class="hero-inner">
       <div class="hero-text">
-        <h1>🌹 B612 · 礼物星图</h1>
-        <p class="subtitle">"真正重要的东西，眼睛是看不见的。"</p>
-        <p class="subtitle-en">— 记录每一份被惦记的心意 —</p>
+        <p class="eyebrow">B612 · PRIVATE ARCHIVE</p>
+        <h1>礼物簿</h1>
+        <p class="subtitle">把每一份被惦记的心意，好好收在这里。</p>
       </div>
-      <div class="prince">
-        <svg viewBox="0 0 80 90" aria-hidden="true">
-          <circle cx="40" cy="22" r="14" fill="#f6c97a"/>
-          <path d="M26 22 Q40 4 54 22 Q40 18 26 22Z" fill="#a23b2a"/>
-          <rect x="30" y="36" width="20" height="30" rx="4" fill="#3b6ea8"/>
-          <rect x="32" y="66" width="6" height="14" fill="#3b6ea8"/>
-          <rect x="42" y="66" width="6" height="14" fill="#3b6ea8"/>
-          <ellipse cx="36" cy="24" rx="1.6" ry="2" fill="#1a2b5e"/>
-          <ellipse cx="44" cy="24" rx="1.6" ry="2" fill="#1a2b5e"/>
-          <path d="M36 30 Q40 32 44 30" stroke="#1a2b5e" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-        </svg>
-      </div>
+      <div class="hero-mark" aria-hidden="true">✦</div>
     </div>
   </header>
 
@@ -76,10 +54,10 @@
 
   <!-- 视图切换 -->
   <nav class="tabs" role="tablist">
-    <button class="tab active" data-view="records">📖 星图</button>
-    <button class="tab" data-view="add">✍️ 记录</button>
-    <button class="tab" data-view="assistant">👑 小王子</button>
-    <button class="tab" data-view="settings">⚙️ 数据</button>
+    <button class="tab active" data-view="records">收藏</button>
+    <button class="tab" data-view="add">写一笔</button>
+    <button class="tab" data-view="assistant">小王子</button>
+    <button class="tab" data-view="settings">设置</button>
   </nav>
 
   <main>
@@ -107,7 +85,7 @@
       <div class="list" id="records-list"></div>
       <div class="empty" id="empty-records" hidden>
         <div class="empty-emoji">🌌</div>
-        <p>这片星图还是空的。<br/>去「记录」写下第一颗星星吧 ✨</p>
+        <p>这里还没有礼物。<br/>去「写一笔」收下第一份心意吧。</p>
       </div>
     </section>
 
@@ -180,7 +158,7 @@
         </div>
 
         <div class="actions">
-          <button type="submit" class="btn primary">🌟 种下这颗星</button>
+          <button type="submit" class="btn primary">保存这一笔</button>
           <button type="reset" class="btn ghost">清空</button>
         </div>
       </form>
@@ -232,7 +210,7 @@
       <div class="about">
         <h3>关于</h3>
         <p>"所有的大人都曾经是小孩，虽然只有少数人记得。"</p>
-        <p class="hint">B612 · 礼物星图 · prince 名册 · 后端存储</p>
+        <p class="hint">B612 · 礼物簿 · prince 名册 · 后端存储</p>
       </div>
     </section>
   </main>
