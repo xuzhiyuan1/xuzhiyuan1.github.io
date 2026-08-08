@@ -1,7 +1,7 @@
 {
-  "brandTitle": "布鲁塞尔之旅",
-  "dates": "2026.10.01（周四出发） — 10.06（周二返程）",
-  "heroTag": "华夫饼大吃特吃 {durian} · 旅途Helper",
+  "brandTitle": "布鲁塞尔 · 巴黎 · 阿姆斯特丹",
+  "dates": "2026.10.03（周六 出发） — 10.13（周二 返程） · 共 10 天 3 国",
+  "heroTag": "华夫饼+可颂+运河 {durian} · 旅途 Helper",
   "themeImage": "theme.png",
   "timezones": {
     "bj": {
@@ -9,10 +9,10 @@
       "offset": 8
     },
     "be": {
-      "label": "🕐 布鲁塞尔时间",
+      "label": "🕐 欧洲时间",
       "offset": 2
     }
   },
-  "weatherBrief": "🌦 8–15°C 多雨",
-  "tripEnd": "2026-10-06T18:00:00+02:00"
+  "weatherBrief": "🌦 8–16°C 多雨",
+  "tripEnd": "2026-10-13T13:20:00+02:00"
 }

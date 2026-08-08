@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#6b3f1d" />
-<title>布鲁塞尔之旅 · 10.1–10.6</title>
+<title>布鲁塞尔 · 巴黎 · 阿姆斯特丹 · 10.03–10.13</title>
 <link rel="stylesheet" href="ui/style.css" />
 </head>
 <body class="pg-index" data-page="index">
@@ -15,10 +15,10 @@
   <div class="tbInner">
     <div class="tbTitle"><img class="dur" src="ui/theme.png" alt="华夫饼"> <span id="brandTitle"></span></div>
     <div class="tabWrap">
-      <button class="tabToggle" id="tabToggle">回顾 <span class="car">▾</span></button>
+      <button class="tabToggle" id="tabToggle">日程 <span class="car">▾</span></button>
       <div class="tabMenu" id="tabMenu" hidden>
-        <button data-tab="review" class="active">行程回顾</button>
-        <button data-tab="plan">日程</button>
+        <button data-tab="plan" class="active">日程</button>
+        <button data-tab="review">行程回顾</button>
         <button data-tab="jz">机酒</button>
         <button data-tab="guide">攻略本</button>
       </div>
@@ -51,25 +51,25 @@
     </div>
   </div>
 
-  <!-- ============ 行程回顾 ============ -->
-  <section id="paneReview">
+  <!-- ============ 行程回顾（出行后才有内容，未出行显示占位） ============ -->
+  <section id="paneReview" hidden>
     <div class="reviewHero">
-      <div class="reviewEyebrow" id="reviewEyebrow">2026 · BRUSSELS</div>
+      <div class="reviewEyebrow" id="reviewEyebrow">2026 · BRUSSELS · PARIS · AMSTERDAM</div>
       <h1 id="reviewTitle">行程回顾</h1>
-      <p id="reviewIntro">六天五晚，秋色里的布鲁塞尔，巧克力与华夫饼吃到撑。<br>这份记录留给下一次更从容地再见比利时。</p>
-      <div class="reviewAuthor" id="reviewAuthor">我们一起写给下一次布鲁塞尔</div>
+      <p id="reviewIntro">10 天 3 国的初稿——从布鲁塞尔的华夫饼到巴黎的塞纳河，再到阿姆斯特丹的运河夜色。<br>这份记录现在还是空的，出发后由我们一起把它填满。</p>
+      <div class="reviewAuthor" id="reviewAuthor">我们一起写给下一次再访欧洲</div>
       <img class="reviewDur" src="ui/theme.png" alt="华夫饼">
     </div>
     <div class="card reviewContribute">
       <h2><img class="dur" src="ui/theme.png" alt="华夫饼"> 把这次旅行继续写下去</h2>
-      <p>选择自己的名字，找小王子补充攻略、踩坑和个人记忆。它会整理进这趟旅行的攻略本，留给下一次布鲁塞尔之旅参考。</p>
+      <p>选择自己的名字，找小王子补充攻略、踩坑和个人记忆。它会整理进这趟旅行的攻略本，留给下一次欧洲之旅参考。</p>
       <button type="button" class="reviewWriteBtn" id="reviewWriteBtn">找小王子写下我的记录</button>
     </div>
     <div id="reviewCards"></div>
   </section>
 
-  <!-- ============ 日程 ============ -->
-  <section id="panePlan" hidden>
+  <!-- ============ 日程（默认页：出发前也是这里） ============ -->
+  <section id="panePlan">
 
     <!-- 此刻关注：标题 / 倒计时 / 说明 / 完整下一个日程 / Next -->
     <div class="card now">
@@ -105,7 +105,7 @@
     <div class="card">
       <h2>✈️ 航班 <button class="tzbtn" id="tzbtn">🕐 北京时间</button></h2>
       <div id="flightBox"></div>
-      <div class="note">默认 <b>北京时间</b>，点按钮切 <b>布鲁塞尔时间</b>（比利时比北京慢 6 小时）。切角色看自己的，"总览"看全部人。</div>
+      <div class="note">默认 <b>北京时间</b>，点按钮切 <b>欧洲时间</b>（比利时/法国/荷兰比北京慢 6 小时，10 月底前皆为夏令时）。切角色看自己的，"总览"看全部人。</div>
     </div>
     <div class="card">
       <h2>🏨 酒店（已确认）</h2>

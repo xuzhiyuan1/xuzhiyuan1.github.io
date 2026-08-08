@@ -1,8 +1,8 @@
 {
-  "eyebrow": "2026 · BRUSSELS",
+  "eyebrow": "2026 · BRUSSELS · PARIS · AMSTERDAM",
   "title": "行程回顾",
-  "intro": "六天五晚，秋色里的布鲁塞尔，巧克力与华夫饼吃到撑。\n这份记录留给下一次更从容地再见比利时。",
-  "authorLine": "我们一起写给下一次布鲁塞尔",
+  "intro": "10 天 3 国的初稿——从布鲁塞尔的华夫饼到巴黎的塞纳河，再到阿姆斯特丹的运河夜色。\n这份记录现在还是空的，出发后由我们一起把它填满。",
+  "authorLine": "我们一起写给下一次再访欧洲",
   "sections": [
     {
       "icon": "🏨",
@@ -10,9 +10,9 @@
       "entries": [
         {
           "by": "xzy",
-          "highlight": "大广场附近，下次继续住。",
-          "text": "市中心的位置去哪都方便，步行 5 分钟到 Gare Centrale，去 Bruges/Antwerp 一日游零负担；楼下咖啡馆、巧克力店、Carrefour 超市齐备，早上起来下楼吃个华夫饼再出门，节奏很舒服。",
-          "tip": "如对房间景观要求高，订 Grand Place 景观房升级（€40+/晚）性价比一般，拍照打卡够用即可。",
+          "highlight": "三段住宿已经全部订好。",
+          "text": "布鲁塞尔 4 晚住 Hilton Brussels Grand Place（正对大广场方向）；巴黎 3 晚住 Hôtel du Petit Moulin（Le Marais 区 17 世纪老宅改建）；阿姆斯特丹 3 晚住 The Hoxton（Herengracht 运河畔 17 世纪运河屋）。三段都在市中心黄金位置，去任何景点都步行 + 地铁可达。",
+          "tip": "前台 check-in 时记得要求相邻房间，boutique 酒店通常都能安排。",
           "style": {
             "size": "normal",
             "color": "brand"
@@ -27,8 +27,8 @@
         {
           "by": "xzy",
           "highlight": "巧克力之都，名不虚传。",
-          "text": "Neuhaus 的 Praline 礼盒严谨经典；Pierre Marcolini 单价贵但味道真的惊艳；Leonidas 适合大量送人，15 欧一盒装满；The Chocolate Line 创意款最有趣，培根味、海盐味让人眼前一亮。",
-          "tip": "回国送同事不建议混搭不同品牌礼盒（口味/包装风格不一致），统一一家更体面；同一家买 €125+ 单店发票可办退税。",
+          "text": "Neuhaus 的 Praline 礼盒严谨经典；Pierre Marcolini 单价贵但味道惊艳；Leonidas 适合大量送人；The Chocolate Line 创意款最有趣。到巴黎后留给可颂和马卡龙的空间，到阿姆斯特丹必试 Gouda 老奶酪 + Stroopwafel 焦糖华夫饼。",
+          "tip": "回国送同事不建议混搭不同品牌礼盒，统一一家更体面；同一家买 €125+ 单店发票可办退税。",
           "style": {
             "size": "normal",
             "color": "brand"
@@ -36,8 +36,8 @@
         },
         {
           "by": "wjj",
-          "highlight": "华夫饼和啤酒完全是新世界。",
-          "text": "Maison Dandoy 的 Brussels Waffle 焦糖珍珠糖颗粒感让人上瘾，配奶油+草莓是永恒的搭配；Delirium Café 2000+ 种啤酒让人选择困难，Kwak 装在奇特玻璃瓶里印象深刻；修道院啤酒（Chimay、Rochefort、Westvleteren）层次比德国啤酒丰富很多。",
+          "highlight": "华夫饼、可颂、运河美食，三个城市三种节奏。",
+          "text": "Maison Dandoy 的 Brussels Waffle 焦糖珍珠糖颗粒感让人上瘾；巴黎随便一家 boulangerie 的可颂都是天花板；阿姆斯特丹的 Foodhallen 美食广场、Stamppot 土豆泥、bitterballen 炸丸子都是必试。",
           "style": {
             "size": "large",
             "color": "warm"
@@ -51,9 +51,9 @@
       "entries": [
         {
           "by": "xzy",
-          "highlight": "SNCB 火车，比想象的好用。",
-          "text": "比利时国铁 App 实时车次准，去 Bruges/Antwerp 一日游完全无压力；IC 列车一等座 €22、二等座 €15，座椅宽敞有桌板，比国内高铁舒适度还好。",
-          "tip": "Off-Peak Ticket 当日往返约 €30 比单程便宜 30%，务必提前 SNCB App 订；火车上要刷二维码上车，别错过。",
+          "highlight": "Thalys 是这次三国游的核心。",
+          "text": "布鲁塞尔 ↔ 巴黎 1h30、巴黎 ↔ 阿姆斯特丹 3h20，二等座 €80-150；提前 1-2 个月订便宜很多；车厢 wifi 稳定、有小桌板，可以补觉或整理照片。当地城市内：布鲁塞尔 SNCB+STIB、巴黎 RER+Metro、阿姆斯特丹 NS+OV-chipkaart，App 都好用。",
+          "tip": "Thalys 票订早不订晚，临近出发能涨到 €200+；出发前 1-2 周查一下 €35 起的 IZY 廉价 Thalys 票（只发车当天）。",
           "style": {
             "size": "normal",
             "color": "brand"
@@ -67,9 +67,8 @@
       "entries": [
         {
           "by": "xzy",
-          "highlight": "Bruges 的运河秋色，绝了。",
-          "text": "从布鲁塞尔 1 小时火车到布鲁日，被联合国教科文列为世界文化遗产的小城；运河游船 30 分钟，10 月初秋叶刚开始变色，沿岸红瓦+白色山墙+小桥+教堂塔尖的画面，是这次旅行最让人治愈的时刻。",
-          "tip": "下次想留 1 晚住在布鲁日，早上游客没到时整个小镇属于你，比一日游从容太多。",
+          "highlight": "三个城市节奏完全不同，留给脚步慢慢丈量。",
+          "text": "布鲁塞尔小而精，1-2 天足够；巴黎是博物馆和咖啡馆的天堂，需要 3 天才能不赶；阿姆斯特丹运河骑行 + 博物馆 2 天刚好。10 月三国都是秋色最美季节，光线柔和，拍照最出片。",
           "style": {
             "size": "large",
             "color": "warm"
@@ -77,13 +76,13 @@
         },
         {
           "by": "wjj",
-          "highlight": "漫画艺术中心，给童年的回礼。",
-          "text": "丁丁历险记、蓝精灵、加斯东——这些陪伴童年的漫画，在比利时漫画艺术中心（Centre Belge de la Bande Dessinée）以原画、草稿、工作室场景的方式呈现，中文导览器讲得很详细，原来这些作品就诞生在这里。",
+          "highlight": "这次最期待凡尔赛、安妮之家、风车村。",
+          "text": "凡尔赛宫的镜厅和玛丽·安托瓦内特庄园是这次行程最大亮点；安妮之家的后阁楼密室很感人，记得提前 6 周订票；阿姆斯特丹 Zaanse Schans 风车村 + 奶酪农场半日游最适合周日早晨。",
           "style": {
             "size": "normal",
             "color": "brand"
           },
-          "tip": "漫画墙 Comique Route 散落在布鲁塞尔街头几十幅，Day 1 路过撒尿小童那条 Rue de l'Étuve 就是其一，建议下载 Comic Strip Walk 路线 App 慢慢找。"
+          "tip": "Anne Frank House 提前 6 周官网放票（€16）；凡尔赛宫 提前官网订时段票（€21.5）能省 1 小时现场排队。"
         }
       ]
     },
@@ -93,9 +92,9 @@
       "entries": [
         {
           "by": "xzy",
-          "highlight": "秋天是去比利时的最佳季节。",
+          "highlight": "10 月初是去西欧的最佳季节。",
           "text": "10 月初人潮退去、机票便宜、气温还能适应，叠加秋色和美食季，是性价比最高的窗口；日落早，下午 5 点就能看到漂亮的橙红色天色，拍照时机比夏季更友好。",
-          "tip": "下次 10 月初还想来一次，争取加卢森堡一日游（火车 3 小时），法兰德斯三国联游一次搞定。",
+          "tip": "下次 10 月初还想来一次，争取加卢森堡一日游（火车 3 小时），法兰德斯 + 卢森堡 + 法荷联游一次搞定。",
           "style": {
             "size": "normal",
             "color": "brand"
@@ -103,8 +102,8 @@
         },
         {
           "by": "wjj",
-          "highlight": "这趟旅程，把节奏放慢就好。",
-          "text": "比利时不是大山大水的国家，但胜在小而精的细节——巧克力店橱窗、漫画墙转角、运河上的天鹅、教堂尖顶的剪影——把节奏放慢、用脚步丈量，比一周内疯狂赶景点更值。",
+          "highlight": "节奏放慢就好，别让这趟旅行变成赶景点。",
+          "text": "西欧不是大山大水的国家，但胜在小而精的细节——巧克力店橱窗、漫画墙转角、塞纳河上的书摊、运河上的天鹅、教堂尖顶的剪影——把节奏放慢、用脚步丈量，比一周内疯狂赶景点更值。10 天 3 国已经留了缓冲，遇到喜欢的地方就多待半天。",
           "style": {
             "size": "normal",
             "color": "brand"

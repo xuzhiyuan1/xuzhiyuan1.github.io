@@ -44,5 +44,19 @@
       "guidebook"
     ],
     "reply": "搞定～已经在攻略本加了 Delirium Café 的必喝啤酒排序（Kwak → Delirium Tremens → Chimay Blue → Rochefort 10 → Westvleteren 12）和配餐建议 🍺"
+  },
+  {
+    "at": "2026-08-08T18:45:00+08:00",
+    "author": "徐致远",
+    "text": "机票已出票：HU491 / HU492，两人 10.3 凌晨 PEK → BRU，10.13 中午 BRU → PEK。10 天改成 3 国：布鲁塞尔 → 巴黎 → 阿姆斯特丹",
+    "version": "20260808-184500",
+    "files": [
+      "trip",
+      "site",
+      "guide",
+      "review",
+      "users"
+    ],
+    "reply": "重写完毕～10 天 3 国行程：布鲁塞尔 4 晚（10.3-7）→ 巴黎 3 晚（10.7-10）→ 阿姆斯特丹 3 晚（10.10-13），Thalys 把三段串起来；默认页改回日程 tab，出发后才有内容 ✈️🚄"
   }
 ]
