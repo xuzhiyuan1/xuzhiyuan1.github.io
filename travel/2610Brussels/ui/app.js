@@ -8,40 +8,53 @@
 
   /* ============================================================
      CONFIG（后端固定域名，走 Cloudflare Tunnel）
+     · BACKEND_URL 仍指向 Cloudflare Tunnel 上的 trip.xuzhiyuan1.top；
+       后端路由 ingress 把这个域名转到 backend/travel/2607Bangkok/server.py。
+     · 目前 tunnel 后面只有曼谷后端在跑，所以 /data 拉回来的是曼谷行程；
+       Brussels 站点没有自己的后端兄弟进程（backend/travel/ 下只有 2607Bangkok/）。
+       等用户后续按 backend/README 与 backend/travel/2607Bangkok/HANDOFF.md
+       「加一个新页面」一节再加一个 2610Brussels 后端，再单独跑一个端口 + 再加
+       一条 ingress，下面 trip-guard 就会自动放行（guard 只看 brandTitle 是否
+       含「布鲁塞尔 / Brussels」）。
      ============================================================ */
   var CONFIG = {
     BACKEND_URL: "https://trip.xuzhiyuan1.top",
-    BACKEND_TIMEOUT_MS: 5000 // 后端请求超时：超时/失败一律回退到仓库静态 JSON，保证不白屏
+    BACKEND_TIMEOUT_MS: 5000, // 后端请求超时：超时/失败一律回退到仓库静态 JSON，保证不白屏
+    // 期望的「这次行程」标识：后端 /data 里 site.brandTitle 或 site.dates 命中这里任一关键字即视为本次行程
+    EXPECTED_TRIP_KEYWORDS: ["布鲁塞尔", "Brussels"],
+    BACKEND_OK: false // 启动时为 false；首次成功拉到匹配 EXPECTED_TRIP_KEYWORDS 的 /data 才置 true
   };
 
   var DATA, SITE, GUIDE, USERS, ITINERARY, TRANSPORT, OVERVIEW, DUR;
   var MAP_DEFAULT = "Brussels Belgium";
+  // 仅在 data/review.json 完全拉不到时使用的兜底：内容必须和这次行程（10 天 3 国 · 布鲁塞尔→巴黎→阿姆斯特丹）
+  // 对得上，别再留旧的「六天五晚 / 单国」措辞，以免和 trip.json 互相矛盾
   var DEFAULT_REVIEW = {
-    eyebrow: "2026 · BRUSSELS",
+    eyebrow: "2026 · BRUSSELS · PARIS · AMSTERDAM",
     title: "行程回顾",
-    intro: "六天五晚，秋色里的布鲁塞尔，巧克力与华夫饼吃到撑。\n这份记录留给下一次更从容地再见比利时。",
-    authorLine: "我们一起写给下一次布鲁塞尔",
+    intro: "10 天 3 国的初稿——从布鲁塞尔的华夫饼到巴黎的塞纳河，再到阿姆斯特丹的运河夜色。\n这份记录现在还是空的，出发后由我们一起把它填满。",
+    authorLine: "我们一起写给下一次再访欧洲",
     sections: [
-    {
-      icon: "🏨", title: "住",
-      entries: [{ by: "xzy", highlight: "大广场附近，下次继续住。", text: "市中心的位置去哪都方便，步行 5 分钟到 Gare Centrale，去 Bruges/Antwerp 一日游零负担；楼下咖啡馆、巧克力店、Carrefour 超市齐备。", tip: "如对房间景观要求高，订 Grand Place 景观房升级（€40+/晚）性价比一般，拍照打卡够用即可。", style: { size: "normal", color: "brand" } }]
-    },
-    {
-      icon: "🍫", title: "吃",
-      entries: [{ by: "xzy", highlight: "巧克力之都，名不虚传。", text: "Neuhaus 的 Praline 礼盒严谨经典；Pierre Marcolini 单价贵但味道惊艳；Leonidas 适合大量送人；The Chocolate Line 创意款最有趣。", tip: "回国送同事不建议混搭不同品牌礼盒，统一一家更体面；同一家买 €125+ 单店发票可办退税。", style: { size: "normal", color: "brand" } }]
-    },
-    {
-      icon: "🚆", title: "行",
-      entries: [{ by: "xzy", highlight: "SNCB 火车，比想象的好用。", text: "比利时国铁 App 实时车次准，去 Bruges/Antwerp 一日游完全无压力；IC 列车座椅宽敞有桌板，比国内高铁舒适度还好。", tip: "Off-Peak Ticket 当日往返约 €30 比单程便宜 30%，务必提前 SNCB App 订。", style: { size: "normal", color: "brand" } }]
-    },
-    {
-      icon: "🏛️", title: "玩",
-      entries: [{ by: "xzy", highlight: "Bruges 的运河秋色，绝了。", text: "从布鲁塞尔 1 小时火车到布鲁日，被联合国教科文列为世界文化遗产的小城；运河游船 30 分钟，10 月秋叶刚开始变色。", tip: "下次想留 1 晚住在布鲁日，早上游客没到时整个小镇属于你，比一日游从容太多。", style: { size: "large", color: "warm" } }]
-    },
-    {
-      icon: "✨", title: "其他",
-      entries: [{ by: "wjj", highlight: "这趟旅程，把节奏放慢就好。", text: "比利时不是大山大水的国家，但胜在小而精的细节——巧克力店橱窗、漫画墙转角、运河上的天鹅、教堂尖顶的剪影——把节奏放慢、用脚步丈量，比一周内疯狂赶景点更值。", tip: "下次 10 月初还想来一次，争取加卢森堡一日游（火车 3 小时），法兰德斯三国联游一次搞定。", style: { size: "normal", color: "brand" } }]
-    }
+      {
+        icon: "🏨", title: "住",
+        entries: [{ by: "xzy", highlight: "三段住宿已经全部订好。", text: "布鲁塞尔 4 晚住 Hilton Brussels Grand Place（正对大广场方向）；巴黎 3 晚住 Hôtel du Petit Moulin（Le Marais 区 17 世纪老宅改建）；阿姆斯特丹 3 晚住 The Hoxton（Herengracht 运河畔 17 世纪运河屋）。三段都在市中心黄金位置，去任何景点都步行 + 地铁可达。", tip: "前台 check-in 时记得要求相邻房间，boutique 酒店通常都能安排。", style: { size: "normal", color: "brand" } }]
+      },
+      {
+        icon: "🍫", title: "吃",
+        entries: [{ by: "xzy", highlight: "巧克力之都，名不虚传。", text: "Neuhaus 的 Praline 礼盒严谨经典；Pierre Marcolini 单价贵但味道惊艳；Leonidas 适合大量送人；The Chocolate Line 创意款最有趣。", tip: "回国送同事不建议混搭不同品牌礼盒，统一一家更体面；同一家买 €125+ 单店发票可办退税。", style: { size: "normal", color: "brand" } }]
+      },
+      {
+        icon: "🚆", title: "行",
+        entries: [{ by: "xzy", highlight: "Thalys 是这次三国游的核心。", text: "布鲁塞尔 ↔ 巴黎 1h30、巴黎 ↔ 阿姆斯特丹 3h20，二等座 €80-150；提前 1-2 个月订便宜很多；车厢 wifi 稳定、有小桌板，可以补觉或整理照片。", tip: "Thalys 票订早不订晚，临近出发能涨到 €200+；出发前 1-2 周查一下 €35 起的 IZY 廉价 Thalys 票（只发车当天）。", style: { size: "normal", color: "brand" } }]
+      },
+      {
+        icon: "🏛️", title: "玩",
+        entries: [{ by: "xzy", highlight: "三个城市节奏完全不同，留给脚步慢慢丈量。", text: "布鲁塞尔小而精，1-2 天足够；巴黎是博物馆和咖啡馆的天堂，需要 3 天才能不赶；阿姆斯特丹运河骑行 + 博物馆 2 天刚好。10 月三国都是秋色最美季节，光线柔和，拍照最出片。", style: { size: "normal", color: "brand" } }]
+      },
+      {
+        icon: "✨", title: "其他",
+        entries: [{ by: "wjj", highlight: "节奏放慢就好，别让这趟旅行变成赶景点。", text: "西欧不是大山大水的国家，但胜在小而精的细节——巧克力店橱窗、漫画墙转角、塞纳河上的书摊、运河上的天鹅、教堂尖顶的剪影——把节奏放慢、用脚步丈量，比一周内疯狂赶景点更值。10 天 3 国已经留了缓冲，遇到喜欢的地方就多待半天。", style: { size: "normal", color: "brand" } }]
+      }
     ]
   };
   var pageRender = null; /* 当前页面的"用最新 DATA 重新渲染"函数：index=renderAll，itin=render */
@@ -123,7 +136,7 @@
     return '<li>' + runsHTML(item.runs) + (item.place ? mapA(item.place) : "") + '</li>';
   }
 
-  /* ---------- 数据加载：优先读后端实时接口，超时/失败兜底读仓库静态 JSON ---------- */
+  /* ---------- 数据加载：优先读后端实时接口，超时/失败/串了别站 兜底读仓库静态 JSON ---------- */
 
   /* 带超时的 fetch：用 AbortController，超过 ms 毫秒直接判定失败（不无限等） */
   function fetchWithTimeout(url, ms, opts){
@@ -134,7 +147,21 @@
     return fetch(url, o).then(function(r){ clearTimeout(timer); return r; }, function(err){ clearTimeout(timer); throw err; });
   }
 
-  /* 主路径：GET {BACKEND_URL}/data 一次性返回整个 bundle {site,trip,guide,users} */
+  /* 判断后端返回的 bundle 是不是「本次行程」的：site.brandTitle / dates / 任何深字段里
+     只要命中 EXPECTED_TRIP_KEYWORDS 任一关键字即可。命中失败视为另一站点的后端，
+     抛出错误让上层回退到仓库静态 JSON。这样既保留「以后真上一个 Brussels 后端就自动接管」
+     的能力，又避免现在直接拿到曼谷数据污染本站。 */
+  function bundleIsForThisTrip(bundle){
+    if (!bundle || typeof bundle !== "object") return false;
+    try {
+      var dump = JSON.stringify(bundle);
+      var kws = CONFIG.EXPECTED_TRIP_KEYWORDS || [];
+      for (var i = 0; i < kws.length; i++){ if (dump.indexOf(kws[i]) !== -1) return true; }
+    } catch (_e) { /* JSON.stringify 在循环引用时会抛，按「不是本站」处理 */ }
+    return false;
+  }
+
+  /* 主路径：GET {BACKEND_URL}/data 一次性返回整个 bundle {site,trip,guide,users,review,guidebook} */
   function loadFromBackend(){
     return fetchWithTimeout(CONFIG.BACKEND_URL + "/data", CONFIG.BACKEND_TIMEOUT_MS).then(function(r){
       if (!r.ok) throw new Error("后端 /data HTTP " + r.status);
@@ -143,27 +170,36 @@
       if (!bundle || !bundle.site || !bundle.trip || !bundle.guide || !bundle.users){
         throw new Error("后端 /data 返回结构不完整");
       }
+      if (!bundleIsForThisTrip(bundle)){
+        throw new Error("后端 /data 不是本次行程（期望含 " + (CONFIG.EXPECTED_TRIP_KEYWORDS || []).join(" / ") + "）");
+      }
+      CONFIG.BACKEND_OK = true; // 通过 trip-guard 之后才标记可用，其它接口（/history / /edit / /exchange）才能用
       return bundle;
     });
   }
 
-  /* 兜底路径：分别 fetch 本仓库 data/*.json（带时间戳防缓存），拼成同样结构的 bundle */
+  /* 兜底路径：分别 fetch 本仓库 data/*.json（带时间戳防缓存），拼成同样结构的 bundle。
+     以前只拉 5 个 JSON，但行程回顾 / 攻略本 相关模块要读 review / guidebook，
+     一并补上；任何 404/解析失败都降级为内嵌默认值，绝不白屏。 */
   function loadFromRepo(){
     var qs = "?t=" + Date.now();
+    function fetchJSON(p){ return fetch(p + qs).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }); }
+    function pick(p, fallback){ return fetchJSON(p).then(function(d){ return d == null ? fallback : d; }); }
     return Promise.all([
-      fetch("data/site.json" + qs).then(function(r){ return r.json(); }),
-      fetch("data/trip.json" + qs).then(function(r){ return r.json(); }),
-      fetch("data/guide.json" + qs).then(function(r){ return r.json(); }),
-      fetch("data/users.json" + qs).then(function(r){ return r.json(); }),
-      fetch("data/review.json" + qs).then(function(r){ return r.ok ? r.json() : DEFAULT_REVIEW; })
+      fetchJSON("data/site.json"),
+      fetchJSON("data/trip.json"),
+      fetchJSON("data/guide.json"),
+      fetchJSON("data/users.json"),
+      pick("data/review.json", DEFAULT_REVIEW),
+      pick("data/guidebook.json", [])
     ]).then(function(res){
-      return { site: res[0], trip: res[1], guide: res[2], users: res[3], review: res[4] };
+      return { site: res[0], trip: res[1], guide: res[2], users: res[3], review: res[4], guidebook: res[5] };
     });
   }
 
   function load(){
     return loadFromBackend().catch(function(err){
-      console.warn("后端 /data 不可达，回退到仓库静态 JSON（最近一次备份）：", err);
+      console.warn("后端 /data 不可达 / 不是本次行程，回退到仓库静态 JSON（最近一次备份）：", err);
       return loadFromRepo();
     }).then(function(bundle){
       DATA = bundle;
@@ -185,9 +221,11 @@
     setInterval(refreshData, 30000);
   }
 
-  /* ---------- 修改记录：优先读后端 {BACKEND_URL}/history（实时），超时/失败兜底读仓库
+  /* ---------- 修改记录：优先读后端 {BACKEND_URL}/history（实时），超时/失败/串了别站 兜底读仓库
      data/history.json（同仓库相对路径，带时间戳防缓存；可能 404/为空）。
-     供"小王子·修改记录"面板 与 "下拉刷新指示条"（显示最新改动时间）共用，避免重复实现 ---------- */
+     供"小王子·修改记录"面板 与 "下拉刷新指示条"（显示最新改动时间）共用，避免重复实现。
+     ※若首次 /data 已被 trip-guard 判定为「不是本次行程」，则 BACKEND_OK 仍为 false，
+       这里会直接走仓库兜底，绝不让曼谷的修改记录混进布鲁塞尔的修改记录列表。 ---------- */
   function loadHistoryFromRepo(){
     return fetch("data/history.json?t=" + Date.now()).then(function(r){
       if (!r.ok) return [];
@@ -199,6 +237,10 @@
     }).catch(function(){ return []; });
   }
   function loadHistory(){
+    if (!CONFIG.BACKEND_OK){
+      // 后端没通过 trip-guard：避免把别的站点的修改记录拉进来展示，统一走本地 JSON
+      return loadHistoryFromRepo().then(function(arr){ return arr.slice().reverse(); });
+    }
     return fetchWithTimeout(CONFIG.BACKEND_URL + "/history", CONFIG.BACKEND_TIMEOUT_MS).then(function(r){
       if (!r.ok) throw new Error("后端 /history HTTP " + r.status);
       return r.json();
@@ -946,6 +988,16 @@
     /* ===== 提交修改：POST {BACKEND_URL}/edit —— 后端立即返回（几十毫秒）{ok:true,status:"处理中"}，
        真正的改动在后端异步跑，前端不必等，拿到这个响应就算"发送成功" ===== */
     function postEdit(author, text){
+      // 若首次 /data 已被 trip-guard 判定为「不是本次行程」（目前就是这种状态：
+      // Cloudflare Tunnel 后面只有曼谷后端在跑，没接布鲁塞尔后端），直接拒掉请求，
+      // 避免把布鲁塞尔的指令 POST 到曼谷后端污染曼谷行程数据。
+      if (!CONFIG.BACKEND_OK){
+        return Promise.resolve({
+          status: 0,
+          ok: false,
+          data: { error: "小王子暂时不在线：Cloudflare Tunnel 后面只跑了曼谷后端，本行程还没接后端，所以提交功能已关闭；目前显示的是仓库 data/ 里最近的备份。等后端兄弟部署好之后这里会自动恢复。" }
+        });
+      }
       return fetchWithTimeout(CONFIG.BACKEND_URL + "/edit", CONFIG.BACKEND_TIMEOUT_MS, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -960,6 +1012,9 @@
     /* ===== 对话区：GET {BACKEND_URL}/exchange?author=<角色> 拿该角色最后一次对话
        { text, reply, status, at }，status ∈ 处理中/完成/失败；无记录时返回 {} ===== */
     function fetchExchange(author){
+      // CONFIG.BACKEND_OK 为 false 时（trip-guard 没通过）直接返回空对象：
+      // 让对话区显示「暂无」，避免拉回别站点的数据串台。
+      if (!CONFIG.BACKEND_OK) return Promise.resolve({});
       return fetchWithTimeout(CONFIG.BACKEND_URL + "/exchange?author=" + encodeURIComponent(author), CONFIG.BACKEND_TIMEOUT_MS)
         .then(function(r){
           if (!r.ok) throw new Error("后端 /exchange HTTP " + r.status);

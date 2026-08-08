@@ -1,4 +1,4 @@
-const CACHE = "travel-bru-v1";
+const CACHE = "travel-bru-v2";
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll([
     "./",
@@ -13,6 +13,8 @@ self.addEventListener("install", e => {
     "./data/guide.json",
     "./data/users.json"
     ,"./data/review.json"
+    ,"./data/history.json"
+    ,"./data/guidebook.json"
   ])));
   self.skipWaiting();
 });
