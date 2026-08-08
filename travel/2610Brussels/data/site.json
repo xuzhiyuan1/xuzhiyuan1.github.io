@@ -1,0 +1,18 @@
+{
+  "brandTitle": "布鲁塞尔之旅",
+  "dates": "2026.10.01（周四出发） — 10.06（周二返程）",
+  "heroTag": "华夫饼大吃特吃 {durian} · 旅途Helper",
+  "themeImage": "theme.png",
+  "timezones": {
+    "bj": {
+      "label": "🕐 北京时间",
+      "offset": 8
+    },
+    "be": {
+      "label": "🕐 布鲁塞尔时间",
+      "offset": 2
+    }
+  },
+  "weatherBrief": "🌦 8–15°C 多雨",
+  "tripEnd": "2026-10-06T18:00:00+02:00"
+}

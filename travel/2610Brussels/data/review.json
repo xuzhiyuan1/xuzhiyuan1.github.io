@@ -1,0 +1,116 @@
+{
+  "eyebrow": "2026 · BRUSSELS",
+  "title": "行程回顾",
+  "intro": "六天五晚，秋色里的布鲁塞尔，巧克力与华夫饼吃到撑。\n这份记录留给下一次更从容地再见比利时。",
+  "authorLine": "我们一起写给下一次布鲁塞尔",
+  "sections": [
+    {
+      "icon": "🏨",
+      "title": "住",
+      "entries": [
+        {
+          "by": "xzy",
+          "highlight": "大广场附近，下次继续住。",
+          "text": "市中心的位置去哪都方便，步行 5 分钟到 Gare Centrale，去 Bruges/Antwerp 一日游零负担；楼下咖啡馆、巧克力店、Carrefour 超市齐备，早上起来下楼吃个华夫饼再出门，节奏很舒服。",
+          "tip": "如对房间景观要求高，订 Grand Place 景观房升级（€40+/晚）性价比一般，拍照打卡够用即可。",
+          "style": {
+            "size": "normal",
+            "color": "brand"
+          }
+        }
+      ]
+    },
+    {
+      "icon": "🍫",
+      "title": "吃",
+      "entries": [
+        {
+          "by": "xzy",
+          "highlight": "巧克力之都，名不虚传。",
+          "text": "Neuhaus 的 Praline 礼盒严谨经典；Pierre Marcolini 单价贵但味道真的惊艳；Leonidas 适合大量送人，15 欧一盒装满；The Chocolate Line 创意款最有趣，培根味、海盐味让人眼前一亮。",
+          "tip": "回国送同事不建议混搭不同品牌礼盒（口味/包装风格不一致），统一一家更体面；同一家买 €125+ 单店发票可办退税。",
+          "style": {
+            "size": "normal",
+            "color": "brand"
+          }
+        },
+        {
+          "by": "wjj",
+          "highlight": "华夫饼和啤酒完全是新世界。",
+          "text": "Maison Dandoy 的 Brussels Waffle 焦糖珍珠糖颗粒感让人上瘾，配奶油+草莓是永恒的搭配；Delirium Café 2000+ 种啤酒让人选择困难，Kwak 装在奇特玻璃瓶里印象深刻；修道院啤酒（Chimay、Rochefort、Westvleteren）层次比德国啤酒丰富很多。",
+          "style": {
+            "size": "large",
+            "color": "warm"
+          }
+        }
+      ]
+    },
+    {
+      "icon": "🚆",
+      "title": "行",
+      "entries": [
+        {
+          "by": "xzy",
+          "highlight": "SNCB 火车，比想象的好用。",
+          "text": "比利时国铁 App 实时车次准，去 Bruges/Antwerp 一日游完全无压力；IC 列车一等座 €22、二等座 €15，座椅宽敞有桌板，比国内高铁舒适度还好。",
+          "tip": "Off-Peak Ticket 当日往返约 €30 比单程便宜 30%，务必提前 SNCB App 订；火车上要刷二维码上车，别错过。",
+          "style": {
+            "size": "normal",
+            "color": "brand"
+          }
+        }
+      ]
+    },
+    {
+      "icon": "🏛️",
+      "title": "玩",
+      "entries": [
+        {
+          "by": "xzy",
+          "highlight": "Bruges 的运河秋色，绝了。",
+          "text": "从布鲁塞尔 1 小时火车到布鲁日，被联合国教科文列为世界文化遗产的小城；运河游船 30 分钟，10 月初秋叶刚开始变色，沿岸红瓦+白色山墙+小桥+教堂塔尖的画面，是这次旅行最让人治愈的时刻。",
+          "tip": "下次想留 1 晚住在布鲁日，早上游客没到时整个小镇属于你，比一日游从容太多。",
+          "style": {
+            "size": "large",
+            "color": "warm"
+          }
+        },
+        {
+          "by": "wjj",
+          "highlight": "漫画艺术中心，给童年的回礼。",
+          "text": "丁丁历险记、蓝精灵、加斯东——这些陪伴童年的漫画，在比利时漫画艺术中心（Centre Belge de la Bande Dessinée）以原画、草稿、工作室场景的方式呈现，中文导览器讲得很详细，原来这些作品就诞生在这里。",
+          "style": {
+            "size": "normal",
+            "color": "brand"
+          },
+          "tip": "漫画墙 Comique Route 散落在布鲁塞尔街头几十幅，Day 1 路过撒尿小童那条 Rue de l'Étuve 就是其一，建议下载 Comic Strip Walk 路线 App 慢慢找。"
+        }
+      ]
+    },
+    {
+      "icon": "✨",
+      "title": "其他",
+      "entries": [
+        {
+          "by": "xzy",
+          "highlight": "秋天是去比利时的最佳季节。",
+          "text": "10 月初人潮退去、机票便宜、气温还能适应，叠加秋色和美食季，是性价比最高的窗口；日落早，下午 5 点就能看到漂亮的橙红色天色，拍照时机比夏季更友好。",
+          "tip": "下次 10 月初还想来一次，争取加卢森堡一日游（火车 3 小时），法兰德斯三国联游一次搞定。",
+          "style": {
+            "size": "normal",
+            "color": "brand"
+          }
+        },
+        {
+          "by": "wjj",
+          "highlight": "这趟旅程，把节奏放慢就好。",
+          "text": "比利时不是大山大水的国家，但胜在小而精的细节——巧克力店橱窗、漫画墙转角、运河上的天鹅、教堂尖顶的剪影——把节奏放慢、用脚步丈量，比一周内疯狂赶景点更值。",
+          "style": {
+            "size": "normal",
+            "color": "brand"
+          }
+        }
+      ]
+    }
+  ]
+}

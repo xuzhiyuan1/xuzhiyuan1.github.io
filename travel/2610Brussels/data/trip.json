@@ -1,0 +1,432 @@
+{
+  "transport": {
+    "徐致远": {
+      "note": "往返合计 ¥5400（海南航空直飞，含税往返经济舱）。10.1 凌晨从北京首都 PEK 直飞布鲁塞尔 BRU，航程约 11 小时；返程 10.6 中午起飞，10.7 凌晨抵京。",
+      "segments": [
+        {
+          "type": "flight",
+          "label": "去程",
+          "no": "HU491",
+          "air": "海航",
+          "meta": "波音 787 · 经济舱",
+          "dur": "10时55分",
+          "price": "¥2700",
+          "depCity": "北京首都 PEK T3",
+          "arrCity": "布鲁塞尔 BRU",
+          "depBJ": "10.01 01:30",
+          "depBE": "9.30 19:30",
+          "arrBJ": "10.01 12:25",
+          "arrBE": "10.01 06:25",
+          "t": "2026-10-01T01:30:00+08:00"
+        },
+        {
+          "type": "flight",
+          "label": "返程",
+          "no": "HU492",
+          "air": "海航",
+          "meta": "波音 787 · 经济舱",
+          "dur": "10时25分",
+          "price": "¥2700",
+          "depCity": "布鲁塞尔 BRU",
+          "arrCity": "北京首都 PEK T3",
+          "depBJ": "10.06 17:30",
+          "depBE": "10.06 11:30",
+          "arrBJ": "10.07 04:55",
+          "arrBE": "10.06 22:55",
+          "t": "2026-10-06T11:30:00+02:00"
+        }
+      ]
+    },
+    "王俊杰": {
+      "note": "往返合计 ¥4900（东方航空直飞，含税往返经济舱）。10.1 凌晨从上海浦东 PVG 直飞布鲁塞尔 BRU，比徐致远略晚到 1 小时（航程约 12 小时含顺风/逆风差）。",
+      "segments": [
+        {
+          "type": "flight",
+          "label": "去程",
+          "no": "MU201",
+          "air": "东航",
+          "meta": "空客 A350 · 经济舱",
+          "dur": "12时00分",
+          "price": "¥2450",
+          "depCity": "上海浦东 PVG",
+          "arrCity": "布鲁塞尔 BRU",
+          "depBJ": "10.01 02:00",
+          "depBE": "9.30 20:00",
+          "arrBJ": "10.01 14:00",
+          "arrBE": "10.01 08:00",
+          "t": "2026-10-01T02:00:00+08:00"
+        },
+        {
+          "type": "flight",
+          "label": "返程",
+          "no": "MU202",
+          "air": "东航",
+          "meta": "空客 A350 · 经济舱",
+          "dur": "11时30分",
+          "price": "¥2450",
+          "depCity": "布鲁塞尔 BRU",
+          "arrCity": "上海浦东 PVG",
+          "depBJ": "10.06 19:30",
+          "depBE": "10.06 13:30",
+          "arrBJ": "10.07 07:00",
+          "arrBE": "10.07 01:00",
+          "t": "2026-10-06T13:30:00+02:00"
+        }
+      ]
+    }
+  },
+  "hotel": {
+    "rows": [
+      {
+        "icon": "📍",
+        "name": "布鲁塞尔大广场希尔顿酒店",
+        "sub": "Hilton Brussels Grand Place · 布鲁塞尔豪华酒店榜常年前列",
+        "place": "Hilton Brussels Grand Place",
+        "note": "地址：Carrefour de l'Europe 3, 1000 Bruxelles（市中心黄金位置，正对大广场方向，步行 5 分钟到中央火车站 Gare Centrale，地铁 De Brouckère 站出门即到；到布鲁塞尔南站 Midi/Thalys 仅 2 站地铁）"
+      },
+      {
+        "icon": "🗓️",
+        "text": "2026.10.1 周四 — 10.6 周二 · 共 5 晚",
+        "note": "入住：当天 15:00 后　离店：12:00 前（当地时间）；徐致远 10.1 早上 06:25 到，王俊杰 10.1 早上 08:00 到，都可先寄存行李再开始 Day 1 行程"
+      },
+      {
+        "icon": "🛍️",
+        "text": "周边设施：步行 3 分钟到 Galeries Royales Saint-Hubert（皇室拱廊街，巧克力/华夫饼/书店集中地）；步行 5 分钟到大广场 Grand Place、撒尿小童；楼下 Carrefour Express 超市、Le Pain Quotidien 早餐；De Brouckère 一带比利时餐厅密集"
+      }
+    ]
+  },
+  "itinerary": [
+    {
+      "date": "2026-09-30",
+      "label": "Day -1",
+      "title": "Day -1 · 9.30 周三 · 行前准备",
+      "loc": [],
+      "items": [
+        {
+          "time": "全天",
+          "iso": "2026-09-30T09:00:00+08:00",
+          "title": "📋 行前准备清单",
+          "note": "申根签证（如需），比利时属于申根区，签证由比利时使领馆签发（如在他国申请需明确首入境地）；护照有效期需 3 个月以上；提前在国内银行换少量欧元（机场/应急用），大额用信用卡；建议国内购买欧洲电话卡 / eSIM（Orange/Vodafone，7 天约 ¥80–150）；下载 SNCB（比利时国铁）App 用来订去 Bruges/Antwerp 的火车票；下载 Uber、Bolt 用于城市打车"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-01",
+      "label": "Day 0",
+      "title": "Day 0 · 10.1 周四 · 出发 + 抵达",
+      "loc": [],
+      "items": [
+        {
+          "time": "凌晨",
+          "iso": "2026-10-01T01:00:00+08:00",
+          "title": "各自出发去机场（看好自己的起飞时间和航站楼）",
+          "note": "护照、充电宝（≤100Wh 随身）、提前订好机场送机或打车；徐致远 HU491 10.1 01:30 北京首都 PEK T3 起飞；王俊杰 MU201 10.1 02:00 上海浦东 PVG 起飞（均为北京时间）；建议提前 2.5 小时到机场办理值机"
+        },
+        {
+          "time": "飞行中",
+          "iso": "2026-10-01T03:00:00+08:00",
+          "title": "飞往布鲁塞尔（10–12 小时直飞）",
+          "note": "飞机上填好入境申报（EU 入境卡 EU Entry/Exit System 已上线，提前在 travel.ec.europa.eu 在线填好截图）；记得调手表 — 布鲁塞尔比北京慢 6 小时（北京 12:00 = 布鲁塞尔 06:00）"
+        },
+        {
+          "time": "上午",
+          "iso": "2026-10-01T06:25:00+02:00",
+          "title": "陆续抵达布鲁塞尔 BRU → 前往希尔顿酒店",
+          "note": "徐致远 06:25 落地、王俊杰 08:00 落地；布鲁塞尔机场距市中心 15 公里，约 30 分钟火车（机场快线到 Gare Centrale 每 15 分钟一班，€10.7）或 25 分钟打车（固定价 €45）；到酒店先寄存行李（如房间未就绪），下午开始 Day 1"
+        },
+        {
+          "time": "下午",
+          "iso": "2026-10-01T14:00:00+02:00",
+          "title": "下午大广场 Grand Place + 撒尿小童 Manneken Pis 闲逛",
+          "note": "Day 1 行程太赶的话可拆：下午轻装逛大广场、撒尿小童（步行可达），找家比利时餐厅吃晚饭（moules-frites 薯条贻贝是必点），早点回酒店倒时差；Day 1 完整行程见 10.2 周五"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-02",
+      "label": "Day 1",
+      "title": "Day 1 · 10.2 周五 · 布鲁塞尔经典",
+      "loc": [
+        "Grand Place Brussels",
+        "Manneken Pis Brussels",
+        "Atomium Brussels",
+        "Mini Europe Brussels",
+        "Parc du Cinquantenaire Brussels"
+      ],
+      "items": [
+        {
+          "time": "09:00",
+          "iso": "2026-10-02T09:00:00+02:00",
+          "title": "起床 + 早餐 🥐",
+          "note": "酒店自助或楼下 Le Pain Quotidien；建议每早出门前查一下天气，10 月布鲁塞尔多雨，记得带伞/防水外套"
+        },
+        {
+          "time": "10:00",
+          "iso": "2026-10-02T10:00:00+02:00",
+          "title": "大广场 Grand Place 🏛️",
+          "note": "步行 5 分钟到。世界遗产、比利时最美广场之一；环绕广场的市政厅、面包房、星星联盟楼 Guild Houses 都是巴洛克/哥特式典范。上午 10 点人少，光线柔和拍照最出片。10 月每周日中午有鲜花地毯节前期展示，看运气",
+          "places": [
+            "Grand Place Brussels"
+          ]
+        },
+        {
+          "time": "11:00",
+          "iso": "2026-10-02T11:00:00+02:00",
+          "title": "撒尿小童 Manneken Pis + 漫画墙 🚶",
+          "note": "从大广场步行 5 分钟就到撒尿小童（小于连），比想象中小很多，但作为布鲁塞尔城市象征值得打卡。附近有漫画墙 Rue de l'Étuve（丁丁历险记主角彩绘墙），沿途漫画墙布鲁塞尔有几十幅",
+          "places": [
+            "Manneken Pis Brussels"
+          ]
+        },
+        {
+          "time": "12:30",
+          "iso": "2026-10-02T12:30:00+02:00",
+          "title": "午餐：贻贝薯条 Moules-Frites 🍟",
+          "note": "推荐 Chez Léon（百年老店，Rue des Dominicains 旁）、Brasserie de l'Ombrelle 或 L'Ancre d'Or；人均 €25–40。Moules-frites 是比利时国菜，贻贝+薯条配蛋黄酱，秋季正是贻贝最肥的季节"
+        },
+        {
+          "time": "14:30",
+          "iso": "2026-10-02T14:30:00+02:00",
+          "title": "原子球 Atomium 🏗️",
+          "note": "地铁从 De Brouckère → Schuman → 换 6 号线到 Heysel，约 25 分钟；门票 €16.5。1958 年世博会地标建筑，外加内部展览；建议下午光斜时拍照最好看",
+          "places": [
+            "Atomium Brussels"
+          ]
+        },
+        {
+          "time": "15:30",
+          "iso": "2026-10-02T15:30:00+02:00",
+          "title": "迷你欧洲 Mini Europe 🌍",
+          "note": "原子球隔壁，门票 €16.5（组合票更划算）。1:25 微缩模型还原欧盟所有成员国标志性建筑，10 分钟逛完欧洲，拍照出片率高，适合边走边讲解给同伴听",
+          "places": [
+            "Mini Europe Brussels"
+          ]
+        },
+        {
+          "time": "17:30",
+          "iso": "2026-10-02T17:30:00+02:00",
+          "title": "五十周年公园 Parc du Cinquantenaire 🏛️",
+          "note": "回程顺路在 Schuman 站下车步行 5 分钟。宏伟的三拱凯旋门建筑，里面是比利时皇家艺术与历史博物馆（免费）；傍晚在公园散步，秋天落叶很美",
+          "places": [
+            "Parc du Cinquantenaire Brussels"
+          ]
+        },
+        {
+          "time": "19:00",
+          "iso": "2026-10-02T19:00:00+02:00",
+          "title": "晚餐 + Delirium Café 啤酒 🍺",
+          "note": "晚饭推荐 Belga Queen（高端比利时餐）或 Comme Chez Soi（米其林二星，€150+/人，需提前预约）。饭后步行到 Delirium Café — Guinness 认证的「世界啤酒选择最多酒吧」，2000+ 种比利时啤酒，第一次来必去"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-03",
+      "label": "Day 2",
+      "title": "Day 2 · 10.3 周六 · 布鲁日 Bruges 一日游",
+      "loc": [
+        "Bruges Markt",
+        "Belfort Bruges",
+        "Minnewater Bruges"
+      ],
+      "items": [
+        {
+          "time": "07:30",
+          "iso": "2026-10-03T07:30:00+02:00",
+          "title": "早起 + 出发去布鲁日 🚆",
+          "note": "步行 5 分钟到 Brussels Gare Centrale；提前 SNCB App 订 9:30 左右 IC 火车（每 30 分钟一班，车程约 1 小时，二等座 €15.3）；建议买 Off-Peak Ticket 当日往返 €30 左右；10 月周六人多，务必提前订"
+        },
+        {
+          "time": "09:00",
+          "iso": "2026-10-03T09:00:00+02:00",
+          "title": "布鲁塞尔 Gare Centrale → 布鲁日火车站 🚆",
+          "note": "1 小时车程，沿途法兰德斯平原风光；车站出站步行 15 分钟到 Markt 广场（沿 Smedenstraat 直走即可），沿途会穿过老城石板路小巷"
+        },
+        {
+          "time": "10:00",
+          "iso": "2026-10-03T10:00:00+02:00",
+          "title": "布鲁日集市区 Markt 🏘️",
+          "note": "布鲁日的心脏，四周彩色山墙、咖啡馆、巧克力店环绕；比利时最美小镇之一，被 UNESCO 列为世界文化遗产；秋天的布鲁日色彩最丰富",
+          "places": [
+            "Bruges Markt"
+          ]
+        },
+        {
+          "time": "10:30",
+          "iso": "2026-10-03T10:30:00+02:00",
+          "title": "钟楼 Belfort 🗼（可登顶）",
+          "note": "门票 €14，含登顶 366 级台阶；顶端俯瞰布鲁日全景，红瓦屋顶+运河交错的画面是经典比利时明信片；恐高/体力一般可只逛下方展厅"
+        },
+        {
+          "time": "12:00",
+          "iso": "2026-10-03T12:00:00+02:00",
+          "title": "午餐：比利时国菜 + 修道院啤酒 🍟",
+          "note": "推荐 't Brugs Beertje（米其林推荐比利时餐厅，啤酒墙超壮观）或 De Republiek（运河边景观位）；点一份 Moules-frites + 一杯 Trappistes 修道院啤酒（Westvleteren、Rochefort 10、Chimay 都是必试款）"
+        },
+        {
+          "time": "14:00",
+          "iso": "2026-10-03T14:00:00+02:00",
+          "title": "运河游船 🛶",
+          "note": "从 Markt 附近 Rozenhoedkaai 码头出发，30 分钟游船 €11/人；船夫会讲英语解说布鲁日中世纪历史，10 月树叶刚开始变色，沿岸风景绝佳",
+          "places": [
+            "Bruges Markt"
+          ]
+        },
+        {
+          "time": "15:00",
+          "iso": "2026-10-03T15:00:00+02:00",
+          "title": "爱之湖 Minnewater + 城堡 🏰",
+          "note": "步行 15 分钟到布鲁日南端的爱之湖公园（天鹅湖）；旁边有一座安静的小城堡和修道院，10 月秋色极美；适合散步拍照",
+          "places": [
+            "Minnewater Bruges"
+          ]
+        },
+        {
+          "time": "16:30",
+          "iso": "2026-10-03T16:30:00+02:00",
+          "title": "巧克力店扫货 🍫",
+          "note": "布鲁日被誉为「比利时巧克力之都」；推荐：The Chocolate Line（大胆创新口味）、Dumon（手工传承）、Spegelaere（家庭工坊）；建议每人买 5–10 盒带回（回国可送同事），平均 €8–15/盒"
+        },
+        {
+          "time": "18:00",
+          "iso": "2026-10-03T18:00:00+02:00",
+          "title": "返程布鲁塞尔 🚆",
+          "note": "从布鲁日火车站乘 IC 火车回布鲁塞尔 Gare Centrale，末班车建议不超过 22:00；可在车站用 SNCB App 实时查看"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-04",
+      "label": "Day 3",
+      "title": "Day 3 · 10.4 周日 · 安特卫普 / 滑铁卢 二选一",
+      "loc": [
+        "Antwerp Centraal",
+        "Cathedral of Our Lady Antwerp",
+        "Waterloo Battlefield"
+      ],
+      "items": [
+        {
+          "time": "选项 A",
+          "iso": "2026-10-04T08:30:00+02:00",
+          "title": "🅰️ 安特卫普 Antwerp 一日游（时尚+鲁本斯）",
+          "note": "周日安特卫普更适合购物+艺术：火车站 Antwerp Centraal 是世界最美火车站之一；圣母大教堂（鲁本斯画作收藏）、MAS 博物馆（河边红色塔楼）；Meir 步行街是比利时最繁华购物街；火车 35 分钟即到（每 15 分钟一班）"
+        },
+        {
+          "time": "选项 B",
+          "iso": "2026-10-04T08:30:00+02:00",
+          "title": "🅱️ 滑铁卢 Waterloo 一日游（历史+慢节奏）",
+          "note": "周日更适合历史向：滑铁卢战场距布鲁塞尔 18 公里，TEB 巴士 30 分钟（€5）；狮子丘 Lion's Mound 是 1815 年拿破仑战败的标志，门票 €16 含 Panoramic 壁画；喜欢军事/历史的必去；结束后可在 Waterloo 小镇悠闲喝咖啡"
+        },
+        {
+          "time": "选择提示",
+          "iso": "2026-10-04T08:30:00+02:00",
+          "title": "🔁 二选一即可",
+          "note": "建议提前跟对方商量好：徐致远若对艺术/时尚感兴趣选 A 安特卫普，王俊杰对历史感兴趣则选 B 滑铁卢；两人同行自然就一个方案。如选 A 可在火车上互相讲解，如选 B 可以边走边聊拿破仑战史"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-05",
+      "label": "Day 4",
+      "title": "Day 4 · 10.5 周一 · 漫画博物馆 + 巧克力扫货",
+      "loc": [
+        "Belgian Comic Strip Center",
+        "Galeries Royales Saint-Hubert",
+        "Place du Grand Sablon Brussels"
+      ],
+      "items": [
+        {
+          "time": "10:00",
+          "iso": "2026-10-05T10:00:00+02:00",
+          "title": "比利时漫画艺术中心 🎨",
+          "note": "位于中央火车站对面 Horta 设计的玻璃幕墙新艺术建筑里，门票 €15。馆藏《丁丁历险记》《蓝精灵》《加斯东》等法语区漫画原画；《丁丁》作者 Hergé 工作室场景还原；中文导览器可用",
+          "places": [
+            "Belgian Comic Strip Center"
+          ]
+        },
+        {
+          "time": "12:00",
+          "iso": "2026-10-05T12:00:00+02:00",
+          "title": "午餐：皇家拱廊街 Galeries Royales 🍴",
+          "note": "步行 5 分钟到 Galeries Royales Saint-Hubert（1847 年建成的玻璃顶拱廊街，欧洲最早的购物中心之一）；推荐 Il Ristorante（意大利菜） 或Le Roy d'Espagne（比利时菜，百年吊灯）；人均 €30–50"
+        },
+        {
+          "time": "14:00",
+          "iso": "2026-10-05T14:00:00+02:00",
+          "title": "巧克力扫货：Neuhaus / Godiva / Pierre Marcolini 🍫",
+          "note": "Galeries Royales 里齐聚比利时顶级巧克力品牌：Neuhaus（发明 Praline 巧克力的鼻祖，€25+ 一盒礼盒）、Godiva（经典送礼款）、Pierre Marcolini（高端手工，单价贵但味道惊艳）、Leonidas（性价比之选，€15 一盒装满）；建议每家都买点不同口味组合",
+          "places": [
+            "Galeries Royales Saint-Hubert"
+          ]
+        },
+        {
+          "time": "15:30",
+          "iso": "2026-10-05T15:30:00+02:00",
+          "title": "大萨布隆广场 Place du Grand Sablon 🏘️",
+          "note": "步行 10 分钟到布鲁塞尔最优雅的小广场；周日有古董市集（周一不开），但平日咖啡馆和精品店都很棒；爬坡上去能看到 Église Notre-Dame du Sablon 教堂；附近 Maison Dandoy 买华夫饼礼盒"
+        },
+        {
+          "time": "17:00",
+          "iso": "2026-10-05T17:00:00+02:00",
+          "title": "比利时华夫饼 Brussels Waffle 🧇",
+          "note": "Maison Dandoy（百年华夫饼老店，Rue au Beurre 37）、Le Funambule（焦糖+草莓）、或 Galeries Royales 里的小摊；现场烤制的 Brussels Waffle（长方形、轻酥、珍珠糖颗粒感）vs Liège Waffle（圆形、扎实、焦糖甜），两种都要试！",
+          "places": [
+            "Galeries Royales Saint-Hubert"
+          ]
+        },
+        {
+          "time": "19:00",
+          "iso": "2026-10-05T19:00:00+02:00",
+          "title": "最后一晚晚餐：Belga Queen 米其林餐厅 🍽️",
+          "note": "Rue Royale 13，酒店步行 5 分钟。行政主厨 Christophe Hardiquest 创意比利时菜，米其林一星；推荐 5-course tasting menu €85；建议提前 3 天预订，预约时备注是最后一晚"
+        }
+      ]
+    },
+    {
+      "date": "2026-10-06",
+      "label": "Day 5",
+      "title": "Day 5 · 10.6 周二 · 返程",
+      "loc": [
+        "Hilton Brussels Grand Place",
+        "Brussels Airport BRU"
+      ],
+      "items": [
+        {
+          "time": "07:00",
+          "iso": "2026-10-06T07:00:00+02:00",
+          "title": "起床 + 早餐 + 行李打包 🥐",
+          "note": "酒店退房 12:00 前；巧克力建议分一半放随身包，一半放行李箱（避免托运摔坏）；华夫饼礼盒放行李箱顶部；护照、欧元现金、信用卡放随身"
+        },
+        {
+          "time": "08:00",
+          "iso": "2026-10-06T08:00:00+02:00",
+          "title": "最后扫货 + 早餐华夫饼 🧇",
+          "note": "楼下 Le Pain Quotidien 早餐，最后一顿务必加一份 Brussels Waffle；如还有想买的巧克力/华夫饼礼盒可赶早去 Galeries Royales 补货（10:00 才开门）"
+        },
+        {
+          "time": "09:00",
+          "iso": "2026-10-06T09:00:00+02:00",
+          "title": "酒店退房 → 寄存行李 🧳",
+          "note": "退房后行李寄存酒店前台（免费），轻装再去周边逛一会儿；如时间紧直接去机场"
+        },
+        {
+          "time": "09:30",
+          "iso": "2026-10-06T09:30:00+02:00",
+          "title": "出发去机场 ✈️",
+          "note": "提前 3 小时到机场办值机（10.6 是返程高峰）；火车：从 Brussels Gare Centrale 乘机场快线到 BRU，约 18 分钟，€10.7；打车：固定价 €45，25 分钟；徐致远 11:30 起飞需 08:30 出门，王俊杰 13:30 起飞可 10:30 出门"
+        },
+        {
+          "time": "12:00",
+          "iso": "2026-10-06T12:00:00+02:00",
+          "title": "机场值机 + 安检 + 退税 🛂",
+          "note": "BRU 机场退税：在 P60–P90 区凭护照 + 单店满 €125 发票办 Tax Free；退税可现场拿现金（扣手续费）或回国信用卡退回；建议预留 1 小时办退税+安检+逛免税店"
+        },
+        {
+          "time": "13:30",
+          "iso": "2026-10-06T13:30:00+02:00",
+          "title": "起飞回国 🇨🇳",
+          "note": "徐致远 HU492 11:30 起飞，10.7 凌晨 04:55 到 PEK；王俊杰 MU202 13:30 起飞，10.7 早上 07:00 到 PVG；飞行 10–12 小时，可在飞机上整理照片+分享这趟旅程的美食地图～"
+        }
+      ]
+    }
+  ]
+}
