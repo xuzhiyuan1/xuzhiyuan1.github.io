@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="线条小狗 小白">
+  <title>线条小狗 · 小白</title>
+  <desc>极简单色线条小狗，圆耳朵、卷尾巴、睁着大眼睛的可爱小白</desc>
+
+  <!-- 浅米色背景（透明圆形容器，跟随站点主色） -->
+  <circle cx="64" cy="64" r="60" fill="#fdf7ec" stroke="none"/>
+
+  <!-- 圆耳朵（外耳 · 线条勾勒） -->
+  <path d="M30 38 Q24 18 44 24 Q52 30 48 50 Z"
+        fill="#fdf7ec" stroke="#2a2018" stroke-width="3"
+        stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M98 38 Q104 18 84 24 Q76 30 80 50 Z"
+        fill="#fdf7ec" stroke="#2a2018" stroke-width="3"
+        stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- 耳内粉 -->
+  <path d="M36 36 Q34 28 42 30 Q44 36 41 42 Z"
+        fill="#f6c8b8" stroke="none"/>
+  <path d="M92 36 Q94 28 86 30 Q84 36 87 42 Z"
+        fill="#f6c8b8" stroke="none"/>
+
+  <!-- 头（圆） -->
+  <ellipse cx="64" cy="64" rx="36" ry="34"
+           fill="#ffffff" stroke="#2a2018" stroke-width="3"/>
+
+  <!-- 鼻子（小心形） -->
+  <path d="M58 56 Q64 50 70 56 Q70 62 64 66 Q58 62 58 56 Z"
+        fill="#2a2018" stroke="none"/>
+  <!-- 鼻下小竖线 -->
+  <path d="M64 66 L64 72" stroke="#2a2018" stroke-width="2.2"
+        stroke-linecap="round" fill="none"/>
+  <!-- 嘴（笑） -->
+  <path d="M64 72 Q56 80 50 76" stroke="#2a2018" stroke-width="2.4"
+        fill="none" stroke-linecap="round"/>
+  <path d="M64 72 Q72 80 78 76" stroke="#2a2018" stroke-width="2.4"
+        fill="none" stroke-linecap="round"/>
+
+  <!-- 眼睛（大圆 · 高光） -->
+  <circle cx="49" cy="52" r="6" fill="#2a2018"/>
+  <circle cx="79" cy="52" r="6" fill="#2a2018"/>
+  <circle cx="51" cy="50" r="2" fill="#ffffff"/>
+  <circle cx="81" cy="50" r="2" fill="#ffffff"/>
+
+  <!-- 腮红（小圆） -->
+  <ellipse cx="38" cy="68" rx="5" ry="3" fill="#f6c8b8" opacity="0.85"/>
+  <ellipse cx="90" cy="68" rx="5" ry="3" fill="#f6c8b8" opacity="0.85"/>
+
+  <!-- 头顶呆毛（圆 + 一根小天线） -->
+  <path d="M62 30 Q64 22 66 30" stroke="#2a2018" stroke-width="2.4"
+        fill="none" stroke-linecap="round"/>
+  <circle cx="64" cy="22" r="2.5" fill="#c2410c"/>
+</svg>
