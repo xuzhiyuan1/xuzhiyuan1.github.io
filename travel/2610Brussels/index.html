@@ -24,9 +24,10 @@
         <button data-tab="guide">攻略本</button>
       </div>
     </div>
-    <div class="selWrap">
-      <select class="whoSel" id="who" aria-label="选择角色"></select>
-      <span class="selCar">▾</span>
+    <div class="tabWrap roleWrap">
+      <button class="tabToggle" id="roleToggle" type="button" aria-label="选择角色" aria-haspopup="true" aria-expanded="false">徐致远 <span class="car">▾</span></button>
+      <div class="tabMenu roleMenu" id="roleMenu" hidden></div>
+      <select class="whoSel roleNative" id="who" aria-label="选择角色" tabindex="-1"></select>
     </div>
   </div>
 </div>

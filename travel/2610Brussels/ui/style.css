@@ -18,10 +18,7 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .topbar{position:sticky;top:0;z-index:50;background:#6b3f1d;color:#fff;box-shadow:0 2px 12px rgba(58,33,11,.32)}
 .pg-index .tbInner{max-width:640px;margin:0 auto;padding:9px 12px;display:flex;align-items:center;gap:7px}
 .pg-index .tbTitle{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:5px;font-size:1.06em;font-weight:800;letter-spacing:.5px;white-space:nowrap;overflow:hidden}
-.pg-index .selWrap{flex:0 0 auto;position:relative;display:inline-flex;align-items:center}
-.pg-index .whoSel{appearance:none;-webkit-appearance:none;height:34px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:0 28px 0 11px;font-size:.84em;font-weight:600;cursor:pointer;max-width:120px}
-.pg-index .whoSel option{color:#1c2b33}
-.pg-index .selCar{position:absolute;right:10px;pointer-events:none;color:#fff;opacity:.85;font-size:.84em}
+.pg-index .roleNative{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;pointer-events:none}
 
 .pg-index .tabWrap{flex:0 0 auto;position:relative}
 .pg-index .tabToggle{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;
@@ -35,6 +32,7 @@ body.pg-index{-webkit-font-smoothing:antialiased}
   background:#fff;font-size:.96em;color:var(--ink);text-align:left;cursor:pointer}
 .pg-index .tabMenu button:last-child{border-bottom:0}
 .pg-index .tabMenu button.active{color:var(--accent);font-weight:600;background:#fbf3e2}
+.pg-index .roleWrap .roleMenu{left:auto;right:0}
 
 /* 顶部下方渐变说明带（随页面滚动） */
 .pg-index .heroSub{position:relative;overflow:hidden;background:linear-gradient(140deg,#6b3f1d 0%,#a35221 55%,#c2410c 100%);

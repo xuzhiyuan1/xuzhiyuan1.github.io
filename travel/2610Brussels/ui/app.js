@@ -262,6 +262,7 @@
       var open = tabMenu.hidden;
       tabMenu.hidden = !open;
       tabToggle.classList.toggle("open", open);
+      if (typeof roleMenu !== "undefined" && roleMenu){ roleMenu.hidden = true; roleToggle.classList.remove("open"); roleToggle.setAttribute("aria-expanded", "false"); }
     });
     document.addEventListener("click", function(e){
       if (!tabMenu.hidden && !tabMenu.contains(e.target) && e.target !== tabToggle){ tabMenu.hidden = true; tabToggle.classList.remove("open"); }
@@ -314,6 +315,46 @@
     USERS.roles.concat([OVERVIEW]).forEach(function(n){ whoSel.add(new Option(n, n)); });
     var saved = localStorage.getItem("who");
     whoSel.value = (saved && (TRANSPORT[saved] || saved === OVERVIEW)) ? saved : USERS.defaultRole;
+    /* 角色菜单复用日程/机酒的同一套下拉样式；隐藏 select 仅保留为既有渲染与小王子对话的状态源。 */
+    var roleToggle = $("roleToggle");
+    var roleMenu = $("roleMenu");
+    function syncRoleMenu(){
+      var current = whoSel.value;
+      roleToggle.innerHTML = escapeHtml(current) + ' <span class="car">▾</span>';
+      roleToggle.setAttribute("aria-expanded", String(!roleMenu.hidden));
+      Array.prototype.forEach.call(roleMenu.querySelectorAll("button"), function(button){ button.classList.toggle("active", button.dataset.role === current); });
+    }
+    USERS.roles.concat([OVERVIEW]).forEach(function(name){
+      var button = document.createElement("button");
+      button.type = "button";
+      button.dataset.role = name;
+      button.textContent = name;
+      button.addEventListener("click", function(){
+        whoSel.value = name;
+        whoSel.dispatchEvent(new Event("change"));
+        roleMenu.hidden = true;
+        roleToggle.classList.remove("open");
+        roleToggle.setAttribute("aria-expanded", "false");
+      });
+      roleMenu.appendChild(button);
+    });
+    roleToggle.addEventListener("click", function(e){
+      e.stopPropagation();
+      var open = roleMenu.hidden;
+      roleMenu.hidden = !open;
+      roleToggle.classList.toggle("open", open);
+      roleToggle.setAttribute("aria-expanded", String(open));
+      tabMenu.hidden = true;
+      tabToggle.classList.remove("open");
+    });
+    document.addEventListener("click", function(e){
+      if (!roleMenu.hidden && !roleMenu.contains(e.target) && e.target !== roleToggle){
+        roleMenu.hidden = true;
+        roleToggle.classList.remove("open");
+        roleToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+    syncRoleMenu();
 
     /* ====== 时区切换（默认北京时间，机酒 tab 用） ====== */
     /* 时区状态按行程隔离，避免曼谷页留下的 "th" 覆盖欧洲页；并把异常旧值恢复为北京时间。 */
@@ -614,7 +655,7 @@
       renderGuidebook();
       renderReview();
     }
-    whoSel.addEventListener("change", function(){ localStorage.setItem("who", whoSel.value); renderAll(); });
+    whoSel.addEventListener("change", function(){ localStorage.setItem("who", whoSel.value); syncRoleMenu(); renderAll(); });
     renderAll();
     pageRender = renderAll; /* 供 30s 数据轮询复用，不再额外加 60s 定时器 */
     setInterval(renderNow, 1000);        // 倒计时每秒更新
