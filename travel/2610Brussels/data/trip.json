@@ -80,643 +80,264 @@
       "date": "2026-10-03",
       "label": "起飞",
       "title": "起飞 · 10.3 周六 · 北京 → 布鲁塞尔",
-      "loc": [],
+      "loc": ["Brussels Airport BRU", "Grand Place Brussels"],
       "items": [
         {
-          "time": "凌晨",
+          "time": "02:40 北京时间",
           "iso": "2026-10-03T02:40:00+08:00",
-          "title": "✈️ HU491 北京 PEK T2 起飞",
-          "note": "10.3 凌晨 02:40（北京时间）从北京首都机场 T2 起飞；建议提前 2.5 小时到机场，即 10.2 24:00 前到；充电宝（≤100Wh）随身、转换插头、护照、欧元现金全部放随身包；飞机上填入境申报、记得调表（布鲁塞尔=北京−6h）。"
+          "title": "✈️ HU491 从北京首都 PEK T2 起飞",
+          "note": "按已确认机票出发。护照、申根签证、全程保险、酒店/交通预订单和一张索尔维会议合影打印件全部随身携带。"
         },
         {
-          "time": "上午",
+          "time": "06:50 当地时间",
           "iso": "2026-10-03T06:50:00+02:00",
-          "title": "🛬 06:50 抵达布鲁塞尔 BRU 机场",
-          "note": "出关走 EU EES 生物识别通道（10 秒录指纹 + 拍照）；机场快线（train）从 -1 层站台到 Brussels Gare Centrale，每 15 分钟一班 €10.7，18 分钟；或打车固定价 €45，25 分钟到酒店。建议优先火车。"
+          "title": "🛬 抵达布鲁塞尔 BRU：入境、取行李、进城",
+          "note": "今天只做落地缓冲。酒店尚未确认，不写入住安排；先根据最终住宿决定行李寄存点。"
         },
         {
-          "time": "上午",
-          "iso": "2026-10-03T08:30:00+02:00",
-          "title": "🏨 抵 Hilton Brussels Grand Place 寄存行李",
-          "note": "正对大广场方向；房间通常 15:00 后才能入住，先寄存行李即可；下楼喝杯比利时咖啡醒神。"
-        },
-        {
-          "time": "中午",
-          "iso": "2026-10-03T12:30:00+02:00",
-          "title": "🍽️ 轻量午餐：贻贝薯条 Moules-Frites",
-          "note": "推荐 Chez Léon（百年老店，离酒店 5 分钟）或 Le Cirio（百年咖啡馆，贻贝+啤酒套餐 €28）；这是到欧洲的第一顿正餐，先垫垫肚子，给下午暴走攒力气。",
-          "places": [
-            "Chez Leon Brussels"
-          ]
-        },
-        {
-          "time": "下午",
-          "iso": "2026-10-03T14:30:00+02:00",
-          "title": "🚶 轻装漫步：大广场 + 撒尿小童 + 漫画墙",
-          "note": "全程步行可达：酒店→大广场 5 分钟→撒尿小童 5 分钟→Rue de l'Étuve 漫画墙（丁丁历险记彩绘）→Galeries Royales 拱廊街（玻璃顶+巧克力店）。傍晚回酒店倒时差，晚餐楼下 Le Pain Quotidien 或酒店内简餐。",
-          "places": [
-            "Grand Place Brussels",
-            "Manneken Pis Brussels",
-            "Galeries Royales Saint-Hubert Brussels"
-          ]
+          "time": "傍晚",
+          "iso": "2026-10-03T17:30:00+02:00",
+          "title": "🌆 布鲁塞尔大广场：轻量首逛",
+          "note": "把大广场留作抵达日唯一固定景点，拍夜景后尽早休息，为第二天完整城市动线留体力。",
+          "places": ["Grand Place Brussels"]
         }
       ]
     },
     {
       "date": "2026-10-04",
       "label": "Day 1",
-      "title": "Day 1 · 10.4 周日 · 布鲁塞尔经典一日",
-      "loc": [
-        "Grand Place Brussels",
-        "Manneken Pis Brussels",
-        "Atomium Brussels",
-        "Mini Europe Brussels",
-        "Parc du Cinquantenaire Brussels"
-      ],
+      "title": "Day 1 · 10.4 周日 · 布鲁塞尔城市日：原子球塔 + 老城",
+      "loc": ["Atomium Brussels", "Mini Europe Brussels", "Grand Place Brussels", "Sablon Brussels"],
       "items": [
-        {
-          "time": "09:00",
-          "iso": "2026-10-04T09:00:00+02:00",
-          "title": "起床 + 早餐 🥐",
-          "note": "酒店自助或楼下 Le Pain Quotidien；出门前查天气，10 月布鲁塞尔多雨，记得带折叠伞。"
-        },
         {
           "time": "10:00",
           "iso": "2026-10-04T10:00:00+02:00",
-          "title": "大广场 Grand Place 🏛️",
-          "note": "步行 5 分钟到。世界遗产、比利时最美广场之一；环绕广场的市政厅、面包房、星星联盟楼 Guild Houses 都是巴洛克/哥特式典范。上午 10 点人少光线柔和，拍照最出片。",
-          "places": [
-            "Grand Place Brussels"
-          ]
-        },
-        {
-          "time": "11:00",
-          "iso": "2026-10-04T11:00:00+02:00",
-          "title": "撒尿小童 Manneken Pis + 漫画墙 🚶",
-          "note": "从大广场步行 5 分钟就到撒尿小童（小于连），比想象中小很多，但作为布鲁塞尔城市象征值得打卡。附近有漫画墙 Rue de l'Étuve（丁丁历险记主角彩绘墙）。",
-          "places": [
-            "Manneken Pis Brussels"
-          ]
-        },
-        {
-          "time": "12:30",
-          "iso": "2026-10-04T12:30:00+02:00",
-          "title": "午餐：贻贝薯条 Moules-Frites 🍟",
-          "note": "推荐 Chez Léon（百年老店）、Brasserie de l'Ombrelle 或 L'Ancre d'Or；人均 €25-40。Moules-frites 是比利时国菜，秋季正是贻贝最肥的季节。"
+          "title": "⚛️ 原子球塔 Atomium：先预约时段",
+          "note": "把原子球塔放在开门时段，预留约 1.5–2 小时；如感兴趣，旁边的 Mini-Europe 可作为加选，不要挤压后续欧盟区与巴黎行程。",
+          "places": ["Atomium Brussels", "Mini Europe Brussels"]
         },
         {
           "time": "14:30",
           "iso": "2026-10-04T14:30:00+02:00",
-          "title": "原子球 Atomium 🏗️",
-          "note": "地铁从 De Brouckère → Schuman → 换 6 号线到 Heysel，约 25 分钟；门票 €16.5。1958 年世博会地标建筑。",
-          "places": [
-            "Atomium Brussels"
-          ]
+          "title": "🏛️ 大广场 → 皇家拱廊 → 萨布隆街区",
+          "note": "白天补拍大广场建筑细节，再经 Galeries Royales 到 Sablon。这里是比利时巧克力、古董和咖啡馆最顺路的一段，也适合作为城市日的收束。",
+          "places": ["Grand Place Brussels", "Galeries Royales Saint-Hubert Brussels", "Sablon Brussels"]
         },
         {
-          "time": "15:30",
-          "iso": "2026-10-04T15:30:00+02:00",
-          "title": "迷你欧洲 Mini Europe 🌍",
-          "note": "原子球隔壁，门票 €16.5（组合票更划算）。1:25 微缩模型还原欧盟所有成员国标志性建筑，10 分钟逛完欧洲。",
-          "places": [
-            "Mini Europe Brussels"
-          ]
-        },
-        {
-          "time": "17:30",
-          "iso": "2026-10-04T17:30:00+02:00",
-          "title": "五十周年公园 Parc du Cinquantenaire 🏛️",
-          "note": "回程顺路在 Schuman 站下车步行 5 分钟。宏伟的三拱凯旋门建筑，傍晚在公园散步，秋天落叶很美。",
-          "places": [
-            "Parc du Cinquantenaire Brussels"
-          ]
-        },
-        {
-          "time": "19:00",
-          "iso": "2026-10-04T19:00:00+02:00",
-          "title": "晚餐 + Delirium Café 啤酒 🍺",
-          "note": "晚饭推荐 Belga Queen（高端比利时餐）或 Comme Chez Soi（米其林二星，€150+/人，需提前预约）。饭后步行到 Delirium Café — Guinness 认证的「世界啤酒选择最多酒吧」，2000+ 种比利时啤酒。"
+          "time": "预留 3 小时",
+          "title": "⏳ “萨尼奥海滩”：等待地图坐标确认",
+          "note": "暂未能以“萨尼奥海滩”匹配到布鲁塞尔当地的可靠地点，不能冒险塞入动线。请补一个英文名或 Google Maps 定位；收到后再决定是布鲁塞尔近郊、比利时海岸还是法国段景点。"
         }
       ]
     },
     {
       "date": "2026-10-05",
       "label": "Day 2",
-      "title": "Day 2 · 10.5 周一 · 布鲁日 Bruges 一日游",
-      "loc": [
-        "Bruges Markt",
-        "Belfort Bruges",
-        "Minnewater Bruges"
-      ],
+      "title": "Day 2 · 10.5 周一 · 欧盟区 + 索尔维旧址 → 巴黎",
+      "loc": ["European Parliament Brussels", "Parc Léopold Brussels", "House of European History Brussels", "Brussels Midi", "Paris Gare du Nord"],
       "items": [
-        {
-          "time": "07:30",
-          "iso": "2026-10-05T07:30:00+02:00",
-          "title": "早起 + 出发去布鲁日 🚆",
-          "note": "步行 5 分钟到 Brussels Gare Centrale；提前 SNCB App 订 9:00 左右 IC 火车（每 30 分钟一班，车程约 1 小时，二等座 €15.3）；建议买 Off-Peak Ticket 当日往返 €30 左右；10 月人多务必提前订。"
-        },
         {
           "time": "09:00",
           "iso": "2026-10-05T09:00:00+02:00",
-          "title": "布鲁塞尔 Gare Centrale → 布鲁日火车站 🚆",
-          "note": "1 小时车程，沿途法兰德斯平原风光；车站出站步行 15 分钟到 Markt 广场，沿 Smedenstraat 直走即可。"
+          "title": "🇪🇺 欧盟圆形议会厅 Hemicycle：必须线上预约",
+          "note": "安排在工作日，个人参观可用多媒体导览，约 60 分钟；请用欧洲议会官方预约系统订两人时段，并带护照/有效身份证件过安检。",
+          "places": ["European Parliament Brussels"]
         },
         {
-          "time": "10:00",
-          "iso": "2026-10-05T10:00:00+02:00",
-          "title": "布鲁日集市区 Markt 🏘️",
-          "note": "布鲁日的心脏，四周彩色山墙、咖啡馆、巧克力店环绕；UNESCO 世界文化遗产；秋天的布鲁日色彩最丰富。",
-          "places": [
-            "Bruges Markt"
-          ]
-        },
-        {
-          "time": "10:30",
-          "iso": "2026-10-05T10:30:00+02:00",
-          "title": "钟楼 Belfort 🗼（可登顶）",
-          "note": "门票 €14，含登顶 366 级台阶；顶端俯瞰布鲁日全景，红瓦屋顶+运河交错的画面是经典比利时明信片；恐高/体力一般可只逛下方展厅。"
+          "time": "10:45",
+          "iso": "2026-10-05T10:45:00+02:00",
+          "title": "📷 索尔维会议旧址：Parc Léopold 复刻合影",
+          "note": "1927 年第五届索尔维会议在现欧洲议会旁的 Parc Léopold 旧索尔维物理/生理研究所举行。国内先洗好合影，现场以同一台阶/立面为背景拍照；不要把 Hotel Solvay 或 Hotel Metropole 当作会议旧址。",
+          "places": ["Parc Léopold Brussels"]
         },
         {
           "time": "12:00",
           "iso": "2026-10-05T12:00:00+02:00",
-          "title": "午餐：比利时国菜 + 修道院啤酒 🍟",
-          "note": "推荐 't Brugs Beertje（米其林推荐，啤酒墙超壮观）或 De Republiek（运河边景观位）；点一份 Moules-frites + 一杯 Trappistes 修道院啤酒（Westvleteren、Rochefort 10、Chimay 都是必试款）。"
+          "title": "🏛️ 加选：House of European History",
+          "note": "就在 Parc Léopold，适合作为欧盟区的补充；若 Hemicycle 时段延后或想多留给巴黎，可直接跳过。",
+          "places": ["House of European History Brussels"]
         },
         {
-          "time": "14:00",
-          "iso": "2026-10-05T14:00:00+02:00",
-          "title": "运河游船 🛶",
-          "note": "从 Markt 附近 Rozenhoedkaai 码头出发，30 分钟游船 €11/人；船夫会讲英语解说布鲁日中世纪历史。",
-          "places": [
-            "Bruges Markt"
-          ]
-        },
-        {
-          "time": "15:00",
-          "iso": "2026-10-05T15:00:00+02:00",
-          "title": "爱之湖 Minnewater + 城堡 🏰",
-          "note": "步行 15 分钟到布鲁日南端的爱之湖公园（天鹅湖）；10 月秋色极美。",
-          "places": [
-            "Minnewater Bruges"
-          ]
-        },
-        {
-          "time": "16:30",
-          "iso": "2026-10-05T16:30:00+02:00",
-          "title": "巧克力店扫货 🍫",
-          "note": "推荐：The Chocolate Line（大胆创新口味）、Dumon（手工传承）、Spegelaere（家庭工坊）；每人买 5-10 盒带回（回国送同事），平均 €8-15/盒。"
-        },
-        {
-          "time": "18:00",
-          "iso": "2026-10-05T18:00:00+02:00",
-          "title": "返程布鲁塞尔 🚆",
-          "note": "从布鲁日火车站乘 IC 火车回布鲁塞尔 Gare Centrale，末班车建议不超过 22:00。"
+          "time": "15:30",
+          "iso": "2026-10-05T15:30:00+02:00",
+          "title": "🚄 布鲁塞尔 Midi → 巴黎 Gare du Nord",
+          "note": "选择下午跨境高速列车，预留到站与安检时间；车次和住宿尚未确认，因此不锁定席位/酒店。抵达巴黎后仅办入住和附近散步。",
+          "places": ["Brussels Midi", "Paris Gare du Nord"]
         }
       ]
     },
     {
       "date": "2026-10-06",
       "label": "Day 3",
-      "title": "Day 3 · 10.6 周二 · 漫画博物馆 + 巧克力扫货",
-      "loc": [
-        "Belgian Comic Strip Center",
-        "Galeries Royales Saint-Hubert",
-        "Place du Grand Sablon Brussels"
-      ],
+      "title": "Day 3 · 10.6 周二 · 法国迪士尼乐园：完整一天",
+      "loc": ["Disneyland Paris"],
       "items": [
         {
-          "time": "10:00",
-          "iso": "2026-10-06T10:00:00+02:00",
-          "title": "比利时漫画艺术中心 🎨",
-          "note": "位于中央火车站对面 Horta 设计的玻璃幕墙新艺术建筑里，门票 €15。馆藏《丁丁历险记》《蓝精灵》《加斯东》等法语区漫画原画；《丁丁》作者 Hergé 工作室场景还原；中文导览器可用。",
-          "places": [
-            "Belgian Comic Strip Center"
-          ]
+          "time": "开园前",
+          "iso": "2026-10-06T08:30:00+02:00",
+          "title": "🏰 Disneyland Paris：购买指定日期门票",
+          "note": "这一天只给迪士尼，避免把巴黎核心景点切碎。确认当天园区开放和票种后，再决定一园/两园；优先用官方 dated ticket，不替你执行付费下单。",
+          "places": ["Disneyland Paris"]
         },
         {
-          "time": "12:00",
-          "iso": "2026-10-06T12:00:00+02:00",
-          "title": "午餐：皇家拱廊街 Galeries Royales 🍴",
-          "note": "步行 5 分钟到 Galeries Royales Saint-Hubert（1847 年建成的玻璃顶拱廊街）；推荐 Il Ristorante（意大利菜）或 Le Roy d'Espagne（比利时菜，百年吊灯）；人均 €30-50。"
-        },
-        {
-          "time": "14:00",
-          "iso": "2026-10-06T14:00:00+02:00",
-          "title": "巧克力扫货：Neuhaus / Godiva / Pierre Marcolini 🍫",
-          "note": "Galeries Royales 里齐聚比利时顶级巧克力品牌：Neuhaus（发明 Praline 巧克力的鼻祖）、Pierre Marcolini（高端手工）、Leonidas（性价比之选）；建议每家都买点不同口味组合。同店累计 €125+ 记得要 Tax Free 退税单。",
-          "places": [
-            "Galeries Royales Saint-Hubert"
-          ]
-        },
-        {
-          "time": "15:30",
-          "iso": "2026-10-06T15:30:00+02:00",
-          "title": "大萨布隆广场 Place du Grand Sablon 🏘️",
-          "note": "步行 10 分钟到布鲁塞尔最优雅的小广场；爬坡上去能看到 Église Notre-Dame du Sablon 教堂；附近 Maison Dandoy 买华夫饼礼盒。"
-        },
-        {
-          "time": "17:00",
-          "iso": "2026-10-06T17:00:00+02:00",
-          "title": "比利时华夫饼 Brussels Waffle 🧇",
-          "note": "Maison Dandoy（百年华夫饼老店）、Le Funambule（焦糖+草莓）或 Galeries Royales 里的小摊；现场烤制的 Brussels Waffle（长方形、轻酥、珍珠糖颗粒感）vs Liège Waffle（圆形、扎实、焦糖甜），两种都要试！",
-          "places": [
-            "Galeries Royales Saint-Hubert"
-          ]
-        },
-        {
-          "time": "19:00",
+          "time": "傍晚",
           "iso": "2026-10-06T19:00:00+02:00",
-          "title": "布鲁塞尔最后一晚：Belga Queen 米其林 🍽️",
-          "note": "Rue Royale 13，酒店步行 5 分钟。行政主厨 Christophe Hardiquest 创意比利时菜，米其林一星；推荐 5-course tasting menu €85；建议提前 3 天预订，备注是最后一晚。"
+          "title": "✨ 城堡夜间秀 / 返回巴黎",
+          "note": "是否看夜间秀取决于当日官方时间表和返程精力；次日早上要进巴黎市中心。",
+          "places": ["Disneyland Paris"]
         }
       ]
     },
     {
       "date": "2026-10-07",
       "label": "Day 4",
-      "title": "Day 4 · 10.7 周三 · 布鲁塞尔 → 巴黎 + 埃菲尔铁塔",
-      "loc": [
-        "Brussels Midi Station",
-        "Paris Gare du Nord",
-        "Eiffel Tower Paris",
-        "Trocadero Paris",
-        "Seine River Cruise Paris"
-      ],
+      "title": "Day 4 · 10.7 周三 · 巴黎核心：圣母院 + 左岸 + 埃菲尔多视角",
+      "loc": ["Notre Dame de Paris", "Sainte-Chapelle Paris", "Pont de Bir-Hakeim", "Trocadéro Paris", "Eiffel Tower"],
       "items": [
         {
-          "time": "08:00",
-          "iso": "2026-10-07T08:00:00+02:00",
-          "title": "退房 + 火车站 🚆",
-          "note": "退房 12:00 前；巧克力礼盒分一半随身、一半托运（避免压坏）；搭 Thalys 从 Brussels Midi 出发（地铁 2 站到 Gare Centrale → 换地铁 2/6 号线到 Gare du Midi）。"
-        },
-        {
-          "time": "09:30",
-          "iso": "2026-10-07T09:30:00+02:00",
-          "title": "Thalys 高速列车 → Paris Gare du Nord 🚄",
-          "note": "车程约 1 小时 30 分；二等座 €80-150（提前 1-2 个月订便宜）；车上 wifi 稳定、有小桌板，可以补觉或整理上午布鲁塞尔的照片。"
-        },
-        {
-          "time": "11:30",
-          "iso": "2026-10-07T11:30:00+02:00",
-          "title": "抵达 Paris Gare du Nord + 入住 Hôtel du Petit Moulin 🏨",
-          "note": "地铁 4 号线直达 Le Marais（Saint-Paul / Chemin Vert 站）；17 世纪老宅改建 boutique 酒店，Christian Lacroix 设计；先寄存行李，Le Marais 街区随便走走。"
+          "time": "上午",
+          "iso": "2026-10-07T09:00:00+02:00",
+          "title": "⛪ 巴黎圣母院：当天/前一天免费预约",
+          "note": "教堂入内免费；官方预约只是减少排队、通常只在临近日期放出。不要购买第三方“免排队票”。参观后步行到塞纳河、莎士比亚书店和拉丁区。",
+          "places": ["Notre Dame de Paris"]
         },
         {
           "time": "13:00",
           "iso": "2026-10-07T13:00:00+02:00",
-          "title": "Le Marais 午餐 🥖",
-          "note": "Le Marais 是巴黎最时髦的街区；推荐 L'As du Fallafel（被誉为巴黎最好吃的 falafel，€10/人）或 Café Charlot（经典巴黎小馆）。",
-          "places": [
-            "Le Marais Paris"
-          ]
+          "title": "🪟 Sainte-Chapelle / 西岱岛",
+          "note": "作为圣母院附近的加选：若购买圣礼拜堂时段票，就把它和西岱岛安排在同一半天；否则把时间留给左岸散步。",
+          "places": ["Sainte-Chapelle Paris"]
         },
         {
-          "time": "15:00",
-          "iso": "2026-10-07T15:00:00+02:00",
-          "title": "🗼 埃菲尔铁塔 Eiffel Tower",
-          "note": "地铁从 Saint-Paul 乘 1 号线到 Champ de Mars – Tour Eiffel，约 25 分钟；提前官网订「顶端票 Sommet」€29.4 或「楼梯票 Étages」€19.1（电梯排队 1 小时+，楼梯票体验更好）；下午光线金黄，拍照最出片。",
-          "places": [
-            "Eiffel Tower Paris"
-          ]
-        },
-        {
-          "time": "17:00",
-          "iso": "2026-10-07T17:00:00+02:00",
-          "title": "Trocadéro 拍照 📸",
-          "note": "步行 15 分钟或地铁 1 站到 Trocadéro；战神广场 + 埃菲尔铁塔经典合影点；傍晚光线最柔和。",
-          "places": [
-            "Trocadero Paris"
-          ]
-        },
-        {
-          "time": "19:00",
-          "iso": "2026-10-07T19:00:00+02:00",
-          "title": "🍽️ 塞纳河晚餐游船 Bateaux Mouches",
-          "note": "从埃菲尔铁塔脚下 Bateaux Mouches / Bateaux Parisiens 码头出发；2.5 小时晚餐巡航 €85-130（含三道法式晚餐）；路过圣母院、卢浮宫、协和广场，灯光夜色最美。",
-          "places": [
-            "Seine River Cruise Paris"
-          ]
-        },
-        {
-          "time": "21:30",
-          "iso": "2026-10-07T21:30:00+02:00",
-          "title": "🌃 埃菲尔铁塔整点亮灯",
-          "note": "整点亮灯 5 分钟 + 每整点闪烁 5 分钟（持续到 23:00）；晚餐游船回程正好赶上，可以回 Trocadéro 拍夜景再回酒店。"
+          "time": "日落前",
+          "iso": "2026-10-07T17:30:00+02:00",
+          "title": "🗼 埃菲尔铁塔多视角：比尔阿克姆桥 → 特罗卡德罗",
+          "note": "不急着登塔：先在 Pont de Bir-Hakeim 拍桥拱与铁塔，再步行到 Trocadéro 看正面与日落。10 月日落时间以当天预报为准。",
+          "places": ["Pont de Bir-Hakeim", "Trocadéro Paris", "Eiffel Tower"]
         }
       ]
     },
     {
       "date": "2026-10-08",
       "label": "Day 5",
-      "title": "Day 5 · 10.8 周四 · 巴黎经典：卢浮宫 + 蒙马特",
-      "loc": [
-        "Louvre Museum Paris",
-        "Tuileries Garden Paris",
-        "Champs-Élysées Paris",
-        "Arc de Triomphe Paris",
-        "Montmartre Paris",
-        "Sacré-Cœur Basilica Paris"
-      ],
+      "title": "Day 5 · 10.8 周四 · 巴黎艺术与城市视野：卢浮宫 + 凯旋门",
+      "loc": ["Louvre Museum", "Rue de l'Université Paris", "Arc de Triomphe Paris", "Montmartre Paris"],
       "items": [
         {
           "time": "09:00",
           "iso": "2026-10-08T09:00:00+02:00",
-          "title": "酒店早餐 🥐",
-          "note": "可颂 + 牛角面包 + 咖啡 + 鲜橙汁，欧陆早餐慢节奏。"
+          "title": "🖼️ 卢浮宫：预约最早可用时段",
+          "note": "只选一条主线（如 Denon 翼 + 法国绘画），控制在 2.5–3 小时；不要试图一天看完。",
+          "places": ["Louvre Museum"]
         },
         {
-          "time": "10:00",
-          "iso": "2026-10-08T10:00:00+02:00",
-          "title": "🏛️ 卢浮宫 Louvre Museum",
-          "note": "提前官网订时段票 €22（现场排队 1 小时+）；金字塔入口进；必看：蒙娜丽莎、米洛斯的维纳斯、胜利女神、断臂的《萨莫色雷斯的胜利女神》；3 小时可看完核心动线；中文导览器可用。",
-          "places": [
-            "Louvre Museum Paris"
-          ]
+          "time": "15:30",
+          "iso": "2026-10-08T15:30:00+02:00",
+          "title": "📸 铁塔侧视：Rue de l'Université → 凯旋门屋顶",
+          "note": "Rue de l'Université 适合街景框住铁塔；傍晚登凯旋门屋顶看香榭丽舍轴线和铁塔远景。若体力不足，保留其中一个即可。",
+          "places": ["Rue de l'Université Paris", "Arc de Triomphe Paris"]
         },
         {
-          "time": "13:00",
-          "iso": "2026-10-08T13:00:00+02:00",
-          "title": "杜伊勒里花园午餐 🌳",
-          "note": "从卢浮宫穿出到 Tuileries 花园；推荐 Café Marly（金字塔旁景观位）或 Paul 连锁简餐；人均 €25。"
-        },
-        {
-          "time": "14:30",
-          "iso": "2026-10-08T14:30:00+02:00",
-          "title": "🚶 香榭丽舍大道 + 凯旋门",
-          "note": "从协和广场沿 Champs-Élysées 一路走到 Arc de Triomphe（约 2 公里）；10 月秋叶铺路是巴黎最美季节；凯旋门可登顶 €13 看 12 条放射状大道。",
-          "places": [
-            "Champs-Élysées Paris",
-            "Arc de Triomphe Paris"
-          ]
-        },
-        {
-          "time": "17:00",
-          "iso": "2026-10-08T17:00:00+02:00",
-          "title": "拉丁区 + 莎士比亚书店 📚",
-          "note": "地铁 1 号线回 Saint-Michel；拉丁区是 19 世纪文人聚集地；Shakespeare & Company（塞纳河畔独立书店，英文原版 + 二楼阁楼阅读区）。"
-        },
-        {
-          "time": "19:00",
-          "iso": "2026-10-08T19:00:00+02:00",
-          "title": "晚餐：Le Comptoir du Relais 🥩",
-          "note": "推荐 Le Comptoir du Relais（米其林一星，传统法式 bistro）或 Bouillon Chartier（百年老店、平价法餐 €15-20）。"
-        },
-        {
-          "time": "20:30",
-          "iso": "2026-10-08T20:30:00+02:00",
-          "title": "🌃 蒙马特 + 圣心大教堂夜景",
-          "note": "地铁 12 号线到 Abbesses；爬坡到 Sacré-Cœur 教堂（免费入内，21:45 关），夜景俯瞰整个巴黎灯火；Place du Tertre 画家广场有现场素描。",
-          "places": [
-            "Montmartre Paris",
-            "Sacré-Cœur Basilica Paris"
-          ]
+          "time": "晚上",
+          "iso": "2026-10-08T20:00:00+02:00",
+          "title": "🎨 加选：蒙马特与圣心堂夜景",
+          "note": "这是巴黎新增的轻量加选。若卢浮宫或凯旋门排队过久，放弃它而不是压缩次日去阿尔卑斯的交通。",
+          "places": ["Montmartre Paris"]
         }
       ]
     },
     {
       "date": "2026-10-09",
       "label": "Day 6",
-      "title": "Day 6 · 10.9 周五 · 凡尔赛宫一日游",
-      "loc": [
-        "Palace of Versailles",
-        "Gardens of Versailles",
-        "Marie Antoinette's Estate Versailles"
-      ],
+      "title": "Day 6 · 10.9 周五 · 巴黎 → 安纳西：法国阿尔卑斯前站",
+      "loc": ["Paris Gare de Lyon", "Annecy France", "Lake Annecy"],
       "items": [
         {
-          "time": "08:00",
+          "time": "上午",
           "iso": "2026-10-09T08:00:00+02:00",
-          "title": "RER C 火车 → 凡尔赛 🚆",
-          "note": "从 Saint-Michel Notre-Dame 站乘 RER C（往 Versailles Rive Gauche 方向），约 40 分钟；车票 t+（与地铁同票 €2.15 或买 day pass €8.45）；到 Versailles Château Rive Gauche 站下车步行 10 分钟到宫门。"
+          "title": "🚄 巴黎 Gare de Lyon → Annecy：预订早班 TGV",
+          "note": "把巴黎到安纳西作为明确的长距离移动日；车次/座位以实际售票为准，别在同日再塞一个巴黎收费景点。",
+          "places": ["Paris Gare de Lyon", "Annecy France"]
         },
         {
-          "time": "09:00",
-          "iso": "2026-10-09T09:00:00+02:00",
-          "title": "👑 凡尔赛宫主宫殿",
-          "note": "提前官网订时段票 €21.5（含花园电子音乐喷泉日除外）；开放 9:00-17:30；建议下载官方 App 跟着路线走：镜厅 → 玛丽·安托瓦内特寝宫 → 战争厅 → 加冕厅。",
-          "places": [
-            "Palace of Versailles"
-          ]
-        },
-        {
-          "time": "12:30",
-          "iso": "2026-10-09T12:30:00+02:00",
-          "title": "凡尔赛镇午餐 🥐",
-          "note": "推荐 La Petite Venise（宫外运河边景观位）或 Chez Tiouiche（镇中心平价法餐）；人均 €25。"
-        },
-        {
-          "time": "14:00",
-          "iso": "2026-10-09T14:00:00+02:00",
-          "title": "🌳 凡尔赛花园 + 大小特里亚农",
-          "note": "花园免费（喷泉日额外 €10）；大特里亚农（Grand Trianon，粉红大理石）+ 小特里亚农（Petit Trianon，玛丽·安托瓦内特私人别墅）+ 玛丽·安托瓦内特庄园（模拟村庄 + 农舍）；10 月树叶开始变色，是凡尔赛最美的季节。",
-          "places": [
-            "Gardens of Versailles"
-          ]
-        },
-        {
-          "time": "16:30",
-          "iso": "2026-10-09T16:30:00+02:00",
-          "title": "返程巴黎 🚆",
-          "note": "RER C 回 Paris，约 40 分钟；末班车建议不超过 22:00。"
-        },
-        {
-          "time": "19:00",
-          "iso": "2026-10-09T19:00:00+02:00",
-          "title": "塞纳河畔晚餐 🥂",
-          "note": "推荐 Au Vieux Paris d'Faulonne（拉丁区百年老店）或 Bouillon Pigalle（巴黎新派平价 bistro，蒙马特山脚）；晚上可以去协和广场看摩天轮夜景。"
+          "time": "下午",
+          "iso": "2026-10-09T14:30:00+02:00",
+          "title": "🏞️ 安纳西老城 + 湖畔慢走",
+          "note": "阿尔卑斯行程先给湖与老城，保持轻量。10 月天气变化快，户外租船/骑行作为可取消选项，不依赖它完成当天体验。",
+          "places": ["Annecy France", "Lake Annecy"]
         }
       ]
     },
     {
       "date": "2026-10-10",
       "label": "Day 7",
-      "title": "Day 7 · 10.10 周六 · 巴黎 → 阿姆斯特丹 + 运河夜色",
-      "loc": [
-        "Paris Gare du Nord",
-        "Amsterdam Centraal",
-        "Anne Frank House Amsterdam",
-        "Jordaan Amsterdam",
-        "Canal Cruise Amsterdam"
-      ],
+      "title": "Day 7 · 10.10 周六 · 霞慕尼 / 勃朗峰 → 日内瓦 → 阿姆斯特丹",
+      "loc": ["Chamonix-Mont-Blanc", "Aiguille du Midi", "Geneva Airport", "Amsterdam Centraal"],
       "items": [
         {
-          "time": "08:30",
-          "iso": "2026-10-10T08:30:00+02:00",
-          "title": "退房 + 火车站 🚆",
-          "note": "退房 12:00 前；行李寄存火车站 locker（€5-10/天）。"
+          "time": "清晨",
+          "iso": "2026-10-10T07:00:00+02:00",
+          "title": "🏔️ 安纳西 → Chamonix-Mont-Blanc：按天气执行",
+          "note": "这是法国阿尔卑斯的主体验日。优先查高山天气、能见度和 Aiguille du Midi 缆车运行状态；若大风/低云，改为霞慕尼谷地散步或留在安纳西，不硬上山。",
+          "places": ["Chamonix-Mont-Blanc", "Aiguille du Midi"]
         },
         {
-          "time": "10:00",
-          "iso": "2026-10-10T10:00:00+02:00",
-          "title": "Thalys 高速列车 → Amsterdam Centraal 🚄",
-          "note": "车程约 3 小时 20 分；二等座 €80-150；沿途经过布鲁塞尔换乘（同一列车，无需下车）、荷兰平原到海边一路风景；车上 wifi 稳定，可以补觉。"
-        },
-        {
-          "time": "13:30",
-          "iso": "2026-10-10T13:30:00+02:00",
-          "title": "抵达 Amsterdam Centraal + 入住 The Hoxton 🏨",
-          "note": "酒店在 Herengracht 255，运河边 5 分钟步行；先寄存行李；运河屋 17 世纪经典建筑，房间相对偏小但细节满分。"
-        },
-        {
-          "time": "14:30",
-          "iso": "2026-10-10T14:30:00+02:00",
-          "title": "Jordaan 午餐 🥘",
-          "note": "Jordaan 是阿姆斯特丹最有生活气息的街区；推荐 Bakers & Roasters（早午餐热门）或 Cafe Papeneiland（百年咖啡馆）。",
-          "places": [
-            "Jordaan Amsterdam"
-          ]
-        },
-        {
-          "time": "16:00",
-          "iso": "2026-10-10T16:00:00+02:00",
-          "title": "🚤 运河游船 Canal Cruise",
-          "note": "从中央火车站对面 Stderr 码头 / 酒店门口运河边都可以上船；1 小时游船 €16/人；阿姆斯特丹运河带是 UNESCO 世界文化遗产；晚上亮灯更美。",
-          "places": [
-            "Canal Cruise Amsterdam"
-          ]
-        },
-        {
-          "time": "17:30",
-          "iso": "2026-10-10T17:30:00+02:00",
-          "title": "Anne Frank House 🏠",
-          "note": "Anne Frank House 务必提前官网订票（通常提前 6 周放票，€16）；后阁楼密室是 Anne 写日记的真实场景；动线感人，1.5 小时；周一至周日 9:00-22:00（夏季延后）。",
-          "places": [
-            "Anne Frank House Amsterdam"
-          ]
-        },
-        {
-          "time": "19:30",
-          "iso": "2026-10-10T19:30:00+02:00",
-          "title": "晚餐：Jordaan 区 🍟",
-          "note": "推荐 De Plantage（古典风）、Balthazar's Keuken（米其林推荐隐藏小店，€45 套餐）或 Foodhallen（美食广场，多国小吃 €10-15/人）。"
-        },
-        {
-          "time": "21:00",
-          "iso": "2026-10-10T21:00:00+02:00",
-          "title": "🌃 运河夜色漫步",
-          "note": "从酒店出发沿 Herengracht → Brouwersgracht → Prinsengracht 一路走回；沿途 17 世纪运河屋亮灯，是阿姆斯特丹最经典画面。"
+          "time": "傍晚",
+          "iso": "2026-10-10T18:00:00+02:00",
+          "title": "✈️ 日内瓦 → 阿姆斯特丹：先锁可改签航班",
+          "note": "用日内瓦机场衔接阿姆斯特丹可避免折返巴黎。航班、机场巴士和住宿均未确认，建议优先选择可改签/可退款组合；如当天航班不理想，可将荷兰段顺延并缩短为两天。",
+          "places": ["Geneva Airport", "Amsterdam Centraal"]
         }
       ]
     },
     {
       "date": "2026-10-11",
       "label": "Day 8",
-      "title": "Day 8 · 10.11 周日 · 国立博物馆 + 梵高博物馆",
-      "loc": [
-        "Rijksmuseum Amsterdam",
-        "Van Gogh Museum Amsterdam",
-        "Vondelpark Amsterdam",
-        "De Pijp Amsterdam"
-      ],
+      "title": "Day 8 · 10.11 周日 · 阿姆斯特丹：梵高博物馆 + 博物馆广场",
+      "loc": ["Van Gogh Museum Amsterdam", "Museumplein Amsterdam", "Vondelpark Amsterdam", "De Pijp Amsterdam"],
       "items": [
-        {
-          "time": "09:00",
-          "iso": "2026-10-11T09:00:00+02:00",
-          "title": "酒店早餐 🥐",
-          "note": "欧陆早餐：可颂 + 奶酪 + 火腿 + 煮蛋 + 咖啡。"
-        },
         {
           "time": "10:00",
           "iso": "2026-10-11T10:00:00+02:00",
-          "title": "🏛️ Rijksmuseum 国立博物馆",
-          "note": "提前官网订时段票 €24.5；周六开放 9:00-17:00；必看：《夜巡》Rembrandt、《倒牛奶的女仆》Vermeer、《小街》Vermeer；亚洲馆 + 玩偶屋也很惊艳；2-3 小时。",
-          "places": [
-            "Rijksmuseum Amsterdam"
-          ]
+          "title": "🎨 梵高博物馆：现在预约两人定时票",
+          "note": "请在官方 tickets.vangoghmuseum.nl/en/tickets 选择 10.11 上午入场；票只对选定日期和时段有效且通常不可退款。建议预留 2 小时并加中文语音导览。",
+          "places": ["Van Gogh Museum Amsterdam"]
         },
         {
-          "time": "13:00",
-          "iso": "2026-10-11T13:00:00+02:00",
-          "title": "Museumplein 午餐 ☕",
-          "note": "Museumplein 周边：推荐 The Seafood Bar（海鲜）或 Brasserie Amic（法式 bistro）；人均 €25-40。"
-        },
-        {
-          "time": "14:30",
-          "iso": "2026-10-11T14:30:00+02:00",
-          "title": "🎨 Van Gogh Museum 梵高博物馆",
-          "note": "提前官网订票 €22.5；周六开放 9:00-18:00（夏季延长）；2 小时动线：自画像系列 → 星夜 → 吃土豆的人 → 麦田群鸦 → 阿尔勒卧室；中文导览器讲得深。",
-          "places": [
-            "Van Gogh Museum Amsterdam"
-          ]
-        },
-        {
-          "time": "17:00",
-          "iso": "2026-10-11T17:00:00+02:00",
-          "title": "🌳 Vondelpark 公园散步",
-          "note": "博物馆对面就是 Vondelpark（阿姆斯特丹最大公园）；秋天落叶铺地，骑车/散步都美。"
-        },
-        {
-          "time": "18:30",
-          "iso": "2026-10-11T18:30:00+02:00",
-          "title": "De Pijp 区晚餐 + Albert Cuyp 市集 🧀",
-          "note": "De Pijp 是阿姆斯特丹多元文化区；Albert Cuyp 市集白天最有生活气息（17:00 左右收摊）；推荐 Bakers & Roasters 或 Restaurant De Plantage（米其林推荐）；晚餐后可以顺便逛红灯区（19:00 后）。",
-          "places": [
-            "De Pijp Amsterdam"
-          ]
+          "time": "下午",
+          "iso": "2026-10-11T13:30:00+02:00",
+          "title": "🌳 Museumplein → Vondelpark → De Pijp",
+          "note": "梵高馆后不再硬塞第二个大型馆，转为博物馆广场、Vondelpark 和 De Pijp 的市场/晚餐，保留行程弹性。",
+          "places": ["Museumplein Amsterdam", "Vondelpark Amsterdam", "De Pijp Amsterdam"]
         }
       ]
     },
     {
       "date": "2026-10-12",
       "label": "Day 9",
-      "title": "Day 9 · 10.12 周一 · 风车村 Zaanse Schans 一日游",
-      "loc": [
-        "Zaanse Schans",
-        "Zaandijk",
-        "De Hortus Amsterdam",
-        "FOAM Amsterdam"
-      ],
+      "title": "Day 9 · 10.12 周一 · 阿姆斯特丹：国立博物馆 + 运河 + 安妮之家",
+      "loc": ["Rijksmuseum Amsterdam", "Jordaan Amsterdam", "Anne Frank House", "Canal Cruise Amsterdam"],
       "items": [
         {
-          "time": "08:00",
-          "iso": "2026-10-12T08:00:00+02:00",
-          "title": "酒店早餐 + 出发 🥐",
-          "note": "吃完早餐、收拾明天走的行李；提前买好火车票（OV-chipkaart 或 NS App 单程 €3.20）。"
+          "time": "09:30",
+          "iso": "2026-10-12T09:30:00+02:00",
+          "title": "🖼️ 国立博物馆 Rijksmuseum：两小时主线",
+          "note": "新增推荐：只看伦勃朗《夜巡》、维米尔和建筑中庭等核心，不和前一天的梵高馆争夺时间。",
+          "places": ["Rijksmuseum Amsterdam"]
         },
         {
-          "time": "08:30",
-          "iso": "2026-10-12T08:30:00+02:00",
-          "title": "Sprinter 火车 → Zaandijk 🚆",
-          "note": "从 Amsterdam Centraal 乘 NS Sprinter（往 Uitgeest 方向），约 15 分钟到 Zaandijk 站；下站后步行 10 分钟到 Zaanse Schans 风车村。"
+          "time": "下午",
+          "iso": "2026-10-12T14:00:00+02:00",
+          "title": "🏠 Jordaan + 安妮之家（有票才进入）",
+          "note": "新增推荐：安妮之家非常值得，但必须以官方放票和你们实际订到的时段为准；没有票就改为 Jordaan 运河散步与九街。",
+          "places": ["Jordaan Amsterdam", "Anne Frank House"]
         },
         {
-          "time": "09:00",
-          "iso": "2026-10-12T09:00:00+02:00",
-          "title": "🌬️ Zaanse Schans 风车村",
-          "note": "免费入村（部分风车和工坊内部 €3-5）；必看：8 座仍在运作的古老风车（锯木风车 De Gekroonde Poelenburg、油料风车 De Kat）、Clog 木鞋工坊、Henk Helmantel 奶酪农场（可以试吃 30+ 种荷兰奶酪）；2-3 小时逛完。",
-          "places": [
-            "Zaanse Schans"
-          ]
-        },
-        {
-          "time": "12:00",
-          "iso": "2026-10-12T12:00:00+02:00",
-          "title": "返程阿姆斯特丹 🚆",
-          "note": "从 Zaandijk 乘 Sprinter 回 Amsterdam Centraal，15 分钟。"
-        },
-        {
-          "time": "13:00",
-          "iso": "2026-10-12T13:00:00+02:00",
-          "title": "午餐：De Plantage 🥪",
-          "note": "推荐 Cafe Kadijk 或 De Plantage 餐厅（米其林推荐）；或者随便找一家运河边的 café 试试荷兰 uitsmijter（双面煎蛋三明治）。"
-        },
-        {
-          "time": "14:30",
-          "iso": "2026-10-12T14:30:00+02:00",
-          "title": "下午选项（任选一）",
-          "note": "🅰️ De Hortus 植物园（17 世纪温室 + 热带植物 €9.5）；🅱️ FOAM 摄影博物馆（阿姆斯特丹最大摄影展 €14）；🅲 梵高博物馆高迪特展（如果 Day 8 没看完）；🅳 安妮之家补充参观。"
-        },
-        {
-          "time": "18:00",
-          "iso": "2026-10-12T18:00:00+02:00",
-          "title": "告别晚餐：De Librije 或 Jansz. 🥂",
-          "note": "推荐 Jansz.（运河边经典荷兰菜，€45 套餐）或 De Plantage 米其林一星（需提前订 €80+）；最后一晚挑一家有仪式感的。"
-        },
-        {
-          "time": "21:00",
-          "iso": "2026-10-12T21:00:00+02:00",
-          "title": "回酒店收拾行李 🧳",
-          "note": "明早 06:30 起床，07:30 Thalys 回布鲁塞尔机场；提前把退税单 + 护照 + 充电器从行李箱里拿出来。"
+          "time": "日落后",
+          "iso": "2026-10-12T18:30:00+02:00",
+          "title": "🚤 末晚运河游船 / 早收行李",
+          "note": "若次日需早班跨境列车，今晚确认车票、护照、签证和航班信息；游船仅在交通已锁定后安排。",
+          "places": ["Canal Cruise Amsterdam"]
         }
       ]
     },
@@ -724,52 +345,27 @@
       "date": "2026-10-13",
       "label": "Day 10",
       "title": "Day 10 · 10.13 周二 · 阿姆斯特丹 → 布鲁塞尔机场 → 回国",
-      "loc": [
-        "Amsterdam Centraal",
-        "Brussels Airport BRU"
-      ],
+      "loc": ["Amsterdam Centraal", "Brussels Midi", "Brussels Airport BRU"],
       "items": [
         {
-          "time": "06:00",
-          "iso": "2026-10-13T06:00:00+02:00",
-          "title": "起床 + 早餐 + 退房 🥐",
-          "note": "酒店退房 12:00 前；前晚把行李收到门口；早餐速战速决。"
+          "time": "清晨",
+          "iso": "2026-10-13T06:30:00+02:00",
+          "title": "🚄 阿姆斯特丹 → Brussels Midi → BRU：预留充足转机缓冲",
+          "note": "HU492 于 13:20 从 BRU 起飞。选择能让你们最迟约 10:15 抵达机场的跨境列车和机场接驳；不要把最后一天再安排布鲁塞尔景点。",
+          "places": ["Amsterdam Centraal", "Brussels Midi", "Brussels Airport BRU"]
         },
         {
-          "time": "07:00",
-          "iso": "2026-10-13T07:00:00+02:00",
-          "title": "🚕 出发到 Amsterdam Centraal",
-          "note": "步行 10 分钟到中央火车站；拖着行李走运河边最方便。"
-        },
-        {
-          "time": "07:30",
-          "iso": "2026-10-13T07:30:00+02:00",
-          "title": "Thalys → Brussels Midi 🚄",
-          "note": "约 1 小时 30 分；车上有 wifi，可以补觉；到 Brussels Midi（Midi/Zuid 站）后换乘机场快线。"
-        },
-        {
-          "time": "09:00",
-          "iso": "2026-10-13T09:00:00+02:00",
-          "title": "Brussels Midi → Brussels Airport 🚆",
-          "note": "从 Brussels Midi 乘机场快线（每 15 分钟一班）到 Brussels Airport，约 20 分钟 €10.7；也可打车 25 分钟 €45。"
-        },
-        {
-          "time": "10:00",
-          "iso": "2026-10-13T10:00:00+02:00",
-          "title": "🛂 值机 + 退税 + 安检",
-          "note": "国际航班提前 3 小时到机场；退税柜台在 P60–P90 区，凭护照 + 单店满 €125 发票办 Tax Free（巧克力 + 华夫饼礼盒记得随身带进海关，海关会抽查）；退现金扣手续费、退信用卡无手续费 1-2 月到账。"
-        },
-        {
-          "time": "11:00",
-          "iso": "2026-10-13T11:00:00+02:00",
-          "title": "🛍️ 机场免税店 + 午餐",
-          "note": "BRU 机场免税店有 Neuhaus、GODIVA 机场限定礼盒、Delvaux、比利时巧克力综合店；建议预留 1 小时逛；午餐在机场餐厅（人均 €20-30）。"
+          "time": "10:15",
+          "iso": "2026-10-13T10:15:00+02:00",
+          "title": "🛂 抵 BRU：托运、退税、安检",
+          "note": "按国际航班至少 3 小时缓冲处理。退税物品不要先托运，海关盖章后再交运行李。",
+          "places": ["Brussels Airport BRU"]
         },
         {
           "time": "13:20",
           "iso": "2026-10-13T13:20:00+02:00",
-          "title": "✈️ HU492 起飞回国 🇨🇳",
-          "note": "飞行 10 小时 40 分；机上整理这 10 天照片、回忆，明天凌晨 05:00 抵京；落地北京首都 PEK T2 后可机场快轨回市区。"
+          "title": "✈️ HU492 从布鲁塞尔起飞回国",
+          "note": "飞行约 10 小时 40 分，10.14 凌晨 05:00 抵达北京首都 PEK T2。"
         }
       ]
     }
