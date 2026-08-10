@@ -1,0 +1,5 @@
+# Local assistant recovery artifacts; never part of the public site.
+.codex-backups/
+
+# macOS Finder metadata.
+.DS_Store
