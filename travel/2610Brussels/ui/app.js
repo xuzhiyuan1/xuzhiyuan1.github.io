@@ -7,18 +7,12 @@
   "use strict";
 
   /* ============================================================
-     CONFIG（后端固定域名，走 Cloudflare Tunnel）
-     · BACKEND_URL 仍指向 Cloudflare Tunnel 上的 trip.xuzhiyuan1.top；
-       后端路由 ingress 把这个域名转到 backend/travel/2607Bangkok/server.py。
-     · 目前 tunnel 后面只有曼谷后端在跑，所以 /data 拉回来的是曼谷行程；
-       Brussels 站点没有自己的后端兄弟进程（backend/travel/ 下只有 2607Bangkok/）。
-       等用户后续按 backend/README 与 backend/travel/2607Bangkok/HANDOFF.md
-       「加一个新页面」一节再加一个 2610Brussels 后端，再单独跑一个端口 + 再加
-       一条 ingress，下面 trip-guard 就会自动放行（guard 只看 brandTitle 是否
-       含「布鲁塞尔 / Brussels」）。
+     CONFIG（每次旅行都拥有自己的路径级 API）
+     · Cloudflare 将 /2610Brussels/* 转到独立状态目录和独立进程。
+     · trip-guard 仍保留，防止日后路由配置错误时把其它旅行的数据渲染到本站。
      ============================================================ */
   var CONFIG = {
-    BACKEND_URL: "https://trip.xuzhiyuan1.top",
+    BACKEND_URL: "https://trip.xuzhiyuan1.top/2610Brussels",
     BACKEND_TIMEOUT_MS: 5000, // 后端请求超时：超时/失败一律回退到仓库静态 JSON，保证不白屏
     // 期望的「这次行程」标识：后端 /data 里 site.brandTitle 或 site.dates 命中这里任一关键字即视为本次行程
     EXPECTED_TRIP_KEYWORDS: ["布鲁塞尔", "Brussels"],
@@ -61,109 +55,6 @@
   var activateTab = null; /* index 页专属：切 tab 函数（由 initIndex 内的 showTab 赋值），供小王子对话框
                               "共享攻略本"按钮跨作用域调用；itinerary 页没有 tab 结构，此值保持 null，
                               对话框那边会退化成跳转到 index.html#guide */
-
-  /* ============================================================
-     客户端动态后端（"假后端"）—— 仅当 BACKEND_OK=false 时启用。
-     当前 Cloudflare Tunnel 后面只有曼谷后端在跑，布鲁塞尔站 trip-guard 一直拒收，
-     所以 /edit、/history、/exchange 三件套此前是关闭的（参考 BACKEND.md）。
-     这里用 localStorage + BroadcastChannel 模拟一个"能立刻用"的本地动态后端：
-     提交立即落库 + 1.6s 后吐"完成"+友好应答；多 tab 之间自动同步。
-     以后真把 2610Brussels 后端接上（BACKEND_OK=true），这里的所有入口都自动让位给真后端，
-     前端其它逻辑（轮询、刷新、渲染）一行不用改。 ============================================================ */
-  var LS_KEYS = {
-    history: "brussels_local_history",     // 修改记录 [{at, author, text, reply, status, version, files}]
-    exchange: "brussels_local_exchange",   // { 角色: {text, reply, status, at} }
-    guidebook: "brussels_local_guidebook"  // 客户端追加的攻略/问答 [{id, type, topic, q, a, author, authors, at}]
-  };
-  function lsGet(k, fallback){
-    try { var v = localStorage.getItem(k); return v == null ? fallback : JSON.parse(v); } catch(_e){ return fallback; }
-  }
-  function lsSet(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(_e){} }
-  /* 同步 localStorage 变更给同源其他打开的页面（多 tab 同步：改完 /edit → 其它 tab 立即看到新记录） */
-  function lsBroadcast(channel){
-    try {
-      if ("BroadcastChannel" in window) {
-        var ch = lsBroadcast._ch = (lsBroadcast._ch || new BroadcastChannel("brussels_local_backend"));
-        ch.postMessage({ channel: channel, at: Date.now() });
-      }
-    } catch(_e){}
-  }
-  function lsSubscribe(channel, cb){
-    if (!("BroadcastChannel" in window)) return function(){};
-    var ch = lsBroadcast._ch = (lsBroadcast._ch || new BroadcastChannel("brussels_local_backend"));
-    var handler = function(ev){ if (ev && ev.data && ev.data.channel === channel) cb(); };
-    ch.addEventListener("message", handler);
-    return function(){ ch.removeEventListener("message", handler); };
-  }
-  function useLocalBackend(){ return !CONFIG.BACKEND_OK; }
-
-  /* 客户端 /edit：把这条指令入历史队列 + 给该角色写一条"处理中"的回执；
-     1.6 秒后把回执更新为"完成"+友好应答（按指令里的关键字挑一句最合适的回复），
-     跟真实后端的"立即返回 + 后台异步处理"节奏一致，让前端逻辑（轮询 /exchange 看状态变化）
-     不需要任何分支判断。 */
-  function localPostEdit(author, text){
-    var hist = lsGet(LS_KEYS.history, []);
-    var version = "ls" + Date.now();
-    var at = new Date().toISOString();
-    hist.push({ at: at, author: author, text: text, version: version, files: ["local"] });
-    lsSet(LS_KEYS.history, hist);
-    var exs = lsGet(LS_KEYS.exchange, {});
-    exs[author] = { text: text, reply: "", status: "处理中", at: at };
-    lsSet(LS_KEYS.exchange, exs);
-    lsBroadcast("history"); lsBroadcast("exchange");
-
-    var reply = pickLocalReply(text);
-    setTimeout(function(){
-      var exs2 = lsGet(LS_KEYS.exchange, {});
-      var cur = exs2[author];
-      /* 用户在异步等待期间又发了一条新指令？以最新那条为准，不要用旧 reply 覆盖新状态 */
-      if (cur && cur.at === at){
-        exs2[author] = { text: text, reply: reply, status: "完成", at: at };
-        lsSet(LS_KEYS.exchange, exs2);
-        lsBroadcast("exchange");
-      }
-      var hist2 = lsGet(LS_KEYS.history, []);
-      for (var i = hist2.length - 1; i >= 0; i--){
-        if (hist2[i].version === version){
-          hist2[i].reply = reply; hist2[i].status = "完成";
-          break;
-        }
-      }
-      lsSet(LS_KEYS.history, hist2);
-      lsBroadcast("history");
-    }, 1600);
-    return Promise.resolve({ status: 200, ok: true, data: { ok: true, status: "处理中" } });
-  }
-  function pickLocalReply(t){
-    var s = String(t || "");
-    /* 关键词 → 友好回复；命中不到就返回兜底。轻量意图识别，避免引入大库 */
-    var map = [
-      [/攻略|指南|怎么玩|怎么办/, "好的～这条我记到攻略本里，晚点把要点整理成卡片放进去 🐾"],
-      [/签证|申根|材料/, "签证的事最关键的是材料齐 + 行程单清晰，需要我出一份完整清单吗？"],
-      [/机票|航班|订票|票号/, "机票信息已记下，到机场前我会再提醒一遍行李额度与值机时间 ✈️"],
-      [/酒店|住宿|房间|入住/, "酒店已确认～check-in 时如果想要相邻房可以跟前台提一句 🏨"],
-      [/火车|Thalys|城际/, "Thalys 票我会盯紧放票节奏，提前 1-2 个月订最划算 🚄"],
-      [/退税|购物|买/, "退税要同店累计 €125+ 才能开发票，留好收据回国前统一办 🛍️"],
-      [/天气|温度|穿|雨/, "西欧 10 月多雨+昼夜温差大，薄羽绒 + 折叠伞 + 防风外套三件套最稳 ☂️"],
-      [/吃|餐厅|啤酒|巧克力|华夫饼|可颂/, "已经加进美食清单，到那天再按街区挑最顺路的一家 🍫"],
-      [/交通|地铁|打车|出租|公交/, "城市内建议 SNCB / NS App + OV-chipkaart，比单买便宜不少 🚇"]
-    ];
-    for (var i = 0; i < map.length; i++){ if (map[i][0].test(s)) return map[i][1]; }
-    return "收到～这条改动我已经记下来，等真后端接上会自动同步过去（当前是本地动态后端模式）🐶";
-  }
-
-  /* 攻略本客户端追加：用户点开 dialog、写"加一条攻略/问个问题"→ 让小白把这篇直接挂到
-     DATA.guidebook 列表上（最新在上）；多 tab 同步走 BroadcastChannel("guidebook")。
-     主路径：从 DATA.guidebook 拿现有列表 + localStorage 追加项拼接。 */
-  function appendLocalGuidebook(item){
-    var arr = lsGet(LS_KEYS.guidebook, []);
-    arr.push(item);
-    lsSet(LS_KEYS.guidebook, arr);
-    lsBroadcast("guidebook");
-  }
-  function getLocalGuidebook(){
-    return lsGet(LS_KEYS.guidebook, []);
-  }
 
   /* ---------- 公共小工具（原 data.js） ---------- */
   function enc(q){ return String(q).replace(/ /g, "+"); }
@@ -282,10 +173,7 @@
   }
 
   /* 兜底路径：分别 fetch 本仓库 data/*.json（带时间戳防缓存），拼成同样结构的 bundle。
-     以前只拉 5 个 JSON，但行程回顾 / 攻略本 相关模块要读 review / guidebook，
-     一并补上；任何 404/解析失败都降级为内嵌默认值，绝不白屏。
-     ※ 客户端动态后端模式（BACKEND_OK=false）：再叠加上 localStorage 里的本地追加项
-       （攻略/问答）—— 这样用户通过小白对话框新加的攻略会立刻出现在"攻略本"卡片列表顶部。 */
+     行程回顾 / 攻略本也一并读取；任何 404/解析失败都降级为内嵌默认值，绝不白屏。 */
   function loadFromRepo(){
     var qs = "?t=" + Date.now();
     function fetchJSON(p){ return fetch(p + qs).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }); }
@@ -298,14 +186,7 @@
       pick("data/review.json", DEFAULT_REVIEW),
       pick("data/guidebook.json", [])
     ]).then(function(res){
-      var guidebook = (res[5] || []).slice();
-      /* 合并本地追加的攻略：以 id 去重；保留仓库里的种子记录 */
-      var localGB = getLocalGuidebook();
-      if (localGB && localGB.length){
-        var seen = {}; guidebook.forEach(function(g){ if (g && g.id) seen[g.id] = true; });
-        localGB.forEach(function(g){ if (g && g.id && !seen[g.id]) guidebook.push(g); });
-      }
-      return { site: res[0], trip: res[1], guide: res[2], users: res[3], review: res[4], guidebook: guidebook };
+      return { site: res[0], trip: res[1], guide: res[2], users: res[3], review: res[4], guidebook: (res[5] || []).slice() };
     });
   }
 
@@ -333,14 +214,7 @@
     setInterval(refreshData, 30000);
   }
 
-  /* ---------- 修改记录：优先读后端 {BACKEND_URL}/history（实时），超时/失败/串了别站 兜底读仓库
-     data/history.json（同仓库相对路径，带时间戳防缓存；可能 404/为空）。
-     供"小白·修改记录"面板 与 "下拉刷新指示条"（显示最新改动时间）共用，避免重复实现。
-     ※若首次 /data 已被 trip-guard 判定为「不是本次行程」，则 BACKEND_OK 仍为 false，
-       这里会直接走仓库兜底，绝不让曼谷的修改记录混进布鲁塞尔的修改记录列表。
-     ※客户端动态后端模式（BACKEND_OK=false 但 useLocalBackend()=true）：
-       把仓库 data/history.json 的种子记录 和 本地 localStorage 追加的修改记录 合并展示，
-       这样既保留建站以来的人工记录，又能把刚提交给"小白"的指令纳入"最新改动"时间线。 ---------- */
+  /* ---------- 修改记录：优先读后端；不可用时读取静态兜底。 ---------- */
   function loadHistoryFromRepo(){
     return fetch("data/history.json?t=" + Date.now()).then(function(r){
       if (!r.ok) return [];
@@ -351,22 +225,9 @@
       return arr;
     }).catch(function(){ return []; });
   }
-  function mergeLocalHistory(repoArr){
-    var local = lsGet(LS_KEYS ? LS_KEYS.history : "brussels_local_history", []);
-    if (!local || !local.length) return repoArr;
-    /* 合并：以 version 去重（本地是 ls<ts>，仓库是 yyyymmdd-hhmmss 不会撞） */
-    var seen = {}; var out = [];
-    repoArr.forEach(function(h){ if (h && h.version){ seen[h.version] = true; } out.push(h); });
-    local.forEach(function(h){ if (h && h.version && !seen[h.version]) out.push(h); });
-    return out;
-  }
   function loadHistory(){
     if (!CONFIG.BACKEND_OK){
-      // 后端没通过 trip-guard：避免把别的站点的修改记录拉进来展示，统一走本地 JSON
-      return loadHistoryFromRepo().then(function(arr){
-        var merged = mergeLocalHistory(arr);
-        return merged.slice().reverse(); // 最新的在前
-      });
+      return loadHistoryFromRepo().then(function(arr){ return arr.slice().reverse(); });
     }
     return fetchWithTimeout(CONFIG.BACKEND_URL + "/history", CONFIG.BACKEND_TIMEOUT_MS).then(function(r){
       if (!r.ok) throw new Error("后端 /history HTTP " + r.status);
@@ -988,9 +849,6 @@
             textEl.value = "";
             localStorage.removeItem(DRAFT_KEY);
             startPoll(author);
-            /* 客户端动态后端：识别"问 / 攻略"型文本，自动追加到攻略本（localStorage），
-               完成回执就位后写入 a 字段，让"攻略本"tab 立刻多一篇。 */
-            if (useLocalBackend()) maybeCaptureAsGuidebook(author, text);
           } else {
             var errMsg = (res.data && res.data.error) ? res.data.error : ("提交失败（状态码 " + res.status + "）");
             statusEl.className = "princeStatus err";
@@ -1006,41 +864,6 @@
           }
         });
       });
-
-      /* 客户端动态后端的"自动归集攻略"：识别明显的提问/攻略型文本，把这条问答攒进本地攻略本。
-         判定：以"？" / "?" 结尾，或包含 怎么 / 如何 / 攻略 / 指南 / 怎么办 / 必试 / 必吃 / 推荐 /
-         几月 / 几点 / 多少钱 / 怎么去 / 要多久 等关键词，命中即按 qa 类型追加；其它当 tip 处理。
-         完成回执（1.6s 后）就位后，把 a 字段补成完整的回复，再触发刷新。 */
-      function maybeCaptureAsGuidebook(author, text){
-        var s = String(text || "");
-        var isQ = /[？?]\s*$/.test(s) || /(怎么|如何|攻略|指南|怎么办|几月|几点|多少钱|怎么去|要多久|必试|必吃|推荐|哪里|哪儿)/.test(s);
-        var id = "ls-" + Date.now();
-        var at = new Date().toISOString();
-        var topic = s.length > 18 ? s.slice(0, 18) + "…" : s;
-        var item = {
-          id: id,
-          type: isQ ? "qa" : "tip",
-          topic: topic,
-          q: s,
-          a: "",
-          author: author,
-          authors: [author],
-          at: at
-        };
-        appendLocalGuidebook(item);
-        /* 等 pickLocalReply 的回复就位后再补 a 字段；这里直接读 exs 那条 */
-        setTimeout(function(){
-          var exs = lsGet(LS_KEYS.exchange, {});
-          var ex = exs[author];
-          if (!ex || ex.at !== at) return;
-          var arr = lsGet(LS_KEYS.guidebook, []);
-          for (var i = arr.length - 1; i >= 0; i--){
-            if (arr[i].id === id){ arr[i].a = ex.reply || "（等待小白整理中…）"; break; }
-          }
-          lsSet(LS_KEYS.guidebook, arr);
-          lsBroadcast("guidebook");
-        }, 1700);
-      }
 
       historyBtn.addEventListener("click", function(){
         if (!historyEl.hidden){
@@ -1150,13 +973,8 @@
       }, 200);
     }
 
-    /* ===== 提交修改：POST {BACKEND_URL}/edit —— 后端立即返回（几十毫秒）{ok:true,status:"处理中"}，
-       真正的改动在后端异步跑，前端不必等，拿到这个响应就算"发送成功"。
-       ※ 当前布鲁塞尔站还没接兄弟后端，Cloudflare Tunnel 后面只有曼谷后端在跑——
-         这里改成"客户端动态后端"（localPostEdit/ls* 在模块级定义，见上方）：
-         提交后立即落库 + 异步吐"完成"回执，让整页对话/修改记录/攻略本立刻就能用。 ===== */
+    /* ===== 提交修改：后端立即入队，真实改动在后台完成。 ===== */
     function postEdit(author, text){
-      if (useLocalBackend()) return localPostEdit(author, text);
       return fetchWithTimeout(CONFIG.BACKEND_URL + "/edit", CONFIG.BACKEND_TIMEOUT_MS, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1171,11 +989,6 @@
     /* ===== 对话区：GET {BACKEND_URL}/exchange?author=<角色> 拿该角色最后一次对话
        { text, reply, status, at }，status ∈ 处理中/完成/失败；无记录时返回 {} ===== */
     function fetchExchange(author){
-      // 客户端动态后端模式：直接从 localStorage 拿该角色最新一条回执，节奏和真后端完全一致
-      if (useLocalBackend()){
-        var exs = lsGet(LS_KEYS.exchange, {});
-        return Promise.resolve(exs[author] || {});
-      }
       return fetchWithTimeout(CONFIG.BACKEND_URL + "/exchange?author=" + encodeURIComponent(author), CONFIG.BACKEND_TIMEOUT_MS)
         .then(function(r){
           if (!r.ok) throw new Error("后端 /exchange HTTP " + r.status);
@@ -1441,26 +1254,6 @@
     var page = document.body.getAttribute("data-page");
     if (page === "index") initIndex();
     else if (page === "itin") initItin();
-    startDataPolling(); // 每约 30 秒重新拉取 data/*.json 并复用现有渲染函数
-    /* 客户端动态后端：监听其它 tab 的写入（修改记录 / 攻略本追加 / 对话回复），
-       收到广播就刷新一次当前页面数据 + 刷新指示条时间，让多 tab 体验"实时一致"。
-       真后端接上（BACKEND_OK=true）时本地后端入口全部走真后端，这里订阅也变得多余但无害，
-       广播不会有任何发送方，安全 no-op。 */
-    if (useLocalBackend()){
-      lsSubscribe("history", function(){ refreshData(); });
-      lsSubscribe("guidebook", function(){ refreshData(); });
-      lsSubscribe("exchange", function(){
-        /* 只在对话框开着 + 当前角色匹配时刷新气泡，避免覆盖用户正在输入的状态 */
-        var overlay = document.querySelector(".princeOverlay");
-        if (!overlay || overlay.hidden) return;
-        var roleSel = overlay.querySelector("#princeRoleSel");
-        if (!roleSel) return;
-        var cur = roleSel.value;
-        if (!cur || cur === OVERVIEW) return;
-        var exs = lsGet(LS_KEYS.exchange, {});
-        var ex = exs[cur];
-        if (ex && ex.text) renderChatArea(ex);
-      });
-    }
+    startDataPolling(); // 每约 30 秒重新拉取当前旅行数据并复用现有渲染函数
   }).catch(function(err){ console.error("数据加载失败", err); });
 })();

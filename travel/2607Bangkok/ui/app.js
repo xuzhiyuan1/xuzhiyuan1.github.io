@@ -9,7 +9,7 @@
      CONFIG（后端固定域名，走 Cloudflare Tunnel）
      ============================================================ */
   var CONFIG = {
-    BACKEND_URL: "https://trip.xuzhiyuan1.top",
+    BACKEND_URL: "https://trip.xuzhiyuan1.top/2607Bangkok",
     BACKEND_TIMEOUT_MS: 5000 // 后端请求超时：超时/失败一律回退到仓库静态 JSON，保证不白屏
   };
 
