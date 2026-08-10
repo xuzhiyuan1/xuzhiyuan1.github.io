@@ -353,12 +353,12 @@
     {
       "date": "2026-10-09",
       "label": "Day 7",
-      "title": "Day 7 · 10.9 周五 · 霞慕尼谷地 → 晚间飞巴塞罗那",
+      "title": "Day 7 · 10.9 周五 · 霞慕尼谷地 → 晚间前往尼斯",
       "loc": [
         "Chamonix-Mont-Blanc",
         "Lac des Gaillands",
         "Geneva Airport",
-        "Barcelona–El Prat Airport"
+        "Nice Côte d'Azur Airport"
       ],
       "items": [
         {
@@ -384,11 +384,11 @@
         {
           "time": "晚上",
           "iso": "2026-10-09T20:00:00+02:00",
-          "title": "✈️ 日内瓦 GVA → 巴塞罗那 BCN：抵达后入住",
+          "title": "✈️ 日内瓦 GVA → 尼斯 NCE：抵达后入住",
           "note": "这是路线调整后的跨国航段，具体航班尚未订定；抵达后只办理入住，不安排景点。",
           "places": [
             "Geneva Airport",
-            "Barcelona–El Prat Airport"
+            "Nice Côte d'Azur Airport"
           ]
         }
       ]
@@ -396,40 +396,40 @@
     {
       "date": "2026-10-10",
       "label": "Day 8",
-      "title": "Day 8 · 10.10 周六 · 巴塞罗那：高迪主线",
+      "title": "Day 8 · 10.10 周六 · 尼斯：老城、城堡山与英国人散步道",
       "loc": [
-        "Sagrada Família",
-        "Park Güell",
-        "Casa Batlló",
-        "Passeig de Gràcia"
+        "Old Town Nice",
+        "Cours Saleya Nice",
+        "Colline du Château Nice",
+        "Promenade des Anglais"
       ],
       "items": [
         {
           "time": "09:00",
           "iso": "2026-10-10T09:00:00+02:00",
-          "title": "⛪ 圣家堂 Sagrada Família：预约最早时段",
-          "note": "优先把有限时段给圣家堂；购票时再决定是否登塔，并预留安检时间。",
+          "title": "🍋 尼斯老城 Vieux Nice + 萨雷亚花市 Cours Saleya",
+          "note": "抵达后的第一个完整早晨从老城开始；市场、教堂和午餐按当天开放与精力慢慢走。",
           "places": [
-            "Sagrada Família"
+            "Old Town Nice",
+            "Cours Saleya Nice"
           ]
         },
         {
           "time": "14:00",
           "iso": "2026-10-10T14:00:00+02:00",
-          "title": "🌳 奎尔公园 Park Güell：预约入园",
-          "note": "由圣家堂向北衔接；公园核心区需要指定时段，注意 10 月日落较早。",
+          "title": "🌄 城堡山 Colline du Château：俯瞰天使湾",
+          "note": "由老城上城堡山看港口和海湾；走楼梯或搭电梯按当天体力决定，注意海边风大。",
           "places": [
-            "Park Güell"
+            "Colline du Château Nice"
           ]
         },
         {
           "time": "17:30",
           "iso": "2026-10-10T17:30:00+02:00",
-          "title": "🏛️ 格拉西亚大道：巴特罗之家外观 + 晚餐",
-          "note": "若想入内参观 Casa Batlló，请提前订票；否则保留为建筑外观和街区散步。",
+          "title": "🌊 英国人散步道 Promenade des Anglais：日落与晚餐",
+          "note": "从城堡山一侧走向海滨；傍晚只安排散步与晚餐，保留南法海岸的慢节奏。",
           "places": [
-            "Casa Batlló",
-            "Passeig de Gràcia"
+            "Promenade des Anglais"
           ]
         }
       ]
@@ -437,40 +437,41 @@
     {
       "date": "2026-10-11",
       "label": "Day 9",
-      "title": "Day 9 · 10.11 周日 · 巴塞罗那：哥特区、蒙锥克、海边",
+      "title": "Day 9 · 10.11 周日 · 尼斯：希米耶艺术、港湾与海边",
       "loc": [
-        "Barcelona Cathedral",
-        "Gothic Quarter Barcelona",
-        "Montjuïc",
-        "Barceloneta Beach"
+        "Musée Matisse Nice",
+        "Cimiez Nice",
+        "Port Lympia Nice",
+        "Promenade des Anglais"
       ],
       "items": [
         {
           "time": "09:30",
           "iso": "2026-10-11T09:30:00+02:00",
-          "title": "🏰 巴塞罗那主教座堂 + 哥特区漫步",
-          "note": "从老城开始，按当天开放情况决定是否进入主教座堂；中午在 Born 或哥特区用餐。",
+          "title": "🎨 希米耶 Cimiez + 马蒂斯博物馆 Musée Matisse",
+          "note": "博物馆开放与入场规则以当天官方信息为准；若闭馆，改为希米耶花园和城区咖啡馆。",
           "places": [
-            "Barcelona Cathedral",
-            "Gothic Quarter Barcelona"
+            "Cimiez Nice",
+            "Musée Matisse Nice"
           ]
         },
         {
           "time": "14:30",
           "iso": "2026-10-11T14:30:00+02:00",
-          "title": "🚡 蒙锥克 Montjuïc：城市视野与日落",
-          "note": "用下午到傍晚安排山城景观；缆车、博物馆和西班牙村只按实际开放与体力择一加入。",
+          "title": "⚓ 林皮亚港 Port Lympia → 海滨慢走",
+          "note": "从港湾回到天使湾一带；不额外塞跨城一日游，给次日清晨航班保留恢复时间。",
           "places": [
-            "Montjuïc"
+            "Port Lympia Nice",
+            "Promenade des Anglais"
           ]
         },
         {
           "time": "晚上",
           "iso": "2026-10-11T19:30:00+02:00",
-          "title": "🌊 巴塞罗内塔海边晚餐 + 为返程整理行李",
-          "note": "确认次日 BCN → BRU 的航班和值机要求；这晚住巴塞罗那，次日直飞布鲁塞尔。",
+          "title": "🧳 尼斯海边晚餐 + 为返程整理行李",
+          "note": "确认次日 NCE → BRU 的航班和值机要求；这晚住尼斯，次日飞回布鲁塞尔。",
           "places": [
-            "Barceloneta Beach"
+            "Promenade des Anglais"
           ]
         }
       ]
@@ -478,9 +479,9 @@
     {
       "date": "2026-10-12",
       "label": "Day 10",
-      "title": "Day 10 · 10.12 周一 · 巴塞罗那飞回布鲁塞尔：欧盟区 + 原子球塔 + 大广场",
+      "title": "Day 10 · 10.12 周一 · 尼斯飞回布鲁塞尔：欧盟区 + 原子球塔 + 大广场",
       "loc": [
-        "Barcelona–El Prat Airport",
+        "Nice Côte d'Azur Airport",
         "Brussels Airport BRU",
         "European Parliament Brussels",
         "Parc Léopold Brussels",
@@ -491,10 +492,10 @@
         {
           "time": "上午",
           "iso": "2026-10-12T07:00:00+02:00",
-          "title": "✈️ 巴塞罗那 BCN → 布鲁塞尔 BRU：优先上午直飞",
+          "title": "✈️ 尼斯 NCE → 布鲁塞尔 BRU：优先上午直飞",
           "note": "选择上午抵达的直飞航班，落地后由机场直接前往欧盟区。未订票前不要锁死后续参观时段；若航班延误，优先保留返程前一晚住在布鲁塞尔。",
           "places": [
-            "Barcelona–El Prat Airport",
+            "Nice Côte d'Azur Airport",
             "Brussels Airport BRU"
           ]
         },
