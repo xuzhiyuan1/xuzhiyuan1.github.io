@@ -82,9 +82,15 @@
   "itinerary": [
     {
       "date": "2026-10-03",
-      "label": "起飞",
-      "title": "起飞 · 10.3 周六 · 北京 → 布鲁塞尔 → 巴黎",
-      "loc": ["Brussels Airport BRU", "Brussels Midi", "Paris Gare du Nord"],
+      "label": "Day 1",
+      "title": "Day 1 · 10.3 周六 · 北京 → 布鲁塞尔 → 巴黎：抵达缓冲 + 塞纳河夜景",
+      "loc": [
+        "Brussels Airport BRU",
+        "Brussels Midi",
+        "Paris Gare du Nord",
+        "Seine Paris",
+        "Eiffel Tower"
+      ],
       "items": [
         {
           "time": "02:40 北京时间",
@@ -97,275 +103,464 @@
           "iso": "2026-10-03T06:50:00+02:00",
           "title": "🛬 抵达布鲁塞尔 BRU：入境与取行李",
           "note": "按你的实际节奏预留到约 10:00 才能离开机场；今天不安排布鲁塞尔景点，避免入境波动打乱全程。",
-          "places": ["Brussels Airport BRU"]
+          "places": [
+            "Brussels Airport BRU"
+          ]
         },
         {
           "time": "午后",
           "iso": "2026-10-03T13:30:00+02:00",
           "title": "🚄 BRU → Brussels Midi → 巴黎：只订入境缓冲后可赶上的车",
           "note": "10:00 出机场后先到 Brussels Midi，再乘午后跨境高速列车到 Paris Gare du Nord。不要锁死过早车次；若入境延迟，优先改签而不是压缩巴黎行程。",
-          "places": ["Brussels Midi", "Paris Gare du Nord"]
+          "places": [
+            "Brussels Midi",
+            "Paris Gare du Nord"
+          ]
+        },
+        {
+          "time": "傍晚",
+          "iso": "2026-10-03T18:30:00+02:00",
+          "title": "🌉 入住巴黎后：塞纳河散步 + 铁塔夜景（轻量）",
+          "note": "把抵达日下午视为巴黎第 1 天，但不安排需预约的景点；若入境或跨境列车延误，直接取消这项，优先休息。",
+          "places": [
+            "Seine Paris",
+            "Eiffel Tower"
+          ]
         }
       ]
     },
     {
       "date": "2026-10-04",
-      "label": "Day 1",
-      "title": "Day 1 · 10.4 周日 · 巴黎核心：圣母院 + 左岸 + 埃菲尔多视角",
-      "loc": ["Notre Dame de Paris", "Sainte-Chapelle Paris", "Pont de Bir-Hakeim", "Trocadéro Paris", "Eiffel Tower"],
+      "label": "Day 2",
+      "title": "Day 2 · 10.4 周日 · 巴黎核心：圣母院、圣礼拜堂、先贤祠、铁塔",
+      "loc": [
+        "Notre Dame de Paris",
+        "Sainte-Chapelle Paris",
+        "Panthéon Paris",
+        "Pont de Bir-Hakeim",
+        "Trocadéro Paris",
+        "Eiffel Tower"
+      ],
       "items": [
         {
-          "time": "上午",
+          "time": "09:00",
           "iso": "2026-10-04T09:00:00+02:00",
           "title": "⛪ 巴黎圣母院：当天/前一天官方免费预约",
-          "note": "教堂入内免费；官方预约只是减少排队、通常临近日期才放出。参观后步行走西岱岛、塞纳河与拉丁区。",
-          "places": ["Notre Dame de Paris"]
+          "note": "先到西岱岛，参观圣母院（外观+内部）",
+          "places": [
+            "Notre Dame de Paris"
+          ]
         },
         {
-          "time": "13:00",
-          "iso": "2026-10-04T13:00:00+02:00",
-          "title": "🪟 Sainte-Chapelle / 西岱岛（加选）",
-          "note": "如买到圣礼拜堂时段票就同半天参观；没有票则把时间留给左岸散步和咖啡。",
-          "places": ["Sainte-Chapelle Paris"]
+          "time": "11:00",
+          "iso": "2026-10-04T11:00:00+02:00",
+          "title": "🪟 圣礼拜堂 + 西岱岛漫步",
+          "note": "圣礼拜堂彩色玻璃，步行至先贤祠",
+          "places": [
+            "Sainte-Chapelle Paris",
+            "Panthéon Paris"
+          ]
         },
         {
-          "time": "日落前",
+          "time": "14:00",
+          "iso": "2026-10-04T14:00:00+02:00",
+          "title": "🏛️ 先贤祠",
+          "note": "万神殿，可登顶看巴黎全景",
+          "places": [
+            "Panthéon Paris"
+          ]
+        },
+        {
+          "time": "17:30",
           "iso": "2026-10-04T17:30:00+02:00",
           "title": "🗼 埃菲尔铁塔多视角：比尔阿克姆桥 → 特罗卡德罗",
-          "note": "先在 Pont de Bir-Hakeim 拍桥拱与铁塔，再到 Trocadéro 看正面与日落；不急着登塔。",
-          "places": ["Pont de Bir-Hakeim", "Trocadéro Paris", "Eiffel Tower"]
+          "note": "保留原安排",
+          "places": [
+            "Pont de Bir-Hakeim",
+            "Trocadéro Paris",
+            "Eiffel Tower"
+          ]
         }
       ]
     },
     {
       "date": "2026-10-05",
-      "label": "Day 2",
-      "title": "Day 2 · 10.5 周一 · 法国迪士尼乐园：完整一天",
-      "loc": ["Disneyland Paris"],
+      "label": "Day 3",
+      "title": "Day 3 · 10.5 周一 · 巴黎迪士尼乐园一日游",
+      "loc": [
+        "Disneyland Paris"
+      ],
       "items": [
         {
-          "time": "开园前",
+          "time": "08:30",
           "iso": "2026-10-05T08:30:00+02:00",
-          "title": "🏰 Disneyland Paris：购买指定日期门票",
-          "note": "这一天只给迪士尼。确认官方当天开放和票种后决定一园/两园；不替你执行付费下单。",
-          "places": ["Disneyland Paris"]
+          "title": "🏰 Disneyland Paris：开园前入园",
+          "note": "提前抵达，利用开园前时间拍照与排队",
+          "places": [
+            "Disneyland Paris"
+          ]
         },
         {
-          "time": "傍晚",
-          "iso": "2026-10-05T19:00:00+02:00",
-          "title": "✨ 城堡夜间秀 / 返回巴黎",
-          "note": "是否等夜间秀取决于当天官方时间表和返程精力，次日继续巴黎市区。",
-          "places": ["Disneyland Paris"]
+          "time": "22:30",
+          "iso": "2026-10-05T22:30:00+02:00",
+          "title": "🌙 城堡夜间秀后返回巴黎",
+          "note": "观赏迪士尼城堡夜间灯光秀后乘 RER A 返回",
+          "places": [
+            "Disneyland Paris",
+            "Paris"
+          ]
         }
       ]
     },
     {
       "date": "2026-10-06",
-      "label": "Day 3",
-      "title": "Day 3 · 10.6 周二 · 巴黎艺术与城市视野：卢浮宫 + 凯旋门",
-      "loc": ["Louvre Museum", "Rue de l'Université Paris", "Arc de Triomphe Paris", "Montmartre Paris"],
+      "label": "Day 4",
+      "title": "Day 4 · 10.6 周二 · 巴黎艺术与夜景：卢浮宫、橘园、奥赛、海军府、凯旋门、圣心堂",
+      "loc": [
+        "Louvre Museum",
+        "Musée de l'Orangerie",
+        "Musée d'Orsay",
+        "Hôtel de la Marine",
+        "Rue de l'Université Paris",
+        "Arc de Triomphe Paris",
+        "Montmartre Paris",
+        "Basilique du Sacré-Cœur"
+      ],
       "items": [
         {
           "time": "09:00",
           "iso": "2026-10-06T09:00:00+02:00",
           "title": "🖼️ 卢浮宫：预约最早可用时段",
-          "note": "只选一条主线（如 Denon 翼 + 法国绘画），控制在 2.5–3 小时，不试图一天看完。",
-          "places": ["Louvre Museum"]
+          "note": "重点看镇馆三宝，约3小时",
+          "places": [
+            "Louvre Museum"
+          ]
         },
         {
-          "time": "15:30",
-          "iso": "2026-10-06T15:30:00+02:00",
+          "time": "13:30",
+          "iso": "2026-10-06T13:30:00+02:00",
+          "title": "🎨 橘园美术馆 + 奥赛博物馆",
+          "note": "橘园看莫奈睡莲，奥赛看印象派，两馆相邻",
+          "places": [
+            "Musée de l'Orangerie",
+            "Musée d'Orsay"
+          ]
+        },
+        {
+          "time": "17:00",
+          "iso": "2026-10-06T17:00:00+02:00",
+          "title": "🏛️ 海军府",
+          "note": "协和广场旁，可看历史建筑",
+          "places": [
+            "Hôtel de la Marine"
+          ]
+        },
+        {
+          "time": "18:30",
+          "iso": "2026-10-06T18:30:00+02:00",
           "title": "📸 铁塔侧视：Rue de l'Université → 凯旋门屋顶",
-          "note": "Rue de l'Université 适合街景框住铁塔；傍晚凯旋门屋顶看香榭丽舍轴线和铁塔远景。",
-          "places": ["Rue de l'Université Paris", "Arc de Triomphe Paris"]
+          "note": "傍晚光线好",
+          "places": [
+            "Rue de l'Université Paris",
+            "Arc de Triomphe Paris"
+          ]
         },
         {
-          "time": "晚上",
-          "iso": "2026-10-06T20:00:00+02:00",
-          "title": "🎨 加选：蒙马特与圣心堂夜景",
-          "note": "若卢浮宫或凯旋门排队过久就跳过，不压缩次日阿尔卑斯交通。",
-          "places": ["Montmartre Paris"]
+          "time": "20:30",
+          "iso": "2026-10-06T20:30:00+02:00",
+          "title": "⛪ 圣心堂（蒙马特高地）",
+          "note": "夜景与巴黎全景",
+          "places": [
+            "Montmartre Paris",
+            "Basilique du Sacré-Cœur"
+          ]
         }
       ]
     },
     {
       "date": "2026-10-07",
-      "label": "Day 4",
-      "title": "Day 4 · 10.7 周三 · 巴黎 → 安纳西：法国阿尔卑斯前站",
-      "loc": ["Paris Gare de Lyon", "Annecy France", "Lake Annecy"],
+      "label": "Day 5",
+      "title": "Day 5 · 10.7 周三 · 巴黎 → 霞慕尼：阿尔卑斯第 1 天",
+      "loc": [
+        "Paris Gare de Lyon",
+        "Geneva Cornavin",
+        "Chamonix-Mont-Blanc"
+      ],
       "items": [
         {
-          "time": "上午",
-          "iso": "2026-10-07T08:00:00+02:00",
-          "title": "🚄 巴黎 Gare de Lyon → Annecy：预订早班 TGV",
-          "note": "这一天只做长距离移动和安纳西，不再塞巴黎收费景点。车次、座位和住宿都等实际预订后再固定。",
-          "places": ["Paris Gare de Lyon", "Annecy France"]
+          "time": "07:00",
+          "iso": "2026-10-07T07:00:00+02:00",
+          "title": "🚄 巴黎 Gare de Lyon → 日内瓦：预订早班列车",
+          "note": "巴黎四天结束后转往阿尔卑斯。优先选择可改签车票，并预留日内瓦换乘的时间。",
+          "places": [
+            "Paris Gare de Lyon",
+            "Geneva Cornavin"
+          ]
         },
         {
           "time": "下午",
-          "iso": "2026-10-07T14:30:00+02:00",
-          "title": "🏞️ 安纳西老城 + 湖畔慢走",
-          "note": "10 月天气多变，户外租船/骑行作为可取消选项，不依赖它完成当天体验。",
-          "places": ["Annecy France", "Lake Annecy"]
+          "iso": "2026-10-07T13:30:00+02:00",
+          "title": "🚌 日内瓦 → Chamonix-Mont-Blanc：入住霞慕尼",
+          "note": "从日内瓦站或机场接驳至霞慕尼；当日以入住、采购和适应山地节奏为主。",
+          "places": [
+            "Geneva Cornavin",
+            "Chamonix-Mont-Blanc"
+          ]
+        },
+        {
+          "time": "傍晚",
+          "iso": "2026-10-07T18:00:00+02:00",
+          "title": "🏔️ 霞慕尼小镇 + 阿尔沃河慢走",
+          "note": "第一晚只做谷地散步；确认未来两天高山天气、缆车开放和装备。",
+          "places": [
+            "Chamonix-Mont-Blanc"
+          ]
         }
       ]
     },
     {
       "date": "2026-10-08",
-      "label": "Day 5",
-      "title": "Day 5 · 10.8 周四 · 霞慕尼 / 勃朗峰：按天气执行",
-      "loc": ["Chamonix-Mont-Blanc", "Aiguille du Midi", "Geneva Airport"],
+      "label": "Day 6",
+      "title": "Day 6 · 10.8 周四 · 霞慕尼：南针峰 + 冰海（按天气执行）",
+      "loc": [
+        "Chamonix-Mont-Blanc",
+        "Aiguille du Midi",
+        "Mer de Glace",
+        "Montenvers Railway"
+      ],
       "items": [
         {
-          "time": "清晨",
-          "iso": "2026-10-08T07:00:00+02:00",
-          "title": "🏔️ 安纳西 → Chamonix-Mont-Blanc",
-          "note": "先查高山天气、能见度和 Aiguille du Midi 缆车运行状态；大风/低云时改为霞慕尼谷地散步或留在安纳西，不硬上山。",
-          "places": ["Chamonix-Mont-Blanc", "Aiguille du Midi"]
+          "time": "08:00",
+          "iso": "2026-10-08T08:00:00+02:00",
+          "title": "🚠 南针峰 Aiguille du Midi：优先预约上午时段",
+          "note": "只在能见度、风速和缆车运行正常时上山；若停运或低云，当天改为冰海或谷地路线。",
+          "places": [
+            "Aiguille du Midi"
+          ]
         },
         {
-          "time": "晚上",
-          "iso": "2026-10-08T19:00:00+02:00",
-          "title": "🧳 转往日内瓦：为次日荷兰段留缓冲",
-          "note": "住日内瓦机场或交通便利处，避免把高山天气风险压到跨国航班当天。",
-          "places": ["Geneva Airport"]
+          "time": "下午",
+          "iso": "2026-10-08T13:30:00+02:00",
+          "title": "🚞 Montenvers 小火车 → 冰海 Mer de Glace",
+          "note": "高山项目与冰海均取决于天气和季节开放；不要把不确定的步道当作刚性行程。",
+          "places": [
+            "Montenvers Railway",
+            "Mer de Glace"
+          ]
         }
       ]
     },
     {
       "date": "2026-10-09",
-      "label": "Day 6",
-      "title": "Day 6 · 10.9 周五 · 日内瓦 → 阿姆斯特丹：运河首晚",
-      "loc": ["Geneva Airport", "Amsterdam Centraal", "Jordaan Amsterdam", "Canal Cruise Amsterdam"],
+      "label": "Day 7",
+      "title": "Day 7 · 10.9 周五 · 霞慕尼谷地 → 晚间飞巴塞罗那",
+      "loc": [
+        "Chamonix-Mont-Blanc",
+        "Lac des Gaillands",
+        "Geneva Airport",
+        "Barcelona–El Prat Airport"
+      ],
       "items": [
         {
           "time": "上午",
-          "iso": "2026-10-09T09:00:00+02:00",
-          "title": "✈️ 日内瓦 → 阿姆斯特丹：优先可改签航班",
-          "note": "不折返巴黎，直接用日内瓦机场衔接阿姆斯特丹。航班与住宿尚未确认，优先可改签/可退款组合。",
-          "places": ["Geneva Airport", "Amsterdam Centraal"]
+          "iso": "2026-10-09T09:30:00+02:00",
+          "title": "🥾 霞慕尼谷地缓冲日：Gaillands 湖畔 / 轻徒步",
+          "note": "作为阿尔卑斯第 3 天，选不依赖缆车的轻量路线；天气特别好再按实际体力替换为高山项目。",
+          "places": [
+            "Chamonix-Mont-Blanc",
+            "Lac des Gaillands"
+          ]
         },
         {
-          "time": "傍晚",
-          "iso": "2026-10-09T18:00:00+02:00",
-          "title": "🚤 Jordaan + 运河首晚",
-          "note": "只做轻量散步或游船，给第二天梵高馆保留完整精力。",
-          "places": ["Jordaan Amsterdam", "Canal Cruise Amsterdam"]
+          "time": "16:00",
+          "iso": "2026-10-09T16:00:00+02:00",
+          "title": "🚌 霞慕尼 → 日内瓦机场：为晚班机留足缓冲",
+          "note": "不要把山地交通与航班衔接得过紧；优先选择可改签、行李规则清楚的晚班直飞。",
+          "places": [
+            "Chamonix-Mont-Blanc",
+            "Geneva Airport"
+          ]
+        },
+        {
+          "time": "晚上",
+          "iso": "2026-10-09T20:00:00+02:00",
+          "title": "✈️ 日内瓦 GVA → 巴塞罗那 BCN：抵达后入住",
+          "note": "这是路线调整后的跨国航段，具体航班尚未订定；抵达后只办理入住，不安排景点。",
+          "places": [
+            "Geneva Airport",
+            "Barcelona–El Prat Airport"
+          ]
         }
       ]
     },
     {
       "date": "2026-10-10",
-      "label": "Day 7",
-      "title": "Day 7 · 10.10 周六 · 阿姆斯特丹：梵高博物馆 + 博物馆广场",
-      "loc": ["Van Gogh Museum Amsterdam", "Museumplein Amsterdam", "Vondelpark Amsterdam", "De Pijp Amsterdam"],
+      "label": "Day 8",
+      "title": "Day 8 · 10.10 周六 · 巴塞罗那：高迪主线",
+      "loc": [
+        "Sagrada Família",
+        "Park Güell",
+        "Casa Batlló",
+        "Passeig de Gràcia"
+      ],
       "items": [
         {
-          "time": "10:00",
-          "iso": "2026-10-10T10:00:00+02:00",
-          "title": "🎨 梵高博物馆：预约两人定时票",
-          "note": "在官方 tickets.vangoghmuseum.nl/en/tickets 选择 10.10 上午入场；票只对选定日期和时段有效且通常不可退款。建议预留 2 小时并加中文语音导览。",
-          "places": ["Van Gogh Museum Amsterdam"]
+          "time": "09:00",
+          "iso": "2026-10-10T09:00:00+02:00",
+          "title": "⛪ 圣家堂 Sagrada Família：预约最早时段",
+          "note": "优先把有限时段给圣家堂；购票时再决定是否登塔，并预留安检时间。",
+          "places": [
+            "Sagrada Família"
+          ]
         },
         {
-          "time": "下午",
-          "iso": "2026-10-10T13:30:00+02:00",
-          "title": "🌳 Museumplein → Vondelpark → De Pijp",
-          "note": "梵高馆后不硬塞第二个大型馆，转为博物馆广场、Vondelpark 和 De Pijp 的市场/晚餐。",
-          "places": ["Museumplein Amsterdam", "Vondelpark Amsterdam", "De Pijp Amsterdam"]
+          "time": "14:00",
+          "iso": "2026-10-10T14:00:00+02:00",
+          "title": "🌳 奎尔公园 Park Güell：预约入园",
+          "note": "由圣家堂向北衔接；公园核心区需要指定时段，注意 10 月日落较早。",
+          "places": [
+            "Park Güell"
+          ]
+        },
+        {
+          "time": "17:30",
+          "iso": "2026-10-10T17:30:00+02:00",
+          "title": "🏛️ 格拉西亚大道：巴特罗之家外观 + 晚餐",
+          "note": "若想入内参观 Casa Batlló，请提前订票；否则保留为建筑外观和街区散步。",
+          "places": [
+            "Casa Batlló",
+            "Passeig de Gràcia"
+          ]
         }
       ]
     },
     {
       "date": "2026-10-11",
-      "label": "Day 8",
-      "title": "Day 8 · 10.11 周日 · 阿姆斯特丹：国立博物馆 + 安妮之家",
-      "loc": ["Rijksmuseum Amsterdam", "Jordaan Amsterdam", "Anne Frank House", "Canal Cruise Amsterdam"],
+      "label": "Day 9",
+      "title": "Day 9 · 10.11 周日 · 巴塞罗那：哥特区、蒙锥克、海边",
+      "loc": [
+        "Barcelona Cathedral",
+        "Gothic Quarter Barcelona",
+        "Montjuïc",
+        "Barceloneta Beach"
+      ],
       "items": [
         {
           "time": "09:30",
           "iso": "2026-10-11T09:30:00+02:00",
-          "title": "🖼️ 国立博物馆 Rijksmuseum：两小时主线",
-          "note": "只看伦勃朗《夜巡》、维米尔和建筑中庭等核心，和前一天的梵高馆形成互补。",
-          "places": ["Rijksmuseum Amsterdam"]
+          "title": "🏰 巴塞罗那主教座堂 + 哥特区漫步",
+          "note": "从老城开始，按当天开放情况决定是否进入主教座堂；中午在 Born 或哥特区用餐。",
+          "places": [
+            "Barcelona Cathedral",
+            "Gothic Quarter Barcelona"
+          ]
         },
         {
-          "time": "下午",
-          "iso": "2026-10-11T14:00:00+02:00",
-          "title": "🏠 Jordaan + 安妮之家（有票才进入）",
-          "note": "安妮之家很值得，但以官方放票和实际订到的时段为准；没有票就改为 Jordaan 运河散步与九街。",
-          "places": ["Jordaan Amsterdam", "Anne Frank House"]
+          "time": "14:30",
+          "iso": "2026-10-11T14:30:00+02:00",
+          "title": "🚡 蒙锥克 Montjuïc：城市视野与日落",
+          "note": "用下午到傍晚安排山城景观；缆车、博物馆和西班牙村只按实际开放与体力择一加入。",
+          "places": [
+            "Montjuïc"
+          ]
         },
         {
           "time": "晚上",
-          "iso": "2026-10-11T19:00:00+02:00",
-          "title": "🧳 整理行李，锁定次日早班跨境列车",
-          "note": "12 日必须提前回布鲁塞尔并在当地过夜；今晚确认阿姆斯特丹→布鲁塞尔车票与布鲁塞尔住宿。"
+          "iso": "2026-10-11T19:30:00+02:00",
+          "title": "🌊 巴塞罗内塔海边晚餐 + 为返程整理行李",
+          "note": "确认次日 BCN → BRU 的航班和值机要求；这晚住巴塞罗那，次日直飞布鲁塞尔。",
+          "places": [
+            "Barceloneta Beach"
+          ]
         }
       ]
     },
     {
       "date": "2026-10-12",
-      "label": "Day 9",
-      "title": "Day 9 · 10.12 周一 · 提前抵达布鲁塞尔：欧盟区 + 原子球塔 + 大广场",
-      "loc": ["Amsterdam Centraal", "Brussels Midi", "European Parliament Brussels", "Parc Léopold Brussels", "Atomium Brussels", "Grand Place Brussels"],
+      "label": "Day 10",
+      "title": "Day 10 · 10.12 周一 · 巴塞罗那飞回布鲁塞尔：欧盟区 + 原子球塔 + 大广场",
+      "loc": [
+        "Barcelona–El Prat Airport",
+        "Brussels Airport BRU",
+        "European Parliament Brussels",
+        "Parc Léopold Brussels",
+        "Atomium Brussels",
+        "Grand Place Brussels"
+      ],
       "items": [
         {
-          "time": "清晨",
-          "iso": "2026-10-12T06:30:00+02:00",
-          "title": "🚄 阿姆斯特丹 → Brussels Midi：提前一天回到布鲁塞尔",
-          "note": "这是关键风险缓冲：12 日完成跨境移动并在布鲁塞尔过夜，13 日不再依赖任何长距离交通。选可改签的早班车并预留延误余量。",
-          "places": ["Amsterdam Centraal", "Brussels Midi"]
+          "time": "上午",
+          "iso": "2026-10-12T07:00:00+02:00",
+          "title": "✈️ 巴塞罗那 BCN → 布鲁塞尔 BRU：优先上午直飞",
+          "note": "选择上午抵达的直飞航班，落地后由机场直接前往欧盟区。未订票前不要锁死后续参观时段；若航班延误，优先保留返程前一晚住在布鲁塞尔。",
+          "places": [
+            "Barcelona–El Prat Airport",
+            "Brussels Airport BRU"
+          ]
         },
         {
-          "time": "10:30",
-          "iso": "2026-10-12T10:30:00+02:00",
+          "time": "13:00",
+          "iso": "2026-10-12T13:00:00+02:00",
           "title": "🇪🇺 欧盟圆形议会厅 Hemicycle：必须线上预约",
           "note": "安排在工作日；个人参观约 60 分钟，请用欧洲议会官方预约系统订两人时段，并带护照/有效身份证件过安检。",
-          "places": ["European Parliament Brussels"]
+          "places": [
+            "European Parliament Brussels"
+          ]
         },
         {
-          "time": "12:00",
-          "iso": "2026-10-12T12:00:00+02:00",
+          "time": "14:30",
+          "iso": "2026-10-12T14:30:00+02:00",
           "title": "📷 索尔维会议旧址：Parc Léopold 复刻合影",
           "note": "1927 年第五届索尔维会议在现欧洲议会旁的 Parc Léopold 旧研究所举行。国内先洗好合影，现场以同一台阶/立面为背景拍照；不要把 Hotel Solvay 或 Hotel Metropole 当作会议旧址。",
-          "places": ["Parc Léopold Brussels"]
+          "places": [
+            "Parc Léopold Brussels"
+          ]
         },
         {
-          "time": "15:00",
-          "iso": "2026-10-12T15:00:00+02:00",
+          "time": "16:30",
+          "iso": "2026-10-12T16:30:00+02:00",
           "title": "⚛️ 原子球塔 Atomium：预订下午时段",
           "note": "预留约 1.5–2 小时；Mini-Europe 仅在原子球塔提前结束、且你们仍有精力时再加。",
-          "places": ["Atomium Brussels"]
+          "places": [
+            "Atomium Brussels"
+          ]
         },
         {
-          "time": "傍晚",
-          "iso": "2026-10-12T18:00:00+02:00",
+          "time": "晚上",
+          "iso": "2026-10-12T19:30:00+02:00",
           "title": "🌆 布鲁塞尔大广场：蓝调时刻 + 晚餐",
           "note": "用大广场收束布鲁塞尔日，之后回已确认的当地住宿过夜。此前未匹配到“萨尼奥海滩”的可靠位置，收到英文名或地图点位后再精确插入。",
-          "places": ["Grand Place Brussels"]
+          "places": [
+            "Grand Place Brussels"
+          ]
         }
       ]
     },
     {
       "date": "2026-10-13",
-      "label": "Day 10",
-      "title": "Day 10 · 10.13 周二 · 布鲁塞尔机场 → 回国",
-      "loc": ["Brussels Airport BRU"],
+      "label": "返程",
+      "title": "返程 · 10.13 周二 · 布鲁塞尔机场 → 回国",
+      "loc": [
+        "Brussels Airport BRU"
+      ],
       "items": [
         {
           "time": "09:45",
           "iso": "2026-10-13T09:45:00+02:00",
           "title": "🚆 / 🚕 前往 BRU：只做机场流程",
           "note": "昨晚已在布鲁塞尔，今天只需从当地住宿前往机场。按国际航班至少 3 小时缓冲，不再安排市区景点。",
-          "places": ["Brussels Airport BRU"]
+          "places": [
+            "Brussels Airport BRU"
+          ]
         },
         {
           "time": "10:15",
           "iso": "2026-10-13T10:15:00+02:00",
           "title": "🛂 托运、退税、安检",
           "note": "退税物品不要先托运，海关盖章后再交运行李。",
-          "places": ["Brussels Airport BRU"]
+          "places": [
+            "Brussels Airport BRU"
+          ]
         },
         {
           "time": "13:20",
