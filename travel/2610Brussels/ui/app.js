@@ -25,7 +25,7 @@
   var EMPTY_REVIEW = { title: "回顾", sections: [] };
   var pageRender = null; /* 当前页面的"用最新 DATA 重新渲染"函数：index=renderAll，itin=render */
   var activateTab = null; /* index 页专属：切 tab 函数（由 initIndex 内的 showTab 赋值），供小王子对话框
-                              "共享攻略本"按钮跨作用域调用；itinerary 页没有 tab 结构，此值保持 null，
+                              "查看攻略本"按钮跨作用域调用；itinerary 页没有 tab 结构，此值保持 null，
                               对话框那边会退化成跳转到 index.html#guide */
 
   /* ---------- 公共小工具（原 data.js） ---------- */
@@ -268,7 +268,7 @@
       if (!tabMenu.hidden && !tabMenu.contains(e.target) && e.target !== tabToggle){ tabMenu.hidden = true; tabToggle.classList.remove("open"); }
     });
     /* 切 tab：按 tab 名显示对应 pane、同步下拉高亮态与折叠按钮文案。挂到模块级 activateTab，
-       供小王子对话框"共享攻略本"按钮直接调用（不用等下拉菜单里的按钮被点） */
+       供小王子对话框"查看攻略本"按钮直接调用（不用等下拉菜单里的按钮被点） */
     function showTab(tab){
       if (!TAB_LABELS[tab]) return;
       Object.keys(TAB_PANES).forEach(function(t){
@@ -285,7 +285,7 @@
       btn.addEventListener("click", function(){ showTab(btn.dataset.tab); });
     });
     activateTab = showTab;
-    /* 从 itinerary 页点"共享攻略本"会跳到 index.html#guide；这里接住这个 hash，直接打开攻略本 tab，
+    /* 从 itinerary 页点"查看攻略本"会跳到 index.html#guide；这里接住这个 hash，直接打开攻略本 tab，
        然后把 hash 清掉（history.replaceState），避免刷新/分享链接时又重复触发 */
     if (location.hash === "#guide"){
       showTab("guide");
@@ -771,7 +771,7 @@
         '<div class="princeModal" role="dialog" aria-modal="true" aria-label="小王子·改行程">' +
           '<div class="princeHd">🪐 小王子</div>' +
           '<select class="princeRoleSel" id="princeRoleSel" aria-label="选择角色"></select>' +
-          '<div class="princeSub">告诉我你想怎么改行程/攻略，我来帮你改～</div>' +
+          '<div class="princeSub">告诉我想怎么改日程，或明确说要写进攻略本；完成后我会显示实际结果～</div>' +
           '<div class="princeChat" id="princeChat" hidden></div>' +
           '<textarea class="princeTextarea" id="princeText" rows="2" placeholder="想改什么？例：把8月1日大皇宫改到11点"></textarea>' +
           '<button type="button" class="princeSubmit" id="princeSubmit">提交给小王子</button>' +
@@ -779,7 +779,7 @@
           '<div class="princeDivider"></div>' +
           '<div class="princeFooterRow">' +
             '<button type="button" class="princeHistoryBtn" id="princeHistoryBtn">📜 查看修改记录</button>' +
-            '<button type="button" class="princeShareBtn" id="princeShareBtn">📖 共享攻略本</button>' +
+            '<button type="button" class="princeShareBtn" id="princeShareBtn">📖 查看攻略本</button>' +
           '</div>' +
           '<div class="princeHistory" id="princeHistory" hidden></div>' +
         '</div>';
@@ -802,11 +802,11 @@
       textEl.value = localStorage.getItem(DRAFT_KEY) || "";
       textEl.addEventListener("input", function(){ localStorage.setItem(DRAFT_KEY, textEl.value); });
 
-      /* 角色下拉：选项与右上角整体角色选择器 #who 完全一致；在这里改 → 把 #who.value 设成新值并
+      /* 小王子只能以实际成员身份提交，不能以「总览」身份提交；在这里改 → 把 #who.value 设成新值并
          触发它的 change，让页面原有逻辑（存 localStorage('who') + renderAll）照常跑一遍，整页角色
          （机酒/此刻关注等）跟着变。itinerary 页没有 #who，就直接写 localStorage('who')。
          默认值/与 #who 保持最新一致，由 openModal() 里的 syncRoleSel() 在每次打开时同步。 */
-      (USERS.roles.concat([OVERVIEW])).forEach(function(n){ roleSel.add(new Option(n, n)); });
+      (USERS.roles || []).forEach(function(n){ roleSel.add(new Option(n, n)); });
       roleSel.addEventListener("change", function(){
         var whoEl = document.getElementById("who");
         if (whoEl){
@@ -829,7 +829,7 @@
         var author = roleSel.value || "";
         if (!author || author === OVERVIEW){
           statusEl.className = "princeStatus err";
-          statusEl.textContent = "请先在右上角选一下你是谁~";
+          statusEl.textContent = "请先选择一个实际成员身份再提交～";
           return;
         }
         submitBtn.disabled = true;
@@ -887,7 +887,7 @@
         });
       });
 
-      /* 「共享攻略本」：关闭对话框 + 切到攻略本 tab。index 页有 activateTab（initIndex 里赋值的
+      /* 「查看攻略本」：关闭对话框 + 切到攻略本 tab。index 页有 activateTab（initIndex 里赋值的
          showTab），直接调用即可；itinerary 页没有 tab 结构，退化成跳转到 index.html#guide，
          index 页加载时会认出这个 hash 并直接打开攻略本 tab（见 initIndex 里的 hash 处理）。 */
       shareBtn.addEventListener("click", function(){
@@ -920,15 +920,16 @@
         overlayEl.style.height = "";
       }
     }
-    /* 每次打开对话框时，把角色下拉同步成"当前整体角色"：优先读 #who.value，
-       没有 #who 的页面（itinerary）读 localStorage('who')，保证外部若改过角色，下次打开能反映最新值。 */
+    /* 每次打开对话框时同步实际成员身份；当前页若是「总览」，就安全回退到默认成员。 */
     function syncRoleSel(){
       if (!overlayEl) return;
       var roleSel = overlayEl.querySelector("#princeRoleSel");
       if (!roleSel) return;
       var whoEl = document.getElementById("who");
       var cur = whoEl ? whoEl.value : (localStorage.getItem("who") || "");
-      if (cur) roleSel.value = cur;
+      var members = USERS.roles || [];
+      var selected = members.indexOf(cur) >= 0 ? cur : (USERS.defaultRole || members[0] || "");
+      if (selected) roleSel.value = selected;
     }
     function openModal(){
       if (!overlayEl) overlayEl = buildModal();
