@@ -255,7 +255,7 @@
     /* ====== 下拉 Tab（日程 / 回顾 / 机酒 / 申根签证 / 攻略本） ====== */
     var tabToggle = $("tabToggle");
     var tabMenu = $("tabMenu");
-    var TAB_LABELS = { review: "回顾", plan: "日程", jz: "机酒", visa: "申根签证", guide: "攻略本" };
+    var TAB_LABELS = { review: "回顾", plan: "日程", jz: "机酒", visa: "申根签", guide: "攻略本" };
     var TAB_PANES = { review: "paneReview", plan: "panePlan", jz: "paneJz", visa: "paneVisa", guide: "paneGuide" };
     tabToggle.addEventListener("click", function(e){
       e.stopPropagation();
@@ -316,14 +316,17 @@
     whoSel.value = (saved && (TRANSPORT[saved] || saved === OVERVIEW)) ? saved : USERS.defaultRole;
 
     /* ====== 时区切换（默认北京时间，机酒 tab 用） ====== */
-    var tz = localStorage.getItem("tz") || "bj";
+    /* 时区状态按行程隔离，避免曼谷页留下的 "th" 覆盖欧洲页；并把异常旧值恢复为北京时间。 */
+    var tzStorageKey = "travel-tz-2610Brussels";
+    var tz = localStorage.getItem(tzStorageKey) || "bj";
+    if (tz !== "bj" && tz !== "be") tz = "bj";
     function applyTz(){
       var els = document.querySelectorAll(".ftime");
       for (var i = 0; i < els.length; i++){ els[i].textContent = (tz === "bj" ? els[i].dataset.bj : els[i].dataset.be); }
       $("tzbtn").textContent = (tz === "bj" ? SITE.timezones.bj.label : SITE.timezones.be.label);
     }
     $("tzbtn").addEventListener("click", function(){
-      tz = (tz === "bj" ? "be" : "bj"); localStorage.setItem("tz", tz); applyTz();
+      tz = (tz === "bj" ? "be" : "bj"); localStorage.setItem(tzStorageKey, tz); applyTz();
     });
 
     /* ====== 交通卡（每段用交通样式库对应款渲染；本次全为机票款） ====== */
