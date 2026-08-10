@@ -21,36 +21,8 @@
 
   var DATA, SITE, GUIDE, USERS, ITINERARY, TRANSPORT, OVERVIEW, DUR;
   var MAP_DEFAULT = "Brussels Belgium";
-  // 仅在 data/review.json 完全拉不到时使用的兜底：内容必须和这次行程（10 天 3 国 · 布鲁塞尔→巴黎→阿姆斯特丹）
-  // 对得上，别再留旧的「六天五晚 / 单国」措辞，以免和 trip.json 互相矛盾
-  var DEFAULT_REVIEW = {
-    eyebrow: "2026 · BRUSSELS · PARIS · AMSTERDAM",
-    title: "行程回顾",
-    intro: "10 天 3 国的初稿——从布鲁塞尔的华夫饼到巴黎的塞纳河，再到阿姆斯特丹的运河夜色。\n这份记录现在还是空的，出发后由我们一起把它填满。",
-    authorLine: "我们一起写给下一次再访欧洲",
-    sections: [
-      {
-        icon: "🏨", title: "住",
-        entries: [{ by: "xzy", highlight: "三段住宿已经全部订好。", text: "布鲁塞尔 4 晚住 Hilton Brussels Grand Place（正对大广场方向）；巴黎 3 晚住 Hôtel du Petit Moulin（Le Marais 区 17 世纪老宅改建）；阿姆斯特丹 3 晚住 The Hoxton（Herengracht 运河畔 17 世纪运河屋）。三段都在市中心黄金位置，去任何景点都步行 + 地铁可达。", tip: "前台 check-in 时记得要求相邻房间，boutique 酒店通常都能安排。", style: { size: "normal", color: "brand" } }]
-      },
-      {
-        icon: "🍫", title: "吃",
-        entries: [{ by: "xzy", highlight: "巧克力之都，名不虚传。", text: "Neuhaus 的 Praline 礼盒严谨经典；Pierre Marcolini 单价贵但味道惊艳；Leonidas 适合大量送人；The Chocolate Line 创意款最有趣。", tip: "回国送同事不建议混搭不同品牌礼盒，统一一家更体面；同一家买 €125+ 单店发票可办退税。", style: { size: "normal", color: "brand" } }]
-      },
-      {
-        icon: "🚆", title: "行",
-        entries: [{ by: "xzy", highlight: "Thalys 是这次三国游的核心。", text: "布鲁塞尔 ↔ 巴黎 1h30、巴黎 ↔ 阿姆斯特丹 3h20，二等座 €80-150；提前 1-2 个月订便宜很多；车厢 wifi 稳定、有小桌板，可以补觉或整理照片。", tip: "Thalys 票订早不订晚，临近出发能涨到 €200+；出发前 1-2 周查一下 €35 起的 IZY 廉价 Thalys 票（只发车当天）。", style: { size: "normal", color: "brand" } }]
-      },
-      {
-        icon: "🏛️", title: "玩",
-        entries: [{ by: "xzy", highlight: "三个城市节奏完全不同，留给脚步慢慢丈量。", text: "布鲁塞尔小而精，1-2 天足够；巴黎是博物馆和咖啡馆的天堂，需要 3 天才能不赶；阿姆斯特丹运河骑行 + 博物馆 2 天刚好。10 月三国都是秋色最美季节，光线柔和，拍照最出片。", style: { size: "normal", color: "brand" } }]
-      },
-      {
-        icon: "✨", title: "其他",
-        entries: [{ by: "wjj", highlight: "节奏放慢就好，别让这趟旅行变成赶景点。", text: "西欧不是大山大水的国家，但胜在小而精的细节——巧克力店橱窗、漫画墙转角、塞纳河上的书摊、运河上的天鹅、教堂尖顶的剪影——把节奏放慢、用脚步丈量，比一周内疯狂赶景点更值。10 天 3 国已经留了缓冲，遇到喜欢的地方就多待半天。", style: { size: "normal", color: "brand" } }]
-      }
-    ]
-  };
+  // 出发前不预填任何回顾；旅程结束后才由真实记录填入。
+  var EMPTY_REVIEW = { title: "回顾", sections: [] };
   var pageRender = null; /* 当前页面的"用最新 DATA 重新渲染"函数：index=renderAll，itin=render */
   var activateTab = null; /* index 页专属：切 tab 函数（由 initIndex 内的 showTab 赋值），供小王子对话框
                               "共享攻略本"按钮跨作用域调用；itinerary 页没有 tab 结构，此值保持 null，
@@ -183,7 +155,7 @@
       fetchJSON("data/trip.json"),
       fetchJSON("data/guide.json"),
       fetchJSON("data/users.json"),
-      pick("data/review.json", DEFAULT_REVIEW),
+      pick("data/review.json", EMPTY_REVIEW),
       pick("data/guidebook.json", [])
     ]).then(function(res){
       return { site: res[0], trip: res[1], guide: res[2], users: res[3], review: res[4], guidebook: (res[5] || []).slice() };
@@ -280,11 +252,11 @@
     $("durianList").innerHTML = GUIDE.durianTips.map(guideLi).join("");
     $("tipsList").innerHTML = GUIDE.practicalTips.map(guideLi).join("");
 
-    /* ====== 下拉 Tab（行程回顾 / 日程 / 机酒 / 攻略本） ====== */
+    /* ====== 下拉 Tab（日程 / 回顾 / 机酒 / 申根签证 / 攻略本） ====== */
     var tabToggle = $("tabToggle");
     var tabMenu = $("tabMenu");
-    var TAB_LABELS = { review: "回顾", plan: "日程", jz: "机酒", guide: "攻略本" };
-    var TAB_PANES = { review: "paneReview", plan: "panePlan", jz: "paneJz", guide: "paneGuide" };
+    var TAB_LABELS = { review: "回顾", plan: "日程", jz: "机酒", visa: "申根签证", guide: "攻略本" };
+    var TAB_PANES = { review: "paneReview", plan: "panePlan", jz: "paneJz", visa: "paneVisa", guide: "paneGuide" };
     tabToggle.addEventListener("click", function(e){
       e.stopPropagation();
       var open = tabMenu.hidden;
@@ -322,12 +294,13 @@
     function renderReview(){
       var box = $("reviewCards");
       if (!box) return;
-      var review = DATA.review || DEFAULT_REVIEW;
-      $("reviewEyebrow").textContent = review.eyebrow || DEFAULT_REVIEW.eyebrow;
-      $("reviewTitle").textContent = review.title || DEFAULT_REVIEW.title;
-      $("reviewIntro").textContent = review.intro || DEFAULT_REVIEW.intro;
-      $("reviewAuthor").textContent = review.authorLine || DEFAULT_REVIEW.authorLine;
-      box.innerHTML = (review.sections || []).map(function(item){
+      var review = DATA.review || EMPTY_REVIEW;
+      var sections = Array.isArray(review.sections) ? review.sections : [];
+      if (!sections.length){
+        box.innerHTML = '<div class="card reviewEmpty">旅行尚未开始，暂时没有可回顾的内容。</div>';
+        return;
+      }
+      box.innerHTML = sections.map(function(item){
         return '<article class="card reviewCard">' +
           '<div class="reviewIcon">' + escapeHtml(item.icon || "📝") + '</div>' +
           '<div class="reviewContent"><h2>' + escapeHtml(item.title || "回顾") + '</h2>' +
@@ -341,14 +314,6 @@
     USERS.roles.concat([OVERVIEW]).forEach(function(n){ whoSel.add(new Option(n, n)); });
     var saved = localStorage.getItem("who");
     whoSel.value = (saved && (TRANSPORT[saved] || saved === OVERVIEW)) ? saved : USERS.defaultRole;
-
-    var reviewWriteBtn = $("reviewWriteBtn");
-    if (reviewWriteBtn){
-      reviewWriteBtn.addEventListener("click", function(){
-        var fab = $("princeFab");
-        if (fab) fab.click();
-      });
-    }
 
     /* ====== 时区切换（默认北京时间，机酒 tab 用） ====== */
     var tz = localStorage.getItem("tz") || "bj";
@@ -379,18 +344,7 @@
       applyTz();
     }
 
-    /* ====== 酒店卡 ====== */
-    function hotelRowHTML(r){
-      var b = "";
-      if (r.name){ b += '<b>' + r.name + '</b>'; if (r.sub) b += '<br>' + r.sub; }
-      else if (r.text){ b += r.text; }
-      if (r.place) b += mapA(r.place);
-      if (r.note) b += '<div class="n">' + r.note + '</div>';
-      return '<div class="item"><div class="t">' + r.icon + '</div><div class="b">' + b + '</div></div>';
-    }
-    $("hotelBox").innerHTML = DATA.trip.hotel.rows.map(hotelRowHTML).join("");
-
-    /* ====== 攻略本（DATA.guidebook：大家跟小白聊天时自动攒的攻略/问答，最新在上） ======
+    /* ====== 攻略本（DATA.guidebook：大家跟小王子聊天时自动攒的攻略/问答，最新在上） ======
        - 顶部「随机推荐」：随机挑几条做成小胶囊，点了滚动+展开对应卡片
        - 每张卡默认收起（问题/要点 + 答案摘要 + 展开按钮），点开显示完整 Markdown 渲染 */
     var guideCardsBox = $("guideCards");
@@ -540,7 +494,7 @@
         return new Date((b && b.at) || 0).getTime() - new Date((a && a.at) || 0).getTime(); // 最新在上
       });
       if (!list.length){
-        box.innerHTML = '<div class="card guideEmpty">还没有攻略哦～点右下小白，跟它分享一条攻略或问个问题吧🍈</div>';
+        box.innerHTML = '<div class="card guideEmpty">还没有攻略哦～点右下小王子，跟它分享一条攻略或问个问题吧🪐</div>';
       } else {
         box.innerHTML = list.map(guideCardHTML).join("");
       }
@@ -704,13 +658,13 @@
     });
   }
 
-  /* ---------- 悬浮小助手（线条小狗·小白）：偶尔冒气泡邀请 + 点击弹出"改行程"对话框 + 修改记录 ---------- */
+  /* ---------- 悬浮小助手（小王子）：偶尔冒气泡邀请 + 点击弹出"改行程"对话框 + 修改记录 ---------- */
   function initPrinceFab(){
     var fab = document.getElementById("princeFab");
     if (!fab) return;
 
     var BUBBLE_MESSAGES = [
-      "行程/攻略有要改的？点我告诉小白～",
+      "行程/攻略有要改的？点我告诉小王子～",
       "想调时间、加地点？点我一句话就行～",
       "发现哪儿写错了？点我改～"
     ];
@@ -770,13 +724,13 @@
       overlay.className = "princeOverlay";
       overlay.hidden = true;
       overlay.innerHTML =
-        '<div class="princeModal" role="dialog" aria-modal="true" aria-label="小白·改行程">' +
-          '<div class="princeHd">🐶 小白</div>' +
+        '<div class="princeModal" role="dialog" aria-modal="true" aria-label="小王子·改行程">' +
+          '<div class="princeHd">🪐 小王子</div>' +
           '<select class="princeRoleSel" id="princeRoleSel" aria-label="选择角色"></select>' +
           '<div class="princeSub">告诉我你想怎么改行程/攻略，我来帮你改～</div>' +
           '<div class="princeChat" id="princeChat" hidden></div>' +
           '<textarea class="princeTextarea" id="princeText" rows="2" placeholder="想改什么？例：把8月1日大皇宫改到11点"></textarea>' +
-          '<button type="button" class="princeSubmit" id="princeSubmit">提交给小白</button>' +
+          '<button type="button" class="princeSubmit" id="princeSubmit">提交给小王子</button>' +
           '<div class="princeStatus" id="princeStatus"></div>' +
           '<div class="princeDivider"></div>' +
           '<div class="princeFooterRow">' +
@@ -844,7 +798,7 @@
           submitBtn.disabled = false;
           if (res.ok && res.data && res.data.ok){
             statusEl.className = "princeStatus ok";
-            statusEl.textContent = "已发送，小白在后台改，可以关掉页面啦～";
+            statusEl.textContent = "已发送，小王子在后台改，可以关掉页面啦～";
             renderChatArea({ text: text, reply: "", status: "处理中", at: new Date().toISOString() });
             textEl.value = "";
             localStorage.removeItem(DRAFT_KEY);
@@ -1005,7 +959,7 @@
       if (!chatEl) return;
       if (!ex || !ex.text){
         chatEl.hidden = false;
-        chatEl.innerHTML = '<div class="princeChatEmpty">还没有对话记录，写点什么发给小白试试吧～</div>';
+        chatEl.innerHTML = '<div class="princeChatEmpty">还没有对话记录，写点什么发给小王子试试吧～</div>';
         return;
       }
       var status = ex.status || "完成";
@@ -1014,7 +968,7 @@
       if (status === "处理中"){
         princeCls += " loading";
         var work = PRINCE_WORKS[Math.floor(Math.random() * PRINCE_WORKS.length)];
-        princeContent = '小白正在<span class="princeWorkWord">' + work + '</span><span class="princeDots"><span></span><span></span><span></span></span>';
+        princeContent = '小王子正在<span class="princeWorkWord">' + work + '</span><span class="princeDots"><span></span><span></span><span></span></span>';
       } else if (status === "失败"){
         princeCls += " err";
         princeContent = escapeHtml(ex.reply || "没改成功，要不再试一次？");

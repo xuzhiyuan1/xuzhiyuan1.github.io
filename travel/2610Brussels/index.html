@@ -18,8 +18,9 @@
       <button class="tabToggle" id="tabToggle">日程 <span class="car">▾</span></button>
       <div class="tabMenu" id="tabMenu" hidden>
         <button data-tab="plan" class="active">日程</button>
-        <button data-tab="review">行程回顾</button>
+        <button data-tab="review">回顾</button>
         <button data-tab="jz">机酒</button>
+        <button data-tab="visa">申根签证</button>
         <button data-tab="guide">攻略本</button>
       </div>
     </div>
@@ -51,20 +52,8 @@
     </div>
   </div>
 
-  <!-- ============ 行程回顾（出行后才有内容，未出行显示占位） ============ -->
+  <!-- ============ 回顾（旅行开始后再记录） ============ -->
   <section id="paneReview" hidden>
-    <div class="reviewHero">
-      <div class="reviewEyebrow" id="reviewEyebrow">2026 · BRUSSELS · PARIS · AMSTERDAM</div>
-      <h1 id="reviewTitle">行程回顾</h1>
-      <p id="reviewIntro">10 天 3 国的初稿——从布鲁塞尔的华夫饼到巴黎的塞纳河，再到阿姆斯特丹的运河夜色。<br>这份记录现在还是空的，出发后由我们一起把它填满。</p>
-      <div class="reviewAuthor" id="reviewAuthor">我们一起写给下一次再访欧洲</div>
-      <img class="reviewDur" src="ui/theme.png" alt="华夫饼">
-    </div>
-    <div class="card reviewContribute">
-      <h2><img class="dur" src="ui/theme.png" alt="华夫饼"> 把这次旅行继续写下去</h2>
-      <p>选择自己的名字，找小白补充攻略、踩坑和个人记忆。它会整理进这趟旅行的攻略本，留给下一次欧洲之旅参考。</p>
-      <button type="button" class="reviewWriteBtn" id="reviewWriteBtn">找小白写下我的记录</button>
-    </div>
     <div id="reviewCards"></div>
   </section>
 
@@ -107,9 +96,52 @@
       <div id="flightBox"></div>
       <div class="note">默认 <b>北京时间</b>，点按钮切 <b>欧洲时间</b>（比利时/法国/荷兰比北京慢 6 小时，10 月底前皆为夏令时）。切角色看自己的，"总览"看全部人。</div>
     </div>
-    <div class="card">
-      <h2>🏨 酒店（已确认）</h2>
-      <div id="hotelBox"></div>
+  </section>
+
+  <!-- ============ 申根签证 ============ -->
+  <section id="paneVisa" hidden>
+    <div class="card visaHero">
+      <div class="visaKicker">🇧🇪 2026 秋 · 短期旅游</div>
+      <h1>申根签证</h1>
+      <p>先把签证办妥，再慢慢确认三座城市的住宿。这里按中国普通护照申请比利时短期旅游申根签证整理；递交前以官方最新清单为准。</p>
+      <div class="visaLinks">
+        <a href="https://visa.vfsglobal.com/chn/zh/bel" target="_blank" rel="noopener">VFS 比利时中国官网</a>
+        <a href="https://visaonweb.diplomatie.be/" target="_blank" rel="noopener">在线申请表</a>
+        <a href="https://visa.vfsglobal.com/one-pager/belgium/china/english/pdf/Tourism-2024.pdf" target="_blank" rel="noopener">旅游材料清单</a>
+      </div>
+    </div>
+
+    <div class="card visaCard">
+      <h2>01 · 先确定向谁申请</h2>
+      <p>多国申根行程要向<strong>主要目的地</strong>申请；如果无法确定主要目的地，再向<strong>首次入境国</strong>申请。当前第一站是比利时，但酒店尚未确认：预约前要用最终停留天数核对。如果比利时仍是停留最久的国家，或没有单一主要目的地且仍从比利时首次入境，就申请比利时。</p>
+    </div>
+
+    <div class="card visaCard">
+      <h2>02 · 这趟行程的办理顺序</h2>
+      <ol class="visaSteps">
+        <li><b>确认最终线路</b><span>把三国停留天数、城市间交通和每晚住宿统一到一份英文行程单。</span></li>
+        <li><b>在线填写并预约</b><span>在 VisaOnWeb 填旅游短期申根签证申请表，打印、签字；随后按系统指引预约 VFS 递交。</span></li>
+        <li><b>准备整套材料</b><span>两位申请人分别整理，所有日期、姓名、航班号和住宿要彼此一致。</span></li>
+        <li><b>到 VFS 递交</b><span>带原件、复印件和预约材料；按现场要求完成递交与生物信息采集。</span></li>
+        <li><b>等待结果后再处理不可退项目</b><span>官方清单要求的是往返机票预订单；机票最好在签证签发后再购买。</span></li>
+      </ol>
+    </div>
+
+    <div class="card visaCard">
+      <h2>03 · 材料清单</h2>
+      <div class="visaGrid">
+        <div><h3>身份与表格</h3><ul><li>在线申请表：打印、日期填写完整并按要求签字</li><li>近 6 个月证件照 1 张</li><li>护照原件及复印件：10 年内签发、离开申根后至少有效 3 个月、至少 2 页空白页</li><li>身份证复印件；中国公民另备户口本全本复印件</li></ul></div>
+        <div><h3>行程与住宿</h3><ul><li>往返机票<strong>预订单</strong>（不必为签证先买不可退票）</li><li>逐日英文行程单：三国日期、城市间交通与景点逻辑一致</li><li>整个申根停留期的住宿证明；酒店尚未确认时，先选可取消预订，递交前务必补齐</li></ul></div>
+        <div><h3>资金与在职</h3><ul><li>近 3 个月本人活期银行流水：有规律收入、避免临时大额存入；不是信用卡账单</li><li>住酒店按官方参考需证明每日每人至少 €95 的资金能力</li><li>在职人士：公司抬头在职/准假证明、营业执照盖章复印件及所需翻译；其他身份按官方清单补充收入或关系材料</li></ul></div>
+        <div><h3>保险与回国约束</h3><ul><li>覆盖全部申根国家和全程的旅行医疗保险，保额至少 €30,000</li><li>保险需涵盖紧急医疗、住院与医疗原因送返</li><li>按个人情况补充家庭、工作、收入或资产等回国约束证明</li></ul></div>
+      </div>
+    </div>
+
+    <div class="card visaCard">
+      <h2>04 · 时间和费用</h2>
+      <p>比利时驻华官方信息显示，完整材料通常在 <strong>2–15 个工作日</strong>处理，可最早在出发前 <strong>180 天</strong>递交；个案或补件可能更久。10 月 3 日出发，建议现在完成预约和材料准备，并至少预留 4–6 周缓冲。</p>
+      <p>当前 VFS 公示的普通成人短期签证费为 <strong>€90 / ¥765</strong>，另有 <strong>¥187</strong>服务费；递交前请再次核对官网实时费用与可选服务费。</p>
+      <div class="note">酒店暂未确认不影响现在开始整理护照、流水、在职证明和保险，但递交时仍必须提供全程住宿证明。签证规则和费用可能调整，以 VFS 与比利时驻华使领馆网页为准。</div>
     </div>
   </section>
 
@@ -117,7 +149,7 @@
   <section id="paneGuide" hidden>
     <div class="card">
       <h2>📖 攻略本</h2>
-      <div class="note">大家跟小白分享攻略、提问的时候，小白会自动帮忙整理在这里～</div>
+      <div class="note">大家跟小王子分享攻略、提问的时候，小王子会自动帮忙整理在这里～</div>
     </div>
     <!-- 随机推荐（词云胶囊）：随机挑几条攻略做成小标签，点了滚动+展开对应卡片，脚本渲染 -->
     <div class="guideRandom" id="guideRandom" hidden></div>
@@ -132,7 +164,7 @@
   <footer>布鲁塞尔之旅 <img class="dur" src="ui/theme.png" alt="华夫饼"> · <a href="/">Powered by xuzhiyuan</a></footer>
 </div>
 
-<img class="princeFab" id="princeFab" src="ui/dog.svg" alt="线条小狗 小白" title="点我告诉小白想怎么改行程">
+<img class="princeFab" id="princeFab" src="ui/prince.png" alt="小王子" title="点我告诉小王子想怎么改行程">
 
 <script src="ui/app.js"></script>
 </body>

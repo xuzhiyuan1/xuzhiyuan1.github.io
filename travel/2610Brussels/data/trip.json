@@ -1,16 +1,16 @@
 {
   "transport": {
     "徐致远": {
-      "note": "往返合计 ¥7967（海南航空 HU491/HU492，含税往返经济舱）。10.3 凌晨 02:40 从北京首都 PEK T2 直飞布鲁塞尔 BRU，航程约 11 小时 10 分，06:50 落地（布鲁塞尔夏令时=北京−6 小时）。返程 10.13 中午 13:20 从布鲁塞尔起飞，10.14 凌晨 05:00 抵京。两人同一航班同一票号，方便结伴同行。",
+      "note": "两人往返合计 ¥7967（海南航空 HU491/HU492，含税经济舱）；折算为每人往返约 ¥3984、每段单程约 ¥1992。10.3 凌晨 02:40 从北京首都 PEK T2 直飞布鲁塞尔 BRU，航程约 11 小时 10 分，06:50 落地（布鲁塞尔夏令时=北京−6 小时）。返程 10.13 中午 13:20 从布鲁塞尔起飞，10.14 凌晨 05:00 抵京。两人同一航班同一票号，方便结伴同行。",
       "segments": [
         {
           "type": "flight",
           "label": "去程",
           "no": "HU491",
           "air": "海航",
-          "meta": "波音 787 · 经济舱 · 含税 ¥7967/2 人",
+          "meta": "波音 787 · 经济舱 · 单程约 ¥1992/人",
           "dur": "11时10分",
-          "price": "¥7967",
+          "price": "¥1,992",
           "depCity": "北京首都 PEK T2",
           "arrCity": "布鲁塞尔 BRU",
           "depBJ": "10.03 02:40",
@@ -24,9 +24,9 @@
           "label": "返程",
           "no": "HU492",
           "air": "海航",
-          "meta": "波音 787 · 经济舱",
+          "meta": "波音 787 · 经济舱 · 单程约 ¥1992/人",
           "dur": "10时40分",
-          "price": "已含",
+          "price": "¥1,992",
           "depCity": "布鲁塞尔 BRU",
           "arrCity": "北京首都 PEK T2",
           "depBJ": "10.13 19:20",
@@ -38,16 +38,16 @@
       ]
     },
     "王俊杰": {
-      "note": "与徐致远同一航班同一票号（HU491/HU492），从北京首都 PEK T2 直飞布鲁塞尔 BRU。去程 10.3 凌晨 02:40 起飞、06:50 落地；返程 10.13 中午 13:20 从布鲁塞尔起飞，10.14 凌晨 05:00 抵京。两人结伴而行，节奏完全同步。",
+      "note": "与徐致远同一航班同一票号（HU491/HU492）。两人往返合计 ¥7967，折算为每人往返约 ¥3984、每段单程约 ¥1992。去程 10.3 凌晨 02:40 起飞、06:50 落地；返程 10.13 中午 13:20 从布鲁塞尔起飞，10.14 凌晨 05:00 抵京。两人结伴而行，节奏完全同步。",
       "segments": [
         {
           "type": "flight",
           "label": "去程",
           "no": "HU491",
           "air": "海航",
-          "meta": "波音 787 · 经济舱 · 同行",
+          "meta": "波音 787 · 经济舱 · 单程约 ¥1992/人",
           "dur": "11时10分",
-          "price": "¥7967",
+          "price": "¥1,992",
           "depCity": "北京首都 PEK T2",
           "arrCity": "布鲁塞尔 BRU",
           "depBJ": "10.03 02:40",
@@ -61,9 +61,9 @@
           "label": "返程",
           "no": "HU492",
           "air": "海航",
-          "meta": "波音 787 · 经济舱 · 同行",
+          "meta": "波音 787 · 经济舱 · 单程约 ¥1992/人",
           "dur": "10时40分",
-          "price": "已含",
+          "price": "¥1,992",
           "depCity": "布鲁塞尔 BRU",
           "arrCity": "北京首都 PEK T2",
           "depBJ": "10.13 19:20",
@@ -75,55 +75,11 @@
       ]
     }
   },
-  "hotel": {
-    "rows": [
-      {
-        "icon": "🏨",
-        "name": "布鲁塞尔段 · Hilton Brussels Grand Place",
-        "sub": "Carrefour de l'Europe 3, 1000 Bruxelles · 4★ · 2026.10.03 — 10.07 · 4 晚",
-        "place": "Hilton Brussels Grand Place",
-        "note": "入住 10.3（早 06:50 落地后寄存行李）、离店 10.7 早上（去火车站搭 Thalys 赴巴黎）。正对大广场方向，步行 5 分钟到 Gare Centrale，地铁 De Brouckère 站出门即到；去 Paris 走 Brussels Midi 站也仅 2 站地铁。楼下 Carrefour Express + Le Pain Quotidien 早餐；Galeries Royales Saint-Hubert 步行 3 分钟。"
-      },
-      {
-        "icon": "🏨",
-        "name": "巴黎段 · Hôtel du Petit Moulin",
-        "sub": "29-31 rue de Poitou, 75003 Paris · 4★ · 2026.10.07 — 10.10 · 3 晚",
-        "place": "Hotel du Petit Moulin Paris",
-        "note": "入住 10.7 中午（Thalys 11:30 到 Gare du Nord，地铁直达 Le Marais）、离店 10.10 早上（去 Gare du Nord 搭 Thalys 赴阿姆斯特丹）。Le Marais 区心脏，17 世纪老宅改建的 boutique 酒店，Christian Lacroix 设计；步行 5 分钟到 Saint-Paul / Chemin Vert 地铁站，去卢浮宫、玛黑区、塞纳河都便利。"
-      },
-      {
-        "icon": "🏨",
-        "name": "阿姆斯特丹段 · The Hoxton, Amsterdam",
-        "sub": "Herengracht 255, 1016 BJ Amsterdam · 4★ · 2026.10.10 — 10.13 · 3 晚",
-        "place": "The Hoxton Amsterdam",
-        "note": "入住 10.10 下午（Thalys 13:30 到 Amsterdam Centraal，运河边 5 分钟）、离店 10.13 一早（拖着行李去 Amsterdam Centraal 搭早班 Thalys 回布鲁塞尔机场）。Herengracht 运河畔 5 座 17 世纪运河屋改建的 boutique 酒店；步行 5 分钟到 Nine Streets 九小巷、Rijksmuseum 步行 15 分钟、Anne Frank House 步行 10 分钟。"
-      },
-      {
-        "icon": "📋",
-        "text": "三段住宿小提醒",
-        "note": "① 三家都是 boutique 酒店，前台可要求相邻房间（提早邮件备注）；② 巴黎 + 阿姆斯特丹酒店都含欧式早餐，省一笔；③ 每段都建议给行李上锁（欧洲火车站偶尔有小偷）；④ 退税单存酒店保险柜更稳。"
-      }
-    ]
-  },
   "itinerary": [
     {
-      "date": "2026-09-30",
-      "label": "Day -2",
-      "title": "Day -2 · 9.30 周三 · 行前打包 + 早睡",
-      "loc": [],
-      "items": [
-        {
-          "time": "全天",
-          "iso": "2026-09-30T20:00:00+08:00",
-          "title": "📋 行前最后冲刺",
-          "note": "申根签证（如需）+ EU EES 生物识别在线注册（travel.ec.europa.eu/ees）；换少量欧元（机场应急 €200/人）；买欧洲 eSIM / Orange 实体卡（7 天约 ¥80-150）；下载 SNCB 比利时国铁、NS 荷兰国铁、Eurostar/Thalys、Uber、Bolt、Google Maps 离线包；把护照首页拍照 + 机票确认单 + 三段酒店英文地址存手机相册；尽量 22:00 前睡，明早凌晨起。"
-        }
-      ]
-    },
-    {
       "date": "2026-10-03",
-      "label": "Day 0",
-      "title": "Day 0 · 10.3 周六 · 飞抵布鲁塞尔",
+      "label": "起飞",
+      "title": "起飞 · 10.3 周六 · 北京 → 布鲁塞尔",
       "loc": [],
       "items": [
         {

@@ -13,13 +13,13 @@
 
 - `GET /data`：当前旅行 bundle 与攻略本；
 - `GET /history`：最近修改记录；
-- `GET /exchange?author=...`：某角色最后一条小白回复；
-- `POST /edit`：异步交给小白整理，随后更新以上状态；
+- `GET /exchange?author=...`：某角色最后一条小王子回复；
+- `POST /edit`：异步交给小王子整理，随后更新以上状态；
 - `GET /ping`：服务及路径核验。
 
-仓库中的 `data/*.json` 只作为网络不可用时的静态兜底。它们由
-`backend/travel/sync_static.py` 导出，再由统一的 Pages 发布脚本提交；不会再用
-`localStorage` 模拟后端，因此所有设备看到的是同一份记录。
+仓库中的 `data/*.json` 只作为网络不可用时的静态兜底；当前不会定时发布服务器状态到
+GitHub。不会再用 `localStorage` 模拟后端，因此所有设备看到的是同一份实时记录。
 
 `ui/app.js` 保留 trip guard：只有包含“布鲁塞尔/Brussels”标识的 bundle 才会渲染，防止 Tunnel
-配置错误时串入其它旅行的数据。小白的模型调用无工具权限，只能基于本次旅行状态返回结构化结果。
+配置错误时串入其它旅行的数据。小王子使用本旅行目录内的 DeepSeek 配置，无工具权限，
+只能基于本次旅行状态返回结构化结果。

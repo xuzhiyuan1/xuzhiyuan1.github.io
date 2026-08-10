@@ -88,6 +88,32 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .reviewContribute p{margin:0;color:var(--sub);font-size:.9em;line-height:1.65}
 .pg-index .reviewWriteBtn{margin-top:13px;border:0;border-radius:99px;padding:10px 15px;background:#c2410c;color:#fff;font:inherit;font-size:.88em;font-weight:700;cursor:pointer;box-shadow:0 3px 8px rgba(194,65,12,.28)}
 .pg-index .reviewWriteBtn:active{transform:translateY(1px)}
+.pg-index .reviewEmpty{border-left-color:#c2ccd3;color:var(--sub);text-align:center;padding:28px 18px}
+
+/* 申根签证：用于出发前的办理清单，链接和规则均指向官方来源 */
+.pg-index .visaHero{border-left-color:#c2410c;background:linear-gradient(135deg,rgba(107,63,29,.95),rgba(194,65,12,.88));color:#fff}
+.pg-index .visaHero h1{margin:4px 0 8px;font-size:2em;letter-spacing:.04em}
+.pg-index .visaHero p{margin:0;line-height:1.7;font-size:.94em}
+.pg-index .visaKicker{font-size:.75em;font-weight:800;letter-spacing:1.4px;opacity:.78}
+.pg-index .visaLinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.pg-index .visaLinks a{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.45);border-radius:99px;padding:6px 10px;font-size:.8em;background:rgba(255,255,255,.12)}
+.pg-index .visaLinks a:hover{background:rgba(255,255,255,.22)}
+.pg-index .visaCard{border-left-color:#d8963a}
+.pg-index .visaCard p{margin:0;color:var(--sub);font-size:.93em;line-height:1.75}
+.pg-index .visaCard p + p{margin-top:10px}
+.pg-index .visaCard strong{color:var(--brand)}
+.pg-index .visaSteps{list-style:none;padding:0;margin:0;counter-reset:visa-step}
+.pg-index .visaSteps li{position:relative;padding:10px 0 10px 41px;border-bottom:1px dashed var(--line);min-height:54px;counter-increment:visa-step}
+.pg-index .visaSteps li:last-child{border-bottom:0;padding-bottom:0}
+.pg-index .visaSteps li::before{content:counter(visa-step);position:absolute;left:0;top:9px;width:27px;height:27px;border-radius:99px;display:grid;place-items:center;background:#f4ead8;color:var(--brand);font-size:.82em;font-weight:800}
+.pg-index .visaSteps b{display:block;color:var(--brand);font-size:.94em}
+.pg-index .visaSteps span{display:block;color:var(--sub);font-size:.87em;line-height:1.6;margin-top:2px}
+.pg-index .visaGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pg-index .visaGrid>div{background:rgba(250,243,230,.72);border-radius:12px;padding:11px 12px}
+.pg-index .visaGrid h3{margin:0 0 7px;color:var(--brand);font-size:.92em}
+.pg-index .visaGrid ul{margin:0;padding-left:1.12em}
+.pg-index .visaGrid li{margin:5px 0;color:var(--sub);font-size:.84em;line-height:1.55}
+@media(max-width:480px){.pg-index .visaGrid{grid-template-columns:1fr}.pg-index .visaHero h1{font-size:1.7em}}
 
 .pg-index .tzbtn{margin-left:auto;font-size:.76em;border:1px solid #e8d3b6;background:#faf3e6;color:#a35221;border-radius:99px;padding:3px 10px;cursor:pointer}
 .pg-index .fcard{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:0}
