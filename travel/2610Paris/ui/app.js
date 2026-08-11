@@ -62,8 +62,11 @@
     return dPart + '<span class="cdC">' + pad(h) + ":" + pad(m) + ":" + pad(sec) + '</span>';
   }
 
+  function stripEmoji(s){
+    return String(s || "").replace(/[\p{Extended_Pictographic}\u{1F1E6}-\u{1F1FF}\uFE0F\u200D]/gu, "").trim();
+  }
   function stripLeadingEmoji(s){
-    return String(s || "").replace(/^(?:[\p{Extended_Pictographic}\uFE0F\u200D]+\s*)+/u, "");
+    return String(s || "").replace(/^[^\p{L}\p{N}]+/u, "");
   }
 
   /* 逐日行程统一用埃菲尔铁塔作为事件图标，每个 place 追加导航按钮。 */
@@ -97,13 +100,13 @@
   /* 攻略列表：runs（文字/加粗/链接段）+ 可选地图点 */
   function runsHTML(runs){
     return (runs || []).map(function(r){
-      if (r.href) return '<a target="_blank" rel="noopener" href="' + r.href + '">' + r.t + '</a>';
-      if (r.b != null) return '<b>' + r.b + '</b>';
-      return r.t;
+      if (r.href) return '<a target="_blank" rel="noopener" href="' + r.href + '">' + stripEmoji(r.t) + '</a>';
+      if (r.b != null) return '<b>' + stripEmoji(r.b) + '</b>';
+      return stripEmoji(r.t);
     }).join("");
   }
   function guideLi(item){
-    return '<li>' + runsHTML(item.runs) + (item.place ? mapA(item.place) : "") + '</li>';
+    return '<li>' + EIFFEL + runsHTML(item.runs) + (item.place ? mapA(item.place) : "") + '</li>';
   }
 
   /* ---------- 数据加载：优先读后端实时接口，超时/失败/串了别站 兜底读仓库静态 JSON ---------- */
@@ -252,7 +255,10 @@
     $("nowWx").textContent = stripLeadingEmoji(SITE.weatherBrief);
 
     /* 攻略：实用提醒 */
-    $("tipsList").innerHTML = GUIDE.practicalTips.map(guideLi).join("");
+    $("tipsList").innerHTML = GUIDE.practicalTips.filter(function(item){
+      var text = JSON.stringify(item || {});
+      return text.indexOf("华夫饼") === -1 && text.indexOf("Waffle") === -1;
+    }).map(guideLi).join("");
 
     /* ====== 下拉 Tab（日程 / 回顾 / 机酒 / 申根签证 / 攻略本） ====== */
     var tabToggle = $("tabToggle");
@@ -514,7 +520,7 @@
         ? '<div class="guideMeta">' + (authorLabel ? "<b>" + escapeHtml(authorLabel) + "</b>" : "<span></span>") + (timeLabel ? "<span>" + timeLabel + "</span>" : "") + "</div>"
         : "";
       var isQa = item.type === "qa";
-      var qText = escapeHtml(item.q || "");
+      var qText = escapeHtml(stripEmoji(item.q || ""));
       var aHtml = mdToHtml(item.a || "");
       var summary = truncate(mdPlainPreview(item.a), 48);
       var headMain = isQa
@@ -614,7 +620,7 @@
             return '<div class="item"><div class="t">' + it.time + '</div><div class="b">' + renderItemBody(it) + (it.note ? '<div class="n">' + it.note + '</div>' : '') + '</div></div>';
           }).join("");
           var todayCls = (day.date === key) ? ' today' : '';
-          html += '<div class="card day' + todayCls + '" data-date="' + day.date + '"><h2>' + day.title + '</h2>' + itemsHtml + '</div>';
+          html += '<div class="card day' + todayCls + '" data-date="' + day.date + '"><h2>' + EIFFEL + stripEmoji(day.title) + '</h2>' + itemsHtml + '</div>';
         }
         if (beforeTrip && idx === 0){
           html += mapCardHTML([], "出发前 · 布鲁塞尔全览");
@@ -643,7 +649,7 @@
         cdEl.innerHTML = cdText(new Date(next.t).getTime() - Date.now());
       } else {
         var ended = Date.now() > new Date(SITE.tripEnd).getTime();
-        labEl.textContent = ended ? "旅途结束，欢迎回家 🏠" : "暂无更多安排";
+        labEl.textContent = ended ? "旅途结束，欢迎回家" : "暂无更多安排";
         cdEl.innerHTML = "";
       }
       afEl.textContent = after ? "Next：" + clip(after.label) : "";
@@ -689,7 +695,7 @@
           return '<div class="item ' + cls + '"><div class="t"><span class="dot ' + cls + '"></span>' + it.time + '</div>' +
             '<div class="b">' + renderItemBody(it) + tag + (it.note ? '<div class="n">' + it.note + '</div>' : '') + '</div></div>';
         }).join("");
-        return '<div class="card' + (isToday ? " today" : "") + '"><h2>' + day.title + (isToday ? '<span class="tag">今天</span>' : '') + '</h2>' + items + '</div>';
+        return '<div class="card' + (isToday ? " today" : "") + '"><h2>' + EIFFEL + stripEmoji(day.title) + (isToday ? '<span class="tag">今天</span>' : '') + '</h2>' + items + '</div>';
       }).join("");
       document.getElementById("days").innerHTML = html;
     }
