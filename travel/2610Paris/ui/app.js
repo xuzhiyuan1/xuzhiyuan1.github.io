@@ -606,8 +606,9 @@
     function renderSchedule(){
       var now = Date.now();
       var key = todayKey();
-      var lastDate = ITINERARY[ITINERARY.length - 1].date;
+      var firstDate = ITINERARY[0].date, lastDate = ITINERARY[ITINERARY.length - 1].date;
       var matchIdx = ITINERARY.findIndex(function(d){ return d.date === key; });
+      var beforeTrip = key < firstDate;
       var afterTrip = key > lastDate;
       var html = "";
 
@@ -620,8 +621,7 @@
           var todayCls = (day.date === key) ? ' today' : '';
           html += '<div class="card day' + todayCls + '" data-date="' + day.date + '"><h2>' + stripEmoji(day.title) + '</h2>' + itemsHtml + '</div>';
         }
-        /* 出发前不再插入"出发前 · 布鲁塞尔全览"地图卡：保留其它阶段的地图卡（当日 / 全部游览地点） */
-        if (!afterTrip && idx === matchIdx){
+        if (!beforeTrip && !afterTrip && idx === matchIdx){
           html += mapCardHTML(day.loc, day.label + " 游览地图");
         }
       });
