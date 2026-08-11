@@ -721,6 +721,11 @@
     var msgIdx = 0;
     var pollTimer = null;   // 对话区轮询定时器：仅对话框开着时存在，关闭对话框即清掉
     var pollAuthor = null;  // 当前轮询对应的角色，防止切换角色/关闭后旧轮询结果串进新对话区
+    var builderPollTimer = null;
+    var pendingAttachment = null;
+    var builderAuthorized = false;
+    var BUILDER_URL = "https://build.xuzhiyuan1.top";
+    var MAX_ATTACHMENT_BYTES = 12 * 1024 * 1024;
 
     function randBetween(a, b){ return a + Math.random() * (b - a); }
 
@@ -771,9 +776,16 @@
         '<div class="princeModal" role="dialog" aria-modal="true" aria-label="小王子·改行程">' +
           '<div class="princeHd">🪐 小王子</div>' +
           '<select class="princeRoleSel" id="princeRoleSel" aria-label="选择角色"></select>' +
-          '<div class="princeSub">告诉我想怎么改日程，或明确说要写进攻略本；完成后我会显示实际结果～</div>' +
+          '<div class="princeSub">日程、城市、成员都能直接改；打开网站模式后还能改界面/代码并上传文件。</div>' +
           '<div class="princeChat" id="princeChat" hidden></div>' +
-          '<textarea class="princeTextarea" id="princeText" rows="2" placeholder="想改什么？例：把8月1日大皇宫改到11点"></textarea>' +
+          '<div class="princeAdminRow">' +
+            '<label><input type="checkbox" id="princeWebsiteMode"> 🛠 网站模式</label>' +
+            '<button type="button" class="princeAttachBtn" id="princeAttachBtn">📎 上传文件</button>' +
+            '<input type="file" id="princeFile" accept="image/*,.pdf,.txt,.md,.json,.csv" hidden>' +
+          '</div>' +
+          '<div class="princeFileName" id="princeFileName" hidden></div>' +
+          '<div class="princePassRow" id="princePassRow" hidden><input type="password" id="princePass" placeholder="首次使用网站模式请输入管理员口令" autocomplete="off"></div>' +
+          '<textarea class="princeTextarea" id="princeText" rows="2" placeholder="想改什么？可改日程、用户、页面或代码"></textarea>' +
           '<button type="button" class="princeSubmit" id="princeSubmit">提交给小王子</button>' +
           '<div class="princeStatus" id="princeStatus"></div>' +
           '<div class="princeDivider"></div>' +
@@ -796,6 +808,49 @@
       var historyEl = overlay.querySelector("#princeHistory");
       var roleSel = overlay.querySelector("#princeRoleSel");
       var shareBtn = overlay.querySelector("#princeShareBtn");
+      var websiteMode = overlay.querySelector("#princeWebsiteMode");
+      var attachBtn = overlay.querySelector("#princeAttachBtn");
+      var fileInput = overlay.querySelector("#princeFile");
+      var fileName = overlay.querySelector("#princeFileName");
+      var passRow = overlay.querySelector("#princePassRow");
+      var passInput = overlay.querySelector("#princePass");
+
+      passInput.value = localStorage.getItem("builderRoom_pass") || "";
+      passInput.addEventListener("input", function(){ localStorage.setItem("builderRoom_pass", passInput.value); });
+
+      function currentDeviceId(){
+        var id = localStorage.getItem("deviceId");
+        if (!id){ id = "D-" + Math.random().toString(36).slice(2, 8).toUpperCase(); localStorage.setItem("deviceId", id); }
+        return id;
+      }
+      function checkBuilderAuth(){
+        return fetch(BUILDER_URL + "/device?device=" + encodeURIComponent(currentDeviceId()))
+          .then(function(r){ return r.json(); })
+          .then(function(data){ builderAuthorized = !!(data && data.whitelisted); passRow.hidden = builderAuthorized || !websiteMode.checked; })
+          .catch(function(){ builderAuthorized = false; passRow.hidden = !websiteMode.checked; });
+      }
+      websiteMode.addEventListener("change", function(){
+        if (websiteMode.checked){ checkBuilderAuth(); }
+        else { passRow.hidden = true; }
+      });
+      attachBtn.addEventListener("click", function(){ fileInput.click(); });
+      fileInput.addEventListener("change", function(){
+        var file = fileInput.files && fileInput.files[0];
+        fileInput.value = "";
+        if (!file) return;
+        if (file.size > MAX_ATTACHMENT_BYTES){ statusEl.className = "princeStatus err"; statusEl.textContent = "文件不能超过 12MB"; return; }
+        var reader = new FileReader();
+        reader.onload = function(){
+          pendingAttachment = { name: file.name, type: file.type || "application/octet-stream", data_b64: reader.result };
+          fileName.textContent = "📎 " + file.name + "（点此移除）";
+          fileName.hidden = false;
+          websiteMode.checked = true;
+          checkBuilderAuth();
+        };
+        reader.onerror = function(){ statusEl.className = "princeStatus err"; statusEl.textContent = "文件读取失败"; };
+        reader.readAsDataURL(file);
+      });
+      fileName.addEventListener("click", function(){ pendingAttachment = null; fileName.hidden = true; fileName.textContent = ""; });
 
       /* 草稿：文本框内容随打随存到 localStorage，关闭对话框再打开、甚至刷新页面后都还在；
          提交成功后清空（用户手动清空文本框时 input 事件也会把草稿一起清掉）。 */
@@ -830,6 +885,45 @@
         if (!author || author === OVERVIEW){
           statusEl.className = "princeStatus err";
           statusEl.textContent = "请先选择一个实际成员身份再提交～";
+          return;
+        }
+        if (websiteMode.checked){
+          var adminPass = passInput.value.trim();
+          if (!builderAuthorized && !adminPass){
+            statusEl.className = "princeStatus err";
+            statusEl.textContent = "首次使用网站模式需要管理员口令";
+            passRow.hidden = false;
+            passInput.focus();
+            return;
+          }
+          submitBtn.disabled = true;
+          statusEl.className = "princeStatus loading";
+          statusEl.textContent = "网站修改任务发送中…";
+          postWebsiteEdit(author, text, adminPass, pendingAttachment).then(function(res){
+            submitBtn.disabled = false;
+            if (res.ok && res.data && res.data.ok){
+              builderAuthorized = !!(res.data.whitelisted || res.data.enrolled || builderAuthorized);
+              passRow.hidden = builderAuthorized;
+              statusEl.className = "princeStatus ok";
+              statusEl.textContent = "已发送，正在隔离副本中修改和检查网站…";
+              renderChatArea({ text: text, reply: "", status: "处理中", at: new Date().toISOString() });
+              textEl.value = "";
+              localStorage.removeItem(DRAFT_KEY);
+              pendingAttachment = null;
+              fileName.hidden = true;
+              fileName.textContent = "";
+              startWebsitePoll(res.data.id, author, text);
+            } else {
+              var message = (res.data && res.data.error) || ("提交失败（状态码 " + res.status + "）");
+              statusEl.className = "princeStatus err";
+              statusEl.textContent = message;
+              if (res.status === 401){ builderAuthorized = false; passRow.hidden = false; }
+            }
+          }).catch(function(err){
+            submitBtn.disabled = false;
+            statusEl.className = "princeStatus err";
+            statusEl.textContent = err && err.name === "AbortError" ? "上传超时，请重试" : "网站修改服务暂时不可用";
+          });
           return;
         }
         submitBtn.disabled = true;
@@ -928,6 +1022,11 @@
       var whoEl = document.getElementById("who");
       var cur = whoEl ? whoEl.value : (localStorage.getItem("who") || "");
       var members = USERS.roles || [];
+      var existing = Array.prototype.map.call(roleSel.options, function(option){ return option.value; });
+      if (existing.join("\u0000") !== members.join("\u0000")){
+        roleSel.innerHTML = "";
+        members.forEach(function(name){ roleSel.add(new Option(name, name)); });
+      }
       var selected = members.indexOf(cur) >= 0 ? cur : (USERS.defaultRole || members[0] || "");
       if (selected) roleSel.value = selected;
     }
@@ -983,6 +1082,52 @@
           return { status: r.status, ok: r.ok, data: data };
         });
       });
+    }
+
+    function postWebsiteEdit(author, text, pass, attachment){
+      var controller = ("AbortController" in window) ? new AbortController() : null;
+      var timer = setTimeout(function(){ if (controller) controller.abort(); }, 25000);
+      var body = {
+        device: localStorage.getItem("deviceId") || "",
+        label: author,
+        dir: "travel/2610Brussels",
+        mode: "fullstack",
+        text: text
+      };
+      if (!builderAuthorized && pass) body.pass = pass;
+      if (attachment) body.attachment = attachment;
+      return fetch(BUILDER_URL + "/build", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        signal: controller ? controller.signal : undefined
+      }).then(function(r){
+        clearTimeout(timer);
+        return r.json().catch(function(){ return {}; }).then(function(data){ return { status:r.status, ok:r.ok, data:data }; });
+      }, function(err){ clearTimeout(timer); throw err; });
+    }
+
+    function startWebsitePoll(taskId, author, text){
+      if (builderPollTimer) clearInterval(builderPollTimer);
+      function check(){
+        fetch(BUILDER_URL + "/result?id=" + encodeURIComponent(taskId))
+          .then(function(r){ return r.json(); })
+          .then(function(result){
+            if (!result || !result.status || result.status === "处理中") return;
+            clearInterval(builderPollTimer); builderPollTimer = null;
+            var statusEl = overlayEl && overlayEl.querySelector("#princeStatus");
+            if (result.status === "完成"){
+              if (statusEl){ statusEl.className = "princeStatus ok"; statusEl.textContent = "网站修改已完成并通过检查"; }
+              renderChatArea({ text:text, reply:result.reply || "网站修改已完成。", status:"完成", at:new Date().toISOString() });
+              refreshData();
+            } else {
+              if (statusEl){ statusEl.className = "princeStatus err"; statusEl.textContent = "网站修改未部署"; }
+              renderChatArea({ text:text, reply:result.reply || "网站修改失败。", status:"失败", at:new Date().toISOString() });
+            }
+          }).catch(function(){ /* 短暂网络问题，下轮继续 */ });
+      }
+      check();
+      builderPollTimer = setInterval(check, 3500);
     }
 
     /* ===== 对话区：GET {BACKEND_URL}/exchange?author=<角色> 拿该角色最后一次对话

@@ -332,6 +332,12 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .princeChatBubble.prince.err,.pg-itin .princeChatBubble.prince.err{background:#fff2ec;border-color:#f3c8ad;color:var(--warn);font-style:normal;font-weight:600}
 .pg-index .princeChatTime,.pg-itin .princeChatTime{align-self:flex-end;font-size:.72em;color:var(--sub);opacity:.85;margin-top:-2px}
 .pg-index .princeChatEmpty,.pg-itin .princeChatEmpty{font-size:.82em;color:var(--sub);text-align:center;padding:10px 4px}
+.pg-index .princeAdminRow,.pg-itin .princeAdminRow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:-4px 0 8px;font-size:.82em;color:var(--brand)}
+.pg-index .princeAdminRow label,.pg-itin .princeAdminRow label{display:flex;align-items:center;gap:4px;font-weight:700;cursor:pointer}
+.pg-index .princeAttachBtn,.pg-itin .princeAttachBtn{border:1px solid #e8d3b6;background:#faf3e6;color:#a35221;border-radius:8px;padding:6px 9px;font:inherit;font-weight:700;cursor:pointer}
+.pg-index .princeFileName,.pg-itin .princeFileName{margin:0 0 8px;padding:7px 9px;border-radius:8px;background:#f5f8fa;color:var(--sub);font-size:.78em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.pg-index .princePassRow,.pg-itin .princePassRow{margin:0 0 8px}
+.pg-index .princePassRow input,.pg-itin .princePassRow input{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:16px;font-family:inherit}
 /* 小王子"正在改…"的三点脉冲动画，替代旧的阻塞式等待文案 */
 .pg-index .princeDots,.pg-itin .princeDots{display:inline-flex;gap:3px;margin-left:5px;vertical-align:middle}
 .pg-index .princeDots span,.pg-itin .princeDots span{width:4px;height:4px;border-radius:99px;background:var(--sub);opacity:.3;animation:princeDotPulse 1.2s infinite ease-in-out}
