@@ -30,7 +30,7 @@
 
   /* ---------- 公共小工具（原 data.js） ---------- */
   function enc(q){ return String(q).replace(/ /g, "+"); }
-  function mapA(q){ return ' <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=' + enc(q) + '">' + EIFFEL + '导航</a>'; }
+  function mapA(q){ return ' <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=' + enc(q) + '">导航</a>'; }
   function stripTags(s){ return s.replace(/<[^>]*>/g, "").trim(); }
   function pad(n){ return String(n).padStart(2, "0"); }
   function todayKey(){ var d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
@@ -69,9 +69,9 @@
     return String(s || "").replace(/^[^\p{L}\p{N}]+/u, "");
   }
 
-  /* 逐日行程统一用埃菲尔铁塔作为事件图标，每个 place 追加导航按钮。 */
+  /* 逐日行程正文；每个 place 追加导航按钮。 */
   function renderItemBody(it){
-    var s = EIFFEL + stripLeadingEmoji(String(it.title || "").replace(/\{durian\}/g, ""));
+    var s = stripLeadingEmoji(String(it.title || "").replace(/\{durian\}/g, ""));
     (it.places || []).forEach(function(p){ s += mapA(p); });
     return s;
   }
@@ -106,7 +106,7 @@
     }).join("");
   }
   function guideLi(item){
-    return '<li>' + EIFFEL + runsHTML(item.runs) + (item.place ? mapA(item.place) : "") + '</li>';
+    return '<li>' + runsHTML(item.runs) + (item.place ? mapA(item.place) : "") + '</li>';
   }
 
   /* ---------- 数据加载：优先读后端实时接口，超时/失败/串了别站 兜底读仓库静态 JSON ---------- */
@@ -311,7 +311,6 @@
       }
       box.innerHTML = sections.map(function(item){
         return '<article class="card reviewCard">' +
-          '<div class="reviewIcon">' + EIFFEL + '</div>' +
           '<div class="reviewContent"><h2>' + escapeHtml(item.title || "回顾") + '</h2>' +
           (item.entries || []).map(function(entry){ var style = entry.style || {}; var cls = "reviewHighlight" + (style.size === "large" ? " large" : "") + (style.color === "warm" ? " warm" : ""); return '<div class="reviewEntry"><span class="reviewBy">' + escapeHtml(entry.by || "匿名") + '</span><div class="reviewEntryBody"><strong class="' + cls + '">' + escapeHtml(entry.highlight || "") + '</strong><p>' + escapeHtml(entry.text || "") + '</p>' + (entry.tip ? '<div class="reviewTip"><b>下次</b>' + escapeHtml(entry.tip) + '</div>' : '') + '</div></div>'; }).join('') +
           '</div></article>';
@@ -525,7 +524,7 @@
       var summary = truncate(mdPlainPreview(item.a), 48);
       var headMain = isQa
         ? '<div class="guideQ"><span class="guideTag q">问</span><span>' + qText + "</span></div>"
-        : '<div class="guideTitle">' + EIFFEL + qText + "</div>";
+        : '<div class="guideTitle">' + qText + "</div>";
       return '<div class="card guideCard' + (isQa ? " guideQa" : " guideTip") + '" data-gid="' + escapeHtml(gid) + '">' +
         '<button type="button" class="guideCardHead" aria-expanded="false">' +
           '<div class="guideCardHeadMain">' + headMain +
@@ -546,7 +545,7 @@
         return new Date((b && b.at) || 0).getTime() - new Date((a && a.at) || 0).getTime(); // 最新在上
       });
       if (!list.length){
-        box.innerHTML = '<div class="card guideEmpty">' + EIFFEL + '还没有攻略，点右下小王子分享一条攻略或问个问题吧。</div>';
+        box.innerHTML = '<div class="card guideEmpty">还没有攻略，点右下小王子分享一条攻略或问个问题吧。</div>';
       } else {
         box.innerHTML = list.map(guideCardHTML).join("");
       }
@@ -567,7 +566,7 @@
       var n = Math.min(pool.length, 4 + Math.floor(Math.random() * 3)); // 4~6 条
       var picked = pool.slice(0, n);
       box.hidden = false;
-      box.innerHTML = '<div class="guideRandomHd">' + EIFFEL + '随机推荐</div><div class="guideChips">' +
+      box.innerHTML = '<div class="guideRandomHd">随机推荐</div><div class="guideChips">' +
         picked.map(function(item, idx){
           var gid = item.id || ("gc" + idx);
           var label = item.topic ? String(item.topic) : truncate(item.q ? String(item.q) : mdPlainPreview(item.a), 14); // 优先用精简主题字段 topic，无则回退截断预览
@@ -595,12 +594,12 @@
     function mapCardHTML(loc, title){
       var locs = (loc && loc.length) ? loc : [MAP_DEFAULT];
       var list = locs.map(function(l){ return '<li>' + l + mapA(l) + '</li>'; }).join("");
-      return '<div class="card"><details><summary>' + EIFFEL + title + '</summary>' +
+      return '<div class="card"><details><summary>' + title + '</summary>' +
         '<iframe class="gmap" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=' + enc(locs[0]) + '&z=12&output=embed"></iframe>' +
         '<ul class="tips" style="margin-top:8px">' + list + '</ul></details></div>';
     }
     function allTripLinkHTML(){
-      return '<a href="itinerary.html" class="card allLink"><h2 style="margin-bottom:2px">' + EIFFEL + '全部行程</h2><div class="note">点开查看完整行程，当前时段自动高亮 →</div></a>';
+      return '<a href="itinerary.html" class="card allLink"><h2 style="margin-bottom:2px">全部行程</h2><div class="note">点开查看完整行程，当前时段自动高亮 →</div></a>';
     }
 
     /* ====== 逐日行程渲染（只显示未完成的；地图按今天插入；末尾"全部行程"） ====== */
@@ -620,7 +619,7 @@
             return '<div class="item"><div class="t">' + it.time + '</div><div class="b">' + renderItemBody(it) + (it.note ? '<div class="n">' + it.note + '</div>' : '') + '</div></div>';
           }).join("");
           var todayCls = (day.date === key) ? ' today' : '';
-          html += '<div class="card day' + todayCls + '" data-date="' + day.date + '"><h2>' + EIFFEL + stripEmoji(day.title) + '</h2>' + itemsHtml + '</div>';
+          html += '<div class="card day' + todayCls + '" data-date="' + day.date + '"><h2>' + stripEmoji(day.title) + '</h2>' + itemsHtml + '</div>';
         }
         if (beforeTrip && idx === 0){
           html += mapCardHTML([], "出发前 · 布鲁塞尔全览");
@@ -695,7 +694,7 @@
           return '<div class="item ' + cls + '"><div class="t"><span class="dot ' + cls + '"></span>' + it.time + '</div>' +
             '<div class="b">' + renderItemBody(it) + tag + (it.note ? '<div class="n">' + it.note + '</div>' : '') + '</div></div>';
         }).join("");
-        return '<div class="card' + (isToday ? " today" : "") + '"><h2>' + EIFFEL + stripEmoji(day.title) + (isToday ? '<span class="tag">今天</span>' : '') + '</h2>' + items + '</div>';
+        return '<div class="card' + (isToday ? " today" : "") + '"><h2>' + stripEmoji(day.title) + (isToday ? '<span class="tag">今天</span>' : '') + '</h2>' + items + '</div>';
       }).join("");
       document.getElementById("days").innerHTML = html;
     }
