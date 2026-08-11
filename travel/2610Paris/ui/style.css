@@ -428,7 +428,7 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .card,.pg-itin .card{background:rgba(255,255,255,.79);border:1px solid rgba(180,210,219,.72);border-left:4px solid #75b9ca;box-shadow:var(--shadow);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .pg-index .card h2,.pg-itin .card h2{color:var(--brand);letter-spacing:.015em}
 .pg-index .now{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(8,45,71,.97),rgba(12,132,170,.9));border-color:rgba(255,255,255,.2);border-left-color:var(--gold)}
-.pg-index .now::after{content:"CITY · ALPS · SEA";position:absolute;right:-7px;top:13px;color:rgba(255,255,255,.13);font:800 10px/1 system-ui,sans-serif;letter-spacing:.18em;transform:rotate(90deg)}
+.pg-index .now::after{content:"2610 PARIS";position:absolute;right:-7px;top:13px;color:rgba(255,255,255,.13);font:800 10px/1 system-ui,sans-serif;letter-spacing:.18em;transform:rotate(90deg)}
 .pg-index .now .nowHd{display:flex;align-items:center;gap:6px;color:#f7e6bd}
 .pg-index .day.today,.pg-itin .card.today{outline:2px solid var(--gold)}
 .pg-index .day.today h2::after,.pg-itin .card h2 .tag{color:#704c17;background:#f8e4b7}
@@ -469,4 +469,72 @@ body.pg-index{-webkit-font-smoothing:antialiased}
   .pg-index .tbTitle{font-size:.96em}
   .pg-index .heroDur{width:190px;right:-30px}
   .pg-index .heroSub .tag{max-width:75%;line-height:1.45}
+}
+
+/* ============================================================ Paris Orange · 仅保留铁塔的暖橙主题 ============================================================ */
+:root{
+  --bg:#fbf1e7; --card:#fffdf9; --ink:#3b241b; --sub:#80695e;
+  --brand:#8f3216; --accent:#d9652b; --gold:#e2a13b; --warn:#b93d2f;
+  --line:#ead4c1; --today:#fff3df; --done:#a89c95;
+  --shadow:0 12px 34px rgba(118,50,19,.13)
+}
+body{background:linear-gradient(155deg,#fff7ed 0%,#fdf1e4 48%,#f8e8d8 100%) fixed}
+.pg-index .topbar{background:rgba(113,39,17,.95);box-shadow:0 8px 28px rgba(91,34,15,.28)}
+.pg-index .tbTitle .dur{width:1.7em;height:1.7em;margin-right:2px}
+.pg-index .tabToggle{background:rgba(255,224,188,.13);border-color:rgba(255,234,209,.46)}
+.pg-index .tabMenu{border-color:#ead4c1;box-shadow:0 18px 45px rgba(93,39,17,.23)}
+.pg-index .tabMenu button.active{color:#b7471e;background:#fff1e1}
+
+.pg-index .heroSub,.pg-itin .hero{
+  background:linear-gradient(122deg,#7d2c16 0%,#b8471e 48%,#e27635 100%);
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.2),0 12px 35px rgba(137,55,20,.2)
+}
+.pg-index .heroSub{min-height:126px}
+.pg-index .heroSub .tag{background:rgba(255,247,232,.13);border-color:rgba(255,243,220,.24)}
+.pg-index .heroDur{right:24px;bottom:-34px;width:142px;opacity:.34;transform:none;border-radius:0}
+.pg-index .durbg,.pg-itin .durbg{right:-25px;bottom:-34px;width:min(50vw,280px);opacity:.09;transform:rotate(3deg);filter:none}
+.pg-index .dur,.pg-itin .dur,.sectionIcon{width:1.42em;height:1.42em;vertical-align:-.31em}
+.sectionIcon{width:1.52em;height:1.52em}
+
+.pg-index .card,.pg-itin .card{background:rgba(255,253,249,.84);border-color:rgba(226,194,164,.78);border-left-color:#e29a5b}
+.pg-index .now{background:linear-gradient(135deg,rgba(139,48,20,.97),rgba(222,103,43,.93));border-left-color:#f3bd62}
+.pg-index .now::after{content:"2610 PARIS";color:rgba(255,245,226,.15)}
+.pg-index .now .nowHd{color:#ffdfaa}
+.pg-index .day.today,.pg-itin .card.today{outline-color:#e4a43e}
+.pg-index .day.today h2::after,.pg-itin .card h2 .tag{color:#7a3d16;background:#ffe0a5}
+.pg-index .item .t,.pg-itin .item.future .t{color:#c85424}
+.pg-index a.map,.pg-itin a.map{color:#b6481f;border-color:#e7c49f;background:#fff5e8}
+.pg-index a.map .dur,.pg-itin a.map .dur{width:1.18em;height:1.18em;vertical-align:-.25em}
+.pg-index .tzbtn{border-color:#e7c49f;background:#fff3e2;color:#b6481f}
+.pg-index .fcard.mine{border-color:#e09457;background:#fff4e7}
+.pg-index .farrow{color:#d9652b}
+.pg-itin .item.current{background:linear-gradient(135deg,#fff9f0,#ffead0);outline-color:#e4a43e;box-shadow:0 4px 18px rgba(204,96,37,.18)}
+.pg-itin .dot.future{background:#eacbab}
+.pg-itin .dot.current,.pg-itin .item.current .nowtag{background:#df8d2f}
+.pg-itin .dot.current{box-shadow:0 0 0 4px rgba(223,141,47,.22)}
+
+.pg-index .reviewHero,.pg-index .visaHero{background:linear-gradient(135deg,rgba(120,41,18,.97),rgba(219,96,40,.92));border-left-color:#f0b557}
+.pg-index .reviewCard{border-left-color:#dd7b3b}
+.pg-index .reviewIcon,.pg-index .reviewTip,.pg-index .visaSteps li::before,.pg-index .defrole{background:#fff0dc;color:#a4431d}
+.pg-index .visaCard{border-left-color:#e2a13b}
+.pg-index .visaGrid>div{background:rgba(255,241,222,.78)}
+.pg-index .guideChip,.pg-index .guideTag.q,.pg-index .guideTag.a{border-color:#e7c49f;background:#fff3e2;color:#aa431c}
+.pg-index .guideToggleIcon,.pg-index .guideDetail a{color:#b6481f}
+.pg-index .devid,.pg-index .guideDetail code{background:#fff0df;color:#85401f}
+
+.pg-index .princeFab,.pg-itin .princeFab{filter:drop-shadow(0 8px 18px rgba(103,43,18,.3))}
+.pg-index .princeFab.princeFabActive,.pg-itin .princeFab.princeFabActive{filter:drop-shadow(0 8px 20px rgba(217,101,43,.55)) drop-shadow(0 0 14px rgba(226,161,59,.52))}
+.pg-index .princeBubble,.pg-itin .princeBubble,.pg-index .princeBubble::after,.pg-itin .princeBubble::after{background:#8f3216}
+.pg-index .princeModal,.pg-itin .princeModal{box-shadow:0 24px 70px rgba(91,35,14,.34)}
+.pg-index .princeChatBubble.prince,.pg-itin .princeChatBubble.prince,
+.pg-index .princeAttachBtn,.pg-itin .princeAttachBtn,
+.pg-index .princeHistoryBtn,.pg-itin .princeHistoryBtn{background:#fff2e2;border-color:#e7c49f;color:#aa431c}
+.pg-index .princeShareBtn,.pg-itin .princeShareBtn{background:#cf5928;border-color:#cf5928;color:#fff}
+.pg-index .princeRoleSel,.pg-itin .princeRoleSel{background:#fff2e2;color:#7f3218;border-color:#e7c49f}
+.pg-index .princeWorkWord,.pg-itin .princeWorkWord,.pg-index .princeStatus.ok,.pg-itin .princeStatus.ok{color:#b6481f}
+.pg-index .pullBanner.ok .pullRow,.pg-itin .pullBanner.ok .pullRow{color:#a4431d;background:#fff2df;border-color:#e7c49f}
+
+@media(max-width:520px){
+  .pg-index .heroDur{width:122px;right:10px;bottom:-27px}
+  .pg-index .tbTitle .dur{width:1.55em;height:1.55em}
 }
