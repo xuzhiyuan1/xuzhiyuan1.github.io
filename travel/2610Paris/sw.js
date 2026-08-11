@@ -1,4 +1,4 @@
-const CACHE = "travel-bru-v8";
+const CACHE = "travel-paris-v1";
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll([
     "./",
@@ -6,7 +6,8 @@ self.addEventListener("install", e => {
     "./itinerary.html",
     "./ui/style.css",
     "./ui/app.js",
-    "./ui/theme.png",
+    "./ui/eiffel.svg",
+    "./ui/city-mountain-sea.svg",
     "./ui/prince.png",
     "./data/site.json",
     "./data/trip.json",

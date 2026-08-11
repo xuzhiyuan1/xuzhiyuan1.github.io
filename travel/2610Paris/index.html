@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#6b3f1d" />
-<title>布鲁塞尔 · 巴黎 · 霞慕尼 · 尼斯 · 10.03–10.13</title>
-<link rel="stylesheet" href="ui/style.css?v=prince-admin-v1" />
+<meta name="theme-color" content="#0b2138" />
+<title>2610Paris · 城 · 山 · 海 · 10.03–10.13</title>
+<link rel="stylesheet" href="ui/style.css?v=paris-v1" />
 </head>
 <body class="pg-index" data-page="index">
 
-<img class="durbg" src="ui/theme.png" alt="" aria-hidden="true">
+<img class="durbg" src="ui/city-mountain-sea.svg" alt="" aria-hidden="true">
 
 <div class="topbar">
   <div class="tbInner">
-    <div class="tbTitle"><img class="dur" src="ui/theme.png" alt="华夫饼"> <span id="brandTitle"></span></div>
+    <div class="tbTitle"><img class="dur" src="ui/eiffel.svg" alt="埃菲尔铁塔"> <span id="brandTitle"></span></div>
     <div class="tabWrap">
       <button class="tabToggle" id="tabToggle">日程 <span class="car">▾</span></button>
       <div class="tabMenu" id="tabMenu" hidden>
@@ -33,7 +33,7 @@
 </div>
 
 <div class="heroSub">
-  <img class="heroDur" src="ui/theme.png" alt="" aria-hidden="true">
+  <img class="heroDur" src="ui/city-mountain-sea.svg" alt="" aria-hidden="true">
   <div class="wrap">
     <div class="dates" id="heroDates"></div>
     <span class="tag" id="heroTag"></span>
@@ -63,7 +63,7 @@
 
     <!-- 此刻关注：标题 / 倒计时 / 说明 / 完整下一个日程 / Next -->
     <div class="card now">
-      <div class="nowHd">📍 此刻关注 · 下一个日程</div>
+      <div class="nowHd"><img class="sectionIcon" src="ui/eiffel.svg" alt=""> 此刻关注 · 下一个日程</div>
       <div class="nowCd" id="nowCd"></div>
       <div class="nowCap">倒计时（按本机时间，比利时=北京−6小时）</div>
       <div class="nowFull" id="nowNextLabel">—</div>
@@ -76,15 +76,9 @@
     <!-- 逐日行程 + 动态插入的地图卡 + 末尾"全部行程"（脚本渲染） -->
     <div id="dayCards"></div>
 
-    <!-- 华夫饼专区 -->
-    <div class="card">
-      <h2><img class="dur" src="ui/theme.png" alt="华夫饼"> 华夫饼大作战</h2>
-      <ul class="tips" id="durianList"></ul>
-    </div>
-
     <!-- 实用提醒（含详细天气） -->
     <div class="card">
-      <h2>📌 实用提醒</h2>
+      <h2><img class="sectionIcon" src="ui/eiffel.svg" alt=""> 实用提醒</h2>
       <ul class="tips" id="tipsList"></ul>
     </div>
 
@@ -93,12 +87,12 @@
   <!-- ============ 机酒 ============ -->
   <section id="paneJz" hidden>
     <div class="card">
-      <h2>✈️ 航班 <button class="tzbtn" id="tzbtn">🕐 北京时间</button></h2>
+      <h2><img class="sectionIcon" src="ui/eiffel.svg" alt=""> 航班 <button class="tzbtn" id="tzbtn">北京时间</button></h2>
       <div id="flightBox"></div>
       <div class="note">默认 <b>北京时间</b>，点按钮切 <b>欧洲时间</b>（本次行程各地在 10 月中旬均比北京慢 6 小时）。切角色看自己的，"总览"看全部人。</div>
     </div>
     <div class="card">
-      <h2>🏨 酒店 <span class="note" style="margin:0">待确认</span></h2>
+      <h2><img class="sectionIcon" src="ui/eiffel.svg" alt=""> 酒店 <span class="note" style="margin:0">待确认</span></h2>
       <div class="note">尚未确认住宿，因此暂不展示酒店名称、地址或订单；确认后会沿用曼谷站同样的酒店卡片布局。</div>
     </div>
   </section>
@@ -106,7 +100,7 @@
   <!-- ============ 申根签证 ============ -->
   <section id="paneVisa" hidden>
     <div class="card visaHero">
-      <div class="visaKicker">🇫🇷 2026 秋 · 短期旅游</div>
+      <div class="visaKicker"><img class="sectionIcon" src="ui/eiffel.svg" alt=""> 2026 秋 · 短期旅游</div>
       <h1>申根签</h1>
       <p>当前行程以法国为主要停留地；这里按中国普通护照申请法国短期旅游申根签整理。递交前以 France-Visas 的实时清单为准。</p>
       <div class="visaLinks">
@@ -153,7 +147,7 @@
   <!-- ============ 攻略本 ============ -->
   <section id="paneGuide" hidden>
     <div class="card">
-      <h2>📖 攻略本</h2>
+      <h2><img class="sectionIcon" src="ui/eiffel.svg" alt=""> 攻略本</h2>
       <div class="note">大家跟小王子分享攻略、提问的时候，小王子会自动帮忙整理在这里～</div>
     </div>
     <!-- 随机推荐（词云胶囊）：随机挑几条攻略做成小标签，点了滚动+展开对应卡片，脚本渲染 -->
@@ -166,11 +160,11 @@
     <span style="opacity:.8">切换角色后本设备下次自动显示该角色</span>
   </div>
 
-  <footer>布鲁塞尔之旅 <img class="dur" src="ui/theme.png" alt="华夫饼"> · <a href="/">Powered by xuzhiyuan</a></footer>
+  <footer>2610Paris · 城 · 山 · 海 <img class="dur" src="ui/eiffel.svg" alt="埃菲尔铁塔"> · <a href="/">Powered by xuzhiyuan</a></footer>
 </div>
 
 <img class="princeFab" id="princeFab" src="ui/prince.png" alt="小王子" title="点我告诉小王子想怎么改行程">
 
-<script src="ui/app.js?v=prince-admin-v1"></script>
+<script src="ui/app.js?v=paris-v1"></script>
 </body>
 </html>

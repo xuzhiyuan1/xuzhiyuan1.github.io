@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">城、山、海</title>
+  <desc id="desc">巴黎埃菲尔铁塔、阿尔卑斯雪山和尼斯海岸</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b2138"/>
+      <stop offset=".48" stop-color="#315b75"/>
+      <stop offset="1" stop-color="#65bdd0"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4fc3d8"/>
+      <stop offset="1" stop-color="#087ca7"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe3aa"/>
+      <stop offset="1" stop-color="#c58d38"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="520" rx="42" fill="url(#sky)"/>
+  <circle cx="1010" cy="105" r="55" fill="#ffe2a3" opacity=".92"/>
+  <path d="M260 374 510 91l124 144 92-108 232 247Z" fill="#d9e8ee" opacity=".95"/>
+  <path d="m510 91 48 56 35-15 41 103-71-43-32 27-53-35-62 31Z" fill="#fff"/>
+  <path d="m726 127 49 58 30-14 50 73-64-24-28 24-69-19Z" fill="#f7fbfc" opacity=".98"/>
+  <path d="M0 350c155-24 290 30 445 8 171-24 253-3 394 25 135 27 238-22 361-20v157H0Z" fill="url(#sea)"/>
+  <path d="M0 403c150-35 287 30 427 3 173-34 285 23 419 26 141 4 226-29 354-15" fill="none" stroke="#d9f7ff" stroke-width="12" opacity=".72"/>
+  <g transform="translate(132 92)">
+    <path fill="url(#gold)" d="M95 0h22l-4 31 12 54 12 38 47 173h-34l-15-58H77l-15 58H28l47-173 12-38 12-54-4-31Zm11 46-7 39h14l-7-39ZM92 107l-5 17h38l-5-17H92Zm-10 38-5 19h58l-5-19H82Zm-12 48-7 26h86l-7-26H70Z"/>
+    <path fill="#071a2d" d="M48 296h116v13H48zM92 14h28v10H92z" opacity=".8"/>
+  </g>
+  <path d="M26 351h274v22H26zm40-49h42v49H66zm182-28h39v77h-39z" fill="#102b43" opacity=".86"/>
+  <g fill="#fff" font-family="system-ui,sans-serif" text-anchor="middle">
+    <text x="190" y="474" font-size="28" font-weight="700" letter-spacing="8">城</text>
+    <text x="600" y="474" font-size="28" font-weight="700" letter-spacing="8">山</text>
+    <text x="1005" y="474" font-size="28" font-weight="700" letter-spacing="8">海</text>
+  </g>
+</svg>

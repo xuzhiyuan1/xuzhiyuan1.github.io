@@ -1,0 +1,18 @@
+{
+  "brandTitle": "2610Paris",
+  "dates": "2026.10.03（周六 出发） — 10.13（周二 返程） · 共 10 天 · 比利时、法国、瑞士中转",
+  "heroTag": "看城 · 看山 · 看海｜巴黎 · 阿尔卑斯 · 尼斯",
+  "themeImage": "eiffel.svg",
+  "timezones": {
+    "bj": {
+      "label": "北京时间",
+      "offset": 8
+    },
+    "be": {
+      "label": "欧洲时间",
+      "offset": 2
+    }
+  },
+  "weatherBrief": "8–16°C · 城市、雪山与海岸温差较大",
+  "tripEnd": "2026-10-13T13:20:00+02:00"
+}

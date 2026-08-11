@@ -1,4 +1,4 @@
-/* 布鲁塞尔之旅 · 全部逻辑（index.html 与 itinerary.html 共用）。
+/* 2610Paris · 城、山、海之旅 · index.html 与 itinerary.html 共用。
    仿照曼谷站 app.js：数据优先实时读后端（CONFIG.BACKEND_URL，秒级更新），
    后端不可达时兜底读本仓库 data/site.json / trip.json / guide.json / users.json
    （每天备份一次的静态副本）。
@@ -8,19 +8,19 @@
 
   /* ============================================================
      CONFIG（每次旅行都拥有自己的路径级 API）
-     · Cloudflare 将 /2610Brussels/* 转到独立状态目录和独立进程。
+     · Cloudflare 将 /2610Paris/* 转到独立状态目录和独立进程。
      · trip-guard 仍保留，防止日后路由配置错误时把其它旅行的数据渲染到本站。
      ============================================================ */
   var CONFIG = {
-    BACKEND_URL: "https://trip.xuzhiyuan1.top/2610Brussels",
+    BACKEND_URL: "https://trip.xuzhiyuan1.top/2610Paris",
     BACKEND_TIMEOUT_MS: 5000, // 后端请求超时：超时/失败一律回退到仓库静态 JSON，保证不白屏
     // 期望的「这次行程」标识：后端 /data 里 site.brandTitle 或 site.dates 命中这里任一关键字即视为本次行程
-    EXPECTED_TRIP_KEYWORDS: ["布鲁塞尔", "Brussels"],
+    EXPECTED_TRIP_KEYWORDS: ["2610Paris", "巴黎", "Paris"],
     BACKEND_OK: false // 启动时为 false；首次成功拉到匹配 EXPECTED_TRIP_KEYWORDS 的 /data 才置 true
   };
 
-  var DATA, SITE, GUIDE, USERS, ITINERARY, TRANSPORT, OVERVIEW, DUR;
-  var MAP_DEFAULT = "Brussels Belgium";
+  var DATA, SITE, GUIDE, USERS, ITINERARY, TRANSPORT, OVERVIEW, EIFFEL;
+  var MAP_DEFAULT = "Paris France";
   // 出发前不预填任何回顾；旅程结束后才由真实记录填入。
   var EMPTY_REVIEW = { title: "回顾", sections: [] };
   var pageRender = null; /* 当前页面的"用最新 DATA 重新渲染"函数：index=renderAll，itin=render */
@@ -30,7 +30,7 @@
 
   /* ---------- 公共小工具（原 data.js） ---------- */
   function enc(q){ return String(q).replace(/ /g, "+"); }
-  function mapA(q){ return ' <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=' + enc(q) + '">🧭 导航</a>'; }
+  function mapA(q){ return ' <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=' + enc(q) + '">' + EIFFEL + '导航</a>'; }
   function stripTags(s){ return s.replace(/<[^>]*>/g, "").trim(); }
   function pad(n){ return String(n).padStart(2, "0"); }
   function todayKey(){ var d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
@@ -62,9 +62,13 @@
     return dPart + '<span class="cdC">' + pad(h) + ":" + pad(m) + ":" + pad(sec) + '</span>';
   }
 
-  /* 逐日行程 item 的正文（title 里的 {durian} 占位换成华夫饼主题图标，每个 place 追加导航按钮） */
+  function stripLeadingEmoji(s){
+    return String(s || "").replace(/^(?:[\p{Extended_Pictographic}\uFE0F\u200D]+\s*)+/u, "");
+  }
+
+  /* 逐日行程统一用埃菲尔铁塔作为事件图标，每个 place 追加导航按钮。 */
   function renderItemBody(it){
-    var s = String(it.title || "").split("{durian}").join(DUR);
+    var s = EIFFEL + stripLeadingEmoji(String(it.title || "").replace(/\{durian\}/g, ""));
     (it.places || []).forEach(function(p){ s += mapA(p); });
     return s;
   }
@@ -115,8 +119,7 @@
 
   /* 判断后端返回的 bundle 是不是「本次行程」的：site.brandTitle / dates / 任何深字段里
      只要命中 EXPECTED_TRIP_KEYWORDS 任一关键字即可。命中失败视为另一站点的后端，
-     抛出错误让上层回退到仓库静态 JSON。这样既保留「以后真上一个 Brussels 后端就自动接管」
-     的能力，又避免现在直接拿到曼谷数据污染本站。 */
+     抛出错误让上层回退到仓库静态 JSON，避免拿到其它站点的数据。 */
   function bundleIsForThisTrip(bundle){
     if (!bundle || typeof bundle !== "object") return false;
     try {
@@ -171,7 +174,7 @@
       SITE = DATA.site; GUIDE = DATA.guide; USERS = DATA.users;
       ITINERARY = DATA.trip.itinerary; TRANSPORT = DATA.trip.transport;
       OVERVIEW = USERS.overviewLabel;
-      DUR = '<img class="dur" src="ui/' + SITE.themeImage + '" alt="华夫饼">';
+      EIFFEL = '<img class="dur" src="ui/eiffel.svg" alt="埃菲尔铁塔"> ';
       return DATA;
     });
   }
@@ -227,7 +230,7 @@
       if (!seg) return lab + '<div class="fcard"><div class="fmeta">航班待补充</div></div>';
       var meta = seg.meta + (seg.price ? ' · ' + seg.price : '');
       return lab + '<div class="fcard' + (mine ? ' mine' : '') + '">' +
-        '<div class="frow2"><span class="no">' + seg.air + ' ' + seg.no + '</span><span class="fdur">✈ ' + seg.dur + '</span></div>' +
+        '<div class="frow2"><span class="no">' + seg.air + ' ' + seg.no + '</span><span class="fdur">' + seg.dur + '</span></div>' +
         '<div class="fmeta">' + meta + '</div>' +
         '<div class="froute">' +
           '<div class="fend"><div class="fcity">' + seg.depCity + '</div><div class="ftime" data-bj="' + seg.depBJ + '" data-be="' + seg.depBE + '">' + seg.depBJ + '</div></div>' +
@@ -245,11 +248,10 @@
     /* 固定文案填充 */
     $("brandTitle").textContent = SITE.brandTitle;
     $("heroDates").textContent = SITE.dates;
-    $("heroTag").innerHTML = String(SITE.heroTag).split("{durian}").join(DUR);
-    $("nowWx").textContent = SITE.weatherBrief;
+    $("heroTag").innerHTML = String(SITE.heroTag).replace(/\{durian\}/g, "").trim();
+    $("nowWx").textContent = stripLeadingEmoji(SITE.weatherBrief);
 
-    /* 攻略：华夫饼大作战 + 实用提醒 */
-    $("durianList").innerHTML = GUIDE.durianTips.map(guideLi).join("");
+    /* 攻略：实用提醒 */
     $("tipsList").innerHTML = GUIDE.practicalTips.map(guideLi).join("");
 
     /* ====== 下拉 Tab（日程 / 回顾 / 机酒 / 申根签证 / 攻略本） ====== */
@@ -303,7 +305,7 @@
       }
       box.innerHTML = sections.map(function(item){
         return '<article class="card reviewCard">' +
-          '<div class="reviewIcon">' + escapeHtml(item.icon || "📝") + '</div>' +
+          '<div class="reviewIcon">' + EIFFEL + '</div>' +
           '<div class="reviewContent"><h2>' + escapeHtml(item.title || "回顾") + '</h2>' +
           (item.entries || []).map(function(entry){ var style = entry.style || {}; var cls = "reviewHighlight" + (style.size === "large" ? " large" : "") + (style.color === "warm" ? " warm" : ""); return '<div class="reviewEntry"><span class="reviewBy">' + escapeHtml(entry.by || "匿名") + '</span><div class="reviewEntryBody"><strong class="' + cls + '">' + escapeHtml(entry.highlight || "") + '</strong><p>' + escapeHtml(entry.text || "") + '</p>' + (entry.tip ? '<div class="reviewTip"><b>下次</b>' + escapeHtml(entry.tip) + '</div>' : '') + '</div></div>'; }).join('') +
           '</div></article>';
@@ -358,13 +360,13 @@
 
     /* ====== 时区切换（默认北京时间，机酒 tab 用） ====== */
     /* 时区状态按行程隔离，避免曼谷页留下的 "th" 覆盖欧洲页；并把异常旧值恢复为北京时间。 */
-    var tzStorageKey = "travel-tz-2610Brussels";
+    var tzStorageKey = "travel-tz-2610Paris";
     var tz = localStorage.getItem(tzStorageKey) || "bj";
     if (tz !== "bj" && tz !== "be") tz = "bj";
     function applyTz(){
       var els = document.querySelectorAll(".ftime");
       for (var i = 0; i < els.length; i++){ els[i].textContent = (tz === "bj" ? els[i].dataset.bj : els[i].dataset.be); }
-      $("tzbtn").textContent = (tz === "bj" ? SITE.timezones.bj.label : SITE.timezones.be.label);
+      $("tzbtn").textContent = stripLeadingEmoji(tz === "bj" ? SITE.timezones.bj.label : SITE.timezones.be.label);
     }
     $("tzbtn").addEventListener("click", function(){
       tz = (tz === "bj" ? "be" : "bj"); localStorage.setItem(tzStorageKey, tz); applyTz();
@@ -517,7 +519,7 @@
       var summary = truncate(mdPlainPreview(item.a), 48);
       var headMain = isQa
         ? '<div class="guideQ"><span class="guideTag q">问</span><span>' + qText + "</span></div>"
-        : '<div class="guideTitle">📝 ' + qText + "</div>";
+        : '<div class="guideTitle">' + EIFFEL + qText + "</div>";
       return '<div class="card guideCard' + (isQa ? " guideQa" : " guideTip") + '" data-gid="' + escapeHtml(gid) + '">' +
         '<button type="button" class="guideCardHead" aria-expanded="false">' +
           '<div class="guideCardHeadMain">' + headMain +
@@ -538,7 +540,7 @@
         return new Date((b && b.at) || 0).getTime() - new Date((a && a.at) || 0).getTime(); // 最新在上
       });
       if (!list.length){
-        box.innerHTML = '<div class="card guideEmpty">还没有攻略哦～点右下小王子，跟它分享一条攻略或问个问题吧🪐</div>';
+        box.innerHTML = '<div class="card guideEmpty">' + EIFFEL + '还没有攻略，点右下小王子分享一条攻略或问个问题吧。</div>';
       } else {
         box.innerHTML = list.map(guideCardHTML).join("");
       }
@@ -559,7 +561,7 @@
       var n = Math.min(pool.length, 4 + Math.floor(Math.random() * 3)); // 4~6 条
       var picked = pool.slice(0, n);
       box.hidden = false;
-      box.innerHTML = '<div class="guideRandomHd">🎲 随机推荐</div><div class="guideChips">' +
+      box.innerHTML = '<div class="guideRandomHd">' + EIFFEL + '随机推荐</div><div class="guideChips">' +
         picked.map(function(item, idx){
           var gid = item.id || ("gc" + idx);
           var label = item.topic ? String(item.topic) : truncate(item.q ? String(item.q) : mdPlainPreview(item.a), 14); // 优先用精简主题字段 topic，无则回退截断预览
@@ -587,12 +589,12 @@
     function mapCardHTML(loc, title){
       var locs = (loc && loc.length) ? loc : [MAP_DEFAULT];
       var list = locs.map(function(l){ return '<li>' + l + mapA(l) + '</li>'; }).join("");
-      return '<div class="card"><details><summary>🗺️ ' + title + '</summary>' +
+      return '<div class="card"><details><summary>' + EIFFEL + title + '</summary>' +
         '<iframe class="gmap" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=' + enc(locs[0]) + '&z=12&output=embed"></iframe>' +
         '<ul class="tips" style="margin-top:8px">' + list + '</ul></details></div>';
     }
     function allTripLinkHTML(){
-      return '<a href="itinerary.html" class="card allLink"><h2 style="margin-bottom:2px">📋 全部行程</h2><div class="note">点开查看完整行程，当前时段自动高亮 →</div></a>';
+      return '<a href="itinerary.html" class="card allLink"><h2 style="margin-bottom:2px">' + EIFFEL + '全部行程</h2><div class="note">点开查看完整行程，当前时段自动高亮 →</div></a>';
     }
 
     /* ====== 逐日行程渲染（只显示未完成的；地图按今天插入；末尾"全部行程"） ====== */
@@ -774,13 +776,13 @@
       overlay.hidden = true;
       overlay.innerHTML =
         '<div class="princeModal" role="dialog" aria-modal="true" aria-label="小王子·改行程">' +
-          '<div class="princeHd">🪐 小王子</div>' +
+          '<div class="princeHd">' + EIFFEL + '小王子</div>' +
           '<select class="princeRoleSel" id="princeRoleSel" aria-label="选择角色"></select>' +
           '<div class="princeSub">日程、城市、成员都能直接改；打开网站模式后还能改界面/代码并上传文件。</div>' +
           '<div class="princeChat" id="princeChat" hidden></div>' +
           '<div class="princeAdminRow">' +
-            '<label><input type="checkbox" id="princeWebsiteMode"> 🛠 网站模式</label>' +
-            '<button type="button" class="princeAttachBtn" id="princeAttachBtn">📎 上传文件</button>' +
+            '<label><input type="checkbox" id="princeWebsiteMode"> 网站模式</label>' +
+            '<button type="button" class="princeAttachBtn" id="princeAttachBtn">上传文件</button>' +
             '<input type="file" id="princeFile" accept="image/*,.pdf,.txt,.md,.json,.csv" hidden>' +
           '</div>' +
           '<div class="princeFileName" id="princeFileName" hidden></div>' +
@@ -790,8 +792,8 @@
           '<div class="princeStatus" id="princeStatus"></div>' +
           '<div class="princeDivider"></div>' +
           '<div class="princeFooterRow">' +
-            '<button type="button" class="princeHistoryBtn" id="princeHistoryBtn">📜 查看修改记录</button>' +
-            '<button type="button" class="princeShareBtn" id="princeShareBtn">📖 查看攻略本</button>' +
+            '<button type="button" class="princeHistoryBtn" id="princeHistoryBtn">查看修改记录</button>' +
+            '<button type="button" class="princeShareBtn" id="princeShareBtn">查看攻略本</button>' +
           '</div>' +
           '<div class="princeHistory" id="princeHistory" hidden></div>' +
         '</div>';
@@ -842,7 +844,7 @@
         var reader = new FileReader();
         reader.onload = function(){
           pendingAttachment = { name: file.name, type: file.type || "application/octet-stream", data_b64: reader.result };
-          fileName.textContent = "📎 " + file.name + "（点此移除）";
+          fileName.textContent = file.name + "（点此移除）";
           fileName.hidden = false;
           websiteMode.checked = true;
           checkBuilderAuth();
@@ -960,11 +962,11 @@
       historyBtn.addEventListener("click", function(){
         if (!historyEl.hidden){
           historyEl.hidden = true;
-          historyBtn.textContent = "📜 查看修改记录";
+          historyBtn.textContent = "查看修改记录";
           return;
         }
         historyEl.hidden = false;
-        historyBtn.textContent = "📜 收起修改记录";
+        historyBtn.textContent = "收起修改记录";
         historyEl.innerHTML = '<div class="princeHistLoading">加载中…</div>';
         loadHistory().then(function(list){
           if (!list.length){
@@ -1090,7 +1092,7 @@
       var body = {
         device: localStorage.getItem("deviceId") || "",
         label: author,
-        dir: "travel/2610Brussels",
+        dir: "travel/2610Paris",
         mode: "fullstack",
         text: text
       };

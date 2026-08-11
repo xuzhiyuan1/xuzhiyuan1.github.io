@@ -1,12 +1,11 @@
-/* 布鲁塞尔之旅 · 全部样式（index = .pg-index，itinerary = .pg-itin，两页选择器互不干扰）
-   仿照曼谷站的视觉系统，仅配色主题改为布鲁塞尔的"巧克力棕+秋叶橙"，保持其它结构/响应式完全一致 */
+/* 2610Paris · 城、山、海视觉系统（巴黎午夜蓝 + 阿尔卑斯冰川白 + 尼斯海岸蓝） */
 :root{
-  --bg:#f7f5f1; --card:#ffffff; --ink:#2a221b; --sub:#6e6051;
-  --brand:#6b3f1d; --accent:#c2410c; --warn:#a8370b; --line:#e5dccd; --today:#fdf2e2;
-  --done:#9aa7ae; --shadow:0 2px 10px rgba(80,46,18,.14);
+  --bg:#edf5f7; --card:#ffffff; --ink:#10283d; --sub:#5d7180;
+  --brand:#0b2b47; --accent:#0b88b5; --gold:#d6a24a; --warn:#b94a48; --line:#cadde3; --today:#eef9fb;
+  --done:#91a2ab; --shadow:0 12px 34px rgba(7,38,61,.12);
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);
+body{margin:0;background:linear-gradient(155deg,#eef7f8 0%,#f9fbfb 45%,#e7f4f8 100%) fixed;color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",Roboto,"Noto Sans SC",sans-serif;
   padding-bottom:40px}
 body.pg-index{-webkit-font-smoothing:antialiased}
@@ -405,3 +404,69 @@ body.pg-index{-webkit-font-smoothing:antialiased}
 .pg-index .pullTime,.pg-itin .pullTime{opacity:.92}
 .pg-index .pullBanner.ok .pullRow,.pg-itin .pullBanner.ok .pullRow{color:#8a5a2b;background:#fbf3e2;border-color:#e8d3a8}
 .pg-index .pullBanner.err .pullRow,.pg-itin .pullBanner.err .pullRow{color:var(--warn);background:#fff2ec;border-color:#f3c8ad}
+
+/* ============================================================ 2610Paris · 城 / 山 / 海主题覆盖 ============================================================ */
+.pg-index .topbar{background:rgba(7,29,49,.94);box-shadow:0 8px 28px rgba(5,28,47,.28);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.pg-index .tbInner{max-width:720px;padding-top:10px;padding-bottom:10px}
+.pg-index .tbTitle{font-family:Georgia,"Times New Roman","Songti SC",serif;letter-spacing:.07em}
+.pg-index .tabToggle{background:rgba(116,190,209,.12);border-color:rgba(211,239,245,.4)}
+.pg-index .tabMenu{border-color:#c7dce3;box-shadow:0 18px 45px rgba(4,30,50,.22)}
+.pg-index .tabMenu button.active{color:#087da7;background:#e8f6f8}
+
+.pg-index .heroSub,.pg-itin .hero{
+  background:linear-gradient(122deg,#071d31 0%,#194a68 48%,#1689ad 100%);
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.18),0 12px 35px rgba(10,62,88,.16)
+}
+.pg-index .heroSub{min-height:128px;padding:18px 18px 36px;border-radius:0 0 34px 34px}
+.pg-index .heroSub .dates{font-size:.84em;letter-spacing:.08em;text-transform:uppercase}
+.pg-index .heroSub .tag{margin-top:13px;padding:6px 12px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);letter-spacing:.05em}
+.pg-index .heroDur{right:-14px;bottom:-47px;width:230px;opacity:.45;transform:none;border-radius:26px}
+.pg-index .durbg,.pg-itin .durbg{right:-52px;bottom:-28px;width:min(70vw,430px);opacity:.12;transform:rotate(-2deg);filter:saturate(.85)}
+.pg-index .dur,.pg-itin .dur,.sectionIcon{width:1.18em;height:1.18em;vertical-align:-.2em;object-fit:contain}
+.sectionIcon{display:inline-block}
+
+.pg-index .card,.pg-itin .card{background:rgba(255,255,255,.79);border:1px solid rgba(180,210,219,.72);border-left:4px solid #75b9ca;box-shadow:var(--shadow);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.pg-index .card h2,.pg-itin .card h2{color:var(--brand);letter-spacing:.015em}
+.pg-index .now{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(8,45,71,.97),rgba(12,132,170,.9));border-color:rgba(255,255,255,.2);border-left-color:var(--gold)}
+.pg-index .now::after{content:"CITY · ALPS · SEA";position:absolute;right:-7px;top:13px;color:rgba(255,255,255,.13);font:800 10px/1 system-ui,sans-serif;letter-spacing:.18em;transform:rotate(90deg)}
+.pg-index .now .nowHd{display:flex;align-items:center;gap:6px;color:#f7e6bd}
+.pg-index .day.today,.pg-itin .card.today{outline:2px solid var(--gold)}
+.pg-index .day.today h2::after,.pg-itin .card h2 .tag{color:#704c17;background:#f8e4b7}
+.pg-index .item .t,.pg-itin .item.future .t{color:#087da7}
+.pg-index a.map,.pg-itin a.map{color:#087da7;border-color:#acd6df;background:#eef9fb}
+.pg-index a.map .dur,.pg-itin a.map .dur{width:1em;height:1em;margin-right:2px}
+.pg-index .tzbtn{border-color:#a8d6df;background:#eef9fb;color:#087da7}
+.pg-index .fcard.mine{border-color:#63b8cc;background:#effafd}
+.pg-index .farrow{color:#0b88b5}
+.pg-index .current,.pg-itin .item.current{background:linear-gradient(135deg,#f6fbfc,#e1f3f7);outline-color:var(--gold);box-shadow:0 4px 18px rgba(17,132,167,.18)}
+.pg-itin .dot.future{background:#a8d6df}
+.pg-itin .dot.current,.pg-itin .item.current .nowtag{background:var(--gold)}
+.pg-itin .dot.current{box-shadow:0 0 0 4px rgba(214,162,74,.22)}
+
+.pg-index .reviewHero,.pg-index .visaHero{background:linear-gradient(135deg,rgba(7,35,58,.97),rgba(13,131,166,.9));border-left-color:var(--gold)}
+.pg-index .reviewCard{border-left-color:#1591b5}
+.pg-index .reviewIcon,.pg-index .reviewTip,.pg-index .visaSteps li::before,.pg-index .defrole{background:#edf8fa;color:#086f94}
+.pg-index .visaCard{border-left-color:var(--gold)}
+.pg-index .visaGrid>div{background:rgba(235,247,249,.78)}
+.pg-index .guideChip,.pg-index .guideTag.q,.pg-index .guideTag.a{border-color:#acd6df;background:#eff9fb;color:#087da7}
+.pg-index .guideToggleIcon,.pg-index .guideDetail a{color:#087da7}
+.pg-index .devid,.pg-index .guideDetail code{background:#eaf4f6;color:#164766}
+
+.pg-index .princeFab,.pg-itin .princeFab{filter:drop-shadow(0 8px 18px rgba(4,45,70,.32))}
+.pg-index .princeFab.princeFabActive,.pg-itin .princeFab.princeFabActive{filter:drop-shadow(0 8px 20px rgba(11,136,181,.58)) drop-shadow(0 0 14px rgba(214,162,74,.5))}
+.pg-index .princeBubble,.pg-itin .princeBubble,.pg-index .princeBubble::after,.pg-itin .princeBubble::after{background:#0b2b47}
+.pg-index .princeModal,.pg-itin .princeModal{box-shadow:0 24px 70px rgba(3,28,47,.34)}
+.pg-index .princeChatBubble.prince,.pg-itin .princeChatBubble.prince,
+.pg-index .princeAttachBtn,.pg-itin .princeAttachBtn,
+.pg-index .princeHistoryBtn,.pg-itin .princeHistoryBtn{background:#edf8fa;border-color:#acd6df;color:#087da7}
+.pg-index .princeShareBtn,.pg-itin .princeShareBtn{background:#087fa9;border-color:#087fa9;color:#fff}
+.pg-index .princeRoleSel,.pg-itin .princeRoleSel{background:#edf8fa;color:#0b2b47;border-color:#acd6df}
+.pg-index .princeWorkWord,.pg-itin .princeWorkWord{color:#087da7}
+.pg-index .princeStatus.ok,.pg-itin .princeStatus.ok{color:#087da7}
+.pg-index .pullBanner.ok .pullRow,.pg-itin .pullBanner.ok .pullRow{color:#087da7;background:#edf8fa;border-color:#acd6df}
+
+@media(max-width:520px){
+  .pg-index .tbTitle{font-size:.96em}
+  .pg-index .heroDur{width:190px;right:-30px}
+  .pg-index .heroSub .tag{max-width:75%;line-height:1.45}
+}
