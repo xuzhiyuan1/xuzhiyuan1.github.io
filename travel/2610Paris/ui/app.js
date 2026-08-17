@@ -20,6 +20,43 @@
   };
 
   var DATA, SITE, GUIDE, USERS, ITINERARY, TRANSPORT, OVERVIEW, EIFFEL;
+  /* 申根签材料内容来自 2026-france-visa-materials.html；requiredImages 是“已准备”截图的最低数量。 */
+  var VISA_SECTIONS = [
+    {id:"must", title:"01｜递签文件", desc:"这些是进 TLS 前就应打印好的文件。", items:[
+      {id:"fv-form", title:"France-Visas 申请表 + 回执", hint:"先完成最终确认，再分别打印。按页面要求由本人签名。", status:"待完成", requiredImages:2},
+      {id:"tls-letter", title:"TLS 预约确认信", hint:"打印，递签当日携带；核对预约中心、日期和时间。", status:"核对", requiredImages:1},
+      {id:"consent", title:"个人信息处理及跨境传输同意书", hint:"从 TLS 北京网站下载、填写并签名。", status:"待打印", requiredImages:1},
+      {id:"checklist", title:"France-Visas 个性化材料清单", hint:"第六页的清单打印出来，作为材料排序依据。", status:"待打印", requiredImages:1}
+    ]},
+    {id:"identity", title:"02｜护照与身份", desc:"原件用于核验，复印件留入申请档案。", items:[
+      {id:"passport", title:"护照原件", hint:"至少两页连续空白页；离开申根区后至少仍有效三个月。递签当天交给 TLS。", status:"带原件", requiredImages:2},
+      {id:"passport-copy", title:"护照复印件", hint:"信息页，以及所有含签证、出入境章或其他批注的页面。", status:"待复印", requiredImages:2},
+      {id:"photo", title:"近期申根规格证件照", hint:"带 1 张，另备 1 张更稳妥；避免日常生活照。", status:"待准备", requiredImages:2}
+    ]},
+    {id:"trip", title:"03｜行程、机票与住宿", desc:"核心是时间、入住人姓名与申请表完全一致。", items:[
+      {id:"itinerary", title:"英文或法文完整行程单", hint:"写明北京→布鲁塞尔→法国为主→布鲁塞尔→北京；法国为停留时间最长的国家。", status:"待导出", requiredImages:1},
+      {id:"flight", title:"中国往返申根区的机票订单 / 电子客票", hint:"北京—布鲁塞尔及布鲁塞尔—北京，须能看见姓名、日期、航班与订单状态。", status:"核对姓名", requiredImages:1},
+      {id:"hotel", title:"全程酒店订单", hint:"每晚都覆盖；订单中应显示入住人、入住日期、酒店地址及付款状态。当地城市税到店付不影响“房费已付”。", status:"已付款", requiredImages:1},
+      {id:"euro-transport", title:"已购买的欧洲境内交通（如有）", hint:"真实已购买的票据一并附上。未购买的部分以真实行程单说明，不制作虚假预订单。", status:"如有再放", requiredImages:1}
+    ]},
+    {id:"student", title:"04｜在读身份与回国约束", desc:"你以学生身份申请，重点是清华在读证明，而不是工作证明。", items:[
+      {id:"enrolment", title:"清华大学英文在读证明", hint:"最好含姓名、学号、在读项目、预计毕业时间、学校联系方式，并盖章或具备可验证方式。", status:"待开具", requiredImages:1},
+      {id:"student-card", title:"学生证复印件（辅助）", hint:"不是替代在读证明，但可一并附上。", status:"可选", requiredImages:1}
+    ]},
+    {id:"funds", title:"05｜资金证明", desc:"证明你能自行负担旅行费用，并有稳定的个人财务记录。", items:[
+      {id:"bank", title:"本人名下近三个月银行流水", hint:"优先选择有银行盖章或电子验真的版本；体现正常收支、足以覆盖行程的余额。", status:"待打印", requiredImages:2},
+      {id:"translation", title:"中文材料的英文说明 / 翻译", hint:"若流水或在读材料仅有中文，附英文翻译更稳妥；无须自行虚构或修改交易记录。", status:"按实际", requiredImages:1},
+      {id:"card-proof", title:"信用卡证明（辅助）", hint:"如要附，只保留必要信息；不要提交卡背面或 CVV。", status:"可选", requiredImages:1}
+    ]},
+    {id:"insurance", title:"06｜旅行医疗保险", desc:"短期申根旅游签证的强制材料。", items:[
+      {id:"insurance-policy", title:"英文保险凭证与保单", hint:"覆盖整个申根区和整个停留期；至少 €30,000，含紧急医疗、住院与医疗遣返。建议投保日覆盖 10 月 3—13 日并留少量缓冲。", status:"待购买", requiredImages:2}
+    ]},
+    {id:"letter", title:"07｜建议附加：英文说明信", desc:"不是用来替代证明，而是把多国行程的逻辑讲清楚。", items:[
+      {id:"cover-letter", title:"英文说明信（建议准备）", hint:"一页足够：旅游目的；法国停留最久；比利时首入境与离境；酒店和国际机票已落实；本人承担费用、旅行后返回清华继续学业。", status:"建议准备", requiredImages:1}
+    ]}
+  ];
+  var VISA_ITEM_MAP = {};
+  VISA_SECTIONS.forEach(function(section){ section.items.forEach(function(item){ VISA_ITEM_MAP[item.id] = item; }); });
   var MAP_DEFAULT = "Paris France";
   // 出发前不预填任何回顾；旅程结束后才由真实记录填入。
   var EMPTY_REVIEW = { title: "回顾", sections: [] };
@@ -363,6 +400,62 @@
     });
     syncRoleMenu();
 
+    /* ====== 申根签材料：按角色保存勾选与准备截图 ====== */
+    var visaState = { author: "", items: {} };
+    var visaBusy = false;
+    function visaItemState(id){ return visaState.items[id] || {checked:false, images:[]}; }
+    function visaTotals(){
+      var checked = 0, total = 0, imageCount = 0, imageRequired = 0;
+      VISA_SECTIONS.forEach(function(section){ section.items.forEach(function(item){
+        var state = visaItemState(item.id); total++; if (state.checked) checked++;
+        imageCount += (state.images || []).length; imageRequired += item.requiredImages;
+      }); });
+      return {checked:checked,total:total,imageCount:imageCount,imageRequired:imageRequired};
+    }
+    function visaStatusText(item, state){
+      var n = (state.images || []).length, required = item.requiredImages;
+      if (state.checked && n >= required) return "已准备";
+      if (state.checked) return "已勾选 · 还差 " + Math.max(0, required - n) + " 张截图";
+      return item.status;
+    }
+    function visaRender(){
+      var box = $("visaChecklistApp"), progress = $("visaProgress");
+      if (!box || !progress) return;
+      if (whoSel.value === OVERVIEW){
+        progress.innerHTML = '<div class="visaProgressTitle">材料准备进度</div><p class="visaReadonly">请选择徐致远、王俊杰或焦泓程后，再记录各自的材料和截图。不同角色的数据完全分开。</p>';
+        box.innerHTML = '<div class="card visaEmpty">当前是总览角色，不能写入个人签证材料。请从右上角角色菜单选择申请人。</div>';
+        return;
+      }
+      var totals = visaTotals(), pct = totals.total ? Math.round(totals.checked / totals.total * 100) : 0;
+      progress.innerHTML = '<div class="visaProgressTop"><div><div class="visaProgressTitle">' + escapeHtml(visaState.author) + ' · 材料准备进度</div><span class="visaProgressMeta">已勾选 ' + totals.checked + ' / ' + totals.total + ' 项 · 已上传 ' + totals.imageCount + ' 张截图（最低建议 ' + totals.imageRequired + ' 张）</span></div><span class="visaPercent">' + pct + '%</span></div><div class="visaProgressTrack"><span style="width:' + pct + '%"></span></div><p class="visaReadonly">勾选表示材料已经准备好；每项可上传对应的截图作为留痕。图片会和当前角色绑定，徐致远与王俊杰互不影响。</p>';
+      box.innerHTML = VISA_SECTIONS.map(function(section){
+        return '<section class="card visaChecklistGroup" id="visa-' + section.id + '"><div class="visaSectionHead"><div><h2>' + section.title + '</h2><p>' + section.desc + '</p></div><span class="visaSectionCount">' + section.items.filter(function(i){ return visaItemState(i.id).checked; }).length + ' / ' + section.items.length + '</span></div><ul class="visaChecklist">' + section.items.map(function(item){
+          var state = visaItemState(item.id), images = state.images || [], ready = state.checked && images.length >= item.requiredImages;
+          return '<li class="visaTask ' + (ready ? 'isReady' : '') + '"><div class="visaTaskMain"><label class="visaCheck"><input type="checkbox" data-visa-check="' + item.id + '" ' + (state.checked ? 'checked' : '') + '><span class="visaFakeCheck"></span></label><div class="visaTaskCopy"><b>' + escapeHtml(item.title) + '</b><span class="visaHint">' + escapeHtml(item.hint) + '</span><span class="visaEvidence">截图 ' + images.length + ' / ' + item.requiredImages + ' · ' + escapeHtml(visaStatusText(item, state)) + '</span></div><div class="visaUpload"><input class="visaUploadInput" type="file" accept="image/*" multiple data-visa-upload="' + item.id + '"><button type="button" data-visa-upload-btn="' + item.id + '">上传截图</button></div></div>' + (images.length ? '<div class="visaThumbs">' + images.map(function(image){ return '<figure><img src="' + image.src + '" alt="' + escapeHtml(image.name || '材料截图') + '"><button type="button" data-visa-remove="' + item.id + '" data-image-id="' + escapeHtml(image.id) + '" aria-label="删除截图">×</button></figure>'; }).join('') + '</div>' : '') + '</li>';
+        }).join('') + '</ul>' + (section.id === 'trip' ? '<div class="visaTip"><strong>这次特别要说清：</strong>首入境是比利时并不妨碍申请法国；行程单和说明信应清楚显示法国是主要停留地。</div>' : '') + '</section>';
+      }).join('');
+      bindVisaEvents();
+    }
+    function visaRequest(payload){
+      payload.author = whoSel.value;
+      return fetchWithTimeout(CONFIG.BACKEND_URL + "/visa", CONFIG.BACKEND_TIMEOUT_MS, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload)}).then(function(r){ if (!r.ok) return r.json().then(function(e){ throw new Error(e.error || "保存失败"); }); return r.json(); }).then(function(data){ if (!data.ok) throw new Error(data.error || "保存失败"); visaState = {author:data.author, items:data.items || {}}; visaRender(); return data; });
+    }
+    function loadVisaState(author){
+      if (!author || author === OVERVIEW){ visaState = {author:author || "", items:{}}; visaRender(); return Promise.resolve(); }
+      visaBusy = true;
+      return fetchWithTimeout(CONFIG.BACKEND_URL + "/visa?author=" + encodeURIComponent(author), CONFIG.BACKEND_TIMEOUT_MS).then(function(r){ if (!r.ok) throw new Error("签证状态加载失败"); return r.json(); }).then(function(data){ visaState = {author:author, items:data.items || {}}; visaRender(); }).catch(function(err){ visaState = {author:author, items:{}}; visaRender(); console.warn(err); }).then(function(){ visaBusy = false; });
+    }
+    function readVisaFile(file){
+      return new Promise(function(resolve, reject){ var reader = new FileReader(); reader.onload = function(){ resolve({name:file.name, type:file.type || "image/jpeg", data:reader.result}); }; reader.onerror = reject; reader.readAsDataURL(file); });
+    }
+    function bindVisaEvents(){
+      Array.prototype.forEach.call(document.querySelectorAll("[data-visa-check]"), function(input){ input.addEventListener("change", function(){ visaRequest({itemId:input.dataset.visaCheck, checked:input.checked}).catch(function(err){ input.checked = !input.checked; alert(err.message); }); }); });
+      Array.prototype.forEach.call(document.querySelectorAll("[data-visa-upload-btn]"), function(button){ button.addEventListener("click", function(){ var input = document.querySelector('[data-visa-upload="' + button.dataset.visaUploadBtn + '"]'); if (input) input.click(); }); });
+      Array.prototype.forEach.call(document.querySelectorAll("[data-visa-upload]"), function(input){ input.addEventListener("change", function(){ var files = Array.prototype.slice.call(input.files || []).slice(0, 6); if (!files.length) return; Promise.all(files.map(readVisaFile)).then(function(encoded){ return visaRequest({itemId:input.dataset.visaUpload, files:encoded}); }).catch(function(err){ alert("截图上传失败：" + err.message); }); input.value = ""; }); });
+      Array.prototype.forEach.call(document.querySelectorAll("[data-visa-remove]"), function(button){ button.addEventListener("click", function(){ if (!confirm("删除这张材料截图？")) return; visaRequest({itemId:button.dataset.visaRemove, removeImageIds:[button.dataset.imageId]}).catch(function(err){ alert(err.message); }); }); });
+    }
+    function visaShowIfNeeded(){ if (whoSel.value !== OVERVIEW && (!visaState.author || visaState.author !== whoSel.value)) loadVisaState(whoSel.value); }
+
     /* ====== 时区切换（默认北京时间，机酒 tab 用） ====== */
     /* 时区状态按行程隔离，避免曼谷页留下的 "th" 覆盖欧洲页；并把异常旧值恢复为北京时间。 */
     var tzStorageKey = "travel-tz-2610Paris";
@@ -659,8 +752,9 @@
       renderNow();
       renderGuidebook();
       renderReview();
+      visaShowIfNeeded();
     }
-    whoSel.addEventListener("change", function(){ localStorage.setItem("who", whoSel.value); syncRoleMenu(); renderAll(); });
+    whoSel.addEventListener("change", function(){ localStorage.setItem("who", whoSel.value); syncRoleMenu(); visaState = {author:"", items:{}}; renderAll(); loadVisaState(whoSel.value); });
     renderAll();
     pageRender = renderAll; /* 供 30s 数据轮询复用，不再额外加 60s 定时器 */
     setInterval(renderNow, 1000);        // 倒计时每秒更新
