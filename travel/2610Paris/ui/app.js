@@ -36,7 +36,7 @@
     {id:"trip", title:"03｜行程、机票与住宿", desc:"核心是时间、入住人姓名与申请表完全一致。", items:[
       {id:"itinerary", title:"英文或法文完整行程单", hint:"写明北京→布鲁塞尔→法国为主→布鲁塞尔→北京；法国为停留时间最长的国家。", status:"待导出", requiredImages:1},
       {id:"flight", title:"中国往返申根区的机票订单 / 电子客票", hint:"北京—布鲁塞尔及布鲁塞尔—北京，须能看见姓名、日期、航班与订单状态。", status:"核对姓名", requiredImages:1},
-      {id:"hotel", title:"全程酒店订单", hint:"每晚都覆盖；订单中应显示入住人、入住日期、酒店地址及付款状态。当地城市税到店付不影响“房费已付”。", status:"已付款", requiredImages:1},
+      {id:"hotel", title:"全程住宿订单", hint:"每晚都覆盖；订单中应显示入住人、入住日期、酒店地址及付款状态。已付款、到店付款或可取消状态按实际填写，不能把未付款写成已付款。", status:"按实际确认", requiredImages:1},
       {id:"euro-transport", title:"已购买的欧洲境内交通（如有）", hint:"真实已购买的票据一并附上。未购买的部分以真实行程单说明，不制作虚假预订单。", status:"如有再放", requiredImages:1}
     ]},
     {id:"student", title:"04｜在读身份与回国约束", desc:"你以学生身份申请，重点是清华在读证明，而不是工作证明。", items:[
@@ -60,15 +60,15 @@
   /* 参考页中每个材料的“点击展开说明”。正文是静态编辑内容，不来自用户输入。 */
   var VISA_DETAILS = {
     "fv-form":"<p>这是在线申请完成后生成的两份核心文件。TLS 要求携带打印件，并由申请人本人在签名位置签字。</p><ul><li>打印前核对姓名、护照号、出生日期、入离境日期、住宿和资金方式。</li><li>申请表必须与 TLS 账户及护照完全一致；有错误应回 France-Visas 更正后重新生成。</li></ul><div class=\"visaDetailSource\">依据：TLS 递签流程与表格下载说明。</div>",
-    "tls-letter":"<p>这是预约当天进入签证中心的凭证。打印纸质版，检查中心为北京、日期为 2026 年 9 月 11 日、申请人姓名无误。</p><ul><li>电子版可存手机，但以纸质版为主。</li><li>按预约时间到达，迟到可能无法当天受理。</li></ul><div class=\"visaDetailSource\">依据：TLScontact 北京递签流程。</div>",
+    "tls-letter":"<p>这是预约当天进入签证中心的凭证。打印纸质版，检查中心为北京、日期为 2026 年 9 月 11 日、申请人姓名无误。</p><ul><li>电子版可存手机，但以纸质版为主。</li><li>按预约时间到达，迟到可能无法当天受理。</li><li>预约确认前按 TLS 当前页面完成必需的服务费支付；签证费和可选增值服务费不包含在其中，具体以预约页实时规则为准。</li></ul><div class=\"visaDetailSource\">依据：TLScontact 北京递签流程。</div>",
     "consent":"<p>TLS 中国网站提供个人信息处理及跨境传输同意书。按表格要求填写、签名，不要替同行人代签。</p><div class=\"visaDetailSource\">依据：TLScontact 表格与下载文件。</div>",
-    "checklist":"<p>这是 France-Visas 根据本次旅游、学生身份和费用承担情况生成的个性化清单，优先级高于经验帖。</p><ul><li>按清单顺序排放材料。</li><li>清单写明原件和复印件的项目，两者都带。</li><li>若本页与最新清单不一致，以 France-Visas 和 TLS 的最新要求为准。</li></ul>",
+    "checklist":"<p>这是 France-Visas 根据本次旅游、申请人的个人身份和费用承担情况生成的个性化清单，优先级高于经验帖。</p><ul><li>按清单顺序排放材料。</li><li>清单写明原件和复印件的项目，两者都带。</li><li>若本页与最新清单不一致，以 France-Visas 和 TLS 的最新要求为准。</li></ul>",
     "passport":"<p>确认至少有两页连续空白页，并且从离开申根区之日起仍有三个月以上有效期。</p><ul><li>护照原件递签当天交给 TLS。</li><li>递签后护照会进入审核流程，不要安排冲突的出境用途。</li></ul>",
     "passport-copy":"<p>复印护照信息页，以及所有含签证、出入境章或其他批注的页面。</p><ul><li>复印件要清晰完整，不要裁掉页码和边缘。</li><li>空白页通常不用逐页复印，除非个性化清单另有要求。</li></ul>",
     "photo":"<p>准备近期、正面、清晰的 ICAO 规格证件照。一张递交，一张备用。</p><ul><li>不要使用生活照、自拍照或明显修图照。</li><li>避免因尺寸或背景不合格在现场重拍。</li></ul>",
     "itinerary":"<p>行程单要把机票、酒店与多国停留串成一条可信路线，不等于虚构交通订单。</p><ul><li>按日列出日期、城市、住宿和主要跨城移动。</li><li>明确 10 月 3 日比利时入境、法国停留时间最长、10 月 13 日比利时离境。</li><li>日期必须与申请表、酒店和机票订单吻合。</li></ul>",
     "flight":"<p>准备北京—布鲁塞尔及布鲁塞尔—北京的真实订单或电子客票。</p><ul><li>英文姓名必须与护照一致。</li><li>订单需完整显示状态、航班号、日期和航段。</li><li>不要提交无法验证或虚构的预订单。</li></ul>",
-    "hotel":"<p>酒店订单应连续覆盖全部住宿夜晚，并显示酒店名、地址、入住人、入住/退房日期和付款状态。</p><ul><li>房费线上已付、城市税到店支付是正常情况。</li><li>订单日期必须与行程单一致。</li></ul>",
+    "hotel":"<p>住宿订单应连续覆盖全部住宿夜晚，并显示酒店名、地址、入住人、入住/退房日期和付款状态。</p><ul><li>已付款、到店付款或可取消状态都应按真实订单填写。</li><li>不要把尚未确认或未付款的住宿写成已付款。</li><li>订单日期必须与行程单一致。</li></ul>",
     "euro-transport":"<p>已购买的火车或航班票可支撑行程；尚未购买时，不要为了材料完整制作假票。</p><ul><li>已购买：放入对应日程之后。</li><li>未购买：在真实行程单写清交通方式、航班号或车次（如已知）。</li></ul>",
     "enrolment":"<p>英文在读证明说明学生身份和旅行后继续学业的回国约束。</p><ul><li>建议包含姓名、学号、项目、预计毕业日期、学校联系方式和开具日期。</li><li>使用正式抬头纸并盖章或提供可验证方式。</li><li>不需要用工作证明替代在读证明。</li></ul>",
     "student-card":"<p>学生证不能替代在读证明，只作为辅助材料放在在读证明之后。</p><ul><li>复印有姓名、学校和有效信息的页面。</li><li>过期或信息不完整时不要把它当主要证明。</li></ul>",
@@ -76,14 +76,15 @@
     "translation":"<p>France-Visas 提示材料应提供法文或英文版本。纯中文流水等可附简明英文翻译辅助理解。</p><ul><li>翻译必须忠实对应原文件，金额、日期和姓名不能改写。</li><li>是否需要公证，以个性化清单和 TLS 最新要求为准。</li></ul>",
     "card-proof":"<p>信用卡证明只能辅助说明支付能力，不能取代本人银行流水。</p><ul><li>只显示必要的持卡人姓名与末四位。</li><li>遮住完整卡号、有效期、CVV 和动态验证码。</li></ul>",
     "insurance-policy":"<p>保险必须覆盖整个申根区和整个实际停留期，保额至少 €30,000，并包含紧急医疗、住院和医疗遣返。</p><ul><li>建议覆盖 10 月 3—13 日并留少量缓冲。</li><li>选择能出具英文凭证的保险。</li><li>被保险人英文姓名要与护照拼写相同。</li></ul>",
-    "cover-letter":"<p>说明信只解释已有材料，不编造新的事实，一页 A4 足够。</p><ul><li>写明旅游目的、日期、比利时首入境/离境和法国最长停留。</li><li>说明费用由本人承担，酒店和国际机票有对应订单。</li><li>说明自己是清华在读学生，旅行后返回中国继续学业。</li><li>结尾列出行程、机票、酒店、在读证明、流水和保险等附件。</li></ul>"
+    "cover-letter":"<p>说明信只解释已有材料，不编造新的事实，一页 A4 足够。</p><ul><li>写明旅游目的、日期、比利时首入境/离境和法国最长停留。</li><li>说明费用由本人承担，酒店和国际机票有对应订单。</li><li>说明旅行后返回中国，并写清与你实际身份相符的回国约束。</li><li>结尾列出行程、机票、酒店、身份/职业证明、流水和保险等附件。</li></ul>",
+    "income-proof":"<p>王俊杰不是学生，因此不需要提交在读证明或学生证。应根据真实身份选择能说明职业、收入和旅行后回国安排的材料。</p><ul><li>在职：公司在职证明、准假证明，必要时附营业执照复印件。</li><li>个体经营或其他身份：提交与实际情况相符的经营、任职、收入或其他回国约束证明。</li><li>不要提交不适用的学生材料，也不要用虚构的工作材料替代真实证明。</li></ul>"
   };
   var VISA_PRINT_ITEMS = {
     "fv-form":true, "tls-letter":true, "consent":true, "checklist":true,
     "passport-copy":true, "itinerary":true, "flight":true, "hotel":true,
     "euro-transport":true, "enrolment":true, "student-card":true,
     "bank":true, "translation":true, "card-proof":true,
-    "insurance-policy":true, "cover-letter":true
+    "insurance-policy":true, "cover-letter":true, "income-proof":true
   };
   var MAP_DEFAULT = "Paris France";
   // 出发前不预填任何回顾；旅程结束后才由真实记录填入。
@@ -431,10 +432,22 @@
     /* ====== 申根签材料：按角色保存勾选与准备截图 ====== */
     var visaState = { author: "", items: {} };
     var visaBusy = false;
+    function activeVisaSections(){
+      if (whoSel.value === "徐致远") return VISA_SECTIONS;
+      return VISA_SECTIONS.map(function(section){
+        if (section.id === "letter") return {id:"letter", title:section.title, desc:section.desc, items:[
+          {id:"cover-letter", title:"英文说明信（建议准备）", hint:"一页说明旅游目的、法国最长停留、比利时首入境/离境、费用承担，以及与你真实职业和回国安排相符的约束。", status:section.items[0].status, requiredImages:1}
+        ]};
+        if (section.id !== "student") return section;
+        return {id:"student", title:"04｜职业/收入与回国约束", desc:"王俊杰不是学生，不需要在读证明或学生证；按真实职业和个人情况准备回国约束材料。", items:[
+          {id:"income-proof", title:"职业、收入与回国约束证明（按实际身份）", hint:"在职可准备在职证明、准假证明和营业执照复印件；其他身份按真实情况准备经营、任职、收入或其他回国约束材料。", status:"按实际身份", requiredImages:1}
+        ]};
+      });
+    }
     function visaItemState(id){ return visaState.items[id] || {checked:false, printed:false, images:[]}; }
     function visaTotals(){
       var checked = 0, total = 0, imageCount = 0, imageRequired = 0;
-      VISA_SECTIONS.forEach(function(section){ section.items.forEach(function(item){
+      activeVisaSections().forEach(function(section){ section.items.forEach(function(item){
         var state = visaItemState(item.id); total++; if (state.checked) checked++;
         imageCount += (state.images || []).length; imageRequired += item.requiredImages;
       }); });
@@ -456,7 +469,7 @@
       }
       var totals = visaTotals(), pct = totals.total ? Math.round(totals.checked / totals.total * 100) : 0;
       progress.innerHTML = '<div class="visaProgressTop"><div><div class="visaProgressTitle">' + escapeHtml(visaState.author) + ' · 材料准备进度</div><span class="visaProgressMeta">已勾选 ' + totals.checked + ' / ' + totals.total + ' 项 · 已上传 ' + totals.imageCount + ' 张截图（最低建议 ' + totals.imageRequired + ' 张）</span></div><span class="visaPercent">' + pct + '%</span></div><div class="visaProgressTrack"><span style="width:' + pct + '%"></span></div><p class="visaReadonly">勾选表示材料已经准备好；每项可上传对应的截图作为留痕。图片会和当前角色绑定，徐致远与王俊杰互不影响。</p>';
-      box.innerHTML = VISA_SECTIONS.map(function(section){
+      box.innerHTML = activeVisaSections().map(function(section){
         return '<section class="card visaChecklistGroup" id="visa-' + section.id + '"><div class="visaSectionHead"><div><h2>' + section.title + '</h2><p>' + section.desc + '</p></div><span class="visaSectionCount">' + section.items.filter(function(i){ return visaItemState(i.id).checked; }).length + ' / ' + section.items.length + '</span></div><ul class="visaChecklist">' + section.items.map(function(item){
           var state = visaItemState(item.id), images = state.images || [], ready = state.checked && images.length >= item.requiredImages;
           return '<li class="visaTask ' + (ready ? 'isReady' : '') + '"><div class="visaTaskMain"><label class="visaCheck"><input type="checkbox" data-visa-check="' + item.id + '" ' + (state.checked ? 'checked' : '') + '><span class="visaFakeCheck"></span></label><div class="visaTaskCopy"><details class="visaInlineDetail"><summary><b>' + escapeHtml(item.title) + '</b><span class="visaHint">' + escapeHtml(item.hint) + '</span><span class="visaOpenDetail">点击展开材料说明与依据</span></summary><div class="visaDetailBody">' + (VISA_DETAILS[item.id] || '<p>请以 France-Visas 个性化清单和 TLS 最新要求为准。</p>') + '</div></details><span class="visaEvidence">截图 ' + images.length + ' / ' + item.requiredImages + ' · ' + escapeHtml(visaStatusText(item, state)) + '</span></div><div class="visaUpload"><input class="visaUploadInput" type="file" accept="image/*" multiple data-visa-upload="' + item.id + '"><button type="button" data-visa-upload-btn="' + item.id + '">上传截图</button></div></div>' + (images.length ? '<div class="visaAttachments"><div class="visaAttachmentsLabel">已上传截图</div><div class="visaThumbs">' + images.map(function(image){ return '<figure><img src="' + image.src + '" alt="' + escapeHtml(image.name || '材料截图') + '"><button type="button" data-visa-remove="' + item.id + '" data-image-id="' + escapeHtml(image.id) + '" aria-label="删除截图">×</button></figure>'; }).join('') + '</div></div>' : '') + (VISA_PRINT_ITEMS[item.id] ? '<label class="visaPrintRow"><input type="checkbox" data-visa-printed="' + item.id + '" ' + (state.printed ? 'checked' : '') + '><span class="visaPrintBox"></span><span>已打印</span></label>' : '') + '</li>';
@@ -1521,7 +1534,7 @@
   /* ---------- 启动 ---------- */
   initPrinceFab();
   initPullRefresh();
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js?v=9").catch(function(){});
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js?v=10").catch(function(){});
   load().then(function(){
     var page = document.body.getAttribute("data-page");
     if (page === "index") initIndex();
