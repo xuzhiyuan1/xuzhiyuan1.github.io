@@ -1534,7 +1534,7 @@
   /* ---------- 启动 ---------- */
   initPrinceFab();
   initPullRefresh();
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js?v=10").catch(function(){});
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js?v=11").catch(function(){});
   load().then(function(){
     var page = document.body.getAttribute("data-page");
     if (page === "index") initIndex();
