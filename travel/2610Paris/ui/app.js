@@ -57,6 +57,27 @@
   ];
   var VISA_ITEM_MAP = {};
   VISA_SECTIONS.forEach(function(section){ section.items.forEach(function(item){ VISA_ITEM_MAP[item.id] = item; }); });
+  /* 参考页中每个材料的“点击展开说明”。正文是静态编辑内容，不来自用户输入。 */
+  var VISA_DETAILS = {
+    "fv-form":"<p>这是在线申请完成后生成的两份核心文件。TLS 要求携带打印件，并由申请人本人在签名位置签字。</p><ul><li>打印前核对姓名、护照号、出生日期、入离境日期、住宿和资金方式。</li><li>申请表必须与 TLS 账户及护照完全一致；有错误应回 France-Visas 更正后重新生成。</li></ul><div class=\"visaDetailSource\">依据：TLS 递签流程与表格下载说明。</div>",
+    "tls-letter":"<p>这是预约当天进入签证中心的凭证。打印纸质版，检查中心为北京、日期为 2026 年 9 月 11 日、申请人姓名无误。</p><ul><li>电子版可存手机，但以纸质版为主。</li><li>按预约时间到达，迟到可能无法当天受理。</li></ul><div class=\"visaDetailSource\">依据：TLScontact 北京递签流程。</div>",
+    "consent":"<p>TLS 中国网站提供个人信息处理及跨境传输同意书。按表格要求填写、签名，不要替同行人代签。</p><div class=\"visaDetailSource\">依据：TLScontact 表格与下载文件。</div>",
+    "checklist":"<p>这是 France-Visas 根据本次旅游、学生身份和费用承担情况生成的个性化清单，优先级高于经验帖。</p><ul><li>按清单顺序排放材料。</li><li>清单写明原件和复印件的项目，两者都带。</li><li>若本页与最新清单不一致，以 France-Visas 和 TLS 的最新要求为准。</li></ul>",
+    "passport":"<p>确认至少有两页连续空白页，并且从离开申根区之日起仍有三个月以上有效期。</p><ul><li>护照原件递签当天交给 TLS。</li><li>递签后护照会进入审核流程，不要安排冲突的出境用途。</li></ul>",
+    "passport-copy":"<p>复印护照信息页，以及所有含签证、出入境章或其他批注的页面。</p><ul><li>复印件要清晰完整，不要裁掉页码和边缘。</li><li>空白页通常不用逐页复印，除非个性化清单另有要求。</li></ul>",
+    "photo":"<p>准备近期、正面、清晰的 ICAO 规格证件照。一张递交，一张备用。</p><ul><li>不要使用生活照、自拍照或明显修图照。</li><li>避免因尺寸或背景不合格在现场重拍。</li></ul>",
+    "itinerary":"<p>行程单要把机票、酒店与多国停留串成一条可信路线，不等于虚构交通订单。</p><ul><li>按日列出日期、城市、住宿和主要跨城移动。</li><li>明确 10 月 3 日比利时入境、法国停留时间最长、10 月 13 日比利时离境。</li><li>日期必须与申请表、酒店和机票订单吻合。</li></ul>",
+    "flight":"<p>准备北京—布鲁塞尔及布鲁塞尔—北京的真实订单或电子客票。</p><ul><li>英文姓名必须与护照一致。</li><li>订单需完整显示状态、航班号、日期和航段。</li><li>不要提交无法验证或虚构的预订单。</li></ul>",
+    "hotel":"<p>酒店订单应连续覆盖全部住宿夜晚，并显示酒店名、地址、入住人、入住/退房日期和付款状态。</p><ul><li>房费线上已付、城市税到店支付是正常情况。</li><li>订单日期必须与行程单一致。</li></ul>",
+    "euro-transport":"<p>已购买的火车或航班票可支撑行程；尚未购买时，不要为了材料完整制作假票。</p><ul><li>已购买：放入对应日程之后。</li><li>未购买：在真实行程单写清交通方式、航班号或车次（如已知）。</li></ul>",
+    "enrolment":"<p>英文在读证明说明学生身份和旅行后继续学业的回国约束。</p><ul><li>建议包含姓名、学号、项目、预计毕业日期、学校联系方式和开具日期。</li><li>使用正式抬头纸并盖章或提供可验证方式。</li><li>不需要用工作证明替代在读证明。</li></ul>",
+    "student-card":"<p>学生证不能替代在读证明，只作为辅助材料放在在读证明之后。</p><ul><li>复印有姓名、学校和有效信息的页面。</li><li>过期或信息不完整时不要把它当主要证明。</li></ul>",
+    "bank":"<p>重点是连续、真实且能解释的个人资金流，而不是某一天的余额。</p><ul><li>优先使用银行盖章件或电子验真版本。</li><li>大额转入要准备真实来源说明。</li><li>不要临时存入无法解释的大额资金。</li></ul>",
+    "translation":"<p>France-Visas 提示材料应提供法文或英文版本。纯中文流水等可附简明英文翻译辅助理解。</p><ul><li>翻译必须忠实对应原文件，金额、日期和姓名不能改写。</li><li>是否需要公证，以个性化清单和 TLS 最新要求为准。</li></ul>",
+    "card-proof":"<p>信用卡证明只能辅助说明支付能力，不能取代本人银行流水。</p><ul><li>只显示必要的持卡人姓名与末四位。</li><li>遮住完整卡号、有效期、CVV 和动态验证码。</li></ul>",
+    "insurance-policy":"<p>保险必须覆盖整个申根区和整个实际停留期，保额至少 €30,000，并包含紧急医疗、住院和医疗遣返。</p><ul><li>建议覆盖 10 月 3—13 日并留少量缓冲。</li><li>选择能出具英文凭证的保险。</li><li>被保险人英文姓名要与护照拼写相同。</li></ul>",
+    "cover-letter":"<p>说明信只解释已有材料，不编造新的事实，一页 A4 足够。</p><ul><li>写明旅游目的、日期、比利时首入境/离境和法国最长停留。</li><li>说明费用由本人承担，酒店和国际机票有对应订单。</li><li>说明自己是清华在读学生，旅行后返回中国继续学业。</li><li>结尾列出行程、机票、酒店、在读证明、流水和保险等附件。</li></ul>"
+  };
   var MAP_DEFAULT = "Paris France";
   // 出发前不预填任何回顾；旅程结束后才由真实记录填入。
   var EMPTY_REVIEW = { title: "回顾", sections: [] };
@@ -431,7 +452,7 @@
       box.innerHTML = VISA_SECTIONS.map(function(section){
         return '<section class="card visaChecklistGroup" id="visa-' + section.id + '"><div class="visaSectionHead"><div><h2>' + section.title + '</h2><p>' + section.desc + '</p></div><span class="visaSectionCount">' + section.items.filter(function(i){ return visaItemState(i.id).checked; }).length + ' / ' + section.items.length + '</span></div><ul class="visaChecklist">' + section.items.map(function(item){
           var state = visaItemState(item.id), images = state.images || [], ready = state.checked && images.length >= item.requiredImages;
-          return '<li class="visaTask ' + (ready ? 'isReady' : '') + '"><div class="visaTaskMain"><label class="visaCheck"><input type="checkbox" data-visa-check="' + item.id + '" ' + (state.checked ? 'checked' : '') + '><span class="visaFakeCheck"></span></label><div class="visaTaskCopy"><b>' + escapeHtml(item.title) + '</b><span class="visaHint">' + escapeHtml(item.hint) + '</span><span class="visaEvidence">截图 ' + images.length + ' / ' + item.requiredImages + ' · ' + escapeHtml(visaStatusText(item, state)) + '</span></div><div class="visaUpload"><input class="visaUploadInput" type="file" accept="image/*" multiple data-visa-upload="' + item.id + '"><button type="button" data-visa-upload-btn="' + item.id + '">上传截图</button></div></div>' + (images.length ? '<div class="visaThumbs">' + images.map(function(image){ return '<figure><img src="' + image.src + '" alt="' + escapeHtml(image.name || '材料截图') + '"><button type="button" data-visa-remove="' + item.id + '" data-image-id="' + escapeHtml(image.id) + '" aria-label="删除截图">×</button></figure>'; }).join('') + '</div>' : '') + '</li>';
+          return '<li class="visaTask ' + (ready ? 'isReady' : '') + '"><div class="visaTaskMain"><label class="visaCheck"><input type="checkbox" data-visa-check="' + item.id + '" ' + (state.checked ? 'checked' : '') + '><span class="visaFakeCheck"></span></label><div class="visaTaskCopy"><details class="visaInlineDetail"><summary><b>' + escapeHtml(item.title) + '</b><span class="visaHint">' + escapeHtml(item.hint) + '</span><span class="visaOpenDetail">点击展开材料说明与依据</span></summary><div class="visaDetailBody">' + (VISA_DETAILS[item.id] || '<p>请以 France-Visas 个性化清单和 TLS 最新要求为准。</p>') + '</div></details><span class="visaEvidence">截图 ' + images.length + ' / ' + item.requiredImages + ' · ' + escapeHtml(visaStatusText(item, state)) + '</span></div><div class="visaUpload"><input class="visaUploadInput" type="file" accept="image/*" multiple data-visa-upload="' + item.id + '"><button type="button" data-visa-upload-btn="' + item.id + '">上传截图</button></div></div>' + (images.length ? '<div class="visaThumbs">' + images.map(function(image){ return '<figure><img src="' + image.src + '" alt="' + escapeHtml(image.name || '材料截图') + '"><button type="button" data-visa-remove="' + item.id + '" data-image-id="' + escapeHtml(image.id) + '" aria-label="删除截图">×</button></figure>'; }).join('') + '</div>' : '') + '</li>';
         }).join('') + '</ul>' + (section.id === 'trip' ? '<div class="visaTip"><strong>这次特别要说清：</strong>首入境是比利时并不妨碍申请法国；行程单和说明信应清楚显示法国是主要停留地。</div>' : '') + '</section>';
       }).join('');
       bindVisaEvents();
