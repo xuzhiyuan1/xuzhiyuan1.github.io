@@ -78,6 +78,13 @@
     "insurance-policy":"<p>保险必须覆盖整个申根区和整个实际停留期，保额至少 €30,000，并包含紧急医疗、住院和医疗遣返。</p><ul><li>建议覆盖 10 月 3—13 日并留少量缓冲。</li><li>选择能出具英文凭证的保险。</li><li>被保险人英文姓名要与护照拼写相同。</li></ul>",
     "cover-letter":"<p>说明信只解释已有材料，不编造新的事实，一页 A4 足够。</p><ul><li>写明旅游目的、日期、比利时首入境/离境和法国最长停留。</li><li>说明费用由本人承担，酒店和国际机票有对应订单。</li><li>说明自己是清华在读学生，旅行后返回中国继续学业。</li><li>结尾列出行程、机票、酒店、在读证明、流水和保险等附件。</li></ul>"
   };
+  var VISA_PRINT_ITEMS = {
+    "fv-form":true, "tls-letter":true, "consent":true, "checklist":true,
+    "passport-copy":true, "itinerary":true, "flight":true, "hotel":true,
+    "euro-transport":true, "enrolment":true, "student-card":true,
+    "bank":true, "translation":true, "card-proof":true,
+    "insurance-policy":true, "cover-letter":true
+  };
   var MAP_DEFAULT = "Paris France";
   // 出发前不预填任何回顾；旅程结束后才由真实记录填入。
   var EMPTY_REVIEW = { title: "回顾", sections: [] };
@@ -424,7 +431,7 @@
     /* ====== 申根签材料：按角色保存勾选与准备截图 ====== */
     var visaState = { author: "", items: {} };
     var visaBusy = false;
-    function visaItemState(id){ return visaState.items[id] || {checked:false, images:[]}; }
+    function visaItemState(id){ return visaState.items[id] || {checked:false, printed:false, images:[]}; }
     function visaTotals(){
       var checked = 0, total = 0, imageCount = 0, imageRequired = 0;
       VISA_SECTIONS.forEach(function(section){ section.items.forEach(function(item){
@@ -452,7 +459,7 @@
       box.innerHTML = VISA_SECTIONS.map(function(section){
         return '<section class="card visaChecklistGroup" id="visa-' + section.id + '"><div class="visaSectionHead"><div><h2>' + section.title + '</h2><p>' + section.desc + '</p></div><span class="visaSectionCount">' + section.items.filter(function(i){ return visaItemState(i.id).checked; }).length + ' / ' + section.items.length + '</span></div><ul class="visaChecklist">' + section.items.map(function(item){
           var state = visaItemState(item.id), images = state.images || [], ready = state.checked && images.length >= item.requiredImages;
-          return '<li class="visaTask ' + (ready ? 'isReady' : '') + '"><div class="visaTaskMain"><label class="visaCheck"><input type="checkbox" data-visa-check="' + item.id + '" ' + (state.checked ? 'checked' : '') + '><span class="visaFakeCheck"></span></label><div class="visaTaskCopy"><details class="visaInlineDetail"><summary><b>' + escapeHtml(item.title) + '</b><span class="visaHint">' + escapeHtml(item.hint) + '</span><span class="visaOpenDetail">点击展开材料说明与依据</span></summary><div class="visaDetailBody">' + (VISA_DETAILS[item.id] || '<p>请以 France-Visas 个性化清单和 TLS 最新要求为准。</p>') + '</div></details><span class="visaEvidence">截图 ' + images.length + ' / ' + item.requiredImages + ' · ' + escapeHtml(visaStatusText(item, state)) + '</span></div><div class="visaUpload"><input class="visaUploadInput" type="file" accept="image/*" multiple data-visa-upload="' + item.id + '"><button type="button" data-visa-upload-btn="' + item.id + '">上传截图</button></div></div>' + (images.length ? '<div class="visaThumbs">' + images.map(function(image){ return '<figure><img src="' + image.src + '" alt="' + escapeHtml(image.name || '材料截图') + '"><button type="button" data-visa-remove="' + item.id + '" data-image-id="' + escapeHtml(image.id) + '" aria-label="删除截图">×</button></figure>'; }).join('') + '</div>' : '') + '</li>';
+          return '<li class="visaTask ' + (ready ? 'isReady' : '') + '"><div class="visaTaskMain"><label class="visaCheck"><input type="checkbox" data-visa-check="' + item.id + '" ' + (state.checked ? 'checked' : '') + '><span class="visaFakeCheck"></span></label><div class="visaTaskCopy"><details class="visaInlineDetail"><summary><b>' + escapeHtml(item.title) + '</b><span class="visaHint">' + escapeHtml(item.hint) + '</span><span class="visaOpenDetail">点击展开材料说明与依据</span></summary><div class="visaDetailBody">' + (VISA_DETAILS[item.id] || '<p>请以 France-Visas 个性化清单和 TLS 最新要求为准。</p>') + '</div></details><span class="visaEvidence">截图 ' + images.length + ' / ' + item.requiredImages + ' · ' + escapeHtml(visaStatusText(item, state)) + '</span></div><div class="visaUpload"><input class="visaUploadInput" type="file" accept="image/*" multiple data-visa-upload="' + item.id + '"><button type="button" data-visa-upload-btn="' + item.id + '">上传截图</button></div></div>' + (images.length ? '<div class="visaAttachments"><div class="visaAttachmentsLabel">已上传截图</div><div class="visaThumbs">' + images.map(function(image){ return '<figure><img src="' + image.src + '" alt="' + escapeHtml(image.name || '材料截图') + '"><button type="button" data-visa-remove="' + item.id + '" data-image-id="' + escapeHtml(image.id) + '" aria-label="删除截图">×</button></figure>'; }).join('') + '</div></div>' : '') + (VISA_PRINT_ITEMS[item.id] ? '<label class="visaPrintRow"><input type="checkbox" data-visa-printed="' + item.id + '" ' + (state.printed ? 'checked' : '') + '><span class="visaPrintBox"></span><span>已打印</span></label>' : '') + '</li>';
         }).join('') + '</ul>' + (section.id === 'trip' ? '<div class="visaTip"><strong>这次特别要说清：</strong>首入境是比利时并不妨碍申请法国；行程单和说明信应清楚显示法国是主要停留地。</div>' : '') + '</section>';
       }).join('');
       bindVisaEvents();
@@ -471,6 +478,7 @@
     }
     function bindVisaEvents(){
       Array.prototype.forEach.call(document.querySelectorAll("[data-visa-check]"), function(input){ input.addEventListener("change", function(){ visaRequest({itemId:input.dataset.visaCheck, checked:input.checked}).catch(function(err){ input.checked = !input.checked; alert(err.message); }); }); });
+      Array.prototype.forEach.call(document.querySelectorAll("[data-visa-printed]"), function(input){ input.addEventListener("change", function(){ visaRequest({itemId:input.dataset.visaPrinted, printed:input.checked}).catch(function(err){ input.checked = !input.checked; alert(err.message); }); }); });
       Array.prototype.forEach.call(document.querySelectorAll("[data-visa-upload-btn]"), function(button){ button.addEventListener("click", function(){ var input = document.querySelector('[data-visa-upload="' + button.dataset.visaUploadBtn + '"]'); if (input) input.click(); }); });
       Array.prototype.forEach.call(document.querySelectorAll("[data-visa-upload]"), function(input){ input.addEventListener("change", function(){ var files = Array.prototype.slice.call(input.files || []).slice(0, 6); if (!files.length) return; Promise.all(files.map(readVisaFile)).then(function(encoded){ return visaRequest({itemId:input.dataset.visaUpload, files:encoded}); }).catch(function(err){ alert("截图上传失败：" + err.message); }); input.value = ""; }); });
       Array.prototype.forEach.call(document.querySelectorAll("[data-visa-remove]"), function(button){ button.addEventListener("click", function(){ if (!confirm("删除这张材料截图？")) return; visaRequest({itemId:button.dataset.visaRemove, removeImageIds:[button.dataset.imageId]}).catch(function(err){ alert(err.message); }); }); });
@@ -1513,7 +1521,7 @@
   /* ---------- 启动 ---------- */
   initPrinceFab();
   initPullRefresh();
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js?v=8").catch(function(){});
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js?v=9").catch(function(){});
   load().then(function(){
     var page = document.body.getAttribute("data-page");
     if (page === "index") initIndex();
