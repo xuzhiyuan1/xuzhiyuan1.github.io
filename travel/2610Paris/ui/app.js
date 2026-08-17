@@ -44,7 +44,7 @@
       {id:"student-card", title:"学生证复印件（辅助）", hint:"不是替代在读证明，但可一并附上。", status:"可选", requiredImages:1}
     ]},
     {id:"funds", title:"05｜资金证明", desc:"证明你能自行负担旅行费用，并有稳定的个人财务记录。", items:[
-      {id:"bank", title:"本人名下近三个月银行流水", hint:"优先选择有银行盖章或电子验真的版本；体现正常收支、足以覆盖行程的余额。", status:"待打印", requiredImages:2},
+      {id:"bank", title:"本人名下近三个月银行流水", hint:"优先选择有银行盖章或电子验真的版本；体现正常收支、足以覆盖行程的余额。在职人士如个性化清单要求，再补近三个月工资单或收入证明。", status:"待打印", requiredImages:2},
       {id:"translation", title:"中文材料的英文说明 / 翻译", hint:"若流水或在读材料仅有中文，附英文翻译更稳妥；无须自行虚构或修改交易记录。", status:"按实际", requiredImages:1},
       {id:"card-proof", title:"信用卡证明（辅助）", hint:"如要附，只保留必要信息；不要提交卡背面或 CVV。", status:"可选", requiredImages:1}
     ]},
@@ -72,7 +72,7 @@
     "euro-transport":"<p>已购买的火车或航班票可支撑行程；尚未购买时，不要为了材料完整制作假票。</p><ul><li>已购买：放入对应日程之后。</li><li>未购买：在真实行程单写清交通方式、航班号或车次（如已知）。</li></ul>",
     "enrolment":"<p>英文在读证明说明学生身份和旅行后继续学业的回国约束。</p><ul><li>建议包含姓名、学号、项目、预计毕业日期、学校联系方式和开具日期。</li><li>使用正式抬头纸并盖章或提供可验证方式。</li><li>不需要用工作证明替代在读证明。</li></ul>",
     "student-card":"<p>学生证不能替代在读证明，只作为辅助材料放在在读证明之后。</p><ul><li>复印有姓名、学校和有效信息的页面。</li><li>过期或信息不完整时不要把它当主要证明。</li></ul>",
-    "bank":"<p>重点是连续、真实且能解释的个人资金流，而不是某一天的余额。</p><ul><li>优先使用银行盖章件或电子验真版本。</li><li>大额转入要准备真实来源说明。</li><li>不要临时存入无法解释的大额资金。</li></ul>",
+    "bank":"<p>重点是连续、真实且能解释的个人资金流，而不是某一天的余额。</p><ul><li>优先使用银行盖章件或电子验真版本。</li><li>大额转入要准备真实来源说明。</li><li>在职人士按个性化清单补充近三个月工资单或其他收入证明。</li><li>不要临时存入无法解释的大额资金。</li></ul>",
     "translation":"<p>France-Visas 提示材料应提供法文或英文版本。纯中文流水等可附简明英文翻译辅助理解。</p><ul><li>翻译必须忠实对应原文件，金额、日期和姓名不能改写。</li><li>是否需要公证，以个性化清单和 TLS 最新要求为准。</li></ul>",
     "card-proof":"<p>信用卡证明只能辅助说明支付能力，不能取代本人银行流水。</p><ul><li>只显示必要的持卡人姓名与末四位。</li><li>遮住完整卡号、有效期、CVV 和动态验证码。</li></ul>",
     "insurance-policy":"<p>保险必须覆盖整个申根区和整个实际停留期，保额至少 €30,000，并包含紧急医疗、住院和医疗遣返。</p><ul><li>建议覆盖 10 月 3—13 日并留少量缓冲。</li><li>选择能出具英文凭证的保险。</li><li>被保险人英文姓名要与护照拼写相同。</li></ul>",
@@ -1534,7 +1534,7 @@
   /* ---------- 启动 ---------- */
   initPrinceFab();
   initPullRefresh();
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js?v=11").catch(function(){});
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js?v=12").catch(function(){});
   load().then(function(){
     var page = document.body.getAttribute("data-page");
     if (page === "index") initIndex();
