@@ -76,8 +76,8 @@
     "bank":"<p>重点是连续、真实且能解释的个人资金流，而不是某一天的余额。</p><ul><li>优先使用银行盖章件或电子验真版本。</li><li>大额转入、工资延后或日常消费主要通过微信/支付宝导致交易记录不完整时，在解释信中如实说明，并准备真实来源材料。</li><li>不要临时存入无法解释的大额资金。</li></ul>",
     "translation":"<p>France-Visas 提示材料应提供法文或英文版本。纯中文流水等可附简明英文翻译辅助理解。</p><ul><li>翻译必须忠实对应原文件，金额、日期和姓名不能改写。</li><li>是否需要公证，以个性化清单和 TLS 最新要求为准。</li></ul>",
     "insurance-policy":"<p>保险必须覆盖整个申根区和整个实际停留期，保额至少 €30,000，并包含紧急医疗、住院和医疗遣返。</p><ul><li>建议覆盖 10 月 3—13 日并留少量缓冲。</li><li>选择能出具英文凭证的保险。</li><li>被保险人英文姓名要与护照拼写相同。</li></ul>",
-    "cover-letter":"<p>说明信只解释已有材料，不编造新的事实，一页 A4 足够。</p><ul><li>写明旅游目的、日期、比利时首入境/离境和法国最长停留。</li><li>说明费用由本人承担，酒店和国际机票有对应订单。</li><li>银行材料说明：如工资到账延后、日常消费主要通过微信/支付宝、流水中有需要解释的转入，按真实情况简洁说明，并与实际证明相互对应。</li><li>说明旅行后返回中国，并写清与你实际身份相符的回国约束。</li><li>结尾列出行程、机票、酒店、在读证明、学生证、学信网学籍证明、流水和保险等附件。</li></ul>",
-    "income-proof":"<p>王俊杰不是学生，因此不需要提交在读证明或学生证。应根据真实身份选择能说明职业、收入和旅行后回国安排的材料。</p><ul><li>在职：公司在职证明、准假证明，必要时附营业执照复印件。</li><li>个体经营或其他身份：提交与实际情况相符的经营、任职、收入或其他回国约束证明。</li><li>不要提交不适用的学生材料，也不要用虚构的工作材料替代真实证明。</li></ul>"
+    "cover-letter":"<p>说明信只解释已有材料，不编造新的事实，一页 A4 足够。</p><ul><li>写明旅游目的、日期、比利时首入境/离境和法国最长停留。</li><li>说明费用由本人承担，酒店和国际机票有对应订单。</li><li>银行材料说明：如有大额转入、工资到账延后、日常消费主要通过微信/支付宝等情况，按真实情况写明资金来源、发生时间、用途和对应证明，并与银行流水相互对应。</li><li>说明旅行后返回中国，并写清与你实际身份相符的回国约束。</li><li>结尾列出行程、机票、酒店、工作/在读证明、流水和保险等附件。</li></ul>",
+    "income-proof":"<p>根据申请人的真实身份，准备工作证明或在读证明，用来说明职业/学业状态以及旅行后回国安排。</p><ul><li>在职：公司在职证明、准假证明，必要时附营业执照复印件。</li><li>在读：学校在读证明、学生证或其他可验证的学籍材料。</li><li>个体经营或其他身份：提交与实际情况相符的经营、任职、收入或其他回国约束证明。</li><li>不要提交与真实身份不符的材料。</li></ul>"
   };
   var VISA_PRINT_ITEMS = {};
   VISA_SECTIONS.forEach(function(section){ section.items.forEach(function(item){ if (item.print) VISA_PRINT_ITEMS[item.id] = true; }); });
@@ -444,12 +444,19 @@
     function activeVisaSections(){
       if (whoSel.value === "徐致远") return VISA_SECTIONS;
       return VISA_SECTIONS.map(function(section){
-        if (section.id === "letter") return {id:"letter", title:section.title, desc:section.desc, items:[
-          {id:"cover-letter", title:"英文说明信（建议准备）", hint:"一页说明旅游目的、法国最长停留、比利时首入境/离境、费用承担，以及与你真实职业和回国安排相符的约束。", status:section.items[0].status, requiredImages:1}
+        if (section.id === "identity") return {id:"identity", title:section.title, desc:"需要打印/复印的文件在前，递签当天带原件或现场拍摄的项目在后。", items:section.items.filter(function(item){ return item.id !== "student-card"; }).map(function(item){
+          var copy = Object.assign({}, item);
+          if (copy.id === "passport") copy.number = "2-4";
+          if (copy.id === "photo") copy.number = "2-5";
+          return copy;
+        })};
+        if (section.id === "letter") return {id:"letter", title:section.title, desc:"WJJ 需要解释信，重点说明大额转入的真实来源、时间、用途，以及它与银行流水和证明材料的对应关系。", items:[
+          {id:"cover-letter", number:"5-1", title:"英文解释信（大额转入说明，打印并签名）", hint:"写明旅游目的、费用承担、旅行后回国安排，并如实解释大额转入的来源、时间、用途及对应证明。", status:"待定稿", requiredImages:1, print:true}
         ]};
         if (section.id !== "return") return section;
-        return {id:"return", title:"04｜职业/收入与回国约束", desc:"王俊杰不是学生，不需要在读证明或学生证；按真实职业和个人情况准备回国约束材料。", items:[
-          {id:"income-proof", number:"4-1", title:"职业、收入与回国约束证明（按实际身份）", hint:"在职可准备在职证明、准假证明和营业执照复印件；其他身份按真实情况准备经营、任职、收入或其他回国约束材料。", status:"按实际身份", requiredImages:1, print:true}
+        return {id:"return", title:"04｜回国约束", desc:"先准备资金流水，再准备工作证明或在读证明；按真实身份提交。", items:[
+          {id:"bank", number:"4-1", title:"本人名下近三个月银行流水", hint:"优先选择有银行盖章或电子验真的版本；体现正常收支、足以覆盖行程的余额，异常入账或工资延后在解释信中如实说明。", status:"待打印", requiredImages:2, print:true},
+          {id:"income-proof", number:"4-2", title:"工作证明 / 在读证明（按实际身份）", hint:"在职准备在职证明、准假证明和必要的营业执照复印件；在读准备学校在读证明、学生证或其他可验证学籍材料。", status:"按实际身份", requiredImages:1, print:true}
         ]};
       });
     }
