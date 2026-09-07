@@ -31,7 +31,9 @@
     {id:"identity", title:"02｜护照与身份", desc:"原件用于核验，复印件留入申请档案。", items:[
       {id:"passport", title:"护照原件", hint:"至少两页连续空白页；离开申根区后至少仍有效三个月。递签当天交给 TLS。", status:"带原件", requiredImages:2},
       {id:"passport-copy", title:"护照复印件", hint:"信息页，以及所有含签证、出入境章或其他批注的页面。", status:"待复印", requiredImages:2},
-      {id:"photo", title:"近期申根规格证件照", hint:"带 1 张，另备 1 张更稳妥；避免日常生活照。", status:"待准备", requiredImages:2}
+      {id:"photo", title:"白底证件照（现场拍）", hint:"递签当天按 TLS 现场要求拍摄；不要把普通生活照当作证件照材料。", status:"现场拍摄", requiredImages:1},
+      {id:"id-card-copy", title:"身份证复印件", hint:"正反面清晰复印，建议 A4 同页；姓名、号码等信息应完整可辨。", status:"待复印", requiredImages:1},
+      {id:"hukou-copy", title:"户口本复印件", hint:"按个人页及相关家庭关系页准备，页码和文字保持完整；最终以个性化清单与 TLS 要求为准。", status:"待复印", requiredImages:1}
     ]},
     {id:"trip", title:"03｜行程、机票与住宿", desc:"核心是时间、入住人姓名与申请表完全一致。", items:[
       {id:"itinerary", title:"英文或法文完整行程单", hint:"写明北京→布鲁塞尔→法国为主→布鲁塞尔→北京；法国为停留时间最长的国家。", status:"待导出", requiredImages:1},
@@ -41,18 +43,18 @@
     ]},
     {id:"student", title:"04｜在读身份与回国约束", desc:"你以学生身份申请，重点是清华在读证明，而不是工作证明。", items:[
       {id:"enrolment", title:"清华大学英文在读证明", hint:"最好含姓名、学号、在读项目、预计毕业时间、学校联系方式，并盖章或具备可验证方式。", status:"待开具", requiredImages:1},
-      {id:"student-card", title:"学生证复印件（辅助）", hint:"不是替代在读证明，但可一并附上。", status:"可选", requiredImages:1}
+      {id:"student-card", title:"学生证复印件（必须）", hint:"复印有姓名、学校和有效信息的页面；与英文在读证明、学信网学籍证明一起准备。", status:"待复印", requiredImages:1},
+      {id:"chsi-enrolment", title:"学信网学籍证明", hint:"下载带验证信息或二维码、可在线验真的版本，打印并保留电子版；核对姓名和身份信息。", status:"待下载", requiredImages:1}
     ]},
     {id:"funds", title:"05｜资金证明", desc:"证明你能自行负担旅行费用，并有稳定的个人财务记录。", items:[
-      {id:"bank", title:"本人名下近三个月银行流水", hint:"优先选择有银行盖章或电子验真的版本；体现正常收支、足以覆盖行程的余额。在职人士如个性化清单要求，再补近三个月工资单或收入证明。", status:"待打印", requiredImages:2},
+      {id:"bank", title:"本人名下近三个月银行流水", hint:"优先选择有银行盖章或电子验真的版本；体现正常收支、足以覆盖行程的余额，异常入账或工资延后在解释信中如实说明。", status:"待打印", requiredImages:2},
       {id:"translation", title:"中文材料的英文说明 / 翻译", hint:"若流水或在读材料仅有中文，附英文翻译更稳妥；无须自行虚构或修改交易记录。", status:"按实际", requiredImages:1},
-      {id:"card-proof", title:"信用卡证明（辅助）", hint:"如要附，只保留必要信息；不要提交卡背面或 CVV。", status:"可选", requiredImages:1}
     ]},
     {id:"insurance", title:"06｜旅行医疗保险", desc:"短期申根旅游签证的强制材料。", items:[
       {id:"insurance-policy", title:"英文保险凭证与保单", hint:"覆盖整个申根区和整个停留期；至少 €30,000，含紧急医疗、住院与医疗遣返。建议投保日覆盖 10 月 3—13 日并留少量缓冲。", status:"待购买", requiredImages:2}
     ]},
     {id:"letter", title:"07｜建议附加：英文说明信", desc:"不是用来替代证明，而是把多国行程的逻辑讲清楚。", items:[
-      {id:"cover-letter", title:"英文说明信（建议准备）", hint:"一页足够：旅游目的；法国停留最久；比利时首入境与离境；酒店和国际机票已落实；本人承担费用、旅行后返回清华继续学业。", status:"建议准备", requiredImages:1}
+      {id:"cover-letter", title:"英文说明信（建议准备）", hint:"一页足够：旅游目的；法国停留最久；比利时首入境与离境；酒店和国际机票已落实；本人承担费用、旅行后返回清华继续学业；并对银行流水的日常使用、工资延后或其他需要解释的情况作真实说明。", status:"建议准备", requiredImages:1}
     ]}
   ];
   var VISA_ITEM_MAP = {};
@@ -65,27 +67,43 @@
     "checklist":"<p>这是 France-Visas 根据本次旅游、申请人的个人身份和费用承担情况生成的个性化清单，优先级高于经验帖。</p><ul><li>按清单顺序排放材料。</li><li>清单写明原件和复印件的项目，两者都带。</li><li>若本页与最新清单不一致，以 France-Visas 和 TLS 的最新要求为准。</li></ul>",
     "passport":"<p>确认至少有两页连续空白页，并且从离开申根区之日起仍有三个月以上有效期。</p><ul><li>护照原件递签当天交给 TLS。</li><li>递签后护照会进入审核流程，不要安排冲突的出境用途。</li></ul>",
     "passport-copy":"<p>复印护照信息页，以及所有含签证、出入境章或其他批注的页面。</p><ul><li>复印件要清晰完整，不要裁掉页码和边缘。</li><li>空白页通常不用逐页复印，除非个性化清单另有要求。</li></ul>",
-    "photo":"<p>准备近期、正面、清晰的 ICAO 规格证件照。一张递交，一张备用。</p><ul><li>不要使用生活照、自拍照或明显修图照。</li><li>避免因尺寸或背景不合格在现场重拍。</li></ul>",
+    "photo":"<p>按 TLS 现场要求拍摄白底证件照。不要用生活照、自拍照或明显修图照替代；若现场需要补拍，以现场工作人员指引为准。</p>",
+    "id-card-copy":"<p>准备身份证正反面清晰复印件，建议 A4 同页并保留完整边缘。提交前核对姓名、号码与其他申请材料一致。</p>",
+    "hukou-copy":"<p>按个性化清单准备个人页及相关家庭关系页，确保页码、姓名和关系信息完整清晰。最终以 France-Visas 个性化清单和 TLS 当日要求为准。</p>",
     "itinerary":"<p>行程单要把机票、酒店与多国停留串成一条可信路线，不等于虚构交通订单。</p><ul><li>按日列出日期、城市、住宿和主要跨城移动。</li><li>明确 10 月 3 日比利时入境、法国停留时间最长、10 月 13 日比利时离境。</li><li>日期必须与申请表、酒店和机票订单吻合。</li></ul>",
     "flight":"<p>准备北京—布鲁塞尔及布鲁塞尔—北京的真实订单或电子客票。</p><ul><li>英文姓名必须与护照一致。</li><li>订单需完整显示状态、航班号、日期和航段。</li><li>不要提交无法验证或虚构的预订单。</li></ul>",
     "hotel":"<p>本次全程住宿订单已确认并完成付款。递签材料中仍应连续覆盖全部住宿夜晚，并显示酒店名、地址、入住人、入住/退房日期和付款状态。</p><ul><li>上传的订单截图应能看见已付款状态。</li><li>酒店名称、地址、入住人和日期必须与申请表、行程单一致。</li><li>如果之后更换酒店，及时替换截图并重新核对付款状态。</li></ul>",
     "euro-transport":"<p>已购买的火车或航班票可支撑行程；尚未购买时，不要为了材料完整制作假票。</p><ul><li>已购买：放入对应日程之后。</li><li>未购买：在真实行程单写清交通方式、航班号或车次（如已知）。</li></ul>",
     "enrolment":"<p>英文在读证明说明学生身份和旅行后继续学业的回国约束。</p><ul><li>建议包含姓名、学号、项目、预计毕业日期、学校联系方式和开具日期。</li><li>使用正式抬头纸并盖章或提供可验证方式。</li><li>不需要用工作证明替代在读证明。</li></ul>",
-    "student-card":"<p>学生证不能替代在读证明，只作为辅助材料放在在读证明之后。</p><ul><li>复印有姓名、学校和有效信息的页面。</li><li>过期或信息不完整时不要把它当主要证明。</li></ul>",
-    "bank":"<p>重点是连续、真实且能解释的个人资金流，而不是某一天的余额。</p><ul><li>优先使用银行盖章件或电子验真版本。</li><li>大额转入要准备真实来源说明。</li><li>在职人士按个性化清单补充近三个月工资单或其他收入证明。</li><li>不要临时存入无法解释的大额资金。</li></ul>",
+    "student-card":"<p>学生证复印件作为学生身份材料，与英文在读证明、学信网学籍证明一起准备；不能用学生证替代其他清单项目。</p><ul><li>复印有姓名、学校和有效信息的页面。</li><li>递交前确认复印件清晰、完整。</li></ul>",
+    "chsi-enrolment":"<p>从学信网下载可验证的学籍证明，打印纸质版并保留电子版。提交前检查姓名、身份信息、学校和在读状态。</p><ul><li>优先使用带验证信息或二维码的版本。</li><li>不要修改证明中的任何字段。</li></ul>",
+    "bank":"<p>重点是连续、真实且能解释的个人资金流，而不是某一天的余额。</p><ul><li>优先使用银行盖章件或电子验真版本。</li><li>大额转入、工资延后或日常消费主要通过微信/支付宝导致交易记录不完整时，在解释信中如实说明，并准备真实来源材料。</li><li>不要临时存入无法解释的大额资金。</li></ul>",
     "translation":"<p>France-Visas 提示材料应提供法文或英文版本。纯中文流水等可附简明英文翻译辅助理解。</p><ul><li>翻译必须忠实对应原文件，金额、日期和姓名不能改写。</li><li>是否需要公证，以个性化清单和 TLS 最新要求为准。</li></ul>",
-    "card-proof":"<p>信用卡证明只能辅助说明支付能力，不能取代本人银行流水。</p><ul><li>只显示必要的持卡人姓名与末四位。</li><li>遮住完整卡号、有效期、CVV 和动态验证码。</li></ul>",
     "insurance-policy":"<p>保险必须覆盖整个申根区和整个实际停留期，保额至少 €30,000，并包含紧急医疗、住院和医疗遣返。</p><ul><li>建议覆盖 10 月 3—13 日并留少量缓冲。</li><li>选择能出具英文凭证的保险。</li><li>被保险人英文姓名要与护照拼写相同。</li></ul>",
-    "cover-letter":"<p>说明信只解释已有材料，不编造新的事实，一页 A4 足够。</p><ul><li>写明旅游目的、日期、比利时首入境/离境和法国最长停留。</li><li>说明费用由本人承担，酒店和国际机票有对应订单。</li><li>说明旅行后返回中国，并写清与你实际身份相符的回国约束。</li><li>结尾列出行程、机票、酒店、身份/职业证明、流水和保险等附件。</li></ul>",
+    "cover-letter":"<p>说明信只解释已有材料，不编造新的事实，一页 A4 足够。</p><ul><li>写明旅游目的、日期、比利时首入境/离境和法国最长停留。</li><li>说明费用由本人承担，酒店和国际机票有对应订单。</li><li>银行材料说明：如工资到账延后、日常消费主要通过微信/支付宝、流水中有需要解释的转入，按真实情况简洁说明，并与实际证明相互对应。</li><li>说明旅行后返回中国，并写清与你实际身份相符的回国约束。</li><li>结尾列出行程、机票、酒店、在读证明、学生证、学信网学籍证明、流水和保险等附件。</li></ul>",
     "income-proof":"<p>王俊杰不是学生，因此不需要提交在读证明或学生证。应根据真实身份选择能说明职业、收入和旅行后回国安排的材料。</p><ul><li>在职：公司在职证明、准假证明，必要时附营业执照复印件。</li><li>个体经营或其他身份：提交与实际情况相符的经营、任职、收入或其他回国约束证明。</li><li>不要提交不适用的学生材料，也不要用虚构的工作材料替代真实证明。</li></ul>"
   };
   var VISA_PRINT_ITEMS = {
     "fv-form":true, "tls-letter":true, "consent":true, "checklist":true,
     "passport-copy":true, "itinerary":true, "flight":true, "hotel":true,
-    "euro-transport":true, "enrolment":true, "student-card":true,
-    "bank":true, "translation":true, "card-proof":true,
+    "euro-transport":true, "enrolment":true, "student-card":true, "chsi-enrolment":true,
+    "id-card-copy":true, "hukou-copy":true, "bank":true, "translation":true,
     "insurance-policy":true, "cover-letter":true, "income-proof":true
   };
+  var VISA_TEMPLATE_HTML = '<div class="visaDetailBody visaTemplateText"><h3>Cover Letter</h3>' +
+    '<p>Dear Visa Officer,</p>' +
+    '<p>Thank you for processing my application. My name is ______ (Passport No. ______), and I am currently a first-year master’s student majoring in ______ at ______ University. I am writing to apply for a Schengen visa for tourism purposes.</p>' +
+    '<h4>Purpose of Travel</h4>' +
+    '<p>I plan to travel to France and Italy during my summer vacation, visiting Paris, Nice, and Rome. I have always enjoyed traveling and have a strong interest in European literature, history and art. During my stay in Paris, I plan to visit several well-known cultural landmarks and museums, such as the Louvre Museum and the Musée d’Orsay. I will also spend time visiting Nice on the French Riviera and later travel to Rome to see historical sites.</p>' +
+    '<h4>Financial Support</h4>' +
+    '<p>The expenses for this trip will be covered by myself. My travel funds mainly come from scholarships I have received during my studies and income from part-time work. These funds are sufficient to cover my travel expenses, including accommodation, transportation, meals, and other related costs.</p>' +
+    '<p>Regarding my bank statements, most of my daily spending in China is made through mobile payment platforms such as WeChat Pay and Alipay, so my bank transaction records may not fully reflect my routine consumption.</p>' +
+    '<h4>Ties to My Home Country</h4>' +
+    '<p>I am currently enrolled as a full-time master’s student at ______ University and must return to China to continue and complete my graduate studies. As I am in the first year of my program, I will return to China after my trip to continue my academic work. In addition, my family members all live in China, which further strengthens my intention to return after my visit.</p>' +
+    '<h4>Compliance with Visa Requirements</h4>' +
+    '<p>I fully understand the requirements for obtaining a Schengen visa and have carefully prepared all the necessary supporting documents, including my travel itinerary, hotel reservations, travel insurance, and proof of financial means. I will strictly comply with all visa regulations and will leave the Schengen Area before the permitted period of stay expires.</p>' +
+    '<p>I sincerely appreciate your time and careful consideration of my application.</p>' +
+    '<p class="visaTemplateNote">仅作结构参考；旅行国家、日期、学校、资金来源和银行流水说明必须按实际情况改写。</p></div>';
   var MAP_DEFAULT = "Paris France";
   // 出发前不预填任何回顾；旅程结束后才由真实记录填入。
   var EMPTY_REVIEW = { title: "回顾", sections: [] };
@@ -473,7 +491,7 @@
         return '<section class="card visaChecklistGroup" id="visa-' + section.id + '"><div class="visaSectionHead"><div><h2>' + section.title + '</h2><p>' + section.desc + '</p></div><span class="visaSectionCount">' + section.items.filter(function(i){ return visaItemState(i.id).checked; }).length + ' / ' + section.items.length + '</span></div><ul class="visaChecklist">' + section.items.map(function(item){
           var state = visaItemState(item.id), images = state.images || [], ready = state.checked && images.length >= item.requiredImages;
           return '<li class="visaTask ' + (ready ? 'isReady' : '') + '"><div class="visaTaskMain"><label class="visaCheck"><input type="checkbox" data-visa-check="' + item.id + '" ' + (state.checked ? 'checked' : '') + '><span class="visaFakeCheck"></span></label><div class="visaTaskCopy"><details class="visaInlineDetail"><summary><b>' + escapeHtml(item.title) + '</b><span class="visaHint">' + escapeHtml(item.hint) + '</span><span class="visaOpenDetail">点击展开材料说明与依据</span></summary><div class="visaDetailBody">' + (VISA_DETAILS[item.id] || '<p>请以 France-Visas 个性化清单和 TLS 最新要求为准。</p>') + '</div></details><span class="visaEvidence">截图 ' + images.length + ' / ' + item.requiredImages + ' · ' + escapeHtml(visaStatusText(item, state)) + '</span></div><div class="visaUpload"><input class="visaUploadInput" type="file" accept="image/*" multiple data-visa-upload="' + item.id + '"><button type="button" data-visa-upload-btn="' + item.id + '">上传截图</button></div></div>' + (images.length ? '<div class="visaAttachments"><div class="visaAttachmentsLabel">已上传截图</div><div class="visaThumbs">' + images.map(function(image){ return '<figure><img src="' + image.src + '" alt="' + escapeHtml(image.name || '材料截图') + '"><button type="button" data-visa-remove="' + item.id + '" data-image-id="' + escapeHtml(image.id) + '" aria-label="删除截图">×</button></figure>'; }).join('') + '</div></div>' : '') + (VISA_PRINT_ITEMS[item.id] ? '<label class="visaPrintRow"><input type="checkbox" data-visa-printed="' + item.id + '" ' + (state.printed ? 'checked' : '') + '><span class="visaPrintBox"></span><span>已打印</span></label>' : '') + '</li>';
-        }).join('') + '</ul>' + (section.id === 'trip' ? '<div class="visaTip"><strong>这次特别要说清：</strong>首入境是比利时并不妨碍申请法国；行程单和说明信应清楚显示法国是主要停留地。</div>' : '') + '</section>';
+        }).join('') + '</ul>' + (section.id === 'trip' ? '<div class="visaTip"><strong>这次特别要说清：</strong>首入境是比利时并不妨碍申请法国；行程单和说明信应清楚显示法国是主要停留地。</div>' : '') + (section.id === 'letter' ? VISA_TEMPLATE_HTML : '') + '</section>';
       }).join('');
       bindVisaEvents();
     }
