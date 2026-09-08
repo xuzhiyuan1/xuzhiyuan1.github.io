@@ -23,10 +23,9 @@
   /* 申根签材料内容来自 2026-france-visa-materials.html；requiredImages 是“已准备”截图的最低数量。 */
   var VISA_SECTIONS = [
     {id:"must", title:"01｜递签文件", desc:"需要先打印的递签表格，按编号从上到下准备。", items:[
-      {id:"fv-form", number:"1-1", title:"France-Visas 申请表 + 回执", hint:"先完成最终确认，再分别打印。按页面要求由本人签名。", status:"待完成", requiredImages:2, print:true},
+      {id:"fv-form", number:"1-1", title:"France-Visas 申请表 + 回执（含个性化材料清单）", hint:"打印完整六页 PDF：前四页是申请表，第五至六页是回执和个性化材料清单。按页面要求由本人签名。", status:"已下载", requiredImages:2, print:true},
       {id:"tls-letter", number:"1-2", title:"TLS 预约确认信", hint:"打印，递签当日携带；核对预约中心、日期和时间。", status:"核对", requiredImages:1, print:true},
-      {id:"consent", number:"1-3", title:"个人信息处理及跨境传输同意书", hint:"从 TLS 北京网站下载、填写并签名。", status:"待打印", requiredImages:1, print:true},
-      {id:"checklist", number:"1-4", title:"France-Visas 个性化材料清单", hint:"第六页的清单打印出来，作为材料排序依据。", status:"待打印", requiredImages:1, print:true}
+      {id:"consent", number:"1-3", title:"个人信息处理及跨境传输同意书", hint:"从 TLS 北京网站下载、填写并签名。", status:"已找到", requiredImages:1, print:true}
     ]},
     {id:"identity", title:"02｜身份文件", desc:"需要打印/复印的文件在前，递签当天带原件或现场拍摄的项目在后。", items:[
       {id:"passport-copy", number:"2-1", title:"护照复印件", hint:"信息页，以及所有含签证、出入境章或其他批注的页面。", status:"待复印", requiredImages:2, print:true},
@@ -57,10 +56,9 @@
   VISA_SECTIONS.forEach(function(section){ section.items.forEach(function(item){ VISA_ITEM_MAP[item.id] = item; }); });
   /* 参考页中每个材料的“点击展开说明”。正文是静态编辑内容，不来自用户输入。 */
   var VISA_DETAILS = {
-    "fv-form":"<p>这是在线申请完成后生成的两份核心文件。TLS 要求携带打印件，并由申请人本人在签名位置签字。</p><ul><li>打印前核对姓名、护照号、出生日期、入离境日期、住宿和资金方式。</li><li>申请表必须与 TLS 账户及护照完全一致；有错误应回 France-Visas 更正后重新生成。</li></ul><div class=\"visaDetailSource\">依据：TLS 递签流程与表格下载说明。</div>",
+    "fv-form":"<p>你下载的六页 PDF 已把申请表、注册回执和个性化材料清单放在同一个文件里。第 1—4 页是申请表，第 5—6 页是回执及个性化材料清单；完整打印一套即可，不需要把材料清单另列为 1-4。</p><ul><li>打印前核对姓名、护照号、出生日期、入离境日期、住宿和资金方式。</li><li>申请表必须与 TLS 账户及护照完全一致；有错误应回 France-Visas 更正后重新生成。</li></ul><div class=\"visaDetailSource\">依据：TLS 递签流程与本次 France-Visas 六页 PDF。</div>",
     "tls-letter":"<p>这是预约当天进入签证中心的凭证。打印纸质版，检查中心为北京、日期为 2026 年 9 月 11 日、申请人姓名无误。</p><ul><li>电子版可存手机，但以纸质版为主。</li><li>按预约时间到达，迟到可能无法当天受理。</li><li>预约确认前按 TLS 当前页面完成必需的服务费支付；签证费和可选增值服务费不包含在其中，具体以预约页实时规则为准。</li></ul><div class=\"visaDetailSource\">依据：TLScontact 北京递签流程。</div>",
     "consent":"<p>TLS 中国网站提供个人信息处理及跨境传输同意书。按表格要求填写、签名，不要替同行人代签。</p><div class=\"visaDetailSource\">依据：TLScontact 表格与下载文件。</div>",
-    "checklist":"<p>这是 France-Visas 根据本次旅游、申请人的个人身份和费用承担情况生成的个性化清单，优先级高于经验帖。</p><ul><li>按清单顺序排放材料。</li><li>清单写明原件和复印件的项目，两者都带。</li><li>若本页与最新清单不一致，以 France-Visas 和 TLS 的最新要求为准。</li></ul>",
     "passport":"<p>确认至少有两页连续空白页，并且从离开申根区之日起仍有三个月以上有效期。</p><ul><li>护照原件递签当天交给 TLS。</li><li>递签后护照会进入审核流程，不要安排冲突的出境用途。</li></ul>",
     "passport-copy":"<p>复印护照信息页，以及所有含签证、出入境章或其他批注的页面。</p><ul><li>复印件要清晰完整，不要裁掉页码和边缘。</li><li>空白页通常不用逐页复印，除非个性化清单另有要求。</li></ul>",
     "photo":"<p>按 TLS 现场要求拍摄白底证件照。不要用生活照、自拍照或明显修图照替代；若现场需要补拍，以现场工作人员指引为准。</p>",
