@@ -134,37 +134,31 @@
     {
       "date": "2026-10-04",
       "label": "Day 2",
-      "title": "Day 2 · 10.4 周日 · 巴黎核心 · Latin Quarter → Louvre → Cité",
+      "title": "Day 2 · 10.4 周日 · 凡尔赛宫 + 圣礼拜堂音乐会",
       "loc": [
-        "Panthéon",
-        "Louvre",
-        "Notre-Dame",
-        "Sainte-Chapelle"
+        "Pantin",
+        "Versailles Château Rive Gauche",
+        "Sainte-Chapelle",
+        "Pantin"
       ],
       "items": [
         {
-          "time": "10:00—11:20",
-          "iso": "2026-10-04T10:00:00+02:00",
-          "title": "先贤祠 · Panthéon de Paris｜参观中殿与地下墓室；首次入场启动通票",
-          "note": "开放： 10 月—3 月通常 10:00—18:00，最后入场约 17:15。Paris Museum Pass 覆盖门票，无需另买门票。 开放时间 ↗"
+          "time": "08:00—09:00",
+          "iso": "2026-10-04T08:00:00+02:00",
+          "title": "庞坦 → 凡尔赛左岸站 · Pantin → Versailles Château–Rive Gauche｜地铁 / RER C；开门前抵达宫殿",
+          "note": "使用 Metro-Train-RER 单程票前往凡尔赛。宫殿周日 09:00 开门，建议提前到入口安检；Paris Museum Pass 从今天首次入场开始使用。"
         },
         {
-          "time": "13:15—16:20",
-          "iso": "2026-10-04T13:15:00+02:00",
-          "title": "卢浮宫 · Musée du Louvre｜胜利女神 → 蒙娜丽莎 → 阿波罗长廊，三小时核心线",
-          "note": "开放： 周日 09:00—18:00，最晚入场 17:00。Paris Museum Pass 覆盖门票， 但仍必须在卢浮宫官网预约具体时段 。不要购买普通 €32 门票。 开放时间与预约 ↗"
+          "time": "09:00—16:15",
+          "iso": "2026-10-04T09:00:00+02:00",
+          "title": "凡尔赛宫 · Château de Versailles｜宫殿 → 花园 → Trianon / 王后村（按体力）",
+          "note": "周日开放：宫殿 09:00—18:30，Trianon 12:00—18:30。Paris Museum Pass 覆盖凡尔赛，但仍须在官网预约免费的定时 Passport；为了赶 19:00 音乐会，16:15 左右开始返程。"
         },
         {
-          "time": "16:40—17:35",
-          "iso": "2026-10-04T16:40:00+02:00",
-          "title": "巴黎圣母院 · Cathédrale Notre-Dame de Paris｜免费预约入内；控制在 45—55 分钟，和晚间音乐会同区完成",
-          "note": "时间： 内部建议预留 45—60 分钟；官方对团体要求室内参观不超过 1 小时。周日通常 08:15—19:30，末次入场约闭馆前 30 分钟；免费预约只在出发前一两天或当天逐步放号，因此把 16:30—16:40 作为目标时段。 开放时间 ↗ 免费预约 ↗"
-        },
-        {
-          "time": "17:35—18:20",
-          "iso": "2026-10-04T17:35:00+02:00",
-          "title": "巴黎圣母院 → 圣礼拜堂 · Notre-Dame → Sainte-Chapelle｜5 分钟步行；留给洗手间、安检排队与入场",
-          "note": "两处都在 Île de la Cité，直线距离很近。这里故意留出 45 分钟，不安排额外景点；音乐会入口及安检要在 18:20 前到。市内交通预算包含音乐会结束后返回 Pantin。"
+          "time": "16:15—18:20",
+          "iso": "2026-10-04T16:15:00+02:00",
+          "title": "凡尔赛宫 → 圣礼拜堂 · Château de Versailles → Sainte-Chapelle｜返回巴黎、简餐并提前安检",
+          "note": "从凡尔赛返回西岱岛，目标 18:20 前抵达音乐会入口。官网建议提前 30 分钟接受安检；若凡尔赛排队拖延，优先缩短花园或 Trianon 停留，不压缩音乐会入场时间。"
         },
         {
           "time": "19:00—20:30",
@@ -175,51 +169,77 @@
         {
           "time": "21:00—晚上",
           "iso": "2026-10-04T21:00:00+02:00",
-          "title": "巴黎庞坦 · Campanile PRIME - Paris Pantin｜返回酒店，准备明天凡尔赛",
-          "note": "巴黎第二晚，继续住 Campanile PRIME - Paris Pantin（10/3—10/5 订单）。睡前确认凡尔赛的免费 Passport 定时票；音乐会票与通票不要混用。"
+          "title": "巴黎庞坦 · Campanile PRIME Paris Pantin｜返回酒店，准备明天巴黎市区",
+          "note": "巴黎第二晚。睡前确认巴黎圣母院免费预约和卢浮宫下午预约；音乐会票与 Paris Museum Pass 不混用。"
         }
       ]
     },
     {
       "date": "2026-10-05",
       "label": "Day 3",
-      "title": "Day 3 · 10.5 周一 · 凡尔赛 + 凯旋门夜景",
+      "title": "Day 3 · 10.5 周一 · 巴黎核心 · Cité → Panthéon → Louvre → Arc",
       "loc": [
-        "Pantin",
-        "Versailles Château Rive Gauche",
+        "Notre-Dame",
+        "Sainte-Chapelle",
+        "Panthéon",
+        "Louvre",
         "Arc de Triomphe",
         "Pantin"
       ],
       "items": [
         {
-          "time": "08:15—09:30",
-          "iso": "2026-10-05T08:15:00+02:00",
-          "title": "庞坦 → 凡尔赛左岸站 · Pantin → Versailles Château–Rive Gauche｜地铁 / RER C；在车站附近步行至宫殿",
-          "note": "使用 Metro-Train-RER 单程票，机场以外全区同价；以当日路线为准。提前 15 分钟到宫殿入口，预约时段迟到不保证放行。"
+          "time": "08:30—09:25",
+          "iso": "2026-10-05T08:30:00+02:00",
+          "title": "巴黎圣母院 · Cathédrale Notre-Dame de Paris｜上午免费预约入内参观",
+          "note": "周一 07:50 开门，建议预约 08:30 左右的免费时段并预留 45—55 分钟。上午先参观圣母院，避开下午卢浮宫预约前的时间压力。"
         },
         {
-          "time": "10:00—16:30",
-          "iso": "2026-10-05T10:00:00+02:00",
-          "title": "凡尔赛宫 · Château de Versailles｜宫殿 → 花园 → Trianon / 王后村（按体力）",
-          "note": "通票规则： Paris Museum Pass 覆盖凡尔赛，但必须在官网预约免费的定时 Passport Ticket ；它包含宫殿、Trianon、王后村与花园一次入场。10 月仍是高季，别误买普通 €35 Passport。 通票持有人预约说明 ↗ 凡尔赛预约 ↗"
+          "time": "09:30—10:30",
+          "iso": "2026-10-05T09:30:00+02:00",
+          "title": "圣礼拜堂 · Sainte-Chapelle｜白天参观彩窗与建筑",
+          "note": "10 月日间开放 09:00—17:00，使用 Paris Museum Pass 入场。前晚音乐会以演出为主；今天补看白天彩窗，如不想重复，可把这一小时留给圣母院周边。"
         },
         {
-          "time": "16:30—19:35",
-          "iso": "2026-10-05T16:30:00+02:00",
-          "title": "凡尔赛宫 → 凯旋门 · Château de Versailles → Arc de Triomphe｜回巴黎、简单晚餐、转到 Charles de Gaulle–Étoile",
-          "note": "不要把凡尔赛硬逛到闭园。回城后在凯旋门附近简单吃饭；这是缓冲段，凡尔赛排队拖延时就压缩晚餐而不赶路。"
+          "time": "10:30—11:50",
+          "iso": "2026-10-05T10:30:00+02:00",
+          "title": "西岱岛 → 先贤祠 · Île de la Cité → Panthéon｜步行穿过拉丁区、途中简餐",
+          "note": "10 月 5 日是当月第一个工作周一，先贤祠延迟至 12:00 开门。利用上午剩余时间步行和吃午餐，12:00 准时入场。"
+        },
+        {
+          "time": "12:00—13:15",
+          "iso": "2026-10-05T12:00:00+02:00",
+          "title": "先贤祠 · Panthéon de Paris｜参观中殿与地下墓室",
+          "note": "当天 12:00—18:00 开放，最后入场约 17:15；Paris Museum Pass 覆盖门票。13:15 左右离开，为卢浮宫下午预约留足转场时间。"
+        },
+        {
+          "time": "13:15—14:20",
+          "iso": "2026-10-05T13:15:00+02:00",
+          "title": "先贤祠 → 卢浮宫 · Panthéon → Musée du Louvre｜地铁 / 步行、预约前安检",
+          "note": "卢浮宫上午时段已约满，因此改约下午。建议优先选择 14:30 左右的可售时段，并至少提前 20—30 分钟到入口。"
+        },
+        {
+          "time": "14:30—17:30",
+          "iso": "2026-10-05T14:30:00+02:00",
+          "title": "卢浮宫 · Musée du Louvre｜下午预约；胜利女神 → 蒙娜丽莎 → 阿波罗长廊",
+          "note": "周一 09:00—18:00 开放，最后入场 17:00。Paris Museum Pass 覆盖门票，但仍必须在卢浮宫官网预约具体下午时段；以实际抢到的时间为准。"
+        },
+        {
+          "time": "17:30—19:35",
+          "iso": "2026-10-05T17:30:00+02:00",
+          "title": "卢浮宫 → 凯旋门 · Musée du Louvre → Arc de Triomphe｜晚餐、休息后前往戴高乐广场",
+          "note": "卢浮宫闭馆后留出晚餐和转场缓冲。若下午预约晚于 14:30，可相应压缩晚餐，但不要晚于凯旋门末次入场时间。"
         },
         {
           "time": "20:00—21:15",
           "iso": "2026-10-05T20:00:00+02:00",
-          "title": "凯旋门 · Arc de Triomphe｜登顶夜景；使用 Day 2 已启动的 Paris Museum Pass",
-          "note": "通票逻辑： 周日先贤祠首次入场后连续 48 小时有效，今晚凯旋门仍在有效期内；不要在 Day 1 游船时启动。10 月凯旋门通常开至 22:30、最晚入场 21:45；不需预约。 Paris Museum Pass €85 ↗ 凯旋门开放时间 ↗"
+          "title": "凯旋门 · Arc de Triomphe｜登顶看巴黎夜景；继续使用 Paris Museum Pass",
+          "note": "10 月周一开放至 22:30，最晚入场 21:45；不需预约。两日通票在 Day 2 凡尔赛启用，今天继续覆盖圣礼拜堂、先贤祠、卢浮宫与凯旋门。"
         },
         {
           "time": "22:20—晚上",
           "iso": "2026-10-05T22:20:00+02:00",
-          "title": "巴黎庞坦 · Campanile PRIME - Paris Pantin｜返回、入住第二笔订单",
-          "note": "住宿订单：10/5—10/7，Campanile PRIME - Paris Pantin，2 人 / 1 间；地址：62–64 Avenue Jean-Lolive, Pantin。价格暂不计入本版。明天迪士尼早出发，睡前确认双园门票和 RER 路线。"
+          "title": "巴黎庞坦 · Campanile PRIME Paris Pantin｜返回、入住第二笔订单",
+          "note": "10/5—7 订单共 ¥1,605.80 / 两人 / 两晚；今晚分摊 ¥401.45 / 人。明天迪士尼早出发，睡前确认双园门票和 RER 路线。"
         }
       ]
     },
