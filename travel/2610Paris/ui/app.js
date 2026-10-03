@@ -106,7 +106,14 @@
   function mapA(q){ return ' <a class="map" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=' + enc(q) + '">导航</a>'; }
   function stripTags(s){ return s.replace(/<[^>]*>/g, "").trim(); }
   function pad(n){ return String(n).padStart(2, "0"); }
-  function todayKey(){ var d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function todayKey(){
+    var parts = new Intl.DateTimeFormat("en", {
+      timeZone: "Europe/Paris", year: "numeric", month: "2-digit", day: "2-digit"
+    }).formatToParts(new Date());
+    var date = {};
+    parts.forEach(function(p){ date[p.type] = p.value; });
+    return date.year + "-" + date.month + "-" + date.day;
+  }
 
   /* 北京时间格式化（"MM-DD HH:mm"）：后端记录的修改时间自带 +08:00 偏移，
      用 Intl.DateTimeFormat 强制以 Asia/Shanghai 时区取字段，不管看的人手机在什么时区，
@@ -155,7 +162,7 @@
     var all = [];
     ITINERARY.forEach(function(day){
       day.items.forEach(function(it){
-        if (new Date(it.iso).getTime() > now) all.push({ t: it.iso, label: stripTags(renderItemBody(it)) });
+        if (it.iso && new Date(it.iso).getTime() > now) all.push({ t: it.iso, label: stripTags(renderItemBody(it)) });
       });
     });
     if (roleName && roleName !== OVERVIEW){
@@ -773,13 +780,13 @@
       var html = "";
 
       ITINERARY.forEach(function(day, idx){
-        var future = day.items.filter(function(it){ return new Date(it.iso).getTime() > now; });
+        var future = day.items.filter(function(it){ return it.iso ? new Date(it.iso).getTime() > now : day.date >= key; });
         if (future.length){
           var itemsHtml = future.map(function(it){
             return '<div class="item"><div class="t">' + it.time + '</div><div class="b">' + renderItemBody(it) + (it.note ? '<div class="n">' + it.note + '</div>' : '') + '</div></div>';
           }).join("");
           var todayCls = (day.date === key) ? ' today' : '';
-          html += '<div class="card day' + todayCls + '" data-date="' + day.date + '"><h2>' + stripEmoji(day.title) + '</h2>' + itemsHtml + '</div>';
+          html += '<div class="card day' + todayCls + '" data-date="' + day.date + '"><h2>' + stripEmoji(day.title) + '</h2>' + (day.note ? '<div class="note">' + day.note + '</div>' : '') + itemsHtml + '</div>';
         }
         if (!beforeTrip && !afterTrip && idx === matchIdx){
           html += mapCardHTML(day.loc, day.label + " 游览地图");
@@ -840,20 +847,20 @@
       var currentId = null;
       for (var di = 0; di < ITINERARY.length && currentId === null; di++){
         for (var ii = 0; ii < ITINERARY[di].items.length; ii++){
-          if (new Date(ITINERARY[di].items[ii].iso).getTime() > now){ currentId = di + "-" + ii; break; }
+          if (ITINERARY[di].items[ii].iso && new Date(ITINERARY[di].items[ii].iso).getTime() > now){ currentId = di + "-" + ii; break; }
         }
       }
       var html = ITINERARY.map(function(day, di){
         var isToday = day.date === key;
         var items = day.items.map(function(it, ii){
           var id = di + "-" + ii;
-          var done = new Date(it.iso).getTime() <= now;
+          var done = it.iso && new Date(it.iso).getTime() <= now;
           var cls = done ? "done" : (id === currentId ? "current" : "future");
           var tag = (id === currentId) ? '<span class="nowtag">现在</span>' : '';
           return '<div class="item ' + cls + '"><div class="t"><span class="dot ' + cls + '"></span>' + it.time + '</div>' +
             '<div class="b">' + renderItemBody(it) + tag + (it.note ? '<div class="n">' + it.note + '</div>' : '') + '</div></div>';
         }).join("");
-        return '<div class="card' + (isToday ? " today" : "") + '"><h2>' + stripEmoji(day.title) + (isToday ? '<span class="tag">今天</span>' : '') + '</h2>' + items + '</div>';
+        return '<div class="card' + (isToday ? " today" : "") + '"><h2>' + stripEmoji(day.title) + (isToday ? '<span class="tag">今天</span>' : '') + '</h2>' + (day.note ? '<div class="note">' + day.note + '</div>' : '') + items + '</div>';
       }).join("");
       document.getElementById("days").innerHTML = html;
     }
@@ -1559,7 +1566,7 @@
   /* ---------- 启动 ---------- */
   initPrinceFab();
   initPullRefresh();
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js?v=12").catch(function(){});
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js?v=13").catch(function(){});
   load().then(function(){
     var page = document.body.getAttribute("data-page");
     if (page === "index") initIndex();

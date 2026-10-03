@@ -14,5 +14,6 @@
     }
   },
   "weatherBrief": "8–16°C · 城市、雪山与海岸温差较大",
-  "tripEnd": "2026-10-13T13:20:00+02:00"
+  "tripEnd": "2026-10-13T13:20:00+02:00",
+  "timeZone": "Europe/Paris"
 }

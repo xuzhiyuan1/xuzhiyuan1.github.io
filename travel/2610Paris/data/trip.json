@@ -83,315 +83,311 @@
     {
       "date": "2026-10-03",
       "label": "起飞",
-      "title": "起飞 · 10.3 周六 · 北京 → 布鲁塞尔 → 巴黎",
+      "title": "起飞 · 10.3 · 北京 → 布鲁塞尔 → 巴黎",
       "loc": [
         "Beijing Capital T2",
         "Aéroport de Bruxelles / BRU",
         "Bruxelles-Midi",
         "Paris Gare du Nord",
         "Pantin",
-        "Seine cruise"
+        "Sainte-Chapelle"
       ],
+      "note": "HU491 于 10/3 02:40 从北京 T2 起飞，出发准备属 10/2 晚；时刻来自旅行文档，非实时航班查询。4 小时入境冗余仍锁死。选 13:26 的 OUIGO Train Classique，机场至南站后仍有约 2 小时缓冲；第一晚已确定 19:00 圣礼拜堂音乐会（巴黎当地时间）；入住后按实际交通前往并预留安检。原游船已移至 10/5 20:00，今晚不再安排游船；音乐会结束时间以实际演出为准。<p><span>TLS / 签证大交通</span><b>HU491</b> PEK → BRU · 02:40—06:50 <em>（已购）</em>　/　<b>OUIGO Train Classique 54</b> Bruxelles-Midi → Paris Nord · 13:26—16:42 <em>（已购 · 实付 ¥431 / 两人）</em></p>",
       "items": [
         {
           "time": "02:40—06:50",
           "iso": "2026-10-03T02:40:00+08:00",
           "title": "北京首都 T2 → 布鲁塞尔机场 · Aéroport de Bruxelles / BRU｜搭乘 HU491，抵达布鲁塞尔",
-          "note": "国际往返 ¥3,980 / 人为方便看每日花销，拆为 去程 ¥1,990 + 回程 ¥1,990 ；这是展示口径，不代表两张独立订单。"
+          "note": "<p>去程机票 ¥1,990 已知</p><p>国际往返 ¥3,980 / 人为方便看每日花销，拆为<strong>去程 ¥1,990 + 回程 ¥1,990</strong>；这是展示口径，不代表两张独立订单。两人往返共 ¥7,960，已 AA；10/2 晚完成出发准备。</p>"
         },
         {
           "time": "06:50—10:50",
           "iso": "2026-10-03T06:50:00+02:00",
           "title": "布鲁塞尔机场 · Aéroport de Bruxelles / BRU｜入境、取行李、eSIM、早餐；四小时缓冲不可挪用",
-          "note": "即使提早办完，也在机场休息候车。机场到市区车次当日看 SNCB 实时班表 ↗ ，本段不依赖末班。"
+          "note": "<p>固定 4h</p><p>即使提早办完，也在机场休息候车。机场到市区车次当日看 <a href=\"https://www.belgiantrain.be/en/travel-info/current/current-departure-times\" target=\"_blank\" rel=\"noreferrer\">SNCB 实时班表 ↗</a>，本段不依赖末班。</p>"
         },
         {
           "time": "10:50—13:00",
           "iso": "2026-10-03T10:50:00+02:00",
           "title": "BRU → 布鲁塞尔南站 · Bruxelles-Midi｜机场火车、换乘、在南站午餐与候车",
-          "note": "机场火车约 20 分钟；即便 11:20 左右到 Midi，也不提前塞景点。13:00 前回到 OUIGO 候车/检票区，截图显示该班约 13:21 开始办理乘车引导。"
+          "note": "<p>交通 ¥70 冗余约 2h</p><p>机场火车约 20 分钟；即便 11:20 左右到 Midi，也不提前塞景点。13:00 前回到 OUIGO 候车/检票区，截图显示该班约 13:21 开始办理乘车引导。</p>"
         },
         {
           "time": "13:26—16:42",
           "iso": "2026-10-03T13:26:00+02:00",
-          "title": "布鲁塞尔南站 → 巴黎北站 · Bruxelles-Midi → Paris Gare du Nord｜计划：OUIGO Train Classique 54 · 直达",
-          "note": "计划车次：OUIGO Train Classique 54 （13:26 Bruxelles-Midi / Brussel-Zuid → 16:42 Paris Nord，直达 3h16）。当前选 OUIGO ESSENTIEL €19 / 人 ：含指定座位、1 件小随身包（40×30×15cm）与 1 件登机箱尺寸行李（55×35×25cm）；大件或额外行李另加 €5。 OUIGO FULL €35 多出选座、额外/大件行李与 OUIGOFLEX 改签权益，但两档都不是签证拒签可退款保险；以预算为先选 Essential 即可。下单前切换为 ×2 确认两张均为 €19。 SNCF 班表与购票 ↗ Essential 行李规则 ↗"
+          "title": "布鲁塞尔南站 → 巴黎北站 · Bruxelles-Midi → Paris Gare du Nord｜已购：OUIGO Train Classique 54 · 直达",
+          "note": "<p>实付 ¥431 / 两人 已购</p><p><strong>文档车次：</strong>10/3 OUIGO 54，Brussels Midi 13:26 → Paris Nord 16:42。两人实际人民币支出 <strong>¥431</strong>，由 WJJ 垫付；原票价 €55 仅作票面参考，不代替实际账单。行李与乘车要求按已购车票核对。</p><p class=\"links\"><a href=\"https://www.sncf-connect.com/fr-lu/train/trajet/bruxelles/paris\" target=\"_blank\" rel=\"noreferrer\">SNCF 班表 ↗</a></p>"
         },
         {
           "time": "17:20—18:20",
           "iso": "2026-10-03T17:20:00+02:00",
-          "title": "巴黎庞坦 · Campanile PRIME - Paris Pantin｜入住、放行李、简单补给后出发",
-          "note": "住宿订单：10/3—10/5，Campanile PRIME - Paris Pantin，2 人 / 1 间；地址：62–64 Avenue Jean-Lolive, Pantin。价格暂不计入本版；若列车延误，就在酒店休息，直接放弃游船。"
+          "title": "巴黎庞坦 · Campanile PRIME Paris Pantin｜入住、放行李、简单补给后出发",
+          "note": "<p>住宿 · 已订 餐食 ¥70</p><p><strong>住宿单独列出：</strong>10/3—10/5，Campanile PRIME - Paris Pantin，2 人 / 1 间；地址：62–64 Avenue Jean-Lolive, Pantin。本笔两晚线上已付 ¥1,156.04，到店待付 ¥162，离店返现 ¥39（两人）；入住与出发时间按实际列车到站和交通调整，以 19:00 音乐会为准；如晚点，优先核对音乐会入场；游船已移至 10/5。</p>"
         },
         {
-          "time": "20:00—21:00",
-          "iso": "2026-10-03T20:00:00+02:00",
-          "title": "塞纳河 1 小时观光船 · Bateaux Parisiens｜铁塔脚下上船；把第一晚留给夜景",
-          "note": "更适合 Day 1： 不用先启动 Museum Pass，也不需要赶博物馆。订 20:00 左右普通观光船，酒店出来后直接去 Port de la Bourdonnais，至少提前 20 分钟到；如跨城火车晚点，直接放弃，不改成其他景点。 官方观光船 €18 ↗"
+          "time": "19:00",
+          "iso": "2026-10-03T19:00:00+02:00",
+          "title": "圣礼拜堂音乐会 · Sainte-Chapelle｜10/3 · 巴黎当地 19:00，时间已确定",
+          "note": "<p>时间已确定 座位 / 价格待核</p><p><strong>已确定时间：</strong>2026 年 10 月 3 日（周六）19:00，巴黎当地时间（Europe/Paris，当日 UTC+02:00）。地点：Sainte-Chapelle，10 boulevard du Palais, 75001 Paris。结束时间、节目、座位及票价尚未提供，以实际演出票和现场安排为准；提前入场与安检要求按票面核对。音乐会与日间参观票相互独立。</p>"
         }
       ]
     },
     {
       "date": "2026-10-04",
       "label": "Day 2",
-      "title": "Day 2 · 10.4 周日 · 凡尔赛宫 + 凯旋门夜景",
+      "title": "Day 2 · 10.4 · 凡尔赛宫",
       "loc": [
         "Pantin",
-        "Versailles Château Rive Gauche",
-        "Arc de Triomphe",
+        "Versailles",
+        "Paris",
         "Pantin"
       ],
+      "note": "周日凡尔赛沿用原规划；圣礼拜堂音乐会已确定为 10/3 巴黎当地 19:00，今晚不再安排。已有票据分别显示卢浮宫两人 10/4 09:00、凡尔赛一人同日 09:00，时段冲突且人数不同；尚未找到更新凭证。本页保留原规划，不代表预约已改成功，出发前必须核对。",
       "items": [
         {
-          "time": "08:00—09:00",
-          "iso": "2026-10-04T08:00:00+02:00",
-          "title": "庞坦 → 凡尔赛左岸站 · Pantin → Versailles Château–Rive Gauche｜地铁 / RER C；开门前抵达宫殿",
-          "note": "使用 Metro-Train-RER 单程票前往凡尔赛。宫殿周日 09:00 开门，建议提前到入口安检；Paris Museum Pass 从今天首次入场开始使用。"
+          "time": "07:45—09:00",
+          "iso": "2026-10-04T07:45:00+02:00",
+          "title": "庞坦 → 凡尔赛宫 · Pantin → Château de Versailles｜按当日实时交通选择路线；09:00 进宫",
+          "note": "<p>市郊交通待核</p><p>宫殿周日 09:00 开门，建议提前抵达入口安检。10 月 4 日有铁路施工，不要预设 RER C 全程直达；出发前用 Île-de-France Mobilités 核对去程与返程。把护照、Paris Museum Pass 和免费的定时 Passport 预约凭证带齐。</p>"
         },
         {
-          "time": "09:00—16:30",
+          "time": "09:00—15:00",
           "iso": "2026-10-04T09:00:00+02:00",
-          "title": "凡尔赛宫 · Château de Versailles｜宫殿 → 花园 → Trianon / 王后村（按体力）",
-          "note": "周日开放：宫殿 09:00—18:30，Trianon 12:00—18:30。Paris Museum Pass 覆盖凡尔赛，但仍须在官网预约免费的定时 Passport；16:30 左右开始返程。"
+          "title": "凡尔赛宫 · Château de Versailles｜宫殿 → 花园音乐喷泉 → Trianon / 王后村（按体力）",
+          "note": "<p>通票 Day 1 预约免费 Passport</p><p><strong>开放：</strong>宫殿 09:00—18:30，Trianon 12:00—18:30。Paris Museum Pass 覆盖宫殿与 Trianon，仍须预约免费的宫殿入场时段；10 月 4 日音乐喷泉花园不含在 Museum Pass 内，如入花园需另购花园票。15:00 左右开始往出口走，Trianon 和王后村按体力取舍；今晚不再赶音乐会。现有凡尔赛凭证为一人 10/4 09:00，须与两人出行安排核对。</p><p class=\"links\"><a href=\"https://www.parismuseumpass.fr/en/reservation\" target=\"_blank\" rel=\"noreferrer\">通票预约说明 ↗</a><a href=\"https://ticket.chateauversailles.fr/en\" target=\"_blank\" rel=\"noreferrer\">凡尔赛官方预约 ↗</a></p>"
         },
         {
-          "time": "16:30—19:35",
-          "iso": "2026-10-04T16:30:00+02:00",
-          "title": "凡尔赛宫 → 凯旋门 · Château de Versailles → Arc de Triomphe｜返回巴黎、晚餐与休息",
-          "note": "预留充足返程和用餐时间，再前往戴高乐广场。从地下通道进入凯旋门，不要横穿环岛车道。"
+          "time": "15:00—18:20",
+          "iso": "2026-10-04T15:00:00+02:00",
+          "title": "凡尔赛 → 巴黎 · Versailles → Paris｜返城、简餐；按当天实时路线回酒店",
+          "note": "<p>简餐 ¥100 返程待核</p><p>从 Trianon 到车站也需要步行或接驳，别把 15:00 当成已上车。返程查当天实时交通，保留原有缓冲；晚间休息，为次日巴黎核心行程留体力。</p>"
         },
         {
-          "time": "20:00—21:15",
-          "iso": "2026-10-04T20:00:00+02:00",
-          "title": "凯旋门 · Arc de Triomphe｜登顶看巴黎夜景；继续使用 Paris Museum Pass",
-          "note": "10 月周日开放至 22:30，最晚入场 21:45；不需预约。"
-        },
-        {
-          "time": "22:20—晚上",
-          "iso": "2026-10-04T22:20:00+02:00",
-          "title": "巴黎庞坦 · Campanile PRIME Paris Pantin｜返回酒店，准备明天巴黎核心行程",
-          "note": "巴黎第二晚。睡前确认巴黎圣母院免费预约、卢浮宫下午预约，以及 10 月 5 日 18:00 圣礼拜堂音乐会余票。"
+          "time": "晚上",
+          "iso": null,
+          "title": "巴黎庞坦 · Campanile PRIME Paris Pantin｜返回酒店，准备明天圣母院、先贤祠、卢浮宫和凯旋门",
+          "note": "<p>住宿 · 已订</p><p>巴黎第二晚，继续住 Campanile PRIME - Paris Pantin（10/3—10/5 订单）。本笔两晚线上已付 ¥1,156.04，到店待付 ¥162，离店返现 ¥39（两人），不重复记账。睡前核对卢浮宫与凡尔赛冲突凭证；凯旋门仍保留明晚。</p>"
         }
       ]
     },
     {
       "date": "2026-10-05",
       "label": "Day 3",
-      "title": "Day 3 · 10.5 周一 · 巴黎核心 + 圣礼拜堂音乐会",
+      "title": "Day 3 · 10.5 · 巴黎核心 + 游船（凯旋门原时段冲突待调）",
       "loc": [
         "Notre-Dame",
         "Panthéon",
-        "Louvre",
-        "Sainte-Chapelle",
+        "Musée du Louvre",
+        "Port de la Bourdonnais",
         "Pantin"
       ],
+      "note": "上午圣母院、12:00 先贤祠沿用原规划；卢浮宫仍为下午计划（预约日期待核）。17:00 左右离馆，今晚游船已从 10/3 移至 10/5 20:00—21:00；音乐会已移至 10/3 巴黎当地 19:00。原晚餐 19:00—20:15 与登船准备冲突，原凯旋门 20:15—21:15 与游船重叠，均须调整后再执行；本页保留原项目供核对，未改实际票务订单。已有票据分别显示卢浮宫两人 10/4 09:00、凡尔赛一人同日 09:00，时段冲突且人数不同；尚未找到更新凭证。本页保留原规划，不代表预约已改成功，出发前必须核对。",
       "items": [
         {
           "time": "08:30—09:25",
           "iso": "2026-10-05T08:30:00+02:00",
-          "title": "巴黎圣母院 · Cathédrale Notre-Dame de Paris｜上午免费预约入内参观",
-          "note": "周一 07:50 开门，建议预约 08:30 左右的免费时段并预留 45—55 分钟。上午先参观圣母院，避开下午卢浮宫预约前的时间压力。"
+          "title": "巴黎圣母院 · Cathédrale Notre-Dame de Paris｜上午免费预约入内；控制在 45—55 分钟",
+          "note": "<p>门票 ¥0 当天预约</p><p><strong>开放：</strong>周一 07:50—19:00。建议预约 08:30 左右的免费时段；预约通常在出发前一两天或当天逐步放号。</p><p class=\"links\"><a href=\"https://www.notredamedeparis.fr/en/faq/opening-hours/\" target=\"_blank\" rel=\"noreferrer\">开放时间 ↗</a><a href=\"https://resa.notredamedeparis.fr/en\" target=\"_blank\" rel=\"noreferrer\">免费预约 ↗</a></p>"
         },
         {
           "time": "09:25—11:50",
           "iso": "2026-10-05T09:25:00+02:00",
-          "title": "西岱岛 → 先贤祠 · Île de la Cité → Panthéon｜步行穿过拉丁区、途中简餐",
-          "note": "10 月 5 日是当月第一个工作周一，先贤祠延迟至 12:00 开门。利用上午剩余时间步行、拍照和吃午餐，并为当天后续预约留出缓冲。"
+          "title": "西岱岛 → 先贤祠 · Île de la Cité → Panthéon｜步行穿过拉丁区、途中简餐并预留排队时间",
+          "note": "<p>简餐 ¥50</p><p>10 月 5 日是当月第一个工作周一，先贤祠延迟至 12:00 开门。利用这段时间步行、拍照、吃午餐，并为当天后续预约留出缓冲。</p>"
         },
         {
           "time": "12:00—13:15",
           "iso": "2026-10-05T12:00:00+02:00",
           "title": "先贤祠 · Panthéon de Paris｜参观中殿与地下墓室",
-          "note": "当天 12:00—18:00 开放，最后入场约 17:15；Paris Museum Pass 覆盖门票。13:15 左右离开，为卢浮宫下午预约留足转场时间。"
+          "note": "<p>通票 Day 2</p><p><strong>当天开放：</strong>12:00—18:00，最后入场约 17:15。13:15 左右离开，为卢浮宫下午预约留足转场时间。</p><p class=\"links\"><a href=\"https://www.paris-pantheon.fr/en/visit/practical-information\" target=\"_blank\" rel=\"noreferrer\">开放时间 ↗</a></p>"
         },
         {
           "time": "13:15—14:20",
           "iso": "2026-10-05T13:15:00+02:00",
-          "title": "先贤祠 → 卢浮宫 · Panthéon → Musée du Louvre｜地铁 / 步行、预约前安检",
-          "note": "卢浮宫上午时段已约满，因此改约下午。建议优先选择 14:30 左右的可售时段，并至少提前 20—30 分钟到入口。"
+          "title": "先贤祠 → 卢浮宫 · Panthéon → Musée du Louvre｜地铁 / 步行；预约前抵达安检",
+          "note": "<p>市内 ¥30</p><p>此处保留原下午规划，尚无 10/5 更新凭证；已有票据是 10/4 09:00 两人。核对日期后再执行，不能把规划当成已改预约。</p>"
         },
         {
-          "time": "14:30—16:50",
+          "time": "14:30—17:00",
           "iso": "2026-10-05T14:30:00+02:00",
-          "title": "卢浮宫 · Musée du Louvre｜下午预约；胜利女神 → 蒙娜丽莎 → 阿波罗长廊",
-          "note": "周一 09:00—18:00 开放。Paris Museum Pass 覆盖门票，但仍必须在卢浮宫官网预约具体下午时段；优先选择 14:30 左右的时段，16:50 前离馆。"
+          "title": "卢浮宫 · Musée du Louvre｜下午计划 · 凭证待核；胜利女神 → 蒙娜丽莎 → 阿波罗长廊",
+          "note": "<p>通票 Day 2 日期待核</p><p><strong>开放：</strong>周一 09:00—18:00，最晚 17:00 入场。Paris Museum Pass 覆盖门票，但仍必须预约具体时段；优先选择 14:30 左右的时段，并核对手中的预约凭证是否确为 10 月 5 日。17:00 左右离馆，之后按 20:00 游船倒推晚餐与交通；凯旋门原时段冲突待调，仅在预约日期核实后执行。</p><p class=\"links\"><a href=\"https://musee.louvre.fr/en/visit/hours-admission\" target=\"_blank\" rel=\"noreferrer\">开放时间与预约 ↗</a></p>"
         },
         {
-          "time": "16:50—17:30",
-          "iso": "2026-10-05T16:50:00+02:00",
-          "title": "卢浮宫 → 圣礼拜堂 · Musée du Louvre → Sainte-Chapelle｜步行 / 地铁并提前安检",
-          "note": "音乐会建议提前约 30 分钟到场。若卢浮宫实际预约晚于 14:30，应缩短馆内路线，优先保证音乐会入场时间。"
+          "time": "原19:00—20:15 · 需调整",
+          "iso": null,
+          "title": "卢浮宫 → 晚餐 → 游船码头 · Musée du Louvre → Port de la Bourdonnais｜晚餐与转场按20:00游船倒推；原时段需调整",
+          "note": "<p>餐食 ¥100 市内 ¥30</p><p>原晚餐 19:00—20:15 与 20:00 游船及提前登船时间冲突；从卢浮宫离馆后按实际交通提前用餐并前往码头，不把原时段当成可完整执行的安排。票务订单未改动。</p>"
         },
         {
-          "time": "18:00—19:00",
-          "iso": "2026-10-05T18:00:00+02:00",
-          "title": "圣礼拜堂音乐会 · Sainte-Chapelle｜Vivaldi《四季》· Orchestre Les Parisiens",
-          "note": "10 月 5 日（周一）18:00，时长约 1 小时。地点：10 boulevard du Palais, 75001 Paris；音乐会票与日间参观票相互独立，目前尚未购买，票价以购票页为准。"
+          "time": "20:00—21:00",
+          "iso": "2026-10-05T20:00:00+02:00",
+          "title": "塞纳河 1 小时观光船 · Bateaux Parisiens｜10/5 · 铁塔脚下上船；按20:00时段安排",
+          "note": "<p>€18≈¥151 / 人 日期已调整 · 票务待核</p><p><strong>日期对调：</strong>按最新安排，原 10/3 的游船移至 2026 年 10 月 5 日（周一），保留巴黎当地 20:00—21:00 时段；10/3 19:00 为圣礼拜堂音乐会。前往 Port de la Bourdonnais，至少提前 20 分钟到。这里更新行程安排，未改动实际票务订单；按票面核对日期和登船要求。原 20:15 凯旋门与游船重叠，不能同时按原时段执行。</p><p class=\"links\"><a href=\"https://www.bateauxparisiens.com/en/cruise-tours/guided-tour.html\" target=\"_blank\" rel=\"noreferrer\">官方观光船 €18 ↗</a></p>"
         },
         {
-          "time": "19:15—20:15",
-          "iso": "2026-10-05T19:15:00+02:00",
-          "title": "晚餐 · Île de la Cité / Latin Quarter｜音乐会后就近用餐",
-          "note": "音乐会约 19:00 结束；晚餐不绑定具体餐厅，按当天体力决定就近用餐或直接回酒店。"
+          "time": "原20:15—21:15 · 冲突待调",
+          "iso": null,
+          "title": "凯旋门 · Arc de Triomphe｜与20:00—21:00游船重叠；另核可行时段",
+          "note": "<p>通票 Day 2</p><p><strong>时段冲突：</strong>原 20:15—21:15 凯旋门与 20:00—21:00 游船重叠，不能同时按原计划执行；保留此项目供核对，未改预约或票务订单。是否另调时段按交通、体力和官方当日入场截止时间决定。</p><p><strong>开放：</strong>10 月周一通常至 22:30，最晚 21:45 入场；如遇官方活动或临时关闭，以当天公告为准。</p><p class=\"links\"><a href=\"https://www.paris-arc-de-triomphe.fr/en/visit/practical-information\" target=\"_blank\" rel=\"noreferrer\">凯旋门官方开放时间 ↗</a></p>"
         },
         {
-          "time": "21:00—晚上",
-          "iso": "2026-10-05T21:00:00+02:00",
+          "time": "21:30—晚上",
+          "iso": "2026-10-05T21:30:00+02:00",
           "title": "巴黎庞坦 · Campanile PRIME Paris Pantin｜返回、入住第二笔订单",
-          "note": "10/5—7 订单共 ¥1,605.80 / 两人 / 两晚；今晚分摊 ¥401.45 / 人。明天迪士尼早出发，睡前确认双园门票和 RER 路线。"
+          "note": "<p>住宿 · 已订</p><p>10/5—10/7，Campanile PRIME - Paris Pantin，2 人 / 1 间；地址：62–64 Avenue Jean-Lolive, Pantin。本笔两晚线上已付 ¥1,443.80，到店待付 ¥162，离店返现 ¥58（两人）。明天迪士尼早出发；飞猪门票已购，两人共人民币 ¥1,600，睡前核对票种、入园凭证和 RER 路线。</p>"
         }
       ]
     },
     {
       "date": "2026-10-06",
       "label": "Day 4",
-      "title": "Day 4 · 10.6 周二 · 迪士尼双园 · Disneyland Paris",
+      "title": "Day 4 · 10.6 · 迪士尼双园 · Disneyland Paris",
       "loc": [
         "Pantin",
-        "Disneyland Park ↔ Disney Adventure World",
+        "Disneyland Park",
+        "Disney Adventure World",
         "Pantin"
       ],
+      "note": "10 月 6 日迪士尼门票已在飞猪购买，两人共人民币 ¥1,600（平均 ¥800 / 人）。保留原双园游玩规划：上午先 Disneyland Park，午后切换 Disney Adventure World；票种、有效日期与适用人数以已购凭证为准。",
       "items": [
         {
           "time": "08:00—09:15",
           "iso": "2026-10-06T08:00:00+02:00",
           "title": "庞坦 → 马恩河谷-谢西 · Pantin → Marne-la-Vallée—Chessy｜地铁 / RER 换乘，开园前抵入口",
-          "note": "用门票上的开园时间倒推，至少开园前 30—45 分钟到。离园前当天在 Île-de-France Mobilités / Google Maps 查回 Pantin 的最后 RER；不赌末班。"
+          "note": "<p>交通 ¥80</p><p>用门票上的开园时间倒推，至少开园前 30—45 分钟到。离园前当天在 Île-de-France Mobilités / Google Maps 查回 Pantin 的最后 RER；不赌末班。</p>"
         },
         {
           "time": "09:30—20:30",
           "iso": "2026-10-06T09:30:00+02:00",
           "title": "巴黎迪士尼 · Disneyland Paris（1 日双园）｜Disneyland Park → Disney Adventure World；项目优先",
-          "note": "开放： 每天开放；10/6 的精确开园 / 闭园 / 烟花时刻尚未由官方发布，页面会随季节动态更新，当前先按 09:30—20:30 安排，不可用作保证时间。购票时选择 1 Day / 2 Parks ，可在 Disneyland Park 与 Disney Adventure World 间自由切换；按成人票预算。 开园日历 ↗ 官方双园门票 ↗"
+          "note": "<p>实付 ¥1,600 / 两人 飞猪 · 已购</p><p><strong>购票：</strong>10/6 门票已在飞猪购买，两人合计人民币 <strong>¥1,600</strong>，平均 ¥800 / 人，不再按动态票预算列待购。原规划为 <strong>1 Day / 2 Parks</strong>；请按已购凭证核对实际票种、有效日期、人数与入园要求。<strong>开放：</strong>当日开园 / 闭园 / 烟花时间需按官方日历核对；09:30—20:30 仍为原游玩规划，不作为保证时间。</p><p class=\"links\"><a href=\"https://www.disneylandparis.com/en-gb/calendars/park-hours/\" target=\"_blank\" rel=\"noreferrer\">开园日历 ↗</a><a href=\"https://www.disneylandparis.com/en-gb/tickets/\" target=\"_blank\" rel=\"noreferrer\">官方双园门票 ↗</a></p>"
         },
         {
           "time": "21:30—晚上",
           "iso": "2026-10-06T21:30:00+02:00",
-          "title": "巴黎庞坦 · Campanile PRIME - Paris Pantin｜返回、最后一晚巴黎",
-          "note": "巴黎第 4 晚，继续住 Campanile PRIME - Paris Pantin。睡前核对次日 TGV、两段长途巴士和护照放在随身包。"
+          "title": "巴黎庞坦 · Campanile PRIME Paris Pantin｜返回、最后一晚巴黎",
+          "note": "<p>住宿 · 已订 餐食 ¥100</p><p>巴黎第 4 晚，继续住 Campanile PRIME - Paris Pantin。睡前核对次日 TGV、两段长途巴士和护照放在随身包。</p>"
         }
       ]
     },
     {
       "date": "2026-10-07",
       "label": "Day 5",
-      "title": "Day 5 · 10.7 周三 · 巴黎 → 日内瓦 → 霞慕尼",
+      "title": "Day 5 · 10.7 · 巴黎 → 日内瓦 → 霞慕尼",
       "loc": [
         "Gare de Lyon",
         "Genève Cornavin",
         "Chamonix Sud"
       ],
+      "note": "已购 TGV 08:18—11:36 与 FlixBus 18:40—20:00；两人合计实付 ¥1,058，由 WJJ 垫付。日内瓦空档先留作晚点缓冲，准点时才湖畔散步。<p><span>已购跨城交通</span><b>LYRIA 9763</b> Paris Gare de Lyon → Genève Cornavin · 08:18—11:36 <em>（两票实付 ¥797）</em>　/　<b>FlixBus</b> Geneva → Chamonix · 18:40—20:00 <em>（实付 ¥261 / 两人）</em></p>",
       "items": [
         {
           "time": "06:15—07:45",
           "iso": "2026-10-07T06:15:00+02:00",
           "title": "庞坦 → 巴黎里昂站 · Pantin → Paris Gare de Lyon｜退房、地铁、站内候车",
-          "note": "08:18 早班需要提前离店；建议 07:40 前进入站内，预留安检、找站台与临时晚点。今天没有巴黎住宿费，因四晚均已各自在晚间条目中计入。"
+          "note": "<p>交通 ¥30</p><p>08:18 早班需要提前离店；建议 07:40 前进入站内，预留安检、找站台与临时晚点。今天没有巴黎住宿费，因四晚均已各自在晚间条目中计入。</p>"
         },
         {
           "time": "08:18—11:36",
           "iso": "2026-10-07T08:18:00+02:00",
-          "title": "巴黎里昂站 → 日内瓦 · Paris Gare de Lyon → Genève｜计划：TGV Lyria 9763 · 直达",
-          "note": "计划车次：TGV Lyria 9763 （Paris Gare de Lyon 08:18 → Genève Cornavin 11:36，直达）。截图显示当前二等座 €34 / 人 、 不可改签 ；下单前将人数切换为 ×2，确认两人均能以该价出票并可选相邻座位。 末班： 20:18 发、23:36 抵；本班比原 12:18 方案多出 4 小时冗余。 官方秋季时刻 ↗ SNCF Connect 购票 ↗"
+          "title": "巴黎里昂站 → 日内瓦 · Paris Gare de Lyon → Genève Cornavin｜已购：LYRIA 9763 · 直达",
+          "note": "<p>实付 ¥797 / 两人 已购</p><p><strong>文档车次：</strong>10/7 LYRIA 9763，08:18 Paris Gare de Lyon → 11:36 Genève Cornavin。两票实际人民币支出 <strong>¥797</strong>，由 WJJ 垫付；票面 €98 仅作参考。行李和改签条件按已购车票核对。</p>"
         },
         {
-          "time": "11:36—16:45",
+          "time": "11:36—18:10",
           "iso": "2026-10-07T11:36:00+02:00",
-          "title": "日内瓦科尔纳万站与湖畔 · Genève-Cornavin / lac Léman｜午餐、湖畔散步；15:50 前回到巴士集合区",
-          "note": "这段首先是晚点保险：若列车准点，再沿湖畔、Jet d'Eau 与老城做轻松步行，不进需预约的项目。15:50 后不再离开集合区，给找站、洗手间与装行李留足时间。"
+          "title": "日内瓦科尔纳万站与湖畔 · Genève-Cornavin / lac Léman｜午餐、湖畔散步；18:10 前回到巴士集合区",
+          "note": "<p>衔接空档 7h04</p><p>这段首先是晚点保险：若列车准点，再沿湖畔、Jet d'Eau 与老城做轻松步行，不进需预约的项目。18:10 后不再离开集合区，给找站、洗手间与装行李留足时间。</p>"
         },
         {
-          "time": "17:00—18:10",
-          "iso": "2026-10-07T17:00:00+02:00",
-          "title": "日内瓦 → 霞慕尼南站 · Genève → Chamonix Sud｜Swiss Tours 直达巴士",
-          "note": "约 70 分钟； 末班： 17:00 是此方向当天最后一班。若 TGV 重大延误，立刻联系巴士与住宿方，不要硬赌。 巴士时刻 ↗"
+          "time": "18:40—20:00",
+          "iso": "2026-10-07T18:40:00+02:00",
+          "title": "日内瓦 → 霞慕尼 · Geneva → Chamonix｜已购 FlixBus；站点按车票核对",
+          "note": "<p>实付 ¥261 / 两人 已购</p><p>10/7 FlixBus，Geneva 18:40 → Chamonix 20:00。两人实际支出 <strong>¥261</strong>，由 WJJ 垫付；上车地址、行李额度与乘车要求以车票为准，不再沿用旧 Swiss Tours 17:00 方案。</p>"
         },
         {
-          "time": "18:30—晚上",
-          "iso": "2026-10-07T18:30:00+02:00",
+          "time": "20:30—晚上",
+          "iso": "2026-10-07T20:30:00+02:00",
           "title": "霞慕尼镇中心 · Hotel Le Faucigny｜入住镇中心、晚餐、看明日天气",
-          "note": "住宿订单：10/7—10/9，Hotel Le Faucigny，2 人 / 1 间；地址：118 place de l’Eglise, Chamonix。价格暂不计入本版。霞慕尼是小镇；南针峰缆车站和 Montenvers 火车站都能从镇中心步行抵达。"
+          "note": "<p>住宿 · 已订 餐食 ¥70</p><p>住宿订单：10/7—10/9，Hotel Le Faucigny，2 人 / 1 间；地址：118 place de l’Eglise, Chamonix。本笔两晚线上已付 ¥1,345.08，到店待付 ¥52.88，离店返现 ¥54（两人）。霞慕尼是小镇；南针峰缆车站和 Montenvers 火车站都能从镇中心步行抵达。</p>"
         }
       ]
     },
     {
       "date": "2026-10-08",
       "label": "Day 6",
-      "title": "Day 6 · 10.8 周四 · 霞慕尼 · 南针峰 + 冰海火车",
+      "title": "Day 6 · 10.8 · 霞慕尼 · 南针峰 + 冰海火车",
       "loc": [
         "Chamonix Centre",
         "Aiguille du Midi",
         "Montenvers",
         "Chamonix Centre"
       ],
+      "note": "南针峰与 Montenvers 冰海小火车都已纳入。小火车看冰川全景；不能按“进蓝冰洞”期待：冰洞与下行缆车 9/28—10/16 停运。",
       "items": [
         {
           "time": "08:00—08:30",
           "iso": "2026-10-08T08:00:00+02:00",
           "title": "南针峰缆车站 · Aiguille du Midi｜步行到缆车站、看风况与运行公告",
-          "note": "高海拔缆车的实际首末班、预约时段和运行状态必须在当天用官方页面确认。不要把它和不可改晚班车绑定。 官方运行状态 ↗"
+          "note": "<p>天气优先</p><p>高海拔缆车的实际首末班、预约时段和运行状态必须在当天用官方页面确认。不要把它和不可改晚班车绑定。</p><p class=\"links\"><a href=\"https://aiguilledumidi.montblancnaturalresort.com/en/timetables-rates\" target=\"_blank\" rel=\"noreferrer\">官方运行状态 ↗</a></p>"
         },
         {
           "time": "08:30—13:00",
           "iso": "2026-10-08T08:30:00+02:00",
           "title": "南针峰 · Aiguille du Midi｜上下缆车、高山平台、观景",
-          "note": "10/8 开放： 秋季运营期为 9/28—11/1；当前公布的最后往返上行 16:30、最后单程上行 17:30、最后回程 18:00，约每 15—30 分钟一班。首班/开门时刻会随天气和运营调整，以已预约票面为准。成人往返约 €60.20—83，本预算按最低 €60.20；带防风保暖外层、太阳镜、防晒与水。 票价与时刻 ↗"
+          "note": "<p>€60.20≈¥510 / 人 要订</p><p><strong>10/8 开放：</strong>秋季运营期为 9/28—11/1；当前公布的最后往返上行 16:30、最后单程上行 17:30、最后回程 18:00，约每 15—30 分钟一班。首班/开门时刻会随天气和运营调整，以已预约票面为准。成人往返约 €60.20—83，本预算按最低 €60.20；带防风保暖外层、太阳镜、防晒与水。</p><p class=\"links\"><a href=\"https://aiguilledumidi.montblancnaturalresort.com/en/timetables-rates\" target=\"_blank\" rel=\"noreferrer\">票价与时刻 ↗</a></p>"
         },
         {
           "time": "14:00—16:30",
           "iso": "2026-10-08T14:00:00+02:00",
           "title": "蒙坦维尔冰海火车 · Train du Montenvers / Mer de Glace｜小火车看冰川全景，不进冰洞",
-          "note": "10/8 开放： 08:30—16:30；最晚上山 16:00、最晚下山 16:30，约每 20—60 分钟一班。冰洞和下行缆车 9/28—10/16 停运；这项已纳入 ¥14,000 预算。若上午南针峰因大风、低云或长队严重压缩时间，优先保留安全与回镇交通，再询问小火车是否可改签。 Montenvers 开放与票价 ↗"
+          "note": "<p>€31.50≈¥265 / 人 要订</p><p><strong>10/8 开放：</strong>08:30—16:30；最晚上山 16:00、最晚下山 16:30，约每 20—60 分钟一班。冰洞和下行缆车 9/28—10/16 停运；这项已纳入 ¥14,000 预算。若上午南针峰因大风、低云或长队严重压缩时间，优先保留安全与回镇交通，再询问小火车是否可改签。</p><p class=\"links\"><a href=\"https://www.montenverstrain.com/en/opening-hours-and-prices/\" target=\"_blank\" rel=\"noreferrer\">Montenvers 开放与票价 ↗</a></p>"
         },
         {
           "time": "17:30—晚上",
           "iso": "2026-10-08T17:30:00+02:00",
           "title": "霞慕尼镇中心 · Hotel Le Faucigny｜镇上晚餐、打包、确认早巴士",
-          "note": "第二晚霞慕尼，继续住 Hotel Le Faucigny。不再加滑翔伞、冰川徒步等额外活动，保持预算与次日早班的确定性。"
+          "note": "<p>住宿 · 已订 餐食 ¥80</p><p>第二晚霞慕尼，继续住 Hotel Le Faucigny。不再加滑翔伞、冰川徒步等额外活动，保持预算与次日早班的确定性。</p>"
         }
       ]
     },
     {
       "date": "2026-10-09",
       "label": "Day 7",
-      "title": "Day 7 · 10.9 周五 · 霞慕尼 → 日内瓦 → 尼斯",
+      "title": "Day 7 · 10.9 · 霞慕尼 → Aosta → 尼斯",
       "loc": [
-        "Chamonix Sud",
-        "Genève",
-        "GVA",
-        "Nice Côte d'Azur"
+        "Chamonix",
+        "Aosta",
+        "Nice Airport",
+        "尼斯海滨公寓酒店"
       ],
+      "note": "按已购 FlixBus：07:00 从 Chamonix 出发，经 Aosta 换乘，15:55 抵达 Nice Airport；两票实付 ¥970。按车票核对换乘细节，下午抵达后入住与休息。<p><span>已购跨城交通</span><b>FlixBus</b> Chamonix → Aosta → Nice Airport · 07:00—15:55 <em>（两票实付 ¥970；票面 €118.95）</em></p>",
       "items": [
         {
-          "time": "08:00—09:30",
-          "iso": "2026-10-09T08:00:00+02:00",
-          "title": "霞慕尼南站 → 日内瓦 · Chamonix Sud → Genève｜Swiss Tours 早班直达巴士",
-          "note": "目标 08:00 班，约 09:10—09:30 抵达；当日末班约 18:30，但计划绝不等末班。道路或天气异常时直接牺牲 Geneva 游览。 巴士时刻 ↗"
+          "time": "07:00—15:55",
+          "iso": "2026-10-09T07:00:00+02:00",
+          "title": "霞慕尼 → 尼斯机场 · Chamonix → Aosta → Nice Airport｜已购 FlixBus · 经 Aosta 换乘",
+          "note": "<p>实付 ¥970 / 两人 已购</p><p>10/9 Chamonix 07:00 → Nice Airport 15:55，经 Aosta 换乘。两票实际人民币支出 <strong>¥970</strong>，由 WJJ 垫付；原票面 €118.95 不代替实际账单。中转时刻、上下车站点和行李要求按车票核对。</p>"
         },
         {
-          "time": "09:30—13:15",
-          "iso": "2026-10-09T09:30:00+02:00",
-          "title": "日内瓦湖畔 · lac Léman / Jet d'Eau / Vieille Ville｜步行看城市，不进付费博物馆；准时离开市区",
-          "note": "开放： 湖畔与老城为户外路线，全天可走；Jet d'Eau 受风力、维护影响。13:15 离开市区；Cornavin 至 Geneva Airport 火车约 6—7 分钟、班次频密，14:15 前进入航站楼。 SBB 到机场 ↗"
+          "time": "15:55—傍晚",
+          "iso": "2026-10-09T15:55:00+02:00",
+          "title": "尼斯机场 → 尼斯海滨公寓酒店 · Nice Airport → 住宿地｜抵达后按酒店地址选择电车 / 公共交通",
+          "note": "<p>市内预算待核</p><p>15:55 抵达 Nice Airport 后再前往酒店；入住地址与最晚入住时间以酒店确认信息为准。保留行李、交通和休息余量。</p>"
         },
         {
-          "time": "13:15—17:20",
-          "iso": "2026-10-09T13:15:00+02:00",
-          "title": "日内瓦机场 → 尼斯蔚蓝海岸机场 · GVA → Nice Côte d'Azur / NCE｜机场火车、安检；easyJet U21399 直飞",
-          "note": "计划航班：easyJet U21399，16:15 GVA → 17:20 NCE。 13:15 从市区出发，14:15 前到达机场，留至少两小时办理手续；抵 NCE 后搭 L2 电车进市区。航班未出票前，在签证材料中标注为计划航班，不写订单号。"
-        },
-        {
-          "time": "晚上",
-          "iso": "2026-10-09T20:00:00+02:00",
-          "title": "尼斯 Airbnb · Magical view of the Bay of Angels｜入住、晚间散步",
-          "note": "Airbnb 预订 10/9 14:00 入住、10/12 11:00 退房，2 位入住；与朋友共同入住，价格暂不计入本版。完整地址、联系人和确认信息以 Airbnb 订单为准。"
+          "time": "傍晚—晚上",
+          "iso": null,
+          "title": "尼斯 · 尼斯海滨公寓酒店｜入住两晚订单、晚间散步",
+          "note": "<p>住宿 · 已付</p><p>10/9—10/11 独立两晚订单：线上已付 <strong>¥1,341.08</strong>，到店待付 <strong>¥108.32</strong>，离店返现暂无（两人）。10/11—10/12 为另一笔续住订单，金额单列。</p>"
         }
       ]
     },
     {
       "date": "2026-10-10",
       "label": "Day 8",
-      "title": "Day 8 · 10.10 周六 · 尼斯海岸线 + 老城",
+      "title": "Day 8 · 10.10 · 尼斯海岸线 + 老城",
       "loc": [
         "Promenade des Anglais",
         "Place Masséna",
@@ -399,197 +395,181 @@
         "Vieux Nice",
         "Castle Hill"
       ],
+      "note": "这是“晒太阳看海”优先的一天：早上抢萨雷亚集市，午后留给海边、英国人散步大道与城堡山。全部步行可串联，住宿地往返市中心需预留 Tram L2 或其他市内交通时间。",
       "items": [
         {
           "time": "09:15—10:00",
           "iso": "2026-10-10T09:15:00+02:00",
-          "title": "尼斯住宿地 → 马塞纳广场 · Nice Aéroport → Place Masséna｜Tram L2 进市中心，再步行到老城",
-          "note": "从尼斯住宿地出发，先坐 L2 到市中心；不要睡到中午，萨雷亚市场的食品摊只做到下午早些时候。"
+          "title": "尼斯住宿地 → 马塞纳广场 · 尼斯海滨公寓酒店 → Place Masséna｜按酒店位置选择市内交通，再步行到老城",
+          "note": "<p>市内已预留</p><p>从尼斯住宿地出发，先坐 L2 到市中心；不要睡到中午，萨雷亚市场的食品摊只做到下午早些时候。</p>"
         },
         {
           "time": "10:00—11:20",
           "iso": "2026-10-10T10:00:00+02:00",
           "title": "萨雷亚集市 · Cours Saleya Market｜花、果蔬与海鲜摊；买水果、饮料当海边补给",
-          "note": "10/10 是周六： 食品、果蔬和海鲜摊通常周二至周日 06:00—14:30；花市周二至周六通常至 17:30。这里是当天唯一有明确时限的点，所以放早上；不安排高价餐厅。 尼斯市政府市场时段 ↗ 萨雷亚介绍 ↗"
+          "note": "<p>免费 简餐 ¥30</p><p><strong>10/10 是周六：</strong>食品、果蔬和海鲜摊通常周二至周日 06:00—14:30；花市周二至周六通常至 17:30。这里是当天唯一有明确时限的点，所以放早上；不安排高价餐厅。</p><p class=\"links\"><a href=\"https://www.nice.fr/ressources/reglement-general-des-marches-traditionnels-de-la-ville-de-nice/\" target=\"_blank\" rel=\"noreferrer\">尼斯市政府市场时段 ↗</a><a href=\"https://www.explorenicecotedazur.com/en/culture/cours-saleya/\" target=\"_blank\" rel=\"noreferrer\">萨雷亚介绍 ↗</a></p>"
         },
         {
           "time": "11:20—12:50",
           "iso": "2026-10-10T11:20:00+02:00",
           "title": "尼斯老城 · Vieux Nice｜Cours Saleya → Palais de Justice → 彩色巷子；随意逛，不赶清单",
-          "note": "老城的乐趣是巷子和露台，不额外插博物馆。想买伴手礼时在这里解决一小部分；把大段午后仍留给海。"
+          "note": "<p>门票 ¥0 户外</p><p>老城的乐趣是巷子和露台，不额外插博物馆。想买伴手礼时在这里解决一小部分；把大段午后仍留给海。</p>"
         },
         {
           "time": "13:00—15:30",
           "iso": "2026-10-10T13:00:00+02:00",
           "title": "马塞纳广场 → 英国人散步大道 · Place Masséna → Promenade des Anglais｜Albert I 花园、海边蓝椅；按天气晒太阳 / 看海",
-          "note": "路线： 从红色立面的马塞纳广场穿过 Albert I 花园到 Promenade des Anglais，沿海找蓝椅或公共海滩坐下。广场和散步大道全年全天免费；10 月适合晒太阳、散步，不把下海游泳写成硬任务。 马塞纳广场 ↗ 英国人散步大道 ↗"
+          "note": "<p>门票 ¥0 简餐 ¥50</p><p><strong>路线：</strong>从红色立面的马塞纳广场穿过 Albert I 花园到 Promenade des Anglais，沿海找蓝椅或公共海滩坐下。广场和散步大道全年全天免费；10 月适合晒太阳、散步，不把下海游泳写成硬任务。</p><p class=\"links\"><a href=\"https://www.explorenicecotedazur.com/en/culture/la-place-massena/\" target=\"_blank\" rel=\"noreferrer\">马塞纳广场 ↗</a><a href=\"https://www.explorenicecotedazur.com/en/culture/promenade-des-anglais/\" target=\"_blank\" rel=\"noreferrer\">英国人散步大道 ↗</a></p>"
         },
         {
           "time": "15:45—17:30",
           "iso": "2026-10-10T15:45:00+02:00",
           "title": "城堡山 · Colline du Château｜从老城一侧上山；俯瞰 Baie des Anges、老城与港口",
-          "note": "这是全程最值得爬的一段。楼梯、电梯和瀑布区域的实际开放以现场为准；若太阳很晒，慢慢走、带水，不追日落也可以。"
+          "note": "<p>门票 ¥0 户外</p><p>这是全程最值得爬的一段。楼梯、电梯和瀑布区域的实际开放以现场为准；若太阳很晒，慢慢走、带水，不追日落也可以。</p>"
         },
         {
           "time": "17:30—19:00",
           "iso": "2026-10-10T17:30:00+02:00",
-          "title": "美国码头 → 海边回住宿地 · Quai des États-Unis → Nice Aéroport｜沿海再散步、拍蓝调时刻；L2 返回住宿地",
-          "note": "城堡山下山后顺着海走即可。若累了，直接在老城附近上 L2 返回住宿地；不再加 Villefranche 等远点，保持“看海休息日”的节奏。"
+          "title": "美国码头 → 海边回住宿地 · Quai des États-Unis → 尼斯海滨公寓酒店｜沿海再散步、拍蓝调时刻；按酒店位置返回住宿地",
+          "note": "<p>市内已预留</p><p>城堡山下山后顺着海走即可。若累了，直接在老城附近乘合适的市内交通返回住宿地；不再加 Villefranche 等远点，保持“看海休息日”的节奏。</p>"
         },
         {
           "time": "晚上",
-          "iso": "2026-10-10T20:00:00+02:00",
-          "title": "尼斯 Airbnb · Magical view of the Bay of Angels｜入住第二晚、晚餐",
-          "note": "第二晚继续住 Airbnb；10/11 不再办理酒店续住，按 Airbnb 订单保留至 10/12 11:00 退房，价格暂不计入本版。"
+          "iso": null,
+          "title": "尼斯 · 尼斯海滨公寓酒店｜入住第二晚、晚餐",
+          "note": "<p>住宿 · 已订 餐食+市内 ¥80</p><p>第二晚属于 10/9—10/11 两晚订单：线上 ¥1,341.08、到店 ¥108.32、返现暂无（两人），此处不重复记账。10/11—10/12 为独立续住订单。</p>"
         }
       ]
     },
     {
       "date": "2026-10-11",
       "label": "Day 9",
-      "title": "Day 9 · 10.11 周日 · 昂蒂布一日 · Antibes",
+      "title": "Day 9 · 10.11 · 昂蒂布一日 · Antibes",
       "loc": [
-        "Nice Aéroport",
+        "尼斯海滨公寓酒店",
         "Antibes Vieil Antibes",
         "Marché Provençal",
         "Cap d'Antibes",
-        "Nice Aéroport"
+        "尼斯海滨公寓酒店"
       ],
+      "note": "把原本赶去布鲁塞尔的下午完整还给海边。今晚为尼斯海滨公寓酒店独立续住一晚；账本此笔标“等待确认”，须核对最终确认。明日 14:30 飞往布鲁塞尔，今晚整理行李。",
       "items": [
         {
           "time": "09:00—09:40",
           "iso": "2026-10-11T09:00:00+02:00",
-          "title": "尼斯住宿地 → 昂蒂布老城 · Nice Aéroport → Vieil Antibes｜从住宿地出发，乘 TER 前往 Antibes",
-          "note": "从住宿地前往 Nice Saint-Augustin 或 NCE 交通枢纽，再乘 TER 前往 Antibes；车程很短。按 Airbnb 订单安排当天行程，10/12 11:00 再退房。"
+          "title": "尼斯住宿地 → 昂蒂布老城 · 尼斯海滨公寓酒店 → Vieil Antibes｜从住宿地出发，乘 TER 前往 Antibes",
+          "note": "<p>往返约 ¥50</p><p>从住宿地前往 Nice Saint-Augustin 或 NCE 交通枢纽，再乘 TER 前往 Antibes；车程很短。按酒店实际位置选择车站；10/11 核对独立续住订单的入住安排，10/12 退房时间以酒店为准。</p>"
         },
         {
           "time": "09:40—12:00",
           "iso": "2026-10-11T09:40:00+02:00",
           "title": "昂蒂布老城 + 普罗旺斯市集 · Vieil Antibes / Marché Provençal｜城墙、窄巷、市集与海港；慢慢吃早午餐",
-          "note": "先把老城与市集排在上午，之后按现场开放情况决定是否进入毕加索博物馆；若不进馆，沿城墙与港口散步同样完整。"
+          "note": "<p>门票 ¥0 餐食 ¥70</p><p>先把老城与市集排在上午，之后按现场开放情况决定是否进入毕加索博物馆；若不进馆，沿城墙与港口散步同样完整。</p>"
         },
         {
           "time": "12:15—15:00",
           "iso": "2026-10-11T12:15:00+02:00",
           "title": "毕加索博物馆 / 格里马尔迪城堡 · Musée Picasso｜有票则入馆；未开放则改走城墙与 Plage de la Gravette",
-          "note": "这段保留弹性：以 10/11 实际预约和开放时间为准。没有合适时段就不硬塞博物馆，直接在老城海边休息，避免影响下午的 Cap d'Antibes。"
+          "note": "<p>门票待查 户外备选</p><p>这段保留弹性：以 10/11 实际预约和开放时间为准。没有合适时段就不硬塞博物馆，直接在老城海边休息，避免影响下午的 Cap d'Antibes。</p>"
         },
         {
           "time": "15:15—17:30",
           "iso": "2026-10-11T15:15:00+02:00",
           "title": "海角步道 · Cap d'Antibes / Sentier du Littoral｜看海、走短段海岸线；按体力随时折返",
-          "note": "不追求走完全程；海况、施工或天气不适合时，改在 Juan-les-Pins 海边坐一会儿。17:30 左右开始返程，确保不把第二天清晨航班前的休息压缩掉。"
+          "note": "<p>门票 ¥0 市内已预留</p><p>不追求走完全程；海况、施工或天气不适合时，改在 Juan-les-Pins 海边坐一会儿。17:30 左右开始返程，给次日 14:30 航班留足休息和出发准备时间。</p>"
         },
         {
           "time": "晚上",
-          "iso": "2026-10-11T20:00:00+02:00",
-          "title": "尼斯 Airbnb · Magical view of the Bay of Angels｜最后一晚；整理行李、早睡",
-          "note": "今晚仍住 Airbnb，明早按 05:00 出发前往 NCE。把护照、登机牌和可随身携带的行李放在门边；价格暂不计入本版。"
+          "iso": null,
+          "title": "尼斯 · 尼斯海滨公寓酒店｜独立续住一晚；整理行李",
+          "note": "<p>线上已付 ¥639.28 入住确认待核</p><p>10/11—10/12 独立一晚订单：线上已付 <strong>¥639.28</strong>，到店待付 <strong>¥54.57</strong>，离店返现暂无（两人）。账本标“等待确认”，出发前核对最终入住确认；明日 14:30 easyJet U21747，机场接驳按酒店地址倒推。</p>"
         }
       ]
     },
     {
       "date": "2026-10-12",
       "label": "Day 10",
-      "title": "Day 10 · 10.12 周一 · 尼斯 → 里尔 → 布鲁塞尔",
+      "title": "Day 10 · 10.12 · 尼斯 → 布鲁塞尔",
       "loc": [
         "NCE",
-        "Lille-Lesquin · LIL",
-        "Lille Europe",
-        "Bruxelles-Nord",
-        "European Parliament",
+        "BRU",
+        "Hotel the Moon",
         "Grand-Place"
       ],
+      "note": "已购 easyJet U21747，14:30 Nice → 16:20 Brussels；两人实际人民币支出 ¥1,147.92。原 14:00 欧洲议会及 15:15 索尔维安排与抵达时间冲突，保留为待核对项目，不擅自改预约；落地后优先入住、晚餐和休息。<p><span>已购跨城交通</span><b>easyJet U21747</b> Nice → Brussels · 14:30—16:20 <em>（实付 ¥1,147.92 / 两人；邮件金额 ¥1,156 仅参考）</em></p>",
       "items": [
         {
-          "time": "05:00—06:00",
-          "iso": "2026-10-12T05:00:00+02:00",
-          "title": "尼斯住宿地 → 尼斯蔚蓝海岸机场 · Nice Aéroport → NCE T2｜取行李、办理手续；早班机预留完整缓冲",
-          "note": "住宿地位于机场方向，按 05:00 出发处理，给 06:00 航班留下值机与安检缓冲。出发前确认航班号、值机截止时间和行李额度。"
+          "time": "退房—12:30 前",
+          "iso": null,
+          "title": "尼斯海滨公寓酒店 → 尼斯机场 · 酒店 → NCE｜按酒店位置倒推；目标至少提前 2 小时到机场",
+          "note": "<p>机场接驳预算待核 航班缓冲</p><p>退房时间、出发路线和机场航站楼以酒店与机票确认信息为准；14:30 起飞，计划最迟 12:30 到机场，预留值机、托运和安检。</p>"
         },
         {
-          "time": "06:00—07:40",
-          "iso": "2026-10-12T06:00:00+02:00",
-          "title": "尼斯蔚蓝海岸机场 → 里尔机场 · NCE → Lille-Lesquin / LIL｜easyJet 直飞里尔；抵达后转机场接驳",
-          "note": "当前检索到：10/12（周一）06:00 NCE → 07:40 LIL，直飞约 1 小时 40 分。第三方当日页面显示约 US$45，easyJet 10 月月度页面还有 £35.87 起的价格参考；这只是动态低价线，不是最终锁价。下单前按两位乘客重新核对航班号、座位与行李，尤其不要把廉航基础票价当成含行李总价。"
+          "time": "14:30—16:20",
+          "iso": "2026-10-12T14:30:00+02:00",
+          "title": "尼斯 → 布鲁塞尔机场 · Nice / NCE → Brussels / BRU｜已购 easyJet U21747 · 直飞",
+          "note": "<p>实付 ¥1,147.92 / 两人 已购</p><p><strong>文档航班：</strong>10/12 easyJet U21747，Nice 14:30 → Brussels 16:20。实际人民币支出 <strong>¥1,147.92</strong>，由 WJJ 垫付；邮件记 ¥1,156，账单以实际支出为准。不是实时航班查询，行李与值机要求按机票核对。</p>"
         },
         {
-          "time": "07:40—10:15",
-          "iso": "2026-10-12T07:40:00+02:00",
-          "title": "里尔机场 → Lille Europe · LIL → Lille Europe｜机场官方接驳；到站后再候车",
-          "note": "里尔机场官方接驳直达 Lille Europe / Lille Flandres 一带，平均约 20 分钟，单程线上 / 机器购票 €7.99。这里故意留出候车与行李缓冲：即使 07:40 准点落地，也不要把 09:25 大巴当成硬连接；有托运行李或航班稍晚时，直接以 10:30 主方案为准。官方时刻表当前覆盖 2026/8/31—11/2，出发前再核对当天班次。"
+          "time": "16:20—傍晚",
+          "iso": "2026-10-12T16:20:00+02:00",
+          "title": "布鲁塞尔机场 → Hotel the Moon · BRU → Bruxelles-Central｜入境 / 取行李、市区交通、入住",
+          "note": "<p>市内预算待核</p><p>落地后预留行李与交通时间，前往 Bruxelles-Central 附近酒店。原 14:00 欧洲议会与 15:15 索尔维项目在本航班抵达之前，须另行核对是否已有预约及可行日期。</p>"
         },
         {
-          "time": "09:25—11:10",
-          "iso": "2026-10-12T09:25:00+02:00",
-          "title": "Lille Europe → 布鲁塞尔北站 · Lille Europe → Bruxelles-Nord｜仅作提前备选；准点且少行李再选",
-          "note": "10/12 当日检索班次：09:25—11:10，约 1 小时 45 分。它比 10:30 班便宜约 ¥13，但里尔机场落地后还要取行李、等接驳、进站，只有不托运行李且航班准点时才值得尝试；一旦前段有延误，不要为了省这一点票价硬赶。"
+          "time": "原14:00—15:00 · 待核",
+          "iso": null,
+          "title": "欧洲议会圆形议事厅 · Hemicycle｜原计划与 16:20 航班抵达冲突",
+          "note": "<p>门票 ¥0 预约 / 日期待核</p><p>这是欧洲议会圆形议事厅，不是 Parlamentarium 互动展；个人参观约 60 分钟，需携带护照 / 有效身份证件过安检。保留原项目供核对；本日 16:20 才抵达 BRU，无法按原 14:00 时段到场。未核实已订凭证，未代为改订或取消，不把任何新时段写成已确认。</p>"
         },
         {
-          "time": "10:30—12:10",
-          "iso": "2026-10-12T10:30:00+02:00",
-          "title": "Lille Europe → 布鲁塞尔北站 · Lille Europe → Bruxelles-Nord｜主方案；到站后转欧洲区",
-          "note": "10/12 当日检索班次：10:30—12:10，约 1 小时 40 分。它基本复刻原计划 12:17 抵达布鲁塞尔的节奏，却省掉巴黎机场到北站的跨城接驳风险。建议先锁 10:30；若航班或接驳明显延误，再改用后续班次。结算页可能另加服务费，最终以付款页为准。"
+          "time": "原15:15—16:15 · 待核",
+          "iso": null,
+          "title": "索尔维会议旧址 · Parc Léopold｜原时段早于航班落地，暂不作为可执行安排",
+          "note": "<p>门票 ¥0 时段待核</p><p>取景提示：1927 年第五届索尔维会议在现欧洲议会旁 Parc Léopold 的旧研究所举行。把国内洗好的合影带来，以同一台阶 / 立面为背景拍照；不要误把 Hotel Solvay 或 Hotel Metropole 当作会议旧址。原户外步行项目保留待核；落地后按时间、体力与交通判断，不为追赶景点压缩机场和入住缓冲。</p>"
         },
         {
-          "time": "12:10—13:40",
-          "iso": "2026-10-12T12:10:00+02:00",
-          "title": "布鲁塞尔北站 → 欧洲区 · Bruxelles-Nord → Quartier européen｜换乘、简单午餐、整理预约与护照",
-          "note": "12:10 到 Bruxelles-Nord 后，乘地铁 / 出租车前往 Schuman 或 Maelbeek，在欧洲区附近简单吃午餐，再从容步行到安检入口。若大巴晚点，优先保住 14:00 欧洲议会预约，Parc Léopold 可压缩或取消。"
+          "time": "傍晚—晚上",
+          "iso": null,
+          "title": "撒尿小童 → 布鲁塞尔大广场 · Manneken-Pis → Grand-Place｜入住后按体力散步、晚餐",
+          "note": "<p>门票 ¥0 晚餐 ¥80</p><p>撒尿小童和大广场均为户外，全天可走。雕像位于 Rue de l'Étuve / Stoofstraat，距大广场约 5 分钟；不再硬塞原子球塔。户外散步按实际抵达与入住进度取舍，时间不足就只在酒店附近吃饭、休息。不再安排经里尔转车。</p>"
         },
         {
-          "time": "14:00—15:00",
-          "iso": "2026-10-12T14:00:00+02:00",
-          "title": "欧洲议会圆形议事厅 · Hemicycle｜下午参观、安检、议场内部",
-          "note": "注意： 这是欧洲议会圆形议事厅，不是 Parlamentarium 互动展。个人参观约 60 分钟；预约下午 14:00 或更晚 的时段，并携带护照 / 有效身份证件过安检。"
-        },
-        {
-          "time": "15:15—16:15",
-          "iso": "2026-10-12T15:15:00+02:00",
-          "title": "索尔维会议旧址 · Parc Léopold｜复刻合影、欧盟区步行",
-          "note": "取景提示： 1927 年第五届索尔维会议在现欧洲议会旁 Parc Léopold 的旧研究所举行。把国内洗好的合影带来，以同一台阶 / 立面为背景拍照；不要误把 Hotel Solvay 或 Hotel Metropole 当作会议旧址。"
-        },
-        {
-          "time": "16:30—20:00",
-          "iso": "2026-10-12T16:30:00+02:00",
-          "title": "撒尿小童 → 布鲁塞尔大广场 · Manneken-Pis → Grand-Place｜蓝调时刻、巧克力与晚餐",
-          "note": "开放： 撒尿小童（Manneken-Pis）和大广场均为户外，全天可走。雕像位于 Rue de l'Étuve / Stoofstraat，距大广场约 5 分钟；傍晚在 Grand-Place 收束今天，不再硬塞原子球塔。"
-        },
-        {
-          "time": "20:30—晚上",
-          "iso": "2026-10-12T20:30:00+02:00",
+          "time": "傍晚—晚上",
+          "iso": null,
           "title": "布鲁塞尔中央站旁 · Hotel the Moon｜入住唯一一晚、打包、确认次日机场火车",
-          "note": "住宿订单：10/12—10/13，Hotel the Moon，2 人 / 1 间；地址：Rue de la Montagne 4/B, Brussels。价格暂不计入本版。退房最晚 11:00；今晚确认从 Bruxelles-Central 去 BRU 的早班 SNCB，确保 09:20 已在 BRU 航站楼，保留完整 4 小时出境缓冲。"
+          "note": "<p>住宿 · 已确认</p><p>10/12—10/13 月亮酒店，两人一间；地址：Rue de la Montagne 4/B, Brussels。线上已付 <strong>¥808.27</strong>，到店待付 <strong>¥43.91</strong>，离店返现 <strong>¥32</strong>。账本旧标“等待确认”，另有 9/10 确认凭证；不再当作未确认。今晚核对次日机场列车，确保 09:20 在 BRU 航站楼，保留完整 4 小时缓冲。</p>"
         }
       ]
     },
     {
       "date": "2026-10-13",
       "label": "返程",
-      "title": "返程 · 10.13 周二 · 布鲁塞尔 → 北京",
+      "title": "返程 · 10.13 · 布鲁塞尔 → 北京",
       "loc": [
         "Brussels hotel",
         "BRU",
         "Beijing Capital T2"
       ],
+      "note": "09:20 已在 BRU 航站楼，13:20 起飞。今天的重点不是观光，而是把 4 小时出境缓冲原封不动地留下。<p><span>TLS / 签证大交通</span><b>HU492</b> BRU → PEK · 13:20—10/14 05:00 <em>（已购）</em></p>",
       "items": [
         {
           "time": "08:15—09:20",
           "iso": "2026-10-13T08:15:00+02:00",
           "title": "布鲁塞尔市区 → 布鲁塞尔机场 · Brussels Centre → Aéroport de Bruxelles / BRU｜离开酒店、机场列车、进入航站楼",
-          "note": "从市中心到 BRU 的火车约 20 分钟；即使住 Midi 附近也不晚于 08:15 离开。前一晚确认 SNCB 实时早班，不需要也不应依赖“末班”。 SNCB 实时班表 ↗"
+          "note": "<p>交通 ≤¥50 固定</p><p>从市中心到 BRU 的火车约 20 分钟；即使住 Midi 附近也不晚于 08:15 离开。前一晚确认 SNCB 实时早班，不需要也不应依赖“末班”。</p><p class=\"links\"><a href=\"https://www.belgiantrain.be/en/travel-info/current/current-departure-times\" target=\"_blank\" rel=\"noreferrer\">SNCB 实时班表 ↗</a></p>"
         },
         {
           "time": "09:20—13:20",
           "iso": "2026-10-13T09:20:00+02:00",
           "title": "布鲁塞尔机场 · Aéroport de Bruxelles / BRU｜值机、托运、安检、出境、候机；四小时固定缓冲",
-          "note": "早到可以从容吃早餐；晚到没有补救空间。这是对欧洲交通不确定性的保险，不能换成市区早餐或景点。"
+          "note": "<p>固定 4h</p><p>早到可以从容吃早餐；晚到没有补救空间。这是对欧洲交通不确定性的保险，不能换成市区早餐或景点。</p>"
         },
         {
           "time": "13:20—次日",
           "iso": "2026-10-13T13:20:00+02:00",
           "title": "布鲁塞尔机场 → 北京首都 T2 · BRU → Beijing Capital T2｜搭乘 HU492；10/14 05:00 抵达北京（北京时间）",
-          "note": "回程机票占总往返价的另一半；至此国际机票合计仍为 ¥3,980 / 人。"
+          "note": "<p>回程机票 ¥1,990 已知</p><p>回程机票占总往返价的另一半；至此国际机票合计仍为 ¥3,980 / 人。</p>"
         }
       ]
     }
